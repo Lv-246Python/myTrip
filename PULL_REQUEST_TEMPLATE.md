@@ -1,6 +1,6 @@
 ## TRELLO
 
-* [Main Trello ticket](https://trello.com/b/BJDdC443/mytrip)
+* [Main Trello ticket](https://trello.com/c/B159UGFY/25-create-checkpoint-app)
 
 
 ## Code reviewers
