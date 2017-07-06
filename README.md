@@ -69,19 +69,3 @@ create file local_settings.py with property “DATABASES = {
 }”
 Running server
 run local server in terminal by console command: “python manage.py runserver”
-
-pyenv install:
-```bash
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-```
-
-pyenv dependencies:
-
-```bash
-apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev
-libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev
-```
-
