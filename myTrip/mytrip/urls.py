@@ -13,8 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^api/v1/comment/', include('comment.urls')),
+    url(r'^trip/', include('create_trip.urls')),
 ]
