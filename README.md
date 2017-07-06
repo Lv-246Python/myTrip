@@ -3,40 +3,54 @@
 Global installs for Ubuntu
 
 install git:
-"sudo apt-get install git"
+```bash
+sudo apt-get install git
+```
 
 install pyenv:
-"git clone https://github.com/pyenv/pyenv.git ~/.pyenv"
-"echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc"
-"echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc"
-"echo 'eval "$(pyenv init -)"' >> ~/.bashrc"
+```bash
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+```
 
 pyenv dependencies:
-
-"apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev
-libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev"
+```bash
+apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev
+```
 
 install python:
-"pyenv install 3.6.1"
-
-
-
-install Configuration of project
+```bash
+pyenv install 3.6.1
+```
+Install Configuration of project
 
 Clone repository:
-"git clone https://github.com/Lv-246Python/myTrip.git"
+```bash
+git clone https://github.com/Lv-246Python/myTrip.git
+```
 
 install local Python version 3.6.1 by Pyenv console command :
-“pyenv local 3.6.1”
+```bash
+pyenv local 3.6.1
+```
 
 install virtual environment by console command:
-“virtualenv venv”
+```bash
+virtualenv venv
+```
 
 activate virtualenv by console command:
-“source venv/bin/activate”
+```bash
+source venv/bin/activate
+```
 
 install packages by pip console command:
-“pip install -r requirements.txt”
+```bash
+pip install -r requirements.txt
+```
 
 create local_settings.py
 
@@ -57,14 +71,17 @@ Running server
 run local server in terminal by console command: “python manage.py runserver”
 
 pyenv install:
-
+```bash
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+```
 
 pyenv dependencies:
 
-'apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev
-libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev'
+```bash
+apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev
+```
 
