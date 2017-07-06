@@ -1,6 +1,6 @@
-## JIRA
+## TRELLO
 
-* [Main Trelo ticket](https://trello.com/b/BJDdC443/mytrip)
+* [Main Trello ticket](https://trello.com/b/BJDdC443/mytrip)
 
 
 ## Code reviewers
