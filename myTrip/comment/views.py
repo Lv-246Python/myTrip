@@ -1,3 +1,4 @@
+"""This module contains Class Based View for comment application."""
 import json
 
 from django.http import JsonResponse, HttpResponse
@@ -7,25 +8,18 @@ from .models import Comment
 
 
 class CommentView(View):
-    def get(self, request, comment_id=None):
-        if not comment_id:
-            comments = Comment.get_all()
-            print(comments)
-            comments = [comment.to_dict() for comment in comments]
-            print('comments = []', type(comments))
-            return JsonResponse(comments, status=200, safe=False)
-        else:
-            print(comment_id)
-            comment = Comment.get_by_id(comment_id)
-            if comment is None:
-                print('No such comment_id:', comment_id)
-                return HttpResponse(status=404)
-            print('comment', comment)
-            comment = comment.to_dict()
-            return JsonResponse(comment, status=200)
+    """Comments view handles GET, POST, PUT, DELETE requests."""
+
+    def get(self, request, comment_id):
+        """Handles GET request"""
+        comment = Comment.get_by_id(comment_id)
+        if not comment:
+            return HttpResponse(status=404)
+        comment = comment.to_dict()
+        return JsonResponse(comment, status=200)
 
     def put(self, request, comment_id):
-        print(request.method)
+        """Handles PUT request."""
         comment = Comment.get_by_id(comment_id)
         if not comment:
             return HttpResponse(status=404)
@@ -34,17 +28,16 @@ class CommentView(View):
         return JsonResponse(comment.to_dict(), status=200)
 
     def post(self, request):
-        print(request.body)
+        """Handles POST request."""
         comment_data = json.loads(request.body.decode('utf-8'))
-        print('REQUEST', comment_data)
         comment = Comment()
         comment.create(**comment_data)
         return JsonResponse(comment.to_dict(), status=200)
 
     def delete(self, request, comment_id):
-        print(comment_id)
+        """Handles DELETE request."""
         comment = Comment.get_by_id(comment_id)
         if not comment:
             return HttpResponse(status=404)
         comment.delete()
-        return HttpResponse(status=200)  # redirects to
+        return HttpResponse(status=200)
