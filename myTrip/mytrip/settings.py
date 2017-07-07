@@ -26,12 +26,22 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'comment',
+    'auth_reg',
 ]
+
+######################### AUTH ############################
+
+AUTH_USER_MODEL = "auth_reg.CustomUser"
+
+AUTHENTICATION_BACKENDS = ('auth_reg.backends.CustomUserAuth',)
+
+###########################################################
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
