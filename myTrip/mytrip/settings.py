@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'comment',
 ]
 
 MIDDLEWARE = [
@@ -41,9 +42,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'myTrip.urls'
+ROOT_URLCONF = 'mytrip.urls'
 
-WSGI_APPLICATION = 'myTrip.wsgi.application'
+WSGI_APPLICATION = 'mytrip.wsgi.application'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -66,6 +67,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 try:
-    from .local_settings import *
-except:
+    from .local_settings import * # pylint: disable=wildcard-import,unused-wildcard-import
+except ImportError:
     pass
