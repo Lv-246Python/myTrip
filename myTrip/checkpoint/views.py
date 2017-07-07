@@ -7,7 +7,7 @@ from .models import  Checkpoint
 
 
 class CheckpointView(View):
-    """ Checkpoint view handle GET, POST, PUT, DELETE requests """
+    """ checkpoint view handle GET, POST, PUT, DELETE requests """
 
     def get(self, request, checkpoint_id):
         """ Handles get request"""
