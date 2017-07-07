@@ -81,14 +81,13 @@ configurations are in **.pylintrc** config file. To check specific  file or pack
     ```
     Additional information: [Pylint User Manual](https://pylint.readthedocs.io/en/latest/)
 
-<<<<<<< Updated upstream
-=======
-
 ## Webpack
-For installing new packages in terminal type:
-
-    ```npm install```
-To run webpack you should be in the directory where webpack.config.js is located and type:
-
-    ```webpack```
->>>>>>> Stashed changes
+* For installing new packages in terminal type:
+    ```sh
+    npm install
+    ```
+    
+* To run webpack you should be in the directory where webpack.config.js is located and type:
+    ```sh
+    ./node_modules/webpack/bin/webpack
+    ```

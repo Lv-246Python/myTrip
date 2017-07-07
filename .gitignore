@@ -100,4 +100,9 @@ ENV/
 # mypy
 .mypy_cache/
 
+#PyCharm
 .idea/
+
+# webpack
+package-lock.json
+node_modules/
