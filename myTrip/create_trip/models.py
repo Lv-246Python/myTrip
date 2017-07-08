@@ -63,14 +63,14 @@ class Trip(models.Model):
         return
 
     @staticmethod
-    def edit_trip(self, data, trip_id):
+    def edit_trip(data, trip_id):
         """ToDo"""
         trip = Trip.objects.filter(id=trip_id)
         trip.update(title=data['title'], describtion=data['describtion'])
         return
 
     @staticmethod
-    def delete_trip(self, trip_id):
+    def delete_trip(trip_id):
         """ToDo"""
         trip = Trip.objects.get(id=trip_id)
         trip.delete()

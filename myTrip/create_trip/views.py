@@ -34,13 +34,13 @@ class TripView(View):
     def put(self, request, trip_id):
         """Handles PUT request."""
         data = json.loads(request.body.decode('utf-8'))
-        Trip.edit_trip(self, data, trip_id)
+        Trip.edit_trip(data, trip_id)
         return redirect('/trip/'+trip_id)
 
     def delete(self, trip_id):
         """Handles DELETE request."""
         trip = Trip.geById(self, trip_id)
         if trip:
-            Trip.delete_trip(self, trip_id)
+            Trip.delete_trip(trip_id)
             return redirect('/trip/')
         return HttpResponse(status=404)
