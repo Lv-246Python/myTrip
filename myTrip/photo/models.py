@@ -1,7 +1,7 @@
 from django.db import models
 
 class Photo(models.Model):
-    src = models.CharField(max_length=50)
+    src = models.CharField(max_length=200)
     user_id = models.IntegerField()
 
     @staticmethod
@@ -13,7 +13,7 @@ class Photo(models.Model):
 
     def create(self, src, user_id):
         self.src = src
-        self.user.id = user_id
+        self.user_id = user_id
         self.save()
 
 
@@ -29,3 +29,6 @@ class Photo(models.Model):
             'src': self.src,
             'user_id': self.user_id,
         }
+
+    def __str__(self):
+        return "{} {} ".format(self.src, self.user_id)

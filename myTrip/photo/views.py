@@ -7,11 +7,13 @@ from django.http import JsonResponse, HttpResponse
 class PhotoView(View):
 
     def get(self, request, photo_id):
+        print(photo_id)
+        photo = Photo.get_by_id(photo_id)
+        print(photo)
         if not photo_id:
             return HttpResponse(status=404)
-        photo = Photo.objects.get(photo_id)
-        photo = Photo.to_dict()
-        return JsonResponse(photo, status=200)
+        photo.to_dict()
+        return JsonResponse(photo, status=200, safe=False)
 
     def post(self, request):
         post_data = json.loads(request.body.decode('utf-8'))
@@ -21,13 +23,13 @@ class PhotoView(View):
 
     def put(self, request, photo_id):
         photo = Photo.get_by_id(photo_id)
-        if not comment:
+        if not photo:
             return HttpResponse(status=404)
         update_data = json.loads(request.body.decode('utf-8'))
         photo.update(**update_data)
         return HttpResponse(status=200)
 
-    def delete(self,photo_id):
+    def delete(self, request, photo_id):
         photo = Photo.get_by_id(photo_id)
         photo.delete()
         return HttpResponse(status=200)
