@@ -17,4 +17,5 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^api/v1/comment/', include('comment.urls')),
+    url(r'api/v1/photo', include('photo.urls')),
 ]
