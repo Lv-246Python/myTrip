@@ -37,7 +37,7 @@ class TripView(View):
         Trip.edit_trip(self, data, trip_id)
         return redirect('/trip/'+trip_id)
 
-    def delete(self, request, trip_id):
+    def delete(self, trip_id):
         """Handles DELETE request."""
         trip = Trip.geById(self, trip_id)
         if trip:
