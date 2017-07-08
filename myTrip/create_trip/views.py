@@ -1,50 +1,46 @@
-from django.http import HttpResponse,JsonResponse
-from django.shortcuts import render,redirect
-
-from django.views import View
-from .models import *
+"""This module contains Class Based View for create_trip application."""
 import json
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
+
+from django.views.generic.base import View
+from .models import Trip
 
 
 
-class Trip(View):
-	def get(self, request, id=None):
-		if id:
-			print(id)
-			trip = geById(id)
-			contex = {
-				'id' : trip.id,
-				'title' : trip.title,
-				'describtion' : trip.describtion,
-				'created_at' : trip.created_at,
-			}
-			return JsonResponse(contex)
-		else:
-			trips = geAll()
-			print(trips)
-			contex = []
-			for trip in trips:
-				contex.append({
-				'id' : trip.id,
-				'title' : trip.title,
-				'describtion' : trip.describtion,
-				'created_at' : trip.created_at,
-					})
-			return JsonResponse(contex,safe=False)
 
-	def post(self, request):
-		createTrip(request)
-		return redirect('/trip/')
+class TripView(View):
+    """Comments view handles GET, POST, PUT, DELETE requests."""
 
-	def put(self,request,id):
-		data = json.loads(request.body.decode('utf-8'))
-		editTrip(data,id)
-		return redirect('/trip/'+id)
+    def get(self, request, trip_id=None):
+        """Handles GET request"""
+        if trip_id:
+            trip = Trip.getbyid(trip_id)
+            print(type(trip))
+            if not trip:
+                return HttpResponse('bad request', status=400)
+            trip = trip.to_dict()
+            return JsonResponse(trip, status=200)
+        else:
+            trips = Trip.get_all()
+            trips = [trip.to_dict() for trip in trips]
+            return JsonResponse(trips, status=200, safe=False)
 
-	def delete(self,request,id):
-		trip = geById(id)
-		if trip:
-			deleteTrip(id)
-			return redirect('/trip/')
-		else:
-			return HttpResponse(status=404)
+    def post(self, request):
+        """Handles POST request."""
+        Trip.create_trip(request)
+        return redirect('/trip/')
+
+    def put(self, request, trip_id):
+        """Handles PUT request."""
+        data = json.loads(request.body.decode('utf-8'))
+        Trip.edit_trip(self, data, trip_id)
+        return redirect('/trip/'+trip_id)
+
+    def delete(self, request, trip_id):
+        """Handles DELETE request."""
+        trip = Trip.geById(self, trip_id)
+        if trip:
+            Trip.delete_trip(self, trip_id)
+            return redirect('/trip/')
+        return HttpResponse(status=404)
