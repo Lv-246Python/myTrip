@@ -25,9 +25,9 @@ class Photo(models.Model):
 
     def to_dict(self):
         return {
-            'id': self.id,
-            'src': self.src,
-            'user_id': self.user_id,
+            "id": self.id,
+            "src": self.src,
+            "user_id": self.user_id,
         }
 
     def __str__(self):

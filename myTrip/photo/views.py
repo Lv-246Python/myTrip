@@ -7,12 +7,10 @@ from django.http import JsonResponse, HttpResponse
 class PhotoView(View):
 
     def get(self, request, photo_id):
-        print(photo_id)
         photo = Photo.get_by_id(photo_id)
-        print(photo)
-        if not photo_id:
+        if not photo:
             return HttpResponse(status=404)
-        photo.to_dict()
+        photo = photo.to_dict()
         return JsonResponse(photo, status=200, safe=False)
 
     def post(self, request):
