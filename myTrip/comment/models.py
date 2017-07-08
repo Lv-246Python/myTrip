@@ -26,9 +26,7 @@ class Comment(models.Model):
             return None
 
     def to_dict(self):
-        """
-        ToDO method rebuilds queryset ot object dictionary for our views.
-        """
+        """ToDO method, rebuilds queryset to object dictionary for our views."""
         return {
             'id': self.id,
             'message': self.message,
@@ -36,16 +34,17 @@ class Comment(models.Model):
         }
 
     def create(self, message, user):
-        """ToDo.
-        """
+        """ToDo method, creates and saves queryset object."""
         self.message = message
         self.user = user
         self.save()
 
-    def update(self, message):
-        """ToDo"""
+    def update(self, message, user):
+        """ToDo method updates information, taken from request body to queryset"""
         if message:
             self.message = message
+        if user:
+            self.user = user
         self.save()
 
     def __repr__(self):

@@ -30,6 +30,8 @@ class CommentView(View):
     def post(self, request):
         """Handles POST request."""
         comment_data = json.loads(request.body.decode('utf-8'))
+        if not comment_data:
+            return HttpResponse(status=404)
         comment = Comment()
         comment.create(**comment_data)
         return JsonResponse(comment.to_dict(), status=200)
