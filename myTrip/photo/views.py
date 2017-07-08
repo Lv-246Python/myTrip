@@ -34,5 +34,7 @@ class PhotoView(View):
     def delete(self, request, photo_id):
         """DELETE request handler."""
         photo = Photo.get_by_id(photo_id)
+        if not photo:
+            return HttpResponse(status=404)
         photo.delete()
         return HttpResponse(status=200)
