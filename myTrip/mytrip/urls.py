@@ -18,5 +18,5 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^api/v1/comment/', include('comment.urls')),
-    url(r'^trip/', include('create_trip.urls')),
+    url(r'^api/v1/trip/', include('create_trip.urls')),
 ]

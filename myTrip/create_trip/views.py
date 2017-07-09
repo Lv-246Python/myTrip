@@ -29,18 +29,18 @@ class TripView(View):
     def post(self, request):
         """Handles POST request."""
         Trip.create_trip(request)
-        return redirect('/trip/')
+        return redirect('/api/v1/trip/')
 
     def put(self, request, trip_id):
         """Handles PUT request."""
         data = json.loads(request.body.decode('utf-8'))
         Trip.edit_trip(data, trip_id)
-        return redirect('/trip/'+trip_id)
+        return redirect('/api/v1/trip/'+trip_id)
 
     def delete(self, trip_id):
         """Handles DELETE request."""
         trip = Trip.geById(self, trip_id)
         if trip:
             Trip.delete_trip(trip_id)
-            return redirect('/trip/')
+            return redirect('/api/v1/trip/')
         return HttpResponse(status=404)
