@@ -1,3 +1,5 @@
+"""Contains forms to display auth & login."""
+
 from django.contrib.auth.forms from UserCreationForm, UserChangeForm
 
 from .models import CustomUser
