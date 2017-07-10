@@ -1,5 +1,4 @@
 """This module contains Trip model class and basic functions."""
-
 from __future__ import unicode_literals
 from datetime import datetime
 from django.db import models
@@ -13,65 +12,62 @@ class Trip(models.Model):
      :argument title: str - title
      :argument describtion: text - describtion
      :argument created_at: date - date
+     :argument status: int - 0-in progres, 1-annonced, 2-finished
     ."""
     user_id = models.IntegerField()
     title = models.CharField(max_length=200)
     describtion = models.TextField()
     created_at = models.DateTimeField(default=datetime.now, blank=True)
-    status_choises = (
-        ("InProgress", "In progress"),
-        ("Annonced", "Annonced"),
-        ("Finished", "Finished"))
-    status = models.CharField(max_length=200, choices=status_choises, default="InProgress")
+    status = models.IntegerField(default=0)
 
     def to_dict(self):
         """
-        ToDO method rebuilds queryset ot object dictionary for our views.
+        method rebuilds queryset ot object dictionary for our views.
         """
         return {
-            "pk":self.id,
-            "user_id":self.user_id,
+            "id":self.id,
+            "user":self.user_id,
             "title": self.title,
             "created_at": self.created_at,
             "describtion": self.describtion,
             "status": self.status}
 
     def __str__(self):
-        return self.title
+        return self.id
 
     @classmethod
     def get_all(cls):
-        """ToDo"""
+        """method to get all trips"""
         return Trip.objects.all()
 
     @staticmethod
-    def getbyid(trip_id):
-        """ToDo"""
+    def get_by_id(trip_id):
+        """method to get trip by id"""
         try:
             return Trip.objects.get(id=trip_id)
         except ObjectDoesNotExist:
             return None
 
     @staticmethod
-    def create_trip(request):
-        """ToDo"""
-        user_id = request.POST['user_id']
-        title = request.POST['title']
-        describtion = request.POST['describtion']
-        trip = Trip(title=title, describtion=describtion, user_id=user_id)
+    def create(**data):
+        """method to create trip"""
+        trip = Trip(**data)
         trip.save()
-        return
+        return None
 
     @staticmethod
-    def edit_trip(data, trip_id):
-        """ToDo"""
-        trip = Trip.objects.filter(id=trip_id)
-        trip.update(title=data['title'], describtion=data['describtion'])
-        return
+    def edit(data, trip_id):
+        """method to update trip fields (title,describtion,status)"""
+        trip = Trip.objects.get(id=trip_id)
+        trip.title = data['title']
+        trip.describtion = data['describtion']
+        trip.status = data['status']
+        trip.save()
+        return None
 
     @staticmethod
     def delete_trip(trip_id):
-        """ToDo"""
+        """method to delete trip"""
         trip = Trip.objects.get(id=trip_id)
         trip.delete()
-        return
+        return None

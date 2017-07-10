@@ -1,13 +1,8 @@
 """This module contains Class Based View for create_trip application."""
 import json
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
-
 from django.views.generic.base import View
 from .models import Trip
-
-
-
 
 class TripView(View):
     """Comments view handles GET, POST, PUT, DELETE requests."""
@@ -15,10 +10,9 @@ class TripView(View):
     def get(self, request, trip_id=None):
         """Handles GET request"""
         if trip_id:
-            trip = Trip.getbyid(trip_id)
-            print(type(trip))
+            trip = Trip.get_by_id(trip_id)
             if not trip:
-                return HttpResponse('bad request', status=400)
+                return HttpResponse(status=404)
             trip = trip.to_dict()
             return JsonResponse(trip, status=200)
         else:
@@ -28,19 +22,22 @@ class TripView(View):
 
     def post(self, request):
         """Handles POST request."""
-        Trip.create_trip(request)
-        return redirect('/api/v1/trip/')
+        data = json.loads(request.body.decode('utf-8'))
+        Trip.create(**data)
+        return HttpResponse(status=200)
+
 
     def put(self, request, trip_id):
         """Handles PUT request."""
-        data = json.loads(request.body.decode('utf-8'))
-        Trip.edit_trip(data, trip_id)
-        return redirect('/api/v1/trip/'+trip_id)
+        if Trip.get_by_id(trip_id):
+            data = json.loads(request.body.decode('utf-8'))
+            Trip.edit(data, trip_id)
+            return HttpResponse(status=200)
+        return HttpResponse(status=404)
 
-    def delete(self, trip_id):
+    def delete(self, request, trip_id):
         """Handles DELETE request."""
-        trip = Trip.geById(self, trip_id)
-        if trip:
+        if Trip.get_by_id(trip_id):
             Trip.delete_trip(trip_id)
-            return redirect('/api/v1/trip/')
+            return HttpResponse(status=200)
         return HttpResponse(status=404)
