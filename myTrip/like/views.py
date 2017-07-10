@@ -21,8 +21,7 @@ class LikeView(View):
     def post(self, request):
         """Handles POST request."""
         like_data = json.loads(request.body.decode('utf-8'))
-        like = Like()
-        like.create(**like_data)
+        like = Like.create(**like_data)
         return JsonResponse(like.to_dict(), status=200)
 
     def delete(self, request, like_id):
