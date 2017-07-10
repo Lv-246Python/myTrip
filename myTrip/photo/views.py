@@ -1,4 +1,5 @@
 """Module generate view for photo requests."""
+
 import json
 from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
@@ -20,9 +21,9 @@ class PhotoView(View):
         post_data = json.loads(request.body.decode('utf-8'))
         photo = Photo()
         photo.create(**post_data)
-        return HttpResponse(status=200)
+        return HttpResponse(status=201)
 
-    def put(self, request, photo_id):
+    def put(self, request, photo_id): # pylint: disable=no-self-use
         """PUT request hangler."""
         photo = Photo.get_by_id(photo_id)
         if not photo:
@@ -31,7 +32,7 @@ class PhotoView(View):
         photo.update(**update_data)
         return HttpResponse(status=200)
 
-    def delete(self, request, photo_id):
+    def delete(self, request, photo_id): # pylint: disable=unused-argument,no-self-use
         """DELETE request handler."""
         photo = Photo.get_by_id(photo_id)
         if not photo:

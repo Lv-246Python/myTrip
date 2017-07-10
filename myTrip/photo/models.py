@@ -1,4 +1,5 @@
 """Module contain photo model class and methods."""
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
