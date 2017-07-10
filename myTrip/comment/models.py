@@ -35,7 +35,7 @@ class Comment(models.Model):
 
     @staticmethod
     def create(message, user):
-        """ToDo method, creates and saves queryset object."""
+        """ToDo method, creates, saves and returns queryset object."""
         comment = Comment()
         comment.message = message
         comment.user = user
