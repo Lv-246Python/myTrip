@@ -30,21 +30,22 @@ class Comment(models.Model):
         return {
             'id': self.id,
             'message': self.message,
-            'user_id': self.user,
+            'user': self.user,
         }
 
-    def create(self, message, user):
+    @staticmethod
+    def create(message, user):
         """ToDo method, creates and saves queryset object."""
-        self.message = message
-        self.user = user
-        self.save()
+        comment = Comment()
+        comment.message = message
+        comment.user = user
+        comment.save()
+        return comment
 
-    def update(self, message, user):
+    def update(self, message):
         """ToDo method updates information, taken from request body to queryset"""
         if message:
             self.message = message
-        if user:
-            self.user = user
         self.save()
 
     def __repr__(self):

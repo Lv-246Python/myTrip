@@ -32,9 +32,8 @@ class CommentView(View):
         comment_data = json.loads(request.body.decode('utf-8'))
         if not comment_data:
             return HttpResponse(status=404)
-        comment = Comment()
-        comment.create(**comment_data)
-        return JsonResponse(comment.to_dict(), status=200)
+        comment = Comment.create(**comment_data)
+        return JsonResponse(comment.to_dict(), status=201)
 
     def delete(self, request, comment_id):
         """Handles DELETE request."""
