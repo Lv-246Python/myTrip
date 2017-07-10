@@ -15,10 +15,10 @@ class Like(models.Model):
     :argument comment: int - ToDo foreign key
     """
     user = models.IntegerField()
-    trip = models.IntegerField()
-    checkpoint = models.IntegerField()
-    photo = models.IntegerField()
-    comment = models.IntegerField()
+    trip = models.IntegerField(null=True)
+    checkpoint = models.IntegerField(null=True)
+    photo = models.IntegerField(null=True)
+    comment = models.IntegerField(null=True)
 
     @staticmethod
     def get_by_id(like_id):
@@ -38,7 +38,7 @@ class Like(models.Model):
         returns None when exception works.
         """
         try:
-            return Like.objects.get(id=trip_id)
+            return Like.objects.filter(trip=trip_id)
         except ObjectDoesNotExist:
             return None
 
@@ -84,25 +84,34 @@ class Like(models.Model):
             'checkpoint_id': self.checkpoint,
             'photo_id': self.photo,
             'comment_id': self.comment
-            }
+        }
 
     @staticmethod
-    def create(user):
+    def create(user, trip=None, checkpoint=None, photo=None, comment=None):
         """ToDo method creates like by user to trip/checkpoint/photo/comment."""
         like = Like()
         like.user = user
+        like.trip = trip
+        like.checkpoint = checkpoint
+        like.photo = photo
+        like.comment = comment
+        like.save()
         return like
 
-    def update(self, id):
-        """ToDo."""
-        if id:
-            self.id = id
-        self.save()
+    @staticmethod
+    def delete_by_id(like_id):
+        """ToDo method delete like by id."""
+        try:
+            like = Like.objects.get(id=like_id)
+            like.delete()
+            return True
+        except ObjectDoesNotExist:
+            return None
 
     def __str__(self):
-        return "like_id = {}," \
-               "user_id = {}," \
-               "trip_id = {}," \
-               "checkpoint_id = {}," \
-               "photo_id = {}," \
-               "comment_id = {}".format(self.id, self.user, self.trip, self.checkpoint, self.photo, self.comment)
+        return "like={} user={} trip={} checkpoint={} photo={} comment={}".format(self.id,
+                                                                                  self.user,
+                                                                                  self.trip,
+                                                                                  self.checkpoint,
+                                                                                  self.photo,
+                                                                                  self.comment)
