@@ -6,11 +6,18 @@ from django.db import models
 
 class Photo(models.Model):
     """
-    src = photo source link,
-    user_id = id user who post.
-    """
+     Photo
+     :argument id: int - auto generated primary key
+     :argument user_id: int - ToDo foreign key to User model id
+     :argument trip_id: int - Todo foreign key to Trip model id
+     :argument checkpoint_id: int - ToDo foreign to Checkpoint model id
+     :argument description: str - description to photo
+    ."""
     src = models.CharField(max_length=200)
     user_id = models.IntegerField()
+    trip_id = models.IntegerField(blank=True)
+    checkpoint_id = models.IntegerField(blank=True)
+    description = models.TextField(blank=True)
 
     @staticmethod
     def get_by_id(photo_id):
@@ -20,10 +27,13 @@ class Photo(models.Model):
         except ObjectDoesNotExist:
             return None
 
-    def create(self, src, user_id):
+    def create(self, src, user_id, trip_id=None, checkpoint_id=None, description=None):
         """Creating photo model."""
         self.src = src
         self.user_id = user_id
+        self.trip_id = trip_id
+        self.checkpoint_id = checkpoint_id
+        self.description = description
         self.save()
 
     def update(self, src, user_id):
@@ -38,4 +48,7 @@ class Photo(models.Model):
             "id": self.id,
             "src": self.src,
             "user_id": self.user_id,
+            "trip_id": self.trip_id,
+            "checkpoint_id": self.checkpoint_id,
+            "description": self.description
         }
