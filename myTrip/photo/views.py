@@ -5,6 +5,7 @@ from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
 from .models import Photo
 
+
 class PhotoView(View):
     """Class that handle HTTP requests."""
 
@@ -23,7 +24,7 @@ class PhotoView(View):
         photo.create(**post_data)
         return HttpResponse(status=201)
 
-    def put(self, request, photo_id): # pylint: disable=no-self-use
+    def put(self, request, photo_id):  # pylint: disable=no-self-use
         """PUT request hangler. If photo object found by id, try to update photo."""
         photo = Photo.get_by_id(photo_id)
         if not photo:
@@ -32,7 +33,7 @@ class PhotoView(View):
         photo.update(**update_data)
         return HttpResponse(status=200)
 
-    def delete(self, request, photo_id): # pylint: disable=unused-argument,no-self-use
+    def delete(self, request, photo_id):  # pylint: disable=unused-argument,no-self-use
         """DELETE request handler.If photo were found by id, try to delete photo."""
         photo = Photo.get_by_id(photo_id)
         if not photo:

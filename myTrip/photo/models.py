@@ -16,9 +16,9 @@ class Photo(models.Model):
     ."""
     src = models.URLField(max_length=200)
     user_id = models.IntegerField()
-    trip_id = models.IntegerField(blank=True)
-    checkpoint_id = models.IntegerField(blank=True)
-    description = models.TextField(blank=True)
+    trip_id = models.IntegerField(null=True)
+    checkpoint_id = models.IntegerField(null=True)
+    description = models.TextField(null=True)
 
     @staticmethod
     def get_by_id(photo_id):
