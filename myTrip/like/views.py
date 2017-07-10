@@ -16,17 +16,16 @@ class LikeView(View):
         if exception: HTTP status 404.
         """
         like = Like.get_by_id(like_id)
-        print(like_id)
         if not like:
             return HttpResponse(status=404)
         like = like.to_dict()
         return JsonResponse(like, status=200)
 
     def post(self, request):
-        """Handles POST request, that return JSON response with HTTP status 200."""
+        """Handles POST request, that return JSON response with HTTP status 201."""
         like_data = json.loads(request.body.decode('utf-8'))
         like = Like.create(**like_data)
-        return JsonResponse(like.to_dict(), status=200)
+        return JsonResponse(like.to_dict(), status=201)
 
     def delete(self, request, like_id):
         """

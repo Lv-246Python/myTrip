@@ -27,7 +27,7 @@ class Like(models.Model):
         returns None when exception works.
         """
         try:
-            return Like.objects.get(id=like_id)
+            return Like.objects.get(id=like_id)  # may be changed to method filter
         except ObjectDoesNotExist:
             return None
 
@@ -38,7 +38,7 @@ class Like(models.Model):
         returns None when exception works.
         """
         try:
-            return Like.objects.filter(trip=trip_id)
+            return Like.objects.get(trip=trip_id)  # may be changed to method filter
         except ObjectDoesNotExist:
             return None
 
@@ -49,7 +49,7 @@ class Like(models.Model):
         returns None when exception works.
         """
         try:
-            return Like.objects.get(id=checkpoint_id)
+            return Like.objects.get(id=checkpoint_id)  # may be changed to method filter
         except ObjectDoesNotExist:
             return None
 
@@ -60,7 +60,7 @@ class Like(models.Model):
         returns None when exception works.
         """
         try:
-            return Like.objects.get(id=photo_id)
+            return Like.objects.get(id=photo_id)  # may be changed to method filter
         except ObjectDoesNotExist:
             return None
 
@@ -71,7 +71,7 @@ class Like(models.Model):
         returns None when exception works.
         """
         try:
-            return Like.objects.get(id=comment_id)
+            return Like.objects.get(id=comment_id)  # may be changed to method filter
         except ObjectDoesNotExist:
             return None
 
