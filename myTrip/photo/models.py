@@ -8,12 +8,13 @@ class Photo(models.Model):
     """
      Photo
      :argument id: int - auto generated primary key
+     :argument src: url - photo source link
      :argument user_id: int - ToDo foreign key to User model id
      :argument trip_id: int - Todo foreign key to Trip model id
      :argument checkpoint_id: int - ToDo foreign to Checkpoint model id
      :argument description: str - description to photo
     ."""
-    src = models.CharField(max_length=200)
+    src = models.URLField(max_length=200)
     user_id = models.IntegerField()
     trip_id = models.IntegerField(blank=True)
     checkpoint_id = models.IntegerField(blank=True)
