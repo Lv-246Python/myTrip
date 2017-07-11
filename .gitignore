@@ -104,5 +104,6 @@ ENV/
 .idea/
 
 # webpack
-package-lock.json
+myTrip/static/public
 node_modules/
+package-lock.json
