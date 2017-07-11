@@ -32,7 +32,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'comment',
-    'registration'
+    'like',
+    'checkpoint',
+    'trip',
+    'registration',
+
 ]
 
 AUTH_USER_MODEL = 'registration.CustomUser'

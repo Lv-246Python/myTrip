@@ -11,7 +11,21 @@ class CommentView(View):
     """Comments view handles GET, POST, PUT, DELETE requests."""
 
     def get(self, request, comment_id):
-        """Handles GET request"""
+        """Handles GET request.
+        Args:
+            comment_id(int): comment id.
+        Returns:
+            JsonResponse:
+                {
+                    response: <comment>
+                }
+            or
+            HttpResponse:
+                {
+                    status: 404
+                }
+        """
+
         comment = Comment.get_by_id(comment_id)
         if not comment:
             return HttpResponse(status=404)
@@ -19,7 +33,22 @@ class CommentView(View):
         return JsonResponse(comment, status=200)
 
     def put(self, request, comment_id):
-        """Handles PUT request."""
+        """Handles PUT request.
+        Get comment data from PUT request and update comment from request profile in database.
+        In response returns updated comment or HttpResponse 404 if comment was not found.
+        Args:
+            comment_id(int): comment id.
+        Returns:
+            JsonResponse:
+                {
+                    response: <comment>
+                }
+            or
+            HttpResponse:
+                {
+                    status: 404
+                }
+        """
         comment = Comment.get_by_id(comment_id)
         if not comment:
             return HttpResponse(status=404)
@@ -28,16 +57,43 @@ class CommentView(View):
         return JsonResponse(comment.to_dict(), status=200)
 
     def post(self, request):
-        """Handles POST request."""
+        """Handles POST request.
+        Creates new comment from request in database.
+        In response returns created comment or HttpResponse 404 if comment was not created.
+        Returns:
+            JsonResponse:
+                {
+                    response: <comment>
+                }
+            or
+            HttpResponse:
+                {
+                    status: 404
+                }
+        """
         comment_data = json.loads(request.body.decode('utf-8'))
-        comment = Comment()
-        comment.create(**comment_data)
-        return JsonResponse(comment.to_dict(), status=200)
+        if not comment_data:
+            return HttpResponse(status=404)
+        comment = Comment.create(**comment_data)
+        return JsonResponse(comment.to_dict(), status=201)
 
     def delete(self, request, comment_id):
-        """Handles DELETE request."""
+        """Handles DELETE request.
+        Deletes comment from given comment id.
+        In response returns HttpStatus 204 or HttpResponse 404 if comment was not found.
+        Returns:
+            HttpResponse:
+                {
+                    status: 204
+                }
+            or
+            HttpResponse:
+                {
+                    status: 404
+                }
+        """
         comment = Comment.get_by_id(comment_id)
         if not comment:
             return HttpResponse(status=404)
         comment.delete()
-        return HttpResponse(status=200)
+        return HttpResponse(status=204)
