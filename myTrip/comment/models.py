@@ -11,14 +11,20 @@ class Comment(models.Model):
      :argument message: str - comment message
      :argument user: int - ToDo foreign key to User model
     ."""
+
     message = models.TextField()
     user = models.IntegerField()
 
     @staticmethod
     def get_by_id(comment_id):
         """
-        ToDo method to get one element by his id, uses to views,
-        returns None when exception works.
+        Get Comment with given comment id
+
+         Args:
+            comment_id (int): comment id.
+
+        Returns:
+            QuerySet<Comment>: QuerySet of Comment.
         """
         try:
             return Comment.objects.get(id=comment_id)
@@ -26,7 +32,15 @@ class Comment(models.Model):
             return None
 
     def to_dict(self):
-        """ToDO method, rebuilds queryset to object dictionary for our views."""
+        """Convert model object to dictionary.
+        Return:
+            dict:
+                {
+                    'id': id,
+                    'message': message,
+                    'user': user_id
+                }.
+        """
         return {
             'id': self.id,
             'message': self.message,
@@ -35,7 +49,16 @@ class Comment(models.Model):
 
     @staticmethod
     def create(message, user):
-        """ToDo method, creates, saves and returns queryset object."""
+        """
+        Creates Comment with message and user
+
+         Args:
+            message (varchar): message of comment
+            user (int): user id, who created comment.
+
+        Returns:
+            QuerySet<Comment>: QuerySet of Comment.
+        """
         comment = Comment()
         comment.message = message
         comment.user = user
@@ -43,10 +66,18 @@ class Comment(models.Model):
         return comment
 
     def update(self, message):
-        """ToDo method updates information, taken from request body to queryset"""
+        """
+        Updates Comment with new message
+
+         Args:
+            message (varchar): new message of comment
+
+        Returns:
+            QuerySet<Comment>: QuerySet of Comment.
+        """
         if message:
             self.message = message
         self.save()
 
     def __repr__(self):
-        return "{} {} {}".format(self.id, self.message, self.user)
+        return "id:{} message:{} user:{}".format(self.id, self.message, self.user)
