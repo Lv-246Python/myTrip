@@ -9,20 +9,18 @@ class Comment(models.Model):
      Comment
      :argument id: int - auto generated primary key
      :argument message: str - comment message
-     :argument user: int - ToDo foreign key to User model
+     :argument user_id: int - ToDo foreign key to User model
     ."""
 
     message = models.TextField()
-    user = models.IntegerField()
+    user_id = models.IntegerField()
 
     @staticmethod
     def get_by_id(comment_id):
         """
         Get Comment with given comment id
-
-         Args:
+        Args:
             comment_id (int): comment id.
-
         Returns:
             QuerySet<Comment>: QuerySet of Comment.
         """
@@ -38,40 +36,36 @@ class Comment(models.Model):
                 {
                     'id': id,
                     'message': message,
-                    'user': user_id
+                    'user_id': user_id
                 }.
         """
         return {
             'id': self.id,
             'message': self.message,
-            'user': self.user,
+            'user_id': self.user_id,
         }
 
     @staticmethod
-    def create(message, user):
+    def create(message, user_id):
         """
         Creates Comment with message and user
-
          Args:
-            message (varchar): message of comment
-            user (int): user id, who created comment.
-
+            message (str): message of comment
+            user_id (int): user id, who created comment.
         Returns:
             QuerySet<Comment>: QuerySet of Comment.
         """
         comment = Comment()
         comment.message = message
-        comment.user = user
+        comment.user_id = user_id
         comment.save()
         return comment
 
     def update(self, message):
         """
         Updates Comment with new message
-
          Args:
-            message (varchar): new message of comment
-
+            message (str): new message of comment
         Returns:
             QuerySet<Comment>: QuerySet of Comment.
         """
@@ -80,4 +74,4 @@ class Comment(models.Model):
         self.save()
 
     def __repr__(self):
-        return "id:{} message:{} user:{}".format(self.id, self.message, self.user)
+        return "id:{} message:{} user:{}".format(self.id, self.message, self.user_id)

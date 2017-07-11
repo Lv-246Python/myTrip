@@ -12,9 +12,6 @@ class CommentView(View):
 
     def get(self, request, comment_id):
         """Handles GET request.
-
-        Returns JsonResponse comment with given id or HttpResponse 404 if comment was not found
-
         Args:
             comment_id(int): comment id.
         Returns:
@@ -25,7 +22,7 @@ class CommentView(View):
             or
             HttpResponse:
                 {
-                    response: 404
+                    status: 404
                 }
         """
 
@@ -37,7 +34,6 @@ class CommentView(View):
 
     def put(self, request, comment_id):
         """Handles PUT request.
-
         Get comment data from PUT request and update comment from request profile in database.
         In response returns updated comment or HttpResponse 404 if comment was not found.
         Args:
@@ -50,7 +46,7 @@ class CommentView(View):
             or
             HttpResponse:
                 {
-                    response: 404
+                    status: 404
                 }
         """
         comment = Comment.get_by_id(comment_id)
@@ -62,7 +58,6 @@ class CommentView(View):
 
     def post(self, request):
         """Handles POST request.
-
         Creates new comment from request in database.
         In response returns created comment or HttpResponse 404 if comment was not created.
         Returns:
@@ -73,7 +68,7 @@ class CommentView(View):
             or
             HttpResponse:
                 {
-                    response: 404
+                    status: 404
                 }
         """
         comment_data = json.loads(request.body.decode('utf-8'))
@@ -84,18 +79,17 @@ class CommentView(View):
 
     def delete(self, request, comment_id):
         """Handles DELETE request.
-
         Deletes comment from given comment id.
         In response returns HttpStatus 204 or HttpResponse 404 if comment was not found.
         Returns:
-            JsonResponse:
+            HttpResponse:
                 {
-                    response: 204
+                    status: 204
                 }
             or
             HttpResponse:
                 {
-                    response: 404
+                    status: 404
                 }
         """
         comment = Comment.get_by_id(comment_id)
