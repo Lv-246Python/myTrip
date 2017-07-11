@@ -22,52 +22,86 @@ class Trip(models.Model):
 
     def to_dict(self):
         """
-        method rebuilds queryset ot object dictionary for our views.
+        Convert model object to dictionary.
+        Return:
+            dict:
+                {
+                'id': id,
+                'user_id': user id,
+                'title': title,
+                'created_at': date,
+                'description': decription,
+                'status': status
+                }
         """
         return {
             "id":self.id,
-            "user":self.user_id,
+            "user_id":self.user_id,
             "title": self.title,
             "created_at": self.created_at,
             "description": self.description,
             "status": self.status}
 
-    def __str__(self):
-        return self.id
-
-    @classmethod
-    def get_all(cls):
-        """method to get all trips"""
-        return Trip.objects.all()
+    def __repr__(self):
+        return "id:{} user_id:{} title:{} created_at:{} description:{} status:{}".format(
+        self.id, self.user_id, self.title, self.created_at, self.description, self.status)
 
     @staticmethod
     def get_by_id(trip_id):
-        """method to get trip by id"""
+        """
+        Get Trip with given trip id
+        Args:
+            trip_id (int): trip id.
+        Returns:
+            rtrip object
+        """
         try:
-            return Trip.objects.get(id=trip_id)
+            trip = Trip.objects.get(id=trip_id)
+            return trip
         except ObjectDoesNotExist:
             return None
 
     @staticmethod
     def create(data):
-        """method to create trip"""
+        """
+        Creates Trip
+         Args:
+            user_id (int): fk to user
+            title (str): title of trip.
+            description (str): describtion,
+            status (int): trip status
+        Returns:
+            trip object
+        """
         trip = Trip(**data)
         trip.save()
-        return None
+        return trip
 
-    @staticmethod
     def edit(data, trip_id):
-        """method to update trip fields (title,description,status)"""
+        """
+        Updates Trip with new title,description and status
+         Args:
+            title (str): title of trip.
+            description (str): describtion,
+            status (int): trip status
+        Returns:
+            trip obj
+        """
         trip = Trip.objects.get(id=trip_id)
         trip.title = data['title']
         trip.description = data['description']
         trip.status = data['status']
         trip.save()
-        return None
+        return trip
 
-    @staticmethod
-    def delete_trip(trip_id):
-        """method to delete trip"""
+    def delete_by_id(trip_id):
+        """
+        Deletes Trip by id
+         Args:
+            id(int): id of trip
+        Returns:
+            none
+        """
         trip = Trip.objects.get(id=trip_id)
         trip.delete()
         return None

@@ -7,18 +7,13 @@ from .models import Trip
 class TripView(View):
     """Comments view handles GET, POST, PUT, DELETE requests."""
 
-    def get(self, request, trip_id=None):
+    def get(self, request, trip_id):
         """Handles GET request"""
-        if trip_id:
-            trip = Trip.get_by_id(trip_id)
-            if not trip:
-                return HttpResponse(status=404)
+        trip = Trip.get_by_id(trip_id)
+        if trip:
             trip = trip.to_dict()
             return JsonResponse(trip, status=200)
-        else:
-            trips = Trip.get_all()
-            trips = [trip.to_dict() for trip in trips]
-            return JsonResponse(trips, status=200, safe=False)
+        return HttpResponse(status=404)
 
     def post(self, request):
         """Handles POST request."""
@@ -38,6 +33,6 @@ class TripView(View):
     def delete(self, request, trip_id):
         """Handles DELETE request."""
         if Trip.get_by_id(trip_id):
-            Trip.delete_trip(trip_id)
+            Trip.delete_by_id(trip_id)
             return HttpResponse(status=200)
         return HttpResponse(status=404)
