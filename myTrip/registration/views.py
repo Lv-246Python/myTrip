@@ -2,72 +2,54 @@
 
 from json import loads
 from django.contrib import auth as authentication
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.http import HttpResponse
 
 from .models import CustomUser
 
 
-def auth(request):
-    """Login page"""
-
-    return render(request, '')
-
-def logout(request):
-    """Logout method"""
-
-    authentication.logout(request)
-    return redirect('')
-
-def login(request):
-    """Login method for authentication"""
+def register(request):
+    """
+    Registration method for CustomUser registration.
+    Args:
+        request: http request.
+    Returns:
+        If new user gets successfully registered - returns HttpResponse(201).
+        If not - returns HttpResponse(406 or 400).
+    """
 
     if request.method == 'POST':
         data = loads(request.body.decode('utf-8'))
-        email = data.get('email').strip().lower()
-        password = data.get('password').strip()
+        email = data["email"]
+        password = data["password"]
 
-        user = authentication.authenticate(username=email, password=password)
-        if user:
-            authentication.login(request, user)
-            return JsonResponse({'success': True, 'message': '/'})
-
-        return HttpResponse('Email and/or password invalid', status=403)
+        if CustomUser.get_by_email(email):
+            CustomUser.create(email, password)
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=406)
 
     return HttpResponse(status=400)
 
-def register(request):
-    """Registration method for CustomUser registration"""
+def login(request):
+    """
+    Login method for auth.
+    Args:
+        request: http request.
+    Returns:
+        If new user gets successfully logged in - returns HttpResponse(200).
+        If not - returns HttpResponse(400).
+    """
 
     if request.method == 'POST':
-        json = {
-            'error': {},
-            'message': {},
-            'success': False,
-        }
-
         data = loads(request.body.decode('utf-8'))
-        email = data.get('email')
+        email = data["email"].lower()
+        password = data["password"]
 
-        try:
-            validate_email(email)
-            try:
-                CustomUser.objects.get(email=email)
-                json['error'] = "This email is already registered."
-            except CustomUser.DoesNotExist:
-                user = CustomUser()
-                user.email, user.first_name, user.last_name = email, data.get(
-                    'firstName'), data.get('lastName')
-                user.set_password(data.get('password'))
+        user = authentication.authenticate(username=email, password=password)
+        if user is not None:
+            authentication.login(request, user)
+            return HttpResponse(status=200)
 
-                user.save()
-                json['success'] = True
+        return HttpResponse('Email or password invalid', status=403)
 
-        except ValidationError:
-            json['error'] = "The email address you've entered is not valid"
-
-        return JsonResponse(json)
-
-    return render(request, '')
+    return HttpResponse(status=400)

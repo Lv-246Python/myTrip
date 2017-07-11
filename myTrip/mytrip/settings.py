@@ -26,6 +26,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -33,6 +34,10 @@ INSTALLED_APPS = [
     'comment',
     'registration'
 ]
+
+AUTH_USER_MODEL = 'registration.CustomUser'
+
+AUTHENTICATION_BACKENDS = ('registration.backends.CustomUserAuth', )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
