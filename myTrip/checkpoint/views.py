@@ -28,7 +28,7 @@ class CheckpointView(View):
          Returns status 409 if creation doesn't occur
          """
         data = json.loads(request.body.decode('utf-8'))
-        if not Checkpoint.create(data):
+        if not Checkpoint.create(**data):
             return HttpResponse(status=409)
         return HttpResponse(status=200)
 
@@ -46,7 +46,7 @@ class CheckpointView(View):
         if not checkpoint_object:
             return HttpResponse(status=404)
         data = json.loads(request.body.decode('utf-8'))
-        result = checkpoint_object.update(data)
+        result = checkpoint_object.update(**data)
         if not result:
             return HttpResponse(status=204)
         return HttpResponse(status=200)
@@ -61,10 +61,7 @@ class CheckpointView(View):
         """
         if not checkpoint_id:
             return HttpResponse(status=400)
-        checkpoint_object = Checkpoint.get_by_id(checkpoint_id)
-        if not checkpoint_object:
-            return HttpResponse(status=404)
-        result = checkpoint_object.delete_checkpoint()
+        result = Checkpoint.delete(checkpoint_id)
         if not result:
             return HttpResponse(status=500)
         return HttpResponse(status=200)
