@@ -16,7 +16,7 @@ class Checkpoint(models.Model):
     :argument description: text - description of checkpoint
     :argument position_number: int - ordinal number of checkpoint
     :argument source_url: url - url of the checkpoint's source
-    :argument trip: int - ToDo foreign key to Trip model
+    :argument trip: int - foreign key to Trip model
     """
 
     longitude = models.FloatField()
