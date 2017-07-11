@@ -10,13 +10,13 @@ class Trip(models.Model):
      :argument id: int - auto generated primary key
      :argument user_id: int - ToDo foreign key to User model
      :argument title: str - title
-     :argument describtion: text - describtion
+     :argument description: text - description
      :argument created_at: date - date
      :argument status: int - 0-in progres, 1-annonced, 2-finished
     ."""
     user_id = models.IntegerField()
     title = models.CharField(max_length=200)
-    describtion = models.TextField()
+    description = models.TextField()
     created_at = models.DateTimeField(default=datetime.now, blank=True)
     status = models.IntegerField(default=0)
 
@@ -29,7 +29,7 @@ class Trip(models.Model):
             "user":self.user_id,
             "title": self.title,
             "created_at": self.created_at,
-            "describtion": self.describtion,
+            "description": self.description,
             "status": self.status}
 
     def __str__(self):
@@ -49,7 +49,7 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def create(**data):
+    def create(data):
         """method to create trip"""
         trip = Trip(**data)
         trip.save()
@@ -57,10 +57,10 @@ class Trip(models.Model):
 
     @staticmethod
     def edit(data, trip_id):
-        """method to update trip fields (title,describtion,status)"""
+        """method to update trip fields (title,description,status)"""
         trip = Trip.objects.get(id=trip_id)
         trip.title = data['title']
-        trip.describtion = data['describtion']
+        trip.description = data['description']
         trip.status = data['status']
         trip.save()
         return None

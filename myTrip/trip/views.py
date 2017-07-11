@@ -23,8 +23,8 @@ class TripView(View):
     def post(self, request):
         """Handles POST request."""
         data = json.loads(request.body.decode('utf-8'))
-        Trip.create(**data)
-        return HttpResponse(status=200)
+        Trip.create(data)
+        return HttpResponse(status=201)
 
 
     def put(self, request, trip_id):
