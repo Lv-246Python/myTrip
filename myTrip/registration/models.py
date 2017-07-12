@@ -8,11 +8,11 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class CustomUser(AbstractBaseUser):
     """
-     User
+     User model.
      :argument id: int - auto generated primary key
-     :argument first_name: str - user's firstName
-     :argument last_name: str - user's lastName
-     :argument email: str - user's emailAdress
+     :argument first_name: str - new user's firstName
+     :argument last_name: str - new user's lastName
+     :argument email: str - new user's emailAdress
      """
 
     first_name = models.CharField(max_length=254, blank=True)
@@ -27,10 +27,10 @@ class CustomUser(AbstractBaseUser):
         """
         Creates and saves a User with the given email and password.
         Args:
-            email (str): user's email.
-            password (str): user's password.
+            email (str): new user's email.
+            password (str): new user's password.
         Returns:
-            None.
+            new CustomUser object.
         """
 
         if not email or not password:
@@ -40,15 +40,16 @@ class CustomUser(AbstractBaseUser):
         user.email = email.lower()
         user.set_password(password)
         user.save()
+        return user
 
     @staticmethod
     def get_by_id(user_id):
         """
         Get user with given id.
         Args:
-            user_id (int): user's id.
+            user_id (int): new user's id.
         Returns:
-            user object or None when exception works.
+            CustomUser object or None when exception works.
         """
 
         try:
@@ -62,9 +63,9 @@ class CustomUser(AbstractBaseUser):
         """
         Check for user with given email. If exist return.
         Args:
-            user_email (int): user's email.
+            user_email (int): new user's email.
         Returns:
-            user object when if exists with given email,
+            CustomUser object when if exists with given email,
             if no returns True. If given email is not
             valid returns False.
         """
@@ -97,8 +98,8 @@ class CustomUser(AbstractBaseUser):
         Updates user data.
         Args:
             self: current object.
-            first_name (str): user's firstName.
-            last_name (str): user's lastName.
+            first_name (str): new user's firstName.
+            last_name (str): new user's lastName.
         Returns:
             None.
         """
