@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Photo(models.Model):
-    """
+     """
      Photo
      :argument id: int - auto generated primary key
      :argument src: url - photo source link
@@ -28,7 +28,7 @@ class Photo(models.Model):
         Args:
             photo_id (int): photo id.
         Returns:
-            QuerySet<Photo>: QuerySet of Photo.
+            Object<Photo>: Object of Photo.
         """
         try:
             return Photo.objects.get(id=photo_id)
@@ -38,6 +38,13 @@ class Photo(models.Model):
 
 
     @staticmethod
+    """
+    Get photo with given trip id
+    Args:
+        trip_ud (int): trip id.
+    Returns:
+        QuerySet<Photo>: QuerySet of Photo.
+    """
     def get_by_trip_id(trip_id):
         photos = Photo.objects.filter(trip_id=trip_id)
         return photos
