@@ -22,20 +22,29 @@ class Photo(models.Model):
 
     @staticmethod
     def get_by_id(photo_id):
-        """Method return one element by id or None if exception."""
+        """
+        Get photo with given photo id
+        Args:
+        photo_id (int): photo id.
+        Returns:
+        QuerySet<Photo>: QuerySet of Photo.
+        """
         try:
             return Photo.objects.get(id=photo_id)
         except ObjectDoesNotExist:
             return None
 
+    @staticmethod
     def create(self, src, user_id, trip_id=None, checkpoint_id=None, description=None):
-        """Creating photo model."""
-        self.src = src
-        self.user_id = user_id
-        self.trip_id = trip_id
-        self.checkpoint_id = checkpoint_id
-        self.description = description
-        self.save()
+        """ Creating photo model."""
+        photo = Photo()
+        photo.src = src
+        photo.user_id = user_id
+        photo.trip_id = trip_id
+        photo.trip_id = trip_id
+        photo.checkpoint_id = checkpoint_id
+        photo.description = description
+        photo.save()
 
     def update(self, src, user_id):
         """Updating photo model."""
@@ -44,7 +53,19 @@ class Photo(models.Model):
         self.save()
 
     def to_dict(self):
-        """Convert queryset to dictionary."""
+        """Convert model object to dictionary.
+        Return:
+            dict:
+                {
+                    'id': id,
+                    'src': source link,
+                    'user_id': user id,
+                    'trip_id': trip id,
+                    'checkpoit_id': checkpoint id,
+                    'description': description text
+                    ...
+                }
+        """
         return {
             "id": self.id,
             "src": self.src,
