@@ -2,6 +2,7 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from registration.models import CustomUser
 
 
 class Comment(models.Model):
@@ -9,11 +10,11 @@ class Comment(models.Model):
      Comment
      :argument id: int - auto generated primary key
      :argument message: str - comment message
-     :argument user_id: int - ToDo foreign key to User model
+     :argument user: int -  foreign key to User model
     ."""
 
     message = models.TextField()
-    user_id = models.IntegerField()
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
     @staticmethod
     def get_by_id(comment_id):
@@ -29,6 +30,10 @@ class Comment(models.Model):
         except ObjectDoesNotExist:
             return None
 
+    @staticmethod
+    def get_by_user_id(user_id):
+        return Comment.objects.filter(user=user_id)
+
     def to_dict(self):
         """Convert model object to dictionary.
         Return:
@@ -36,13 +41,13 @@ class Comment(models.Model):
                 {
                     'id': id,
                     'message': message,
-                    'user_id': user_id
+                    'user': user
                 }.
         """
         return {
             'id': self.id,
             'message': self.message,
-            'user_id': self.user_id,
+            'user': self.user.id,
         }
 
     @staticmethod
@@ -51,13 +56,13 @@ class Comment(models.Model):
         Creates Comment with message and user
          Args:
             message (str): message of comment
-            user_id (int): user id, who created comment.
+            user (int): user id, who created comment.
         Returns:
             QuerySet<Comment>: QuerySet of Comment.
         """
         comment = Comment()
         comment.message = message
-        comment.user_id = user_id
+        comment.user = CustomUser.get_by_id(user_id)
         comment.save()
         return comment
 
@@ -74,4 +79,4 @@ class Comment(models.Model):
         self.save()
 
     def __repr__(self):
-        return "id:{} message:{} user:{}".format(self.id, self.message, self.user_id)
+        return "id:{} message:{} user:{}".format(self.id, self.message, self.user)
