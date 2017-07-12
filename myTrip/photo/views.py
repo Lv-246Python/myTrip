@@ -20,8 +20,7 @@ class PhotoView(View):
     def post(self, request):
         """POST request hangler.Creating a new photo object"""
         post_data = json.loads(request.body.decode('utf-8'))
-        photo = Photo()
-        photo.create(**post_data)
+        photo = Photo.create(**post_data)
         return HttpResponse(status=201)
 
     def put(self, request, photo_id):  # pylint: disable=no-self-use

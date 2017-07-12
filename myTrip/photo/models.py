@@ -12,8 +12,9 @@ class Photo(models.Model):
      :argument user_id: int - ToDo foreign key to User model id
      :argument trip_id: int - Todo foreign key to Trip model id
      :argument checkpoint_id: int - ToDo foreign to Checkpoint model id
-     :argument description: str - description to photo
-    ."""
+     :argument description: str - description to photo.
+     """
+
     src = models.URLField(max_length=200)
     user_id = models.IntegerField()
     trip_id = models.IntegerField(null=True)
@@ -25,31 +26,41 @@ class Photo(models.Model):
         """
         Get photo with given photo id
         Args:
-        photo_id (int): photo id.
+            photo_id (int): photo id.
         Returns:
-        QuerySet<Photo>: QuerySet of Photo.
+            QuerySet<Photo>: QuerySet of Photo.
         """
         try:
             return Photo.objects.get(id=photo_id)
         except ObjectDoesNotExist:
             return None
 
+
+
     @staticmethod
-    def create(self, src, user_id, trip_id=None, checkpoint_id=None, description=None):
-        """ Creating photo model."""
+    def get_by_trip_id(trip_id):
+        photos = Photo.objects.filter(trip_id=trip_id)
+        return photos
+
+
+
+
+    @staticmethod
+    def create(src, user_id, trip_id=None, checkpoint_id=None, description=None):
+        """ Creating photo model, and returns created object"""
         photo = Photo()
         photo.src = src
         photo.user_id = user_id
         photo.trip_id = trip_id
-        photo.trip_id = trip_id
         photo.checkpoint_id = checkpoint_id
         photo.description = description
         photo.save()
+        return photo
 
-    def update(self, src, user_id):
+    def update(self, description=None):
         """Updating photo model."""
-        self.src = src
-        self.user_id = user_id
+        if description:
+            self.description = description
         self.save()
 
     def to_dict(self):
@@ -63,7 +74,6 @@ class Photo(models.Model):
                     'trip_id': trip id,
                     'checkpoit_id': checkpoint id,
                     'description': description text
-                    ...
                 }
         """
         return {
