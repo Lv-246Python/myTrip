@@ -4,16 +4,17 @@ from datetime import datetime
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
+
 class Trip(models.Model):
     """
-     Trip
-     :argument id: int - auto generated primary key
-     :argument user_id: int - ToDo foreign key to User model
-     :argument title: str - title
-     :argument description: text - description
-     :argument created_at: date - date
-     :argument status: int - 0-in progress, 1-announced, 2-finished
-    ."""
+    Trip
+    :argument id: int - auto generated primary key
+    :argument user_id: int - ToDo foreign key to User model
+    :argument title: str - title
+    :argument description: text - description
+    :argument created_at: date - date
+    :argument status: int - 0-in progress, 1-announced, 2-finished
+    """
     user_id = models.IntegerField()
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -58,7 +59,7 @@ class Trip(models.Model):
         Args:
             trip_id (int): trip id.
         Returns:
-            rtrip object
+            trip object
         """
         try:
             trip = Trip.objects.get(id=trip_id)
@@ -67,13 +68,13 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def create(data):
+    def create(**data):
         """
         Creates Trip
-         Args:
+        Args:
             user_id (int): fk to user
             title (str): title of trip.
-            description (str): describtion,
+            description (str): description,
             status (int): trip status
         Returns:
             trip object
@@ -83,12 +84,13 @@ class Trip(models.Model):
         return trip
 
     @staticmethod
-    def edit(data, trip_id):
+    def edit(trip_id, **data):
         """
         Updates Trip with new title,description and status
-         Args:
+        Args:
+            trip_id(int): id of trip
             title (str): title of trip.
-            description (str): describtion,
+            description (str): description,
             status (int): trip status
         Returns:
             trip obj
@@ -105,9 +107,9 @@ class Trip(models.Model):
         """
         Deletes Trip by id
          Args:
-            id(int): id of trip
+            trip_id(int): id of trip
         Returns:
-            none
+            None
         """
         trip = Trip.objects.get(id=trip_id)
         trip.delete()
