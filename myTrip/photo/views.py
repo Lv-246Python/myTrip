@@ -18,13 +18,13 @@ class PhotoView(View):
         return JsonResponse(photo, status=200, safe=False)
 
     def post(self, request):
-        """POST request hangler.Creating a new photo object"""
+        """POST request handler.Creating a new photo object"""
         post_data = json.loads(request.body.decode('utf-8'))
         photo = Photo.create(**post_data).to_dict()
         return JsonResponse(photo, status=201)
 
     def put(self, request, photo_id):  # pylint: disable=no-self-use
-        """PUT request hangler. If photo object found by id, try to update photo."""
+        """PUT request handler. If photo object found by id, try to update photo."""
         photo = Photo.get_by_id(photo_id)
         if not photo:
             return HttpResponse(status=404)
