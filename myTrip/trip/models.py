@@ -12,12 +12,12 @@ class Trip(models.Model):
      :argument title: str - title
      :argument description: text - description
      :argument created_at: date - date
-     :argument status: int - 0-in progres, 1-annonced, 2-finished
+     :argument status: int - 0-in progress, 1-announced, 2-finished
     ."""
     user_id = models.IntegerField()
     title = models.CharField(max_length=200)
     description = models.TextField()
-    created_at = models.DateTimeField(default=datetime.now, blank=True)
+    created_at = models.DateTimeField(default=datetime.now, null=True)
     status = models.IntegerField(default=0)
 
     def to_dict(self):

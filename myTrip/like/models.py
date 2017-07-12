@@ -2,6 +2,11 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from registration.models import CustomUser
+from trip.models import Trip
+from checkpoint.models import Checkpoint
+from photo.models import Photo
+from comment.models import Comment
 
 
 class Like(models.Model):
@@ -15,11 +20,11 @@ class Like(models.Model):
     :argument comment: int - ToDo foreign key
     """
 
-    user = models.IntegerField()
-    trip = models.IntegerField(null=True)
-    checkpoint = models.IntegerField(null=True)
-    photo = models.IntegerField(null=True)
-    comment = models.IntegerField(null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
+    checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
 
     @staticmethod
     def get_by_id(like_id):
