@@ -143,9 +143,9 @@ class Checkpoint(models.Model):
             True if deleting was successful
             False if deleting wasn't complete
         """
-        checkpoint = Checkpoint.objects.get(id = checkpoint_id)
+        checkpoint = Checkpoint.objects.get(id=checkpoint_id)
         try:
-            super(Checkpoint,checkpoint).delete()
+            super(Checkpoint, checkpoint).delete()
             return True
         except ProtectedError:
             return False
