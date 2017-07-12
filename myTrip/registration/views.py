@@ -25,10 +25,10 @@ def register(request):
         if CustomUser.get_by_email(email):
             CustomUser.create(email, password)
             return HttpResponse(status=201)
-        else:
-            return HttpResponse(status=406)
+        return HttpResponse(status=406)
 
     return HttpResponse(status=400)
+
 
 def login(request):
     """
