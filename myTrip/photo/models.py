@@ -5,15 +5,15 @@ from django.db import models
 
 
 class Photo(models.Model):
-     """
-     Photo
-     :argument id: int - auto generated primary key
-     :argument src: url - photo source link
-     :argument user_id: int - ToDo foreign key to User model id
-     :argument trip_id: int - Todo foreign key to Trip model id
-     :argument checkpoint_id: int - ToDo foreign to Checkpoint model id
-     :argument description: str - description to photo.
-     """
+    """
+    Photo
+    :argument id: int - auto generated primary key
+    :argument src: url - photo source link
+    :argument user_id: int - ToDo foreign key to User model id
+    :argument trip_id: int - Todo foreign key to Trip model id
+    :argument checkpoint_id: int - ToDo foreign to Checkpoint model id
+    :argument description: str - description to photo.
+    """
 
     src = models.URLField(max_length=200)
     user_id = models.IntegerField()
@@ -38,14 +38,15 @@ class Photo(models.Model):
 
 
     @staticmethod
-    """
-    Get photo with given trip id
-    Args:
-        trip_ud (int): trip id.
-    Returns:
-        QuerySet<Photo>: QuerySet of Photo.
-    """
     def get_by_trip_id(trip_id):
+        """
+        Get photo with given trip id
+        Args:
+            trip_ud (int): trip id.
+        Returns:
+            QuerySet<Photo>: QuerySet of Photo.
+        """
+
         photos = Photo.objects.filter(trip_id=trip_id)
         return photos
 
