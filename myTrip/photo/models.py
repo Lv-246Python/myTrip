@@ -28,7 +28,7 @@ class Photo(models.Model):
         Args:
             photo_id (int): photo id.
         Returns:
-            Object<Photo>: Object of Photo.
+            Object<Photo>: Object of Photo or None in got exception.
         """
         try:
             return Photo.objects.get(id=photo_id)
@@ -42,9 +42,21 @@ class Photo(models.Model):
         Args:
             trip_id (int): trip id.
         Returns:
-            QuerySet<Photo>: QuerySet of Photo.
+            QuerySet<Photos>: QuerySet of Photos.
         """
         photos = Photo.objects.filter(trip_id=trip_id)
+        return photos
+
+    @staticmethod
+    def get_by_checkpoint_id(checkpoint_id):
+        """
+        Get photo with given checkpoint id
+        Args:
+            checkpoint_id (int): checkpoint id.
+        Returns:
+            QuerySet<Photos>: QuerySet of Photos.
+        """
+        photos = Photo.objects.filter(checkpoint_id=checkpoint_id)
         return photos
 
     @staticmethod
@@ -60,7 +72,7 @@ class Photo(models.Model):
         return photo
 
     def update(self, description=None):
-        """Updating photo model."""
+        """Updating photo description."""
         if description:
             self.description = description
         self.save()
