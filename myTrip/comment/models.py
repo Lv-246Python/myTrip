@@ -23,7 +23,7 @@ class Comment(models.Model):
         Args:
             comment_id (int): comment id.
         Returns:
-            QuerySet<Comment>: QuerySet of Comment.
+            Object<Comment>: Object of Comment.
         """
         try:
             return Comment.objects.get(id=comment_id)
@@ -32,6 +32,13 @@ class Comment(models.Model):
 
     @staticmethod
     def get_by_user_id(user_id):
+        """
+        Get Comments with given user id
+        Args:
+            user_id (int): user id foreign .
+        Returns:
+            QuerySet<Comment>: QuerySet of Comments.
+        """
         return Comment.objects.filter(user=user_id)
 
     def to_dict(self):
@@ -41,7 +48,7 @@ class Comment(models.Model):
                 {
                     'id': id,
                     'message': message,
-                    'user': user
+                    'user_id': user_id
                 }.
         """
         return {
@@ -58,7 +65,7 @@ class Comment(models.Model):
             message (str): message of comment
             user (int): user id, who created comment.
         Returns:
-            QuerySet<Comment>: QuerySet of Comment.
+            Object<Comment>: Object of Comment.
         """
         comment = Comment()
         comment.message = message
@@ -72,7 +79,7 @@ class Comment(models.Model):
          Args:
             message (str): new message of comment
         Returns:
-            QuerySet<Comment>: QuerySet of Comment.
+            Object<Comment>: Object of Comment.
         """
         if message:
             self.message = message
