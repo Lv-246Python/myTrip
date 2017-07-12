@@ -1,7 +1,7 @@
 """This registration app-module generates views for register and auth pages."""
 
 from json import loads
-from django.contrib import auth as authentication
+from django.contrib import auth
 from django.http import HttpResponse
 
 from .models import CustomUser
@@ -36,7 +36,7 @@ def login(request):
     Args:
         request: http request.
     Returns:
-        If new user gets successfully logged in - returns HttpResponse(200).
+        If CustomUser gets successfully logged in - returns HttpResponse(200).
         If not - returns HttpResponse(400).
     """
 
@@ -45,11 +45,26 @@ def login(request):
         email = data["email"].lower()
         password = data["password"]
 
-        user = authentication.authenticate(username=email, password=password)
+        user = auth.authenticate(username=email, password=password)
         if user is not None:
-            authentication.login(request, user)
+            auth.login(request, user)
             return HttpResponse(status=200)
 
         return HttpResponse('Email or password invalid', status=403)
 
     return HttpResponse(status=400)
+
+def logout(request):
+    """
+    Logout method for auth.
+    Args:
+        request: http request.
+    Returns:
+        If CustomUser gets successfully logged out - returns HttpResponse(200).
+        If not - returns HttpResponse(400).
+    """
+
+    auth.logout(request)
+    if request.user.is_authenticated:
+        return HttpResponse(status=400)
+    return HttpResponse(status=200)
