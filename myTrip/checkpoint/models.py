@@ -1,6 +1,5 @@
 """This module contains comment model class and basic functions"""
 
-from myTrip.trip.models import Trip
 from django.db import models
 from django.db.models import ProtectedError
 from django.core.exceptions import ObjectDoesNotExist, FieldError
@@ -25,7 +24,7 @@ class Checkpoint(models.Model):
     description = models.TextField()
     position_number = models.IntegerField()
     source_url = models.URLField()
-    trip = models.ForeignKey(Trip)
+    trip = models.IntegerField()
     created = models.DateTimeField(null=True)
     last_modified = models.DateTimeField(null=True)
 
