@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class CommentConfig(AppConfig):
+class PhotoConfig(AppConfig):
     name = 'photo'
