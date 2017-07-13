@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from datetime import datetime
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from registration.models import CustomUser
 
 class Trip(models.Model):
     """
@@ -14,7 +15,7 @@ class Trip(models.Model):
      :argument created_at: date - date
      :argument status: int - 0-in progres, 1-annonced, 2-finished
     ."""
-    user_id = models.IntegerField()
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     created_at = models.DateTimeField(default=datetime.now, blank=True)
@@ -27,7 +28,7 @@ class Trip(models.Model):
             dict:
                 {
                 'id': id,
-                'user_id': user id,
+                'user_id': user,
                 'title': title,
                 'created_at': date,
                 'description': description,
@@ -36,7 +37,7 @@ class Trip(models.Model):
         """
         return {
             "id": self.id,
-            "user_id": self.user_id,
+            "user": self.user.to_dict(),
             "title": self.title,
             "created_at": self.created_at,
             "description": self.description,
@@ -45,7 +46,7 @@ class Trip(models.Model):
     def __repr__(self):
         return "id:{} user_id:{} title:{} created_at:{}" \
                " description:{} status:{}".format(self.id,
-                                                  self.user_id,
+                                                  self.user,
                                                   self.title,
                                                   self.created_at,
                                                   self.description,
@@ -78,6 +79,7 @@ class Trip(models.Model):
         Returns:
             trip object
         """
+        data["user"] = CustomUser.get_by_id(data["user"])
         trip = Trip(**data)
         trip.save()
         return trip
