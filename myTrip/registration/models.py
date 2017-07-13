@@ -81,6 +81,18 @@ class CustomUser(AbstractBaseUser):
         except ValidationError:
             return False
 
+    def get_shrot_name(self):
+        """
+        Returns the first name.
+        Args:
+            self: current object.
+        Returns:
+            short_name object.
+        """
+
+        short_name = self.first_name
+        return short_name
+
     def get_full_name(self):
         """
         Returns the first name + last name with a space in between.

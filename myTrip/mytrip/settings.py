@@ -40,6 +40,21 @@ INSTALLED_APPS = [
 
 ]
 
+# Cache
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+# Session
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+
+# Authentication
+
 AUTH_USER_MODEL = 'registration.CustomUser'
 
 AUTHENTICATION_BACKENDS = ('registration.backends.CustomUserAuth', )
@@ -51,6 +66,14 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
 ]
 
 ROOT_URLCONF = 'mytrip.urls'
