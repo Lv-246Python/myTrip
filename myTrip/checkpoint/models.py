@@ -60,7 +60,7 @@ class Checkpoint(models.Model):
             source_url (url):  url of the checkpoint's source.
             trip (int):  ToDo foreign key to Trip model.
         Returns:
-            new checkpoint object
+            Object<Checkpoint>: Object of Checkpoint.
         """
 
         try:
@@ -84,7 +84,7 @@ class Checkpoint(models.Model):
         Args:
             checkpoint_id (int): id - primary key
         Returns:
-            checkpoint_object
+            Object<Checkpoint>: Object of Checkpoint.
         """
 
         try:
@@ -113,7 +113,7 @@ class Checkpoint(models.Model):
             source_url (url):  url of the checkpoint's source.
             trip (int):  ToDo foreign key to Trip model.
         Returns:
-            Checkpoint object if updating was successful and None if wasn't
+            Object<Checkpoint>: Object of Checkpoint if updating was successful and None if wasn't
         """
 
         if longitude:
