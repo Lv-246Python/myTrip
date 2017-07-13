@@ -1,16 +1,18 @@
 """This module contains comment model class and basic functions."""
 
+from checkpoint.models import Checkpoint
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models
+from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
-from checkpoint.models import Checkpoint
-from photo.models import Photo
 
 DEFAULT = None
 
+
 class Comment(models.Model):
     """
+<<<<<<< HEAD
     Comment
         :argument id: int - auto generated primary key
         :argument message: str - comment message
@@ -121,7 +123,7 @@ class Comment(models.Model):
         Creates Comment with message and user
         Args:
             message (str): message of comment
-            user_id (int): user id, who created comment.
+            user (int): user id, who created comment.
         Returns:
             Object<Comment>: Object of Comment.
         """
