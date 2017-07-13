@@ -10,7 +10,7 @@ class TripView(View):
     def get(self, request, trip_id=None):
         """Handles GET request"""
         if not trip_id:
-            trips = Trip.get_all()
+            trips = Trip.get_all(self)
             trips = [trip.to_dict() for trip in trips]
             for trip in trips:
                 trip['user'] = trip['user']['email']
