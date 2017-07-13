@@ -2,6 +2,9 @@
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from registration.models import CustomUser
+from trip.models import Trip
+from checkpoint.models import Checkpoint
 
 
 class Photo(models.Model):
@@ -9,16 +12,16 @@ class Photo(models.Model):
     Photo
     :argument id: int - auto generated primary key
     :argument src: url - photo source link
-    :argument user_id: int - ToDo foreign key to User model id
+    :argument user: int - foreign key to User model id
     :argument trip_id: int - Todo foreign key to Trip model id
     :argument checkpoint_id: int - ToDo foreign to Checkpoint model id
     :argument description: str - description to photo.
     """
 
     src = models.URLField(max_length=200)
-    user_id = models.IntegerField()
-    trip_id = models.IntegerField(null=True)
-    checkpoint_id = models.IntegerField(null=True)
+    user = models.ForeignKey(CustomUser)
+    trip_id = models.ForeignKey(Trip)
+    checkpoint_id = models.ForeignKey(Checkpoint)
     description = models.TextField(null=True)
 
     @staticmethod
@@ -64,9 +67,9 @@ class Photo(models.Model):
         """ Creating photo model, and returns created object"""
         photo = Photo()
         photo.src = src
-        photo.user_id = user_id
-        photo.trip_id = trip_id
-        photo.checkpoint_id = checkpoint_id
+        photo.user = CustomUser.get_by_id(user_id)
+        photo.trip_id = Trip.get_by_id(trip_id)
+        photo.checkpoint_id = Checkpoint.get_by_id(checkpoint_id)
         photo.description = description
         photo.save()
         return photo
@@ -84,7 +87,7 @@ class Photo(models.Model):
                 {
                     'id': id,
                     'src': source link,
-                    'user_id': user id,
+                    'user': user id,
                     'trip_id': trip id,
                     'checkpoit_id': checkpoint id,
                     'description': description text
@@ -93,7 +96,7 @@ class Photo(models.Model):
         return {
             "id": self.id,
             "src": self.src,
-            "user_id": self.user_id,
+            "user": self.user.id,
             "trip_id": self.trip_id,
             "checkpoint_id": self.checkpoint_id,
             "description": self.description
