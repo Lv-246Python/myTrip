@@ -115,6 +115,7 @@ class Trip(models.Model):
         trip.delete()
         return None
 
-    def get_all():
-        trips = Trip.objects.filter(description="amazing trip")[:2]
+    def get_all(self):
+        # trips = Trip.objects.filter(id__icontains = 1)[:100]
+        trips = reversed(Trip.objects.all().order_by('-created_at')[:2])
         return trips
