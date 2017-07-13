@@ -96,7 +96,7 @@ class CustomUser(AbstractBaseUser):
         Args:
             self: current object.
         Returns:
-            short_name object.
+            str object.
         """
 
         short_name = self.first_name
