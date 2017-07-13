@@ -12,7 +12,8 @@ class TripView(View):
         trip = Trip.get_by_id(trip_id)
         if trip:
             trip = trip.to_dict()
-            return JsonResponse(trip, status=200)
+            trip['user'] = trip['user']['email']
+            return JsonResponse(trip, status=200, safe=False)
         return HttpResponse(status=404)
 
     def post(self, request):
