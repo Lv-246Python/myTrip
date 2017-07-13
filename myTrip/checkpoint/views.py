@@ -23,14 +23,15 @@ class CheckpointView(View):
 
     def post(self, request):
         """
-         Handles post request
-         Create new object and returns status  200 if all was successful
-         Returns status 409 if creation doesn't occur
-         """
+        Handles post request
+        Create new object and returns status  200 if all was successful
+        Returns status 409 if creation doesn't occur
+        """
         data = json.loads(request.body.decode('utf-8'))
-        if not Checkpoint.create(**data):
+        result = Checkpoint.create(**data)
+        if not result:
             return HttpResponse(status=409)
-        return HttpResponse(status=200)
+        return JsonResponse(result.to_dict(), status=200)
 
     def put(self, request, checkpoint_id):
         """
@@ -49,7 +50,7 @@ class CheckpointView(View):
         result = checkpoint_object.update(**data)
         if not result:
             return HttpResponse(status=204)
-        return HttpResponse(status=200)
+        return JsonResponse(result.to_dict(), status=200)
 
     def delete(self, request, checkpoint_id):
         """
@@ -64,4 +65,4 @@ class CheckpointView(View):
         result = Checkpoint.delete(checkpoint_id)
         if not result:
             return HttpResponse(status=500)
-        return HttpResponse(status=200)
+        return JsonResponse(status=200)
