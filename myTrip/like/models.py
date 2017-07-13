@@ -20,7 +20,7 @@ class Like(models.Model):
     :argument comment: int - ToDo foreign key
     """
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
     checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
@@ -38,6 +38,21 @@ class Like(models.Model):
         """
         try:
             return Like.objects.get(id=like_id)
+        except ObjectDoesNotExist:
+            return None
+
+    @staticmethod
+    def get_by_user_id(user_id):
+        """
+        Get Like with given user id.
+        Args:
+            user_id (int): user id.
+        Returns:
+            QuerySet<Like>: QuerySet of Like,
+            or None when exception works.
+        """
+        try:
+            return Like.objects.filter(user=user_id)
         except ObjectDoesNotExist:
             return None
 
@@ -117,22 +132,22 @@ class Like(models.Model):
         """
         return {
             'id': self.id,
-            'user_id': self.user,
-            'trip_id': self.trip,
-            'checkpoint_id': self.checkpoint,
-            'photo_id': self.photo,
-            'comment_id': self.comment
+            'user_id': self.user.id,
+            'trip_id': self.trip.id if self.trip else None,
+            'checkpoint_id': self.checkpoint.id if self.checkpoint else None,
+            'photo_id': self.photo.id if self.photo else None,
+            'comment_id': self.comment.id if self.comment else None
         }
 
     @staticmethod
     def create(user, trip=None, checkpoint=None, photo=None, comment=None):
         """A method creates like by user to trip/checkpoint/photo/comment."""
         like = Like()
-        like.user = user
-        like.trip = trip
-        like.checkpoint = checkpoint
-        like.photo = photo
-        like.comment = comment
+        like.user = CustomUser.get_by_id(user)
+        like.trip = Trip.get_by_id(trip)
+        like.checkpoint = Checkpoint.get_by_id(checkpoint)
+        like.photo = Photo.get_by_id(photo)
+        like.comment = Comment.get_by_id(comment)
         like.save()
         return like
 

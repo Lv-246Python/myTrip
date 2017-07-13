@@ -41,6 +41,15 @@ class Checkpoint(models.Model):
                     "trip_id": trip
                 }
         """
+        return {
+                "longitude": self.longitude,
+                "latitude": self.latitude,
+                "title": self.title,
+                "description": self.description,
+                "source_url": self.source_url,
+                "position_number": self.position_number,
+                "trip_id": self.trip
+                }
 
     @staticmethod
     def create(longitude, latitude, title, description, source_url, position_number, trip):

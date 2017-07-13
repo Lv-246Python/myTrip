@@ -21,7 +21,7 @@ class LikeView(View):
         like = like.to_dict()
         return JsonResponse(like, status=200)
 
-    def post(self, request):
+    def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None,):
         """Handles POST request, that return JSON response with HTTP status 201."""
         like_data = json.loads(request.body.decode('utf-8'))
         like = Like.create(**like_data)
