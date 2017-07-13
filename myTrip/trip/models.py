@@ -115,5 +115,6 @@ class Trip(models.Model):
         trip.delete()
         return None
 
-    def get_all(user):
-        pass
+    def get_all():
+        trips = Trip.objects.filter(description="amazing trip")[:2]
+        return trips
