@@ -25,7 +25,7 @@ class Checkpoint(models.Model):
     description = models.TextField()
     position_number = models.IntegerField()
     source_url = models.URLField()
-    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(null=True)
     last_modified = models.DateTimeField(null=True)
 
@@ -41,7 +41,7 @@ class Checkpoint(models.Model):
                     "description": description,
                     "source_url": source_url,
                     "position_number": position_number,
-                    "trip_id": trip
+                    "trip": trip
                 }
         """
 
