@@ -9,7 +9,7 @@ from .models import  Checkpoint
 class CheckpointView(View):
     """ checkpoint view handle GET, POST, PUT, DELETE requests """
 
-    def get(self, request, checkpoint_id):
+    def get(self, request, trip_id, checkpoint_id=None):
         """
         Handles get request
         Return json and status 200 with new object if operation was successful
@@ -21,7 +21,7 @@ class CheckpointView(View):
         result = checkpoint_object.to_dict()
         return JsonResponse(result, status=200)
 
-    def post(self, request):
+    def post(self, request, trip_id):
         """
         Handles post request
         Create new object and returns status  200 if all was successful
@@ -33,7 +33,7 @@ class CheckpointView(View):
             return HttpResponse(status=409)
         return JsonResponse(result.to_dict(), status=200)
 
-    def put(self, request, checkpoint_id):
+    def put(self, request, checkpoint_id, trip_id):
         """
         Handles put request
         Return status 200 if checkpoint has been successful updated
@@ -52,7 +52,7 @@ class CheckpointView(View):
             return HttpResponse(status=204)
         return JsonResponse(result.to_dict(), status=200)
 
-    def delete(self, request, checkpoint_id):
+    def delete(self, request, checkpoint_id, trip_id):
         """
         Handles delete request
         Returns 200 if checkpoint has been deleted
@@ -65,4 +65,4 @@ class CheckpointView(View):
         result = Checkpoint.delete(checkpoint_id)
         if not result:
             return HttpResponse(status=500)
-        return JsonResponse(status=200)
+        return HttpResponse(status=200)

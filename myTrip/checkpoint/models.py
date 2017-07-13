@@ -25,7 +25,7 @@ class Checkpoint(models.Model):
     description = models.TextField()
     position_number = models.IntegerField()
     source_url = models.URLField()
-    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     created = models.DateTimeField(null=True)
     last_modified = models.DateTimeField(null=True)
 
@@ -51,10 +51,10 @@ class Checkpoint(models.Model):
                     "description": self.description,
                     "source_url": self.source_url,
                     "position_number": self.position_number,
-                    "trip": self.trip
+                    "trip": self.trip.id
                 }
     @staticmethod
-    def create(longitude, latitude, title, description, source_url, position_number, trip=None):
+    def create(longitude, latitude, title, description, source_url, position_number, trip):
         """
         Create checkpoint with given trip_id, longitude,latitude,title,description,source_url,
         position_number,trip.
@@ -71,15 +71,15 @@ class Checkpoint(models.Model):
             Object<Checkpoint>: Object of Checkpoint.
         """
 
+        new_object = Checkpoint()
+        new_object.longitude = longitude
+        new_object.latitude = latitude
+        new_object.title = title
+        new_object.description = description
+        new_object.source_url = source_url
+        new_object.position_number = position_number
+        new_object.trip = Trip.get_by_id(trip)
         try:
-            new_object = Checkpoint()
-            new_object.longitude = longitude
-            new_object.latitude = latitude
-            new_object.title = title
-            new_object.description = description
-            new_object.source_url = source_url
-            new_object.position_number = position_number
-            new_object.trip = trip
             new_object.save()
         except FieldError:
             return None
@@ -136,8 +136,8 @@ class Checkpoint(models.Model):
             self.position_number = position_number
         if source_url:
             self.source_url = source_url
-        if longitude:
-            self.trip = trip
+        if trip:
+            self.trip = Trip.get_by_id(trip)
         try:
             self.save()
             return self
