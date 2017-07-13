@@ -114,3 +114,6 @@ class Trip(models.Model):
         trip = Trip.objects.get(id=trip_id)
         trip.delete()
         return None
+
+    def get_all(user):
+        pass
