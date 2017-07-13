@@ -55,7 +55,7 @@ class Checkpoint(models.Model):
         }
 
     @staticmethod
-    def create(longitude, latitude, title, description, source_url, position_number, trip):
+    def create(longitude, latitude, title, description, source_url, position_number, trip=None):
         """
         Create checkpoint with given trip_id, longitude,latitude,title,description,source_url,
         position_number,trip.
