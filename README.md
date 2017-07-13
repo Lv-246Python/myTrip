@@ -27,11 +27,6 @@ pyenv install 3.6.1
 ```
 Install Configuration of project
 
-install memcached:
-```bash
-sudo apt-get install memcached
-```
-
 Clone repository:
 ```bash
 git clone https://github.com/Lv-246Python/myTrip.git

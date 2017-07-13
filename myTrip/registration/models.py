@@ -87,7 +87,7 @@ class CustomUser(AbstractBaseUser):
         Args:
             self: current object.
         Returns:
-            short_name object.
+            str object.
         """
 
         short_name = self.first_name
@@ -99,7 +99,7 @@ class CustomUser(AbstractBaseUser):
         Args:
             self: current object.
         Returns:
-            full_name object.
+            str object.
         """
 
         full_name = '{} {}'.format(self.first_name, self.last_name)
