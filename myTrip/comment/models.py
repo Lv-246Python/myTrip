@@ -12,7 +12,6 @@ DEFAULT = None
 
 class Comment(models.Model):
     """
-<<<<<<< HEAD
     Comment
         :argument id: int - auto generated primary key
         :argument message: str - comment message
@@ -118,14 +117,14 @@ class Comment(models.Model):
         }
 
     @staticmethod
-    def create(message, user_id, trip_id=0, checkpoint_id=0, photo_id=0):
+    def create(message, user_id, trip_id=DEFAULT, checkpoint_id=DEFAULT, photo_id=DEFAULT):
         """
         Creates Comment with message and user
         Args:
             message (str): message of comment
             user_id (int): user id, who created comment.
             trip_id (int): trip id, makes relation to Trip model.
-            checkpoint_id (int): checkpoijnt id, makes relation to Checkpoint model.
+            checkpoint_id (int): checkpoint id, makes relation to Checkpoint model.
             photo_id (int): photo id, makes relation to Photo model.
         Returns:
             Object<Comment>: Object of Comment.
