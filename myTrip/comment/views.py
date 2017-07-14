@@ -10,7 +10,7 @@ from .models import Comment
 class CommentView(View):
     """Comments view handles GET, POST, PUT, DELETE requests."""
 
-    def get(self, request, comment_id):
+    def get(self, request, comment_id, trip_id, checkpoint_id, photo_id):
         """Handles GET request.
         Args:
             comment_id(int): comment id.
@@ -25,6 +25,27 @@ class CommentView(View):
                     status: 404
                 }
         """
+        if trip_id:
+            if checkpoint_id:
+                if photo_id:
+                    comments = Comment.get_by_photo_id(photo_id)
+                    if not comments:
+                        return HttpResponse(status=404)
+                    comments = [comment.to_dict() for comment in comments]
+                    return JsonResponse(comments, status=200, safe=False)
+
+                comments = Comment.get_by_checkpoint_id(checkpoint_id)
+                if not comments:
+                    return HttpResponse(status=404)
+                comments = [comment.to_dict() for comment in comments]
+                return JsonResponse(comments, status=200, safe=False)
+
+            comments = Comment.get_by_trip_id(trip_id)
+            if not comments:
+                return HttpResponse(status=404)
+            comments = [comment.to_dict() for comment in comments]
+            return JsonResponse(comments,status=200, safe=False)
+
         comment = Comment.get_by_id(comment_id)
         if not comment:
             return HttpResponse(status=404)
