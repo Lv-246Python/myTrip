@@ -118,12 +118,15 @@ class Comment(models.Model):
         }
 
     @staticmethod
-    def create(message, user_id, trip_id, checkpoint_id, photo_id):
+    def create(message, user_id, trip_id=0, checkpoint_id=0, photo_id=0):
         """
         Creates Comment with message and user
         Args:
             message (str): message of comment
-            user (int): user id, who created comment.
+            user_id (int): user id, who created comment.
+            trip_id (int): trip id, makes relation to Trip model.
+            checkpoint_id (int): checkpoijnt id, makes relation to Checkpoint model.
+            photo_id (int): photo id, makes relation to Photo model.
         Returns:
             Object<Comment>: Object of Comment.
         """
@@ -131,12 +134,15 @@ class Comment(models.Model):
         comment.message = message
         comment.user = CustomUser.get_by_id(user_id)
         comment.save()
-        trip = Trip.get_by_id(trip_id)
-        comment.trip.add(trip)
-        checkpoint = Checkpoint.get_by_id(checkpoint_id)
-        comment.checkpoint.add(checkpoint)
-        photo = Photo.get_by_id(photo_id)
-        comment.photo.add(photo)
+        if trip_id:
+            trip = Trip.get_by_id(trip_id)
+            comment.trip.add(trip)
+        if checkpoint_id:
+            checkpoint = Checkpoint.get_by_id(checkpoint_id)
+            comment.checkpoint.add(checkpoint)
+        if photo_id:
+            photo = Photo.get_by_id(photo_id)
+            comment.photo.add(photo)
         return comment
 
     def update(self, message=DEFAULT):
