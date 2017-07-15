@@ -1,8 +1,10 @@
-"""This registration app-module generates views for register and auth pages."""
+"""Contains views for registration app."""
 
 from json import loads
-from django.contrib import auth
 from django.http import HttpResponse
+from django.contrib import auth
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from .models import CustomUser
 
@@ -14,7 +16,7 @@ def register(request):
         request: http request.
     Returns:
         If new user gets successfully registered - returns HttpResponse(201).
-        If not - returns HttpResponse(406 or 400).
+        If not - returns HttpResponse(400).
     """
 
     if request.method == 'POST':
@@ -22,10 +24,14 @@ def register(request):
         email = data["email"]
         password = data["password"]
 
-        if CustomUser.get_by_email(email):
-            CustomUser.create(email, password)
-            return HttpResponse(status=201)
-        return HttpResponse(status=406)
+        if CustomUser.get_by_email(email) is None:
+            try:
+                validate_email(email)
+                CustomUser.create(email, password)
+                return HttpResponse("User successfully created.", status=201)
+            except ValidationError:
+                return HttpResponse("This email is not valid format.", status=400)
+        return HttpResponse("This email is already registered.", status=400)
 
     return HttpResponse(status=400)
 
@@ -48,11 +54,11 @@ def login(request):
         user = auth.authenticate(username=email, password=password)
         if user is not None:
             auth.login(request, user)
-            return HttpResponse(status=200)
-
+            return HttpResponse("Login successfull.", status=200)
         return HttpResponse('Email or password invalid', status=403)
 
     return HttpResponse(status=400)
+
 
 def logout(request):
     """
@@ -64,7 +70,12 @@ def logout(request):
         If not - returns HttpResponse(400).
     """
 
-    auth.logout(request)
-    if request.user.is_authenticated:
-        return HttpResponse(status=400)
-    return HttpResponse(status=200)
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            auth.logout(request)
+            if request.user.is_authenticated:
+                return HttpResponse("Can't logout", status=400)
+            return HttpResponse("Logout successfull.", status=200)
+        return HttpResponse("You're not logged in.", status=400)
+
+    return HttpResponse(status=400)

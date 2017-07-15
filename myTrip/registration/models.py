@@ -1,8 +1,6 @@
 """Contains everything we need for Registration and Authentication."""
 
 from django.db import models
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractBaseUser
 
 
@@ -34,7 +32,7 @@ class CustomUser(AbstractBaseUser):
         """
 
         if not email or not password:
-            raise ValueError('The email & password must be set')
+            raise ValueError('The email & password must be set.')
 
         user = CustomUser()
         user.email = email.lower()
@@ -65,23 +63,16 @@ class CustomUser(AbstractBaseUser):
         Args:
             user_email (int): new user's email.
         Returns:
-            CustomUser object when if exists with given email,
-            if no returns True. If given email is not
-            valid returns False.
+            CustomUser object or None when exception works.
         """
 
         try:
-            validate_email(email)
-            try:
-                user = CustomUser.objects.get(email=email)
-                return user
-            except CustomUser.DoesNotExist:
-                return True
+            user = CustomUser.objects.get(email=email)
+            return user
+        except CustomUser.DoesNotExist:
+            return None
 
-        except ValidationError:
-            return False
-
-    def get_shrot_name(self):
+    def get_short_name(self):
         """
         Returns the first name.
         Args:
@@ -113,13 +104,15 @@ class CustomUser(AbstractBaseUser):
             first_name (str): new user's firstName.
             last_name (str): new user's lastName.
         Returns:
-            None.
+            str object.
         """
 
         if first_name:
             self.first_name = first_name
+            return first_name
         if last_name:
             self.last_name = last_name
+            return last_name
 
         self.save()
 
