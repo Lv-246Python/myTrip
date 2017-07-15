@@ -2,6 +2,7 @@
 
 from django.db import models
 from trip.models import Trip
+from datetime import datetime
 from django.db.models import ProtectedError
 from django.core.exceptions import ObjectDoesNotExist, FieldError
 
@@ -44,7 +45,7 @@ class Checkpoint(models.Model):
                     "trip": trip
                 }
         """
-        return {
+        return {    "id": self.id,
                     "longitude": self.longitude,
                     "latitude": self.latitude,
                     "title": self.title,
@@ -71,35 +72,40 @@ class Checkpoint(models.Model):
             Object<Checkpoint>: Object of Checkpoint.
         """
 
-        new_object = Checkpoint()
-        new_object.longitude = longitude
-        new_object.latitude = latitude
-        new_object.title = title
-        new_object.description = description
-        new_object.source_url = source_url
-        new_object.position_number = position_number
-        new_object.trip = Trip.get_by_id(trip)
+        new_checkpoint = Checkpoint()
+        new_checkpoint.longitude = longitude
+        new_checkpoint.latitude = latitude
+        new_checkpoint.title = title
+        new_checkpoint.description = description
+        new_checkpoint.source_url = source_url
+        new_checkpoint.position_number = position_number
+        new_checkpoint.trip = Trip.get_by_id(trip)
+        new_checkpoint.created = datetime.now()
         try:
-            new_object.save()
+            new_checkpoint.save()
+            return new_checkpoint
         except FieldError:
             return None
-        return new_object
 
     @staticmethod
-    def get_by_id(checkpoint_id):
+    def get_by_id(checkpoint_id, trip_id):
         """
         Returns checkpoint by given id.
         Args:
             checkpoint_id (int): id - primary key
+            trip_id (int): foreign key to Trip model
         Returns:
             Object<Checkpoint>: Object of Checkpoint.
         """
 
-        try:
-            checkpoint = Checkpoint.objects.get(id=checkpoint_id)
-            return checkpoint
-        except ObjectDoesNotExist:
-            return None
+        trip = Trip.get_by_id(trip_id)
+        if trip:
+            try:
+                checkpoint = trip.checkpoint_set.get(id=checkpoint_id)
+                return checkpoint
+            except ObjectDoesNotExist:
+                return None
+        return None
 
     def update(self,
                longitude=None,
@@ -138,6 +144,7 @@ class Checkpoint(models.Model):
             self.source_url = source_url
         if trip:
             self.trip = Trip.get_by_id(trip)
+        self.last_modified = datetime.now()
         try:
             self.save()
             return self

@@ -15,7 +15,7 @@ class CheckpointView(View):
         Return json and status 200 with new object if operation was successful
         Return status 404 if checkpoint with such checkpoint_id wasn't found
         """
-        checkpoint_object = Checkpoint.get_by_id(checkpoint_id)
+        checkpoint_object = Checkpoint.get_by_id(checkpoint_id, trip_id)
         if not checkpoint_object:
             return HttpResponse(status=404)
         result = checkpoint_object.to_dict()
@@ -27,7 +27,9 @@ class CheckpointView(View):
         Create new object and returns status  200 if all was successful
         Returns status 409 if creation doesn't occur
         """
+
         data = json.loads(request.body.decode('utf-8'))
+        data["trip"] = trip_id
         result = Checkpoint.create(**data)
         if not result:
             return HttpResponse(status=409)
@@ -43,7 +45,7 @@ class CheckpointView(View):
         """
         if not checkpoint_id:
             return HttpResponse(status=400)
-        checkpoint_object = Checkpoint.get_by_id(checkpoint_id)
+        checkpoint_object = Checkpoint.get_by_id(checkpoint_id, trip_id)
         if not checkpoint_object:
             return HttpResponse(status=404)
         data = json.loads(request.body.decode('utf-8'))
