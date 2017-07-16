@@ -37,7 +37,7 @@ class Trip(models.Model):
         """
         return {
             "id": self.id,
-            "user": self.user.to_dict(),
+            "user": self.user.id,
             "title": self.title,
             "created_at": self.created_at,
             "description": self.description,
@@ -115,7 +115,15 @@ class Trip(models.Model):
         trip.delete()
         return None
 
-    def get_all(self):
+    def get_all():
+        """
+        Returns the last 5 trips by the user
+         Args:
+            none
+        Returns:
+            reversed trips
+        """
         # trips = Trip.objects.filter(id__icontains = 1)[:100]
-        trips = reversed(Trip.objects.all().order_by('-created_at')[:2])
+        # trips = reversed(Trip.objects.filter(id = request.session.user).order_by('-created_at')[:5])
+        trips = reversed(Trip.objects.all().order_by('-created_at')[:5])
         return trips
