@@ -10,11 +10,43 @@ from .models import Like
 class LikeView(View):
     """Likes view handles GET, POST, DELETE requests."""
 
-    def get(self, request, like_id):
+    def get(self, request, like_id, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 404.
         """
+        if trip_id:
+            likes = Like.get_by_comment_id(comment_id)
+            if not likes:
+                return HttpResponse(status=404)
+
+            likes = [like.to_dict() for like in likes]
+            return JsonResponse(likes, status=200, safe=False)
+
+        if checkpoint_id:
+            likes = Like.get_by_photo_id(photo_id)
+            if not likes:
+                return HttpResponse(status=404)
+
+            likes = [like.to_dict() for like in likes]
+            return JsonResponse(likes, status=200, safe=False)
+
+        if photo_id:
+            likes = Like.get_by_checkpoint_id(checkpoint_id)
+            if not likes:
+                return HttpResponse(status=404)
+
+            likes = [like.to_dict() for like in likes]
+            return JsonResponse(likes, status=200, safe=False)
+
+        if comment_id:
+            likes = Like.get_by_trip_id(trip_id)
+            if not likes:
+                return HttpResponse(status=404)
+
+            likes = [like.to_dict() for like in likes]
+            return JsonResponse(likes, status=200, safe=False)
+
         like = Like.get_by_id(like_id)
         if not like:
             return HttpResponse(status=404)
