@@ -64,7 +64,7 @@ class CheckpointView(View):
         """
         if not checkpoint_id:
             return HttpResponse(status=400)
-        result = Checkpoint.delete(checkpoint_id)
+        result = Checkpoint.delete(checkpoint_id, trip_id)
         if not result:
             return HttpResponse(status=500)
         return HttpResponse(status=200)

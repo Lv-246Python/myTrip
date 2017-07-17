@@ -1,10 +1,10 @@
 """This module contains comment model class and basic functions"""
 
 from django.db import models
-from trip.models import Trip
 from datetime import datetime
-from django.db.models import ProtectedError
 from django.core.exceptions import ObjectDoesNotExist, FieldError
+
+from trip.models import Trip
 
 
 class Checkpoint(models.Model):
@@ -27,8 +27,8 @@ class Checkpoint(models.Model):
     position_number = models.IntegerField()
     source_url = models.URLField()
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-    created = models.DateTimeField(null=True)
-    last_modified = models.DateTimeField(null=True)
+    created = models.DateTimeField()
+    last_modified = models.DateTimeField()
 
     def to_dict(self):
         """
@@ -45,15 +45,14 @@ class Checkpoint(models.Model):
                     "trip": trip
                 }
         """
-        return {    "id": self.id,
-                    "longitude": self.longitude,
-                    "latitude": self.latitude,
-                    "title": self.title,
-                    "description": self.description,
-                    "source_url": self.source_url,
-                    "position_number": self.position_number,
-                    "trip": self.trip.id
-                }
+        return {"id": self.id,
+                "longitude": self.longitude,
+                "latitude": self.latitude,
+                "title": self.title,
+                "description": self.description,
+                "source_url": self.source_url,
+                "position_number": self.position_number,
+                "trip": self.trip.id}
     @staticmethod
     def create(longitude, latitude, title, description, source_url, position_number, trip):
         """
@@ -81,6 +80,7 @@ class Checkpoint(models.Model):
         new_checkpoint.position_number = position_number
         new_checkpoint.trip = Trip.get_by_id(trip)
         new_checkpoint.created = datetime.now()
+        new_checkpoint.last_modified = datetime.now()
         try:
             new_checkpoint.save()
             return new_checkpoint
@@ -148,11 +148,11 @@ class Checkpoint(models.Model):
         try:
             self.save()
             return self
-        except ProtectedError:
+        except models.ProtectedError:
             return None
 
     @staticmethod
-    def delete(checkpoint_id):
+    def delete(checkpoint_id,trip_id):
         """
         Deletes checkpoint.
         Args:
@@ -161,9 +161,9 @@ class Checkpoint(models.Model):
             True if deleting was successful
             False if deleting wasn't complete
         """
-        checkpoint = Checkpoint.objects.get(id=checkpoint_id)
+        checkpoint = Checkpoint.get_by_id(checkpoint_id,trip_id)
         try:
             super(Checkpoint, checkpoint).delete()
             return True
-        except ProtectedError:
+        except models.ProtectedError:
             return False
