@@ -21,7 +21,7 @@ class LikeView(View):
                 return HttpResponse(status=404)
 
             likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200, safe=False)
+            return JsonResponse(likes, status=200)
 
         if checkpoint_id:
             likes = Like.get_by_photo_id(photo_id)
@@ -29,7 +29,7 @@ class LikeView(View):
                 return HttpResponse(status=404)
 
             likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200, safe=False)
+            return JsonResponse(likes, status=200)
 
         if photo_id:
             likes = Like.get_by_checkpoint_id(checkpoint_id)
@@ -37,7 +37,7 @@ class LikeView(View):
                 return HttpResponse(status=404)
 
             likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200, safe=False)
+            return JsonResponse(likes, status=200)
 
         if comment_id:
             likes = Like.get_by_trip_id(trip_id)
@@ -45,7 +45,7 @@ class LikeView(View):
                 return HttpResponse(status=404)
 
             likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200, safe=False)
+            return JsonResponse(likes, status=200)
 
         like = Like.get_by_id(like_id)
         if not like:
@@ -53,7 +53,7 @@ class LikeView(View):
         like = like.to_dict()
         return JsonResponse(like, status=200)
 
-    def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None,):
+    def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None):
         """Handles POST request, that return JSON response with HTTP status 201."""
         like_data = json.loads(request.body.decode('utf-8'))
         like = Like.create(**like_data)
