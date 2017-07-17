@@ -14,29 +14,37 @@ class CommentView(View):
         """Handles GET request.
         Args:
             comment_id(int): comment id.
-            trip_id(int): trip id
-            checkpoint_id(int): checkpoint id
-            photo_id(int): photo id
+            trip_id(int): trip id,
+            checkpoint_id(int): checkpoint id,
+            photo_id(int): photo id.
         Returns:
             JsonResponse: response: <comment>
             or
             HttpResponse: status: 404.
         """
+
+        if trip_id and checkpoint_id and photo_id:
+            comments = Comment.get_by_photo_id(photo_id)
+            if not comments:
+                return HttpResponse(status=404)
+            comments = [comment.to_dict() for comment in comments]
+            return JsonResponse(comments, status=200, safe=False)
+
+        if trip_id and checkpoint_id:
+            comments = Comment.get_by_checkpoint_id(checkpoint_id)
+            if not comments:
+                return HttpResponse(status=404)
+            comments = [comment.to_dict() for comment in comments]
+            return JsonResponse(comments, status=200, safe=False)
+
+        if trip_id and photo_id:
+            comments = Comment.get_by_photo_id(photo_id)
+            if not comments:
+                return HttpResponse(status=404)
+            comments = [comment.to_dict() for comment in comments]
+            return JsonResponse(comments, status=200, safe=False)
+
         if trip_id:
-            if checkpoint_id:
-                if photo_id:
-                    comments = Comment.get_by_photo_id(photo_id)
-                    if not comments:
-                        return HttpResponse(status=404)
-                    comments = [comment.to_dict() for comment in comments]
-                    return JsonResponse(comments, status=200, safe=False)
-
-                comments = Comment.get_by_checkpoint_id(checkpoint_id)
-                if not comments:
-                    return HttpResponse(status=404)
-                comments = [comment.to_dict() for comment in comments]
-                return JsonResponse(comments, status=200, safe=False)
-
             comments = Comment.get_by_trip_id(trip_id)
             if not comments:
                 return HttpResponse(status=404)
@@ -47,6 +55,22 @@ class CommentView(View):
         if not comment:
             return HttpResponse(status=404)
         return JsonResponse(comment.to_dict(), status=200, safe=False)
+
+    def post(self, request):
+        """Handles POST request.
+        Creates new comment from request in database.
+        In response returns created comment or HttpResponse 404 if comment was not created.
+        Returns:
+            JsonResponse: response: <comment>
+            or
+            HttpResponse: status: 404.
+        """
+        comment_data = json.loads(request.body.decode('utf-8'))
+        if not comment_data:
+            return HttpResponse(status=404)
+        comment = Comment.create(**comment_data)
+        data = comment.to_dict()
+        return JsonResponse(data, status=201)
 
     def put(self, request, comment_id):
         """Handles PUT request.
@@ -65,22 +89,6 @@ class CommentView(View):
         update_data = json.loads(request.body.decode('utf-8'))
         comment.update(**update_data)
         return JsonResponse(comment.to_dict(), status=200)
-
-    def post(self, request):
-        """Handles POST request.
-        Creates new comment from request in database.
-        In response returns created comment or HttpResponse 404 if comment was not created.
-        Returns:
-            JsonResponse: response: <comment>
-            or
-            HttpResponse: status: 404.
-        """
-        comment_data = json.loads(request.body.decode('utf-8'))
-        if not comment_data:
-            return HttpResponse(status=404)
-        comment = Comment.create(**comment_data)
-        data = comment.to_dict()
-        return JsonResponse(data, status=201)
 
     def delete(self, request, comment_id):
         """Handles DELETE request.
