@@ -1,8 +1,10 @@
 """This module contains comment model class and basic functions."""
 
-from checkpoint.models import Checkpoint
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+
+from checkpoint.models import Checkpoint
 from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
@@ -16,19 +18,18 @@ class Comment(models.Model):
         :argument id: int - auto generated primary key
         :argument message: str - comment message
         :argument user: int -  foreign key to User model
-        :argument trip: int - foreign key to trip model, many-to-many
-        relation
-        :argument checkpoint: int - foreign key to checkpoint model,
-        many-to-many relation
-        :argument photo: int - foreign key to photo model,
-        many-to-many relation.
+        :argument trip: int - foreign key to trip model, one-to-many relation
+        :argument checkpoint: int - foreign key to checkpoint model, one-to-many relation
+        :argument photo: int - foreign key to photo model, one-to-many relation.
     """
 
     message = models.TextField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
-    trip = models.ManyToManyField(Trip)
-    checkpoint = models.ManyToManyField(Checkpoint)
-    photo = models.ManyToManyField(Photo)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
+    checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
+    created = models.DateTimeField(null=True, editable=False)
+    modified = models.DateTimeField(null=True, editable=False)
 
     @staticmethod
     def get_by_id(comment_id):
@@ -107,13 +108,21 @@ class Comment(models.Model):
                 {
                     'id': id,
                     'message': message,
-                    'user_id': user_id
+                    'user_id': user_id,
+                    'trip': self.trip.id,
+                    'checkpoint': checkpoint.id,
+                    'photo': photo.id,
+                    'created': created
                 }.
         """
         return {
             'id': self.id,
             'message': self.message,
-            'user': self.user.id
+            'user': self.user.id,
+            'trip': self.trip.id,
+            'checkpoint': self.checkpoint.id,
+            'photo': self.photo.id,
+            'created': self.created
         }
 
     @staticmethod
@@ -132,16 +141,14 @@ class Comment(models.Model):
         comment = Comment()
         comment.message = message
         comment.user = CustomUser.get_by_id(user_id)
-        comment.save()
         if trip_id:
-            trip = Trip.get_by_id(trip_id)
-            comment.trip.add(trip)
+            comment.trip = Trip.get_by_id(trip_id)
         if checkpoint_id:
-            checkpoint = Checkpoint.get_by_id(checkpoint_id)
-            comment.checkpoint.add(checkpoint)
+            comment.checkpoint = Checkpoint.get_by_id(checkpoint_id)
         if photo_id:
-            photo = Photo.get_by_id(photo_id)
-            comment.photo.add(photo)
+            comment.photo = Photo.get_by_id(photo_id)
+        comment.created = datetime.now()
+        comment.save()
         return comment
 
     def update(self, message=DEFAULT):
@@ -150,14 +157,18 @@ class Comment(models.Model):
          Args:
             message (str): new message of comment
         Returns:
-            Object<Comment>: Object of Comment or None when data fails.
+            Object<Comment>: Object of Comment.
         """
         if message:
             self.message = message
-        try:
-            self.save()
-        except ValidationError:
-            return None
+        self.save()
 
     def __repr__(self):
-        return "id:{} message:{} user:{}".format(self.id, self.message, self.user)
+        return "id:{}, message:{}, user:{}, trip:{}, " \
+               "checkpoint:{}, photo:{}, created:{}".format(self.id,
+                                                            self.message,
+                                                            self.user,
+                                                            self.trip.id,
+                                                            self.checkpoint.id,
+                                                            self.photo.id,
+                                                            self.created)
