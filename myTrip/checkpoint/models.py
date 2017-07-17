@@ -25,7 +25,7 @@ class Checkpoint(models.Model):
     title = models.CharField(max_length=20)
     description = models.TextField()
     position_number = models.IntegerField()
-    source_url = models.URLField()
+    source_url = models.URLField(blank=True)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
