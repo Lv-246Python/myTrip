@@ -80,6 +80,7 @@ class Trip(models.Model):
             trip object
         """
         data["user"] = CustomUser.get_by_id(data["user"])
+        print(data["user"])
         trip = Trip(**data)
         trip.save()
         return trip
@@ -115,7 +116,7 @@ class Trip(models.Model):
         trip.delete()
         return None
 
-    def get_trips():
+    def get_trips(user_id):
         """
         Returns the last 5 trips by the user
          Args:
@@ -123,5 +124,8 @@ class Trip(models.Model):
         Returns:
             reversed trips
         """
-        trips = reversed(Trip.objects.all().order_by('-created_at')[:5])
+        if not user_id:
+            trips = reversed(Trip.objects.all().order_by('-created_at')[:5])
+            return trips
+        trips = reversed(Trip.objects.filter(user=user_id).order_by('-created_at')[:5])
         return trips
