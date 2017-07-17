@@ -120,13 +120,13 @@ class Comment(models.Model):
             'message': self.message,
             'user': self.user.id,
             'trip': self.trip.id,
-            'checkpoint': self.checkpoint.id,
-            'photo': self.photo.id,
+            'checkpoint': self.checkpoint.id if self.checkpoint else None,
+            'photo': self.photo.id if self.photo else None,
             'created': self.created
         }
 
     @staticmethod
-    def create(message, user_id, trip_id=DEFAULT, checkpoint_id=DEFAULT, photo_id=DEFAULT):
+    def create(message, user_id, trip_id, checkpoint_id, photo_id):
         """
         Creates Comment with message and user
         Args:
@@ -143,10 +143,13 @@ class Comment(models.Model):
         comment.user = CustomUser.get_by_id(user_id)
         if trip_id:
             comment.trip = Trip.get_by_id(trip_id)
-        if checkpoint_id:
-            comment.checkpoint = Checkpoint.get_by_id(checkpoint_id)
-        if photo_id:
-            comment.photo = Photo.get_by_id(photo_id)
+            if checkpoint_id:
+                comment.checkpoint = Checkpoint.get_by_id(checkpoint_id)
+            if checkpoint_id and photo_id:
+                comment.checkpoint = Checkpoint.get_by_id(checkpoint_id)
+                comment.photo = Photo.get_by_id(photo_id)
+            if photo_id:
+                comment.photo = Photo.get_by_id(photo_id)
         comment.created = datetime.now()
         comment.save()
         return comment
