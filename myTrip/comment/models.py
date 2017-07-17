@@ -119,7 +119,7 @@ class Comment(models.Model):
             'id': self.id,
             'message': self.message,
             'user': self.user.id,
-            'trip': self.trip.id,
+            'trip': self.trip.id if self.trip else None,
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
             'created': self.created
@@ -141,15 +141,9 @@ class Comment(models.Model):
         comment = Comment()
         comment.message = message
         comment.user = CustomUser.get_by_id(user_id)
-        if trip_id:
-            comment.trip = Trip.get_by_id(trip_id)
-            if checkpoint_id:
-                comment.checkpoint = Checkpoint.get_by_id(checkpoint_id)
-            if checkpoint_id and photo_id:
-                comment.checkpoint = Checkpoint.get_by_id(checkpoint_id)
-                comment.photo = Photo.get_by_id(photo_id)
-            if photo_id:
-                comment.photo = Photo.get_by_id(photo_id)
+        comment.trip = Trip.get_by_id(trip_id)
+        comment.checkpoint = Checkpoint.get_by_id(checkpoint_id)
+        comment.photo = Photo.get_by_id(photo_id)
         comment.created = datetime.now()
         comment.save()
         return comment
