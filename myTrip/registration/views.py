@@ -19,22 +19,19 @@ def register(request):
         If not - returns HttpResponse(400).
     """
 
-    if request.method == 'POST':
-        data = loads(request.body.decode('utf-8'))
-        email = data["email"]
-        password = data["password"]
 
-        if CustomUser.get_by_email(email) is None:
-            try:
-                validate_email(email)
-                CustomUser.create(email, password)
-                return HttpResponse("User successfully created.", status=201)
-            except ValidationError:
-                return HttpResponse("This email is not valid format.", status=400)
-        return HttpResponse("This email is already registered.", status=400)
+    data = loads(request.body.decode('utf-8'))
+    email = data["email"]
+    password = data["password"]
 
-    return HttpResponse(status=400)
-
+    if not CustomUser.get_by_email(email):
+        try:
+            validate_email(email)
+            CustomUser.create(email, password)
+            return HttpResponse("User successfully created.", status=201)
+        except ValidationError:
+            return HttpResponse("This email is not valid format.", status=400)
+    return HttpResponse("This email is already registered.", status=400)
 
 def login(request):
     """
@@ -57,8 +54,7 @@ def login(request):
             return HttpResponse("Login successfull.", status=200)
         return HttpResponse('Email or password invalid', status=403)
 
-    return HttpResponse(status=400)
-
+    return HttpResponse("Bad request.", status=400)
 
 def logout(request):
     """
@@ -78,4 +74,4 @@ def logout(request):
             return HttpResponse("Logout successfull.", status=200)
         return HttpResponse("You're not logged in.", status=400)
 
-    return HttpResponse(status=400)
+    return HttpResponse("Bad request.", status=400)
