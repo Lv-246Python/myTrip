@@ -1,5 +1,6 @@
 """Contains everything we need for Registration and Authentication."""
 
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
@@ -17,6 +18,8 @@ class CustomUser(AbstractBaseUser):
     last_name = models.CharField(max_length=254, blank=True)
     email = models.EmailField(unique=True, blank=False)
     password = models.CharField(max_length=254, blank=False)
+    created = models.DateTimeField(default=None)
+    last_modified = models.DateTimeField(default=None)
 
     USERNAME_FIELD = 'email'
 
@@ -37,6 +40,8 @@ class CustomUser(AbstractBaseUser):
         user = CustomUser()
         user.email = email.lower()
         user.set_password(password)
+        user.created = datetime.now()
+        user.last_modified = datetime.now()
         user.save()
         return user
 
@@ -120,6 +125,7 @@ class CustomUser(AbstractBaseUser):
             self.last_name = last_name
             return self.get_full_name()
 
+        self.last_modified = datetime.now()
         self.save()
 
     def to_dict(self):
