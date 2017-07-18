@@ -26,12 +26,13 @@ class Like(models.Model):
         """
         Get Like with given like id.
         Args:
-        like_id (int): like id.
+            like_id (int): like id.
         Returns:
-        QuerySet<Like>: QuerySet of Like.
+            Object<Like>: Like Object,
+            or None when exception works.
         """
         try:
-            return Like.objects.get(id=like_id)  # may be changed to method filter
+            return Like.objects.get(id=like_id)
         except ObjectDoesNotExist:
             return None
 
@@ -40,12 +41,13 @@ class Like(models.Model):
         """
         Get Like with given trip id.
         Args:
-        trip_id (int): trip id.
+            trip_id (int): trip id.
         Returns:
-        QuerySet<Like>: QuerySet of Like.
+            QuerySet<Like>: QuerySet of Like,
+            or None when exception works.
         """
         try:
-            return Like.objects.get(trip=trip_id)  # may be changed to method filter
+            return Like.objects.filter(trip=trip_id)
         except ObjectDoesNotExist:
             return None
 
@@ -54,12 +56,13 @@ class Like(models.Model):
         """
         Get Like with given checkpoint id.
         Args:
-        checkpoint_id (int): checkpoint id.
+            checkpoint_id (int): checkpoint id.
         Returns:
-        QuerySet<Like>: QuerySet of Like.
+            QuerySet<Like>: QuerySet of Like,
+            or None when exception works.
         """
         try:
-            return Like.objects.get(id=checkpoint_id)  # may be changed to method filter
+            return Like.objects.filter(id=checkpoint_id)
         except ObjectDoesNotExist:
             return None
 
@@ -68,12 +71,13 @@ class Like(models.Model):
         """
         Get Like with given photo id.
         Args:
-        photo_id (int): photo id.
+            photo_id (int): photo id.
         Returns:
-        QuerySet<Like>: QuerySet of Like.
+            QuerySet<Like>: QuerySet of Like,
+            or None when exception works.
         """
         try:
-            return Like.objects.get(id=photo_id)  # may be changed to method filter
+            return Like.objects.filter(id=photo_id)
         except ObjectDoesNotExist:
             return None
 
@@ -82,12 +86,13 @@ class Like(models.Model):
         """
         Get Like with given comment id.
         Args:
-        comment_id (int): comment id.
+            comment_id (int): comment id.
         Returns:
-        QuerySet<Like>: QuerySet of Like.
+            QuerySet<Like>: QuerySet of Like,
+            or None when exception works.
         """
         try:
-            return Like.objects.get(id=comment_id)  # may be changed to method filter
+            return Like.objects.filter(id=comment_id)
         except ObjectDoesNotExist:
             return None
 

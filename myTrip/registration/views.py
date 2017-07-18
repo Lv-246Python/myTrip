@@ -1,8 +1,11 @@
-"""This registration app-module generates views for register and auth pages."""
+"""Contains views for registration app."""
 
 from json import loads
-from django.contrib import auth as authentication
+
 from django.http import HttpResponse
+from django.contrib import auth
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from .models import CustomUser
 
@@ -14,21 +17,22 @@ def register(request):
         request: http request.
     Returns:
         If new user gets successfully registered - returns HttpResponse(201).
-        If not - returns HttpResponse(406 or 400).
+        If not - returns HttpResponse(400).
     """
 
-    if request.method == 'POST':
-        data = loads(request.body.decode('utf-8'))
-        email = data["email"]
-        password = data["password"]
 
-        if CustomUser.get_by_email(email):
+    data = loads(request.body.decode('utf-8'))
+    email = data["email"]
+    password = data["password"]
+
+    if not CustomUser.get_by_email(email):
+        try:
+            validate_email(email)
             CustomUser.create(email, password)
-            return HttpResponse(status=201)
-        else:
-            return HttpResponse(status=406)
-
-    return HttpResponse(status=400)
+            return HttpResponse("User successfully created.", status=201)
+        except ValidationError:
+            return HttpResponse("This email is not valid format.", status=400)
+    return HttpResponse("This email is already registered.", status=400)
 
 def login(request):
     """
@@ -36,7 +40,7 @@ def login(request):
     Args:
         request: http request.
     Returns:
-        If new user gets successfully logged in - returns HttpResponse(200).
+        If CustomUser gets successfully logged in - returns HttpResponse(200).
         If not - returns HttpResponse(400).
     """
 
@@ -45,11 +49,28 @@ def login(request):
         email = data["email"].lower()
         password = data["password"]
 
-        user = authentication.authenticate(username=email, password=password)
-        if user is not None:
-            authentication.login(request, user)
-            return HttpResponse(status=200)
-
+        user = auth.authenticate(username=email, password=password)
+        if user:
+            auth.login(request, user)
+            return HttpResponse("Login successfull.", status=200)
         return HttpResponse('Email or password invalid', status=403)
 
-    return HttpResponse(status=400)
+    return HttpResponse("Bad request.", status=400)
+
+def logout(request):
+    """
+    Logout method for auth.
+    Args:
+        request: http request.
+    Returns:
+        If CustomUser gets successfully logged out - returns HttpResponse(200).
+        If not - returns HttpResponse(400).
+    """
+
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            auth.logout(request)
+            return HttpResponse("Logout successfull.", status=200)
+        return HttpResponse("You're not logged in.", status=400)
+
+    return HttpResponse("Bad request.", status=400)

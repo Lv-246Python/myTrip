@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
 ]
 
+# Authentication
+
 AUTH_USER_MODEL = 'registration.CustomUser'
 
 AUTHENTICATION_BACKENDS = ('registration.backends.CustomUserAuth', )
@@ -47,6 +49,7 @@ AUTHENTICATION_BACKENDS = ('registration.backends.CustomUserAuth', )
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -61,7 +64,7 @@ WSGI_APPLICATION = 'mytrip.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 

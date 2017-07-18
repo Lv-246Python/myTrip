@@ -35,23 +35,19 @@ class Photo(models.Model):
         except ObjectDoesNotExist:
             return None
 
-
-
     @staticmethod
     def get_by_trip_id(trip_id):
         """
         Get photo with given trip id
         Args:
-            trip_ud (int): trip id.
+
+            trip_id (int): trip id.
         Returns:
             QuerySet<Photo>: QuerySet of Photo.
         """
 
         photos = Photo.objects.filter(trip_id=trip_id)
         return photos
-
-
-
 
     @staticmethod
     def create(src, user_id, trip_id=None, checkpoint_id=None, description=None):

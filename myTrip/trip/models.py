@@ -30,21 +30,26 @@ class Trip(models.Model):
                 'user_id': user id,
                 'title': title,
                 'created_at': date,
-                'description': decription,
+                'description': description,
                 'status': status
                 }
         """
         return {
-            "id":self.id,
-            "user_id":self.user_id,
+            "id": self.id,
+            "user_id": self.user_id,
             "title": self.title,
             "created_at": self.created_at,
             "description": self.description,
             "status": self.status}
 
     def __repr__(self):
-        return "id:{} user_id:{} title:{} created_at:{} description:{} status:{}".format(
-        self.id, self.user_id, self.title, self.created_at, self.description, self.status)
+        return "id:{} user_id:{} title:{} created_at:{}" \
+               " description:{} status:{}".format(self.id,
+                                                  self.user_id,
+                                                  self.title,
+                                                  self.created_at,
+                                                  self.description,
+                                                  self.status)
 
     @staticmethod
     def get_by_id(trip_id):
@@ -77,6 +82,7 @@ class Trip(models.Model):
         trip.save()
         return trip
 
+    @staticmethod
     def edit(data, trip_id):
         """
         Updates Trip with new title,description and status
@@ -94,6 +100,7 @@ class Trip(models.Model):
         trip.save()
         return trip
 
+    @staticmethod
     def delete_by_id(trip_id):
         """
         Deletes Trip by id
