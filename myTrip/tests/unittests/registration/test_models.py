@@ -1,6 +1,7 @@
 """Contains model tests for registration app."""
 
 from datetime import datetime
+
 from django.test import TestCase
 
 from registration.models import CustomUser

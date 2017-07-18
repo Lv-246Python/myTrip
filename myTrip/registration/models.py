@@ -1,6 +1,7 @@
 """Contains everything we need for Registration and Authentication."""
 
 from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 

@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from json import dumps
+
 from django.test import TestCase
 from django.urls import reverse
 
@@ -56,7 +57,7 @@ class RegistrationViewsTests(TestCase):
 
     def test_login_wrong_password(self):
         """
-        Test 'login' view view with wrong password.
+        Test 'login' view with wrong password.
         """
 
         request = self.client.post(reverse('login_view'),

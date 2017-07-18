@@ -1,6 +1,7 @@
 """Contains views for registration app."""
 
 from json import loads
+
 from django.http import HttpResponse
 from django.contrib import auth
 from django.core.exceptions import ValidationError
@@ -49,7 +50,7 @@ def login(request):
         password = data["password"]
 
         user = auth.authenticate(username=email, password=password)
-        if user is not None:
+        if user:
             auth.login(request, user)
             return HttpResponse("Login successfull.", status=200)
         return HttpResponse('Email or password invalid', status=403)
@@ -69,8 +70,6 @@ def logout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             auth.logout(request)
-            if request.user.is_authenticated:
-                return HttpResponse("Can't logout", status=400)
             return HttpResponse("Logout successfull.", status=200)
         return HttpResponse("You're not logged in.", status=400)
 
