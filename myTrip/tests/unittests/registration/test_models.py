@@ -1,7 +1,5 @@
 """Contains model tests for registration app."""
 
-from datetime import datetime
-
 from django.test import TestCase
 
 from registration.models import CustomUser
@@ -17,13 +15,10 @@ class CustomUserModelTests(TestCase):
         Create CustomUser record in database.
         """
 
-        date = datetime.now()
         self.user = CustomUser.objects.create(id=3,
                                               first_name='Roman',
                                               last_name='Hrytskiv',
-                                              email='test@gmail.com',
-                                              created=date,
-                                              last_modified=date)
+                                              email='test@gmail.com')
         self.user.set_password('password')
         self.user.save()
 

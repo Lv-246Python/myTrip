@@ -1,6 +1,5 @@
 """Contains view tests for registration app."""
 
-from datetime import datetime
 from json import dumps
 
 from django.test import TestCase
@@ -19,11 +18,8 @@ class RegistrationViewsTests(TestCase):
         Create CustomUser record in database.
         """
 
-        date = datetime.now()
         self.user = CustomUser.objects.create(id=5,
-                                              email='test@gmail.com',
-                                              created = date,
-                                              last_modified = date)
+                                              email='test@gmail.com')
         self.user.set_password('password')
         self.user.save()
 

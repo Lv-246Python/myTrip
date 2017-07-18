@@ -8,19 +8,19 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class CustomUser(AbstractBaseUser):
     """
-     User model.
-     :argument id: int - auto generated primary key
-     :argument first_name: str - new user's firstName
-     :argument last_name: str - new user's lastName
-     :argument email: str - new user's emailAdress
-     """
+    User model.
+    :argument id: int - auto generated primary key
+    :argument first_name: str - new user's firstName
+    :argument last_name: str - new user's lastName
+    :argument email: str - new user's emailAdress
+    """
 
     first_name = models.CharField(max_length=254, blank=True)
     last_name = models.CharField(max_length=254, blank=True)
     email = models.EmailField(unique=True, blank=False)
     password = models.CharField(max_length=254, blank=False)
-    created = models.DateTimeField(default=None)
-    last_modified = models.DateTimeField(default=None)
+    created_at = models.DateTimeField(default=datetime.now())
+    modified_at = models.DateTimeField(default=datetime.now())
 
     USERNAME_FIELD = 'email'
 
@@ -41,8 +41,8 @@ class CustomUser(AbstractBaseUser):
         user = CustomUser()
         user.email = email.lower()
         user.set_password(password)
-        user.created = datetime.now()
-        user.last_modified = datetime.now()
+        user.created_at = datetime.now()
+        user.modified_at = datetime.now()
         user.save()
         return user
 
@@ -126,7 +126,7 @@ class CustomUser(AbstractBaseUser):
             self.last_name = last_name
             return self.get_full_name()
 
-        self.last_modified = datetime.now()
+        self.modified_at = datetime.now()
         self.save()
 
     def to_dict(self):
