@@ -118,7 +118,6 @@ class Photo(models.Model):
         if description and user_id:
             self.description = description
             self.updated_at = datetime.now()
-            print(datetime.now())
         self.save()
 
     def to_dict(self):
