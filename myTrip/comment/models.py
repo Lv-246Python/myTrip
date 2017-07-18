@@ -101,7 +101,7 @@ class Comment(models.Model):
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
             'created_at': self.created_at,
-            'modified_t': self.modified_at
+            'modified_at': self.modified_at
         }
 
     @staticmethod
@@ -144,7 +144,7 @@ class Comment(models.Model):
 
     def __repr__(self):
         return "id:{}, message:{}, user:{}, trip:{}, " \
-               "checkpoint:{}, photo:{}, created:{}".format(self.id,
+               "checkpoint:{}, photo:{}, created_at:{}, updated_at:{}".format(self.id,
                                                             self.message,
                                                             self.user,
                                                             self.trip.id,

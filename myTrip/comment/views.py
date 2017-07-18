@@ -4,11 +4,11 @@ import json
 from django.http import JsonResponse, HttpResponse
 from django.views.generic.base import View
 
-from .models import Comment
-from registration.models import CustomUser
-from trip.models import Trip
 from checkpoint.models import Checkpoint
 from photo.models import Photo
+from registration.models import CustomUser
+from trip.models import Trip
+from .models import Comment
 
 
 class CommentView(View):
@@ -16,8 +16,10 @@ class CommentView(View):
 
     def get(self, request, comment_id=None, trip_id=None, checkpoint_id=None, photo_id=None):
         """Handles GET request.
+        Takes as request id's of: trip, checkpoint, photo or comment. Calls necessary method to get QuerySet of comments
+        from foreign key id's(trip,checkpoint,photo) or gets one specific comment from comment id and returns it.
         Args:
-            comment_id(int): comment id.
+            comment_id(int): comment id,
             trip_id(int): trip id,
             checkpoint_id(int): checkpoint id,
             photo_id(int): photo id.

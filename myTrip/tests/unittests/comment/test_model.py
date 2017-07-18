@@ -15,7 +15,6 @@ class TestPlugin(TestCase):
 
     def setUp(self):
         CustomUser.objects.create(
-            id=1,
             first_name='test',
             last_name='test',
             email='test.test@gmail.com',
@@ -23,71 +22,64 @@ class TestPlugin(TestCase):
         )
 
         Trip.objects.create(
-            id=10,
-            user_id=CustomUser.objects.get(id=1),
+            user_id=1,
             title='title1',
             description='description1',
-            created_at=datetime.now(),
+            created_at=datetime(2017, 7, 18, 15, 19, 24),
             status=0
         )
 
         Trip.objects.create(
-            id=11,
-            user_id=CustomUser.objects.get(id=1),
+            user_id=1,
             title='title2',
             description='description2',
-            created_at=datetime.now(),
+            created_at=datetime(2017, 7, 18, 15, 19, 24),
             status=0
         )
 
         Checkpoint.objects.create(
-            id=20,
             longitude=20.20,
             latitude=20.20,
             title='title1',
             description='description1',
             position_number=1,
             source_url='url1',
-            trip=Trip.objects.get(id=10)
+            trip=10
         )
 
         Checkpoint.objects.create(
-            id=21,
             longitude=21.21,
             latitude=21.21,
             title='title2',
             description='description2',
             position_number=2,
             source_url='url2',
-            trip=Trip.objects.get(id=11)
+            trip=11
         )
 
         Photo.objects.create(
-            id=30,
             src='src1',
-            user=CustomUser.objects.get(id=1),
-            trip=Trip.objects.get(id=10),
-            checkpoint=Checkpoint.objects.get(id=20),
+            user_id=1,
+            trip_id=10,
+            checkpoint_id=20,
             description='description1'
         )
 
         Photo.objects.create(
-            id=31,
             src='src2',
-            user=CustomUser.objects.get(id=1),
-            trip=Trip.objects.get(id=11),
-            checkpoint=Checkpoint.objects.get(id=21),
+            user_id=1,
+            trip_id=11,
+            checkpoint_id=21,
             description='description2'
         )
 
         Comment.objects.create(
-            id=1,
-            name='comment test',
+            message='comment test',
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=10),
             checkpoint=Checkpoint.objects.get(id=20),
             photo=Photo.objects.get(id=30),
-            created=datetime(2017, 7, 17, 21, 00)
+            created_at=datetime(2017, 7, 18, 15, 19, 24)
         )
 
     def test_get_by_id(self):
@@ -98,27 +90,59 @@ class TestPlugin(TestCase):
 
         self.assertEqual(result, expected)
 
-    def test_get_by_trip_id(self):
-        """Ensure that get by trip id method returns all comments with corrected trip id"""
+    def test_filter_with_trip_id(self):
+        """Ensure that get by photo id method returns all comments with corrected photo id"""
 
-        result = Comment.get_by_trip_id(10)
+        result = Comment.filter(trip_id=10)
         expected = Comment.objects.filter(trip=10)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
-    def test_get_by_checkpoint_id(self):
-        """Ensure that get by checkpoint id method returns all comments with corrected checkpoint id"""
+    def test_filter_with_checkpoint_id(self):
+        """Ensure that get by photo id method returns all comments with corrected photo id"""
 
-        result = Comment.get_by_checkpoint_id(20)
+        result = Comment.filter(checkpoint_id=20)
         expected = Comment.objects.filter(checkpoint=20)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
-    def test_get_by_photo_id(self):
+    def test_filter_with_photo_id(self):
         """Ensure that get by photo id method returns all comments with corrected photo id"""
 
-        result = Comment.get_by_trip_id(30)
+        result = Comment.filter(photo_id=30)
         expected = Comment.objects.filter(photo=30)
+
+        self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
+
+    def test_filter_with_trip_and_checkpoint_id(self):
+        """Ensure that get by photo id method returns all comments with corrected photo id"""
+
+        result = Comment.filter(trip_id=10, checkpoint_id=20)
+        expected = Comment.objects.filter(trip=10,checkpoint=20)
+
+        self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
+
+    def test_filter_with_trip_and_photo_id(self):
+        """Ensure that get by photo id method returns all comments with corrected photo id"""
+
+        result = Comment.filter(trip_id=10, photo_id=30)
+        expected = Comment.objects.filter(trip=10, photo=20)
+
+        self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
+
+    def test_filter_with_trip_and_checkpoint_and_photo_id(self):
+        """Ensure that get by photo id method returns all comments with corrected photo id"""
+
+        result = Comment.filter(trip_id=10, checkpoint_id=20, photo_id=30)
+        expected = Comment.objects.filter(trip=10,checkpoint=20, photo=30)
+
+        self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
+
+    def test_filter_with_trip_and_checkpoint_and_photo_id_none(self):
+        """Ensure that get by photo id method returns all comments with corrected photo id"""
+
+        result = Comment.filter(trip_id=99, checkpoint_id=99, photo_id=99)
+        expected = Comment.objects.filter(trip=99, checkpoint=99, photo=99)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
@@ -148,7 +172,8 @@ class TestPlugin(TestCase):
             'trip_id': 10,
             'checkpoint_id': 20,
             'photo_id': 30,
-            'created': datetime(2017, 7, 17, 21, 00)
+            'created_at': datetime(2017, 7, 18, 15, 19, 24),
+            'modified_at': None
         }
 
         self.assertDictEqual(result, expected)
@@ -163,11 +188,10 @@ class TestPlugin(TestCase):
 
         data = {
             'message': 'test message',
-            'user': user.id,
-            'trip': trip.id,
-            'checkpoint': checkpoint.id,
-            'photo': photo.id,
-            'created': datetime(2017, 7, 17, 21, 00)
+            'user': user,
+            'trip': trip,
+            'checkpoint': checkpoint,
+            'photo': photo
         }
 
         result = Comment.create(**data)
@@ -193,13 +217,15 @@ class TestPlugin(TestCase):
 
         comment = Comment.objects.get(id=1)
         result = repr(comment)
-        expected = 'Comment id: {}, message: {}, user: {}, trip: {}, checkpoint{},' \
-                   'photo{}, created{}'.format(comment.id,
-                                               comment.message,
-                                               comment.user.id,
-                                               comment.trip.id,
-                                               comment.checkpoint.id,
-                                               comment.photo.id,
-                                               comment.created)
+        expected = "id:{}, message:{}, user:{}, trip:{}, " \
+               "checkpoint:{}, photo:{}, created_at:{}, updated_at:{}".format(
+                                                                            comment.id,
+                                                                            comment.message,
+                                                                            comment.user,
+                                                                            comment.trip.id,
+                                                                            comment.checkpoint.id,
+                                                                            comment.photo.id,
+                                                                            comment.created_at,
+                                                                            comment.modified_at)
 
         self.assertEqual(result, expected)
