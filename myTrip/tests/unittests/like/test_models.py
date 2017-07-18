@@ -1,4 +1,4 @@
-"""This module contains Unit Tests for Contact app models."""
+"""This module contains Unit Tests for Like app models."""
 
 from datetime import datetime
 from django.test import TestCase
@@ -12,7 +12,7 @@ from trip.models import Trip
 
 
 class LikeTest(TestCase):
-    """Tests for contacts."""
+    """Tests for Like."""
 
     def setUp(self):
         CustomUser.objects.create(
