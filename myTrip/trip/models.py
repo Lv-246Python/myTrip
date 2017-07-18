@@ -116,7 +116,7 @@ class Trip(models.Model):
         trip.delete()
         return None
 
-    def get_trips(user_id):
+    def get_trips(user_id,page=None,step=None):
         """
         Returns the last 5 trips by the user
          Args:
