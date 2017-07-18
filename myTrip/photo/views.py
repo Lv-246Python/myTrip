@@ -24,7 +24,6 @@ class PhotoView(View):
             data = [photo.to_dict() for photo in photos]
             return JsonResponse(data, status=200, safe=False)
         photo = Photo.get_by_id(photo_id)
-        print(datetime.now())
         if not photo:
             return HttpResponse(status=404)
         data = photo.to_dict()
