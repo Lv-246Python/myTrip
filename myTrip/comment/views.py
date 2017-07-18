@@ -1,4 +1,5 @@
 """This module contains Class Based View for comment application."""
+
 import json
 
 from django.http import JsonResponse, HttpResponse
@@ -16,8 +17,12 @@ class CommentView(View):
 
     def get(self, request, comment_id=None, trip_id=None, checkpoint_id=None, photo_id=None):
         """Handles GET request.
-        Takes as request id's of: trip, checkpoint, photo or comment. Calls necessary method to get QuerySet of comments
-        from foreign key id's(trip,checkpoint,photo) or gets one specific comment from comment id and returns it.
+        Takes as request id's of: trip, checkpoint, photo or comment. Calls necessary method to get
+        QuerySet of comments from foreign key id's(trip,checkpoint,photo) or gets one specific
+        comment from comment id and returns it.
+        Checks if QuerySet or Comment object exists.
+        Returns serialized QuerySet or Comment object to JSON with status 200,
+        or returns status 404, when else statement works.
         Args:
             comment_id(int): comment id,
             trip_id(int): trip id,
@@ -88,8 +93,8 @@ class CommentView(View):
         if comment.user.id is user_id:
             comment.update(update_data['message'])
             return JsonResponse(comment.to_dict(), status=200)
-        else:
-            return HttpResponse(status=403)
+
+        return HttpResponse(status=403)
 
     def delete(self, request, comment_id):
         """Handles DELETE request.

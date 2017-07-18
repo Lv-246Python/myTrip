@@ -145,10 +145,10 @@ class Comment(models.Model):
     def __repr__(self):
         return "id:{}, message:{}, user:{}, trip:{}, " \
                "checkpoint:{}, photo:{}, created_at:{}, updated_at:{}".format(self.id,
-                                                            self.message,
-                                                            self.user,
-                                                            self.trip.id,
-                                                            self.checkpoint.id,
-                                                            self.photo.id,
-                                                            self.created_at,
-                                                            self.modified_at)
+                                                                              self.message,
+                                                                              self.user,
+                                                                              self.trip.id,
+                                                                              self.checkpoint.id,
+                                                                              self.photo.id,
+                                                                              self.created_at,
+                                                                              self.modified_at)
