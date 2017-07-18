@@ -121,5 +121,7 @@ class Photo(models.Model):
             "user": self.user.id,
             "trip_id": self.trip_id,
             "checkpoint_id": self.checkpoint_id,
-            "description": self.description
+            "description": self.description,
+            "created": self.created_at,
+            "last updated": self.updated_at
         }
