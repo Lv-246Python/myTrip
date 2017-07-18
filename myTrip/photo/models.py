@@ -40,10 +40,12 @@ class Photo(models.Model):
         """
         Get photo with given trip id
         Args:
+
             trip_id (int): trip id.
         Returns:
             QuerySet<Photo>: QuerySet of Photo.
         """
+
         photos = Photo.objects.filter(trip_id=trip_id)
         return photos
 
