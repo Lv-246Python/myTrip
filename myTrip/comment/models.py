@@ -2,9 +2,10 @@
 
 from datetime import datetime
 
-from checkpoint.models import Checkpoint
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+
+from checkpoint.models import Checkpoint
 from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
@@ -18,7 +19,9 @@ class Comment(models.Model):
         :argument user: int -  foreign key to User model
         :argument trip: int - foreign key to trip model, one-to-many relation
         :argument checkpoint: int - foreign key to checkpoint model, one-to-many relation
-        :argument photo: int - foreign key to photo model, one-to-many relation.
+        :argument photo: int - foreign key to photo model, one-to-many relation
+        :argument created_at: datetime - date and time of created comment
+        :argument modified_at: datetime - date and time of modified comment
     """
 
     message = models.TextField()
@@ -26,8 +29,8 @@ class Comment(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
     checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
-    created = models.DateTimeField(null=True, editable=False)
-    modified = models.DateTimeField(null=True, editable=False)
+    created_at = models.DateTimeField(null=True)
+    modified_at = models.DateTimeField(null=True)
 
     @staticmethod
     def get_by_id(comment_id):
@@ -47,9 +50,11 @@ class Comment(models.Model):
     @staticmethod
     def filter(trip_id=None, checkpoint_id=None, photo_id=None):
         """
-        Get Comments with given trip id
+        Get Comments with given trip id, checkpoint_id, photo_id.
         Args:
             trip_id (int): user id foreign key to Trip.
+            checkpoint_id (int): user id foreign key to Checkpoint.
+            photo_id (int): user id foreign key to Photo.
         Returns:
             QuerySet<Comment>: QuerySet of Comments.
         """
@@ -95,7 +100,8 @@ class Comment(models.Model):
             'trip': self.trip.id if self.trip else None,
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
-            'created': self.created
+            'created_at': self.created_at,
+            'modified_t': self.modified_at
         }
 
     @staticmethod
@@ -118,7 +124,7 @@ class Comment(models.Model):
         comment.trip = trip
         comment.checkpoint = checkpoint
         comment.photo = photo
-        comment.created = datetime.now()
+        comment.created_at = datetime.now()
         comment.save()
 
         return comment
@@ -133,7 +139,7 @@ class Comment(models.Model):
         """
         if message:
             self.message = message
-        self.modified = datetime.now()
+            self.modified_at = datetime.now()
         self.save()
 
     def __repr__(self):
@@ -144,4 +150,5 @@ class Comment(models.Model):
                                                             self.trip.id,
                                                             self.checkpoint.id,
                                                             self.photo.id,
-                                                            self.created)
+                                                            self.created_at,
+                                                            self.modified_at)

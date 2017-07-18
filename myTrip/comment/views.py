@@ -28,7 +28,7 @@ class CommentView(View):
         """
         if not comment_id:
             comments = Comment.filter(trip_id, checkpoint_id, photo_id)
-            if comments is None:
+            if not comments:
                 return HttpResponse(status=404)
             comments = [comment.to_dict() for comment in comments]
             return JsonResponse(comments, status=200, safe=False)
@@ -53,7 +53,6 @@ class CommentView(View):
             return HttpResponse(status=400)
         user = CustomUser.get_by_id(user_id)
         trip = Trip.get_by_id(trip_id)
-        print(trip)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.get_by_id(photo_id)
         data = {
@@ -83,8 +82,12 @@ class CommentView(View):
         if not comment:
             return HttpResponse(status=404)
         update_data = json.loads(request.body.decode('utf-8'))
-        comment.update(**update_data)
-        return JsonResponse(comment.to_dict(), status=200)
+        user_id = update_data['user_id']
+        if comment.user.id is user_id:
+            comment.update(update_data['message'])
+            return JsonResponse(comment.to_dict(), status=200)
+        else:
+            return HttpResponse(status=403)
 
     def delete(self, request, comment_id):
         """Handles DELETE request.
