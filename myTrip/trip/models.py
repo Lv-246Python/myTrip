@@ -68,20 +68,23 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def create(data):
+    def create(user, title, description, status):
         """
         Creates Trip
          Args:
-            user_id (int): fk to user
+            user (int): fk to user
             title (str): title of trip.
             description (str): describtion,
             status (int): trip status
         Returns:
             trip object
         """
-        data["user"] = CustomUser.get_by_id(data["user"])
-        print(data["user"])
-        trip = Trip(**data)
+
+        trip = Trip()
+        trip.user = user
+        trip.title = title
+        trip.description = description
+        trip.status = status
         trip.save()
         return trip
 
@@ -116,7 +119,7 @@ class Trip(models.Model):
         trip.delete()
         return None
 
-    def get_trips(user_id,page=None,step=None):
+    def get_trips(user_id,page=1,step=5):
         """
         Returns the last 5 trips by the user
          Args:
@@ -125,7 +128,7 @@ class Trip(models.Model):
             reversed trips
         """
         if not user_id:
-            trips = reversed(Trip.objects.all().order_by('-created_at')[:5])
+            trips = reversed(Trip.objects.all().order_by('-created_at')[:step])
             return trips
-        trips = reversed(Trip.objects.filter(user=user_id).order_by('-created_at')[:5])
+        trips = reversed(Trip.objects.filter(user=user_id).order_by('-created_at')[:step])
         return trips
