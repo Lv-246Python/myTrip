@@ -1,4 +1,4 @@
-"""Testing module for checkpoint views"""
+"""Testing module for checkpoint views."""
 
 import json
 from trip.models import Trip
@@ -32,26 +32,26 @@ class ViewTest(TestCase):
         new_checkpoint.save()
 
     def test_get_status_success(self):
-        """Test for get operation with passed id ("""
+        """Test for get operation with passed id."""
 
         response = self.client.get('/api/v1/trip/1/checkpoint/1/')
         self.assertEqual(response.status_code, 200)
 
     def test_get_status_not_found(self):
-        """Test for get operation with passed id (wrong)"""
+        """Test for get operation with passed id (wrong)."""
 
         response = self.client.get('/api/v1/trip/3/checkpoint/1000/')
         self.assertEqual(response.status_code, 404)
 
     def test_get_response_length(self):
-        """Test length of response object after get operation with passed id,  """
+        """Test length of response object after get operation with passed id."""
 
         response = self.client.get('/api/v1/trip/1/checkpoint/1/')
         self.assertEqual(len(response.json()), JSON_LENGTH)
 
 
     def test_post_status_success(self):
-        """Test for post opertaion which will create new instance of checkpoint"""
+        """Test for post opertaion which will create new instance of checkpoint."""
 
         response = self.client.post('/api/v1/trip/1/checkpoint/', json.dumps({
             "longitude": 20,
@@ -64,7 +64,7 @@ class ViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_object(self):
-        """Test object in database after post opertaion"""
+        """Test object in database after post opertaion."""
 
         response = self.client.post('/api/v1/trip/1/checkpoint/', json.dumps({
             "longitude": 20,
@@ -78,7 +78,7 @@ class ViewTest(TestCase):
         self.assertIsNotNone(checkpoint_object)
 
     def test_put_status(self):
-        """Test for put opertaion which will modify checkpoint model"""
+        """Test for put opertaion which will modify checkpoint model."""
 
         data = {
             "longitude": 15,
@@ -93,7 +93,7 @@ class ViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
         def test_put_object_modified(self):
-            """Test object's properties after put opertaion"""
+            """Test object's properties after put opertaion."""
 
             data = {
                 "longitude": 15,
@@ -111,13 +111,13 @@ class ViewTest(TestCase):
                 self.assertEqual(data[key], received_data[key])
 
     def test_delete_status(self):
-        """Test for delete opertaion which will delete checkpoint model"""
+        """Test for delete opertaion which will delete checkpoint model."""
 
         response = self.client.delete('/api/v1/trip/1/checkpoint/1/')
         self.assertEqual(response.status_code, 200)
 
         def test_delete_status(self):
-            """Test object in database after delete opertaion"""
+            """Test object in database after delete opertaion."""
 
             response = self.client.delete('/api/v1/trip/1/checkpoint/1/')
             with self.assertRaises(ObjectDoesNotExist):
