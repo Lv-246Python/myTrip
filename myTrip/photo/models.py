@@ -80,24 +80,6 @@ class Photo(models.Model):
         photos = Photo.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
         return photos
 
-    @staticmethod
-    def get_by_user_id(user_id, trip_id, checkpoint_id=None):
-        """
-        Get photo with given user id
-        Args:
-            user_id (int): user id
-            trip_id (int): trip id
-            checkpoint_id (int): checkpoint id
-        Returns:
-            QuerySet<Photos>: QuerySet of Photos.
-        """
-        if trip_id and checkpoint_id:
-            photos = Photo.objects.filter(user_id=user_id, trip_id=trip_id, checkpoint_id=checkpoint_id)
-            if not photos:
-                return False
-            return photos
-        photos = Photo.objects.filter(user_id=user_id, trip_id=trip_id)
-        return photos
 
     @staticmethod
     def create(src, user_id, trip_id=None, checkpoint_id=None, description=None):
