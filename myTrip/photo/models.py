@@ -36,7 +36,7 @@ class Photo(models.Model):
         Args:
             photo_id (int): photo id.
         Returns:
-            Object<Photo>: Object of Photo or None in got exception.
+            Object<Photo>: Object of Photo or None if got exception.
         """
         try:
             return Photo.objects.get(id=photo_id)
@@ -60,9 +60,10 @@ class Photo(models.Model):
         """
         Get photo with given checkpoint id
         Args:
-            checkpoint_id (int): checkpoint id.
+            photo_id (int): photo id
+            user_id (int): user id
         Returns:
-            QuerySet<Photos>: QuerySet of Photos.
+            Object<Photos>: Object of Photo.
         """
         photo = Photo.objects.get(id=photo_id, user_id=user_id)
         return photo
@@ -112,7 +113,9 @@ class Photo(models.Model):
                     'user': user id,
                     'trip_id': trip id,
                     'checkpoit_id': checkpoint id,
-                    'description': description text
+                    'description': description text,
+                    'created': time when created,
+                    'last updated': time when las updated
                 }
         """
         return {
