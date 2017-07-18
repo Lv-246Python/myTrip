@@ -1,6 +1,7 @@
 """Contains url maps."""
 
 from django.conf.urls import url
+
 from . import views
 
 
