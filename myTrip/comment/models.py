@@ -1,15 +1,13 @@
 """This module contains comment model class and basic functions."""
 
 from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import models
 
 from checkpoint.models import Checkpoint
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
 from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
-
-DEFAULT = None
 
 
 class Comment(models.Model):
@@ -41,12 +39,13 @@ class Comment(models.Model):
             Object<Comment>: Object of Comment.
         """
         try:
-            return Comment.objects.get(id=comment_id)
+            comment = Comment.objects.get(id=comment_id)
+            return comment
         except ObjectDoesNotExist:
             return None
 
     @staticmethod
-    def get_by_trip_id(trip_id):
+    def filter(trip_id=None, checkpoint_id=None, photo_id=None):
         """
         Get Comments with given trip id
         Args:
@@ -55,35 +54,8 @@ class Comment(models.Model):
             QuerySet<Comment>: QuerySet of Comments.
         """
         try:
-            return Comment.objects.filter(trip=trip_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_checkpoint_id(checkpoint_id):
-        """
-        Get Comments with given trip id
-        Args:
-            checkpoint_id (int): user id foreign key to Trip.
-        Returns:
-            QuerySet<Comment>: QuerySet of Comments.
-        """
-        try:
-            return Comment.objects.filter(checkpoint=checkpoint_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_photo_id(photo_id):
-        """
-        Get Comments with given photo id
-        Args:
-            photo_id (int): user id foreign key to Photo.
-        Returns:
-            QuerySet<Comment>: QuerySet of Comments.
-        """
-        try:
-            return Comment.objects.filter(photo=photo_id)
+            comments = Comment.objects.filter(trip=trip_id, checkpoint=checkpoint_id, photo=photo_id)
+            return comments
         except ObjectDoesNotExist:
             return None
 
@@ -97,7 +69,8 @@ class Comment(models.Model):
             QuerySet<Comment>: QuerySet of Comments.
         """
         try:
-            return Comment.objects.filter(user=user_id)
+            comment = Comment.objects.filter(user=user_id)
+            return comment
         except ObjectDoesNotExist:
             return None
 
@@ -126,29 +99,31 @@ class Comment(models.Model):
         }
 
     @staticmethod
-    def create(message, user_id, trip_id, checkpoint_id, photo_id):
+    def create(message, user, trip=None, checkpoint=None, photo=None):
         """
         Creates Comment with message and user
         Args:
             message (str): message of comment
-            user_id (int): user id, who created comment.
-            trip_id (int): trip id, makes relation to Trip model.
-            checkpoint_id (int): checkpoint id, makes relation to Checkpoint model.
-            photo_id (int): photo id, makes relation to Photo model.
+            user (int): user id, who created comment.
+            trip (int): trip id, makes relation to Trip model.
+            checkpoint (int): checkpoint id, makes relation to Checkpoint model.
+            photo (int): photo id, makes relation to Photo model.
         Returns:
             Object<Comment>: Object of Comment.
         """
         comment = Comment()
+
         comment.message = message
-        comment.user = CustomUser.get_by_id(user_id)
-        comment.trip = Trip.get_by_id(trip_id)
-        comment.checkpoint = Checkpoint.get_by_id(checkpoint_id)
-        comment.photo = Photo.get_by_id(photo_id)
+        comment.user = user
+        comment.trip = trip
+        comment.checkpoint = checkpoint
+        comment.photo = photo
         comment.created = datetime.now()
         comment.save()
+
         return comment
 
-    def update(self, message=DEFAULT):
+    def update(self, message=None):
         """
         Updates Comment with new message
          Args:
@@ -158,6 +133,7 @@ class Comment(models.Model):
         """
         if message:
             self.message = message
+        self.modified = datetime.now()
         self.save()
 
     def __repr__(self):
