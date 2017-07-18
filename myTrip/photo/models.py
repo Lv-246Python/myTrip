@@ -1,7 +1,8 @@
 """Module contain photo model class and methods."""
 
+from datetime import datetime
+
 from django.db import models
-from django.utils import timezone
 from checkpoint.models import Checkpoint
 from registration.models import CustomUser
 from trip.models import Trip
@@ -29,7 +30,7 @@ class Photo(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True, editable=True)
 
     @staticmethod
-    def get_by_id(photo_id, user_id):
+    def get_by_id(photo_id):
         """
         Get photo with given photo id
         Args:
@@ -38,7 +39,7 @@ class Photo(models.Model):
             Object<Photo>: Object of Photo or None in got exception.
         """
         try:
-            return Photo.objects.get(id=photo_id, user_id=user_id)
+            return Photo.objects.get(id=photo_id)
         except Photo.DoesNotExist:
             return None
 
@@ -55,7 +56,7 @@ class Photo(models.Model):
         return photos
 
     @staticmethod
-    def get_by_checkpoint_id(checkpoint_id):
+    def get_by_photo_and_user_id(photo_id, user_id):
         """
         Get photo with given checkpoint id
         Args:
@@ -63,8 +64,8 @@ class Photo(models.Model):
         Returns:
             QuerySet<Photos>: QuerySet of Photos.
         """
-        photos = Photo.objects.filter(checkpoint_id=checkpoint_id)
-        return photos
+        photo = Photo.objects.get(id=photo_id, user_id=user_id)
+        return photo
 
     @staticmethod
     def get_by_trip_id_and_checkpoint_id(trip_id, checkpoint_id):
@@ -116,7 +117,8 @@ class Photo(models.Model):
         """Updating photo description."""
         if description and user_id:
             self.description = description
-            self.updated_at = timezone.now()
+            self.updated_at = datetime.now()
+            print(datetime.now())
         self.save()
 
     def to_dict(self):
