@@ -12,8 +12,8 @@ class TripView(View):
     def get(self, request, trip_id=None):
         """Handles GET request"""
         if not trip_id:
-            user_id = request.user.id
-            trips = Trip.get_trips(user_id)
+            user_id, page, step = request.user.id, 1, 5
+            trips = Trip.get_trips(user_id,page,step)
             trips = [trip.to_dict() for trip in trips]
             return JsonResponse(trips, status=200, safe=False)
         else:
