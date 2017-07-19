@@ -1,10 +1,12 @@
 """Testing module for checkpoint views"""
 
 import json
-from trip.models import Trip
 from datetime import datetime
-from registration.models import CustomUser
 from django.test import TestCase, Client
+
+from trip.models import Trip
+from registration.models import CustomUser
+
 
 class ViewTest(TestCase):
 
@@ -39,8 +41,6 @@ class ViewTest(TestCase):
                     "title": "test update",
                     "description": "some text",
                     "status":2}
-        # trip = Trip.get_by_id(1)
-        # trip = trip.to_dict()
         response = self.client.put('/api/v1/trip/1/', json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 

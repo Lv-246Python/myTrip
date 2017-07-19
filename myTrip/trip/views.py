@@ -2,6 +2,7 @@
 import json
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
+
 from .models import Trip
 from registration.models import CustomUser
 
