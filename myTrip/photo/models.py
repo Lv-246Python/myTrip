@@ -23,13 +23,13 @@ class Photo(models.Model):
     :argument updated_at: date - time when updated.
     """
 
-    src = models.URLField(max_length=200)
+    src = models.URLField()
     user = models.ForeignKey(CustomUser, null=True)
     trip = models.ForeignKey(Trip, null=True)
     checkpoint = models.ForeignKey(Checkpoint, null=True)
     description = models.TextField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True, editable=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, editable=True)
 
     @staticmethod
     def get_by_id(photo_id):
@@ -55,10 +55,8 @@ class Photo(models.Model):
         Returns:
             QuerySet<Photos>: QuerySet of Photos.
         """
-        try:
-            return Photo.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
-        except ObjectDoesNotExist:
-            return None
+        return Photo.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
+
 
     @staticmethod
     def create(src, user, description, trip=None, checkpoint=None):
@@ -76,7 +74,6 @@ class Photo(models.Model):
         """Updating photo description."""
         if description:
             self.description = description
-            self.updated_at = datetime.now()
         self.save()
 
     def to_dict(self):
@@ -97,10 +94,10 @@ class Photo(models.Model):
         return {
             "id": self.id,
             "src": self.src,
-            "user": self.user.id,
+            "user": self.user.id if self.user else None,
             "trip_id": self.trip.id if self.trip else None,
             "checkpoint_id": self.checkpoint.id if self.checkpoint else None,
             "description": self.description,
-            "created": self.created_at,
-            "last updated": self.updated_at
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
         }

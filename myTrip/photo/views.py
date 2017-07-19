@@ -20,19 +20,19 @@ class PhotoView(View):
         if not photo_id:
             photos = Photo.filter(trip_id, checkpoint_id)
             if not photos:
-                return HttpResponse(status=404)
+                return HttpResponse(status=204)
             data = [photo.to_dict() for photo in photos]
             return JsonResponse(data, status=200, safe=False)
         photo = Photo.get_by_id(photo_id)
         if not photo:
-            return HttpResponse(status=404)
+            return HttpResponse(status=204)
         data = photo.to_dict()
         return JsonResponse(data, status=200, safe=False)
 
-    def post(self, request, trip_id=None, checkpoint_id=None):
+    def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None):
         """POST request hangler.Creating a new photo object and return status 201("created")"""
         post_data = json.loads(request.body.decode('utf-8'))
-        user = CustomUser.get_by_id(post_data["user"])
+        user = CustomUser.get_by_id(request.user.id)
         trip = Trip.get_by_id(trip_id)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.create(trip=trip, checkpoint=checkpoint,
@@ -40,7 +40,7 @@ class PhotoView(View):
         data = photo.to_dict()
         return JsonResponse(data, status=201)
 
-    def put(self, request, trip_id=None, checkpoint_id=None, photo_id=None):  # pylint: disable=unused-argument,no-self-use
+    def put(self, request, photo_id=None):  # pylint: disable=unused-argument,no-self-use
         """PUT request hangler. If photo object found by id, try to update photo."""
         update_data = json.loads(request.body.decode('utf-8'))
         photo = Photo.get_by_id(photo_id)
@@ -50,7 +50,7 @@ class PhotoView(View):
         data = photo.to_dict()
         return JsonResponse(data, status=200)
 
-    def delete(self, request, trip_id=None, checkpoint_id=None, photo_id=None):  # pylint: disable=unused-argument,no-self-use
+    def delete(self, request, photo_id=None):  # pylint: disable=unused-argument,no-self-use
         """DELETE request handler.If photo were found by id, try to delete photo."""
         photo = Photo.get_by_id(photo_id)
         if not photo:
