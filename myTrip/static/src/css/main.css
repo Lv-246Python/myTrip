@@ -1,0 +1,35 @@
+header{
+  margin: 15px;
+}
+
+.logo src{
+  width:64px;
+  height: 64px;
+}
+#logo{
+  margin: 20px;
+  padding: 15px;
+  font-size: 36px;
+}
+
+#login, #register{
+  float:right;
+  padding: 15px;
+  font-size: 24px;
+}
+
+.content{
+  margin: 50px 15px 15px 15px;s
+}
+.content p{
+  text-align: center;
+  font-size: 40px;
+}
+.footer{
+  margin: 20px;
+  text-align: center;
+
+}
+.footer p{
+  font-size: 20px;
+}
