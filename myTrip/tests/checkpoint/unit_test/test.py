@@ -20,7 +20,7 @@ class ViewTest(TestCase):
         Create a model of trip
         """
         cls.client = Client()
-        trip = Trip.objects.create(user_id=3, title="my_title",
+        trip = Trip.objects.create(user=3, title="my_title",
                                        description="some_cool_trip", status=0)
         trip.save()
         checkpoint = Checkpoint.objects.create(
@@ -175,4 +175,3 @@ class ViewTest(TestCase):
 
         response = self.client.delete('/api/v1/trip/1/checkpoint/1/')
         self.assertEqual(response.status_code, 200)
-
