@@ -8,26 +8,24 @@ from .models import LikesCheckpoint, LikesComment, LikesPhoto, LikesTrip
 
 
 class LikesTripView(View):
-    """Likes view handles GET, POST, DELETE requests for LikesTrip model."""
+    """LikesTripView view handles GET, POST, DELETE requests for LikesTrip model."""
 
-    def get(self, request, like_id, trip_id):
+    def get(self, request, like_id, trip_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 404.
         """
-        if trip_id:
+        if not like_id:
             likes = LikesTrip.get_by_trip_id(trip_id)
             if not likes:
                 return HttpResponse(status=404)
-
-            likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200)
+            data = [like.to_dict() for like in likes]
+            return JsonResponse(data, status=200, safe=False)
 
         like = LikesTrip.get_by_id(like_id)
         if not like:
             return HttpResponse(status=404)
-        like = like.to_dict()
-        return JsonResponse(like, status=200)
+        return JsonResponse(like.to_dict(), status=200)
 
     def post(self, request):
         """Handles POST request, that return JSON response with HTTP status 201."""
@@ -48,9 +46,9 @@ class LikesTripView(View):
 
 
 class LikesCheckpointView(View):
-    """Likes view handles GET, POST, DELETE requests for LikesCheckpoint model."""
+    """LikesCheckpointView view handles GET, POST, DELETE requests for LikesCheckpoint model."""
 
-    def get(self, request, like_id, checkpoint_id):
+    def get(self, request, like_id, checkpoint_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 404.
@@ -61,7 +59,7 @@ class LikesCheckpointView(View):
                 return HttpResponse(status=404)
 
             likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200)
+            return JsonResponse(likes, status=200, safe=False)
 
         like = LikesCheckpoint.get_by_id(like_id)
         if not like:
@@ -88,9 +86,9 @@ class LikesCheckpointView(View):
 
 
 class LikesPhotoView(View):
-    """Likes view handles GET, POST, DELETE requests for LikesPhoto model."""
+    """LikesPhotoView view handles GET, POST, DELETE requests for LikesPhoto model."""
 
-    def get(self, request, like_id, photo_id):
+    def get(self, request, like_id, photo_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 404.
@@ -101,7 +99,7 @@ class LikesPhotoView(View):
                 return HttpResponse(status=404)
 
             likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200)
+            return JsonResponse(likes, status=200, safe=False)
 
         like = LikesPhoto.get_by_id(like_id)
         if not like:
@@ -128,9 +126,9 @@ class LikesPhotoView(View):
 
 
 class LikesCommentView(View):
-    """Likes view handles GET, POST, DELETE requests for LikesComment model."""
+    """LikesCommentView view handles GET, POST, DELETE requests for LikesComment model."""
 
-    def get(self, request, like_id, comment_id):
+    def get(self, request, like_id, comment_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 404.
@@ -141,7 +139,7 @@ class LikesCommentView(View):
                 return HttpResponse(status=404)
 
             likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200)
+            return JsonResponse(likes, status=200, safe=False)
 
         like = LikesComment.get_by_id(like_id)
         if not like:
