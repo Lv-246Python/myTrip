@@ -9,7 +9,7 @@ from checkpoint.models import Checkpoint
 from registration.models import CustomUser
 from trip.models import Trip
 from .models import Photo
-from datetime import datetime
+
 
 
 class PhotoView(View):
@@ -27,7 +27,7 @@ class PhotoView(View):
         if not photo:
             return HttpResponse(status=204)
         data = photo.to_dict()
-        return JsonResponse(data, status=200, safe=False)
+        return JsonResponse(data, status=200)
 
     def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None):
         """POST request hangler.Creating a new photo object and return status 201("created")"""
