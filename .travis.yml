@@ -1,0 +1,10 @@
+language: python
+python:
+  - "3.6.1"  
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - cd myTrip/
+  - python manage.py test tests/unittests/registration

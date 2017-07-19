@@ -1,24 +1,26 @@
 """Contains everything we need for Registration and Authentication."""
 
+from datetime import datetime
+
 from django.db import models
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractBaseUser
 
 
 class CustomUser(AbstractBaseUser):
     """
-     User model.
-     :argument id: int - auto generated primary key
-     :argument first_name: str - new user's firstName
-     :argument last_name: str - new user's lastName
-     :argument email: str - new user's emailAdress
-     """
+    User model.
+    :argument id: int - auto generated primary key
+    :argument first_name: str - new user's firstName
+    :argument last_name: str - new user's lastName
+    :argument email: str - new user's emailAdress
+    """
 
     first_name = models.CharField(max_length=254, blank=True)
     last_name = models.CharField(max_length=254, blank=True)
     email = models.EmailField(unique=True, blank=False)
     password = models.CharField(max_length=254, blank=False)
+    created_at = models.DateTimeField(default=datetime.now())
+    modified_at = models.DateTimeField(default=datetime.now())
 
     USERNAME_FIELD = 'email'
 
@@ -34,11 +36,13 @@ class CustomUser(AbstractBaseUser):
         """
 
         if not email or not password:
-            raise ValueError('The email & password must be set')
+            raise ValueError('The email & password must be set.')
 
         user = CustomUser()
         user.email = email.lower()
         user.set_password(password)
+        user.created_at = datetime.now()
+        user.modified_at = datetime.now()
         user.save()
         return user
 
@@ -65,21 +69,26 @@ class CustomUser(AbstractBaseUser):
         Args:
             user_email (int): new user's email.
         Returns:
-            CustomUser object when if exists with given email,
-            if no returns True. If given email is not
-            valid returns False.
+            CustomUser object or None when exception works.
         """
 
         try:
-            validate_email(email)
-            try:
-                user = CustomUser.objects.get(email=email)
-                return user
-            except CustomUser.DoesNotExist:
-                return True
+            user = CustomUser.objects.get(email=email)
+            return user
+        except CustomUser.DoesNotExist:
+            return None
 
-        except ValidationError:
-            return False
+    def get_short_name(self):
+        """
+        Returns the first name.
+        Args:
+            self: current object.
+        Returns:
+            str object.
+        """
+
+        short_name = self.first_name
+        return short_name
 
     def get_full_name(self):
         """
@@ -87,7 +96,7 @@ class CustomUser(AbstractBaseUser):
         Args:
             self: current object.
         Returns:
-            full_name object.
+            str object.
         """
 
         full_name = '{} {}'.format(self.first_name, self.last_name)
@@ -101,14 +110,23 @@ class CustomUser(AbstractBaseUser):
             first_name (str): new user's firstName.
             last_name (str): new user's lastName.
         Returns:
-            None.
+            str object.
         """
 
-        if first_name:
+        if first_name and not last_name:
             self.first_name = first_name
-        if last_name:
-            self.last_name = last_name
+            return first_name
 
+        elif not first_name and last_name:
+            self.last_name = last_name
+            return last_name
+
+        elif first_name and last_name:
+            self.first_name = first_name
+            self.last_name = last_name
+            return self.get_full_name()
+
+        self.modified_at = datetime.now()
         self.save()
 
     def to_dict(self):

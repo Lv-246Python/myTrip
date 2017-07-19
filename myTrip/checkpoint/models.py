@@ -1,8 +1,10 @@
 """This module contains comment model class and basic functions"""
 
 from django.db import models
-from django.db.models import ProtectedError
+from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist, FieldError
+
+from trip.models import Trip
 
 
 class Checkpoint(models.Model):
@@ -15,16 +17,18 @@ class Checkpoint(models.Model):
     :argument description: text - description of checkpoint
     :argument position_number: int - ordinal number of checkpoint
     :argument source_url: url - url of the checkpoint's source
-    :argument trip: int - ToDo foreign key to Trip model
+    :argument trip: Object<Trip>: - foreign key to Trip model
     """
 
     longitude = models.FloatField()
     latitude = models.FloatField()
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=70)
     description = models.TextField()
     position_number = models.IntegerField()
-    source_url = models.URLField()
-    trip = models.IntegerField()
+    source_url = models.URLField(blank=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    create_at = models.DateTimeField()
+    update_at = models.DateTimeField()
 
     def to_dict(self):
         """
@@ -38,12 +42,51 @@ class Checkpoint(models.Model):
                     "description": description,
                     "source_url": source_url,
                     "position_number": position_number,
-                    "trip_id": trip
+                    "trip_id": id of trip object
                 }
         """
+        return {"id": self.id,
+                "longitude": self.longitude,
+                "latitude": self.latitude,
+                "title": self.title,
+                "description": self.description,
+                "source_url": self.source_url,
+                "position_number": self.position_number,
+                "trip_id": self.trip.id}
 
     @staticmethod
-    def create(longitude, latitude, title, description, source_url, position_number, trip):
+    def get_by_id(checkpoint_id):
+        """
+        Returns checkpoint by given checkpoint id.
+        Args:
+            checkpoint_id (int): id - primary key
+            trip_id (int): foreign key to Trip model
+        Returns:
+            Object<Checkpoint>: Object of Checkpoint.
+        """
+        try:
+            checkpoint = Checkpoint.objects.get(id=checkpoint_id)
+        except ObjectDoesNotExist:
+            checkpoint = None
+        return checkpoint
+
+    @staticmethod
+    def get_by_trip_id(trip_id):
+        """
+        Returns checkpoints by given trip id.
+        Args:
+            trip_id (int): foreign key to Trip model
+        Returns:
+            <QuerySet [<Checkpoint: Checkpoint object>, ...>]>: QuerySet of Checkpoints.
+        """
+        try:
+            trip = Trip.objects.get(id=trip_id)
+        except ObjectDoesNotExist:
+            return None
+        checkpoints = trip.checkpoint_set.all()
+        return checkpoints
+
+    def create(longitude, latitude, title, description, source_url, position_number, trip_id):
         """
         Create checkpoint with given trip_id, longitude,latitude,title,description,source_url,
         position_number,trip.
@@ -55,40 +98,26 @@ class Checkpoint(models.Model):
             description (text): description of checkpoint.
             position_number (int):  ordinal number of checkpoint.
             source_url (url):  url of the checkpoint's source.
-            trip (int):  ToDo foreign key to Trip model.
+            trip_id (int):  id of foreign key to Trip model.
         Returns:
-            new checkpoint object
+            Object<Checkpoint>: Object of Checkpoint.
         """
 
+        checkpoint = Checkpoint()
+        checkpoint.longitude = longitude
+        checkpoint.latitude = latitude
+        checkpoint.title = title
+        checkpoint.description = description
+        checkpoint.source_url = source_url
+        checkpoint.position_number = position_number
+        checkpoint.trip = Trip.get_by_id(trip_id)
+        checkpoint.create_at = datetime.now()
+        checkpoint.update_at = datetime.now()
         try:
-            new_object = Checkpoint()
-            new_object.longitude = longitude
-            new_object.latitude = latitude
-            new_object.title = title
-            new_object.description = description
-            new_object.source_url = source_url
-            new_object.position_number = position_number
-            new_object.trip = trip
-            new_object.save()
+            checkpoint.save()
         except FieldError:
-            return None
-        return new_object
-
-    @staticmethod
-    def get_by_id(checkpoint_id):
-        """
-        Returns checkpoint by given id.
-        Args:
-            checkpoint_id (int): id - primary key
-        Returns:
-            checkpoint_object
-        """
-
-        try:
-            checkpoint = Checkpoint.objects.get(id=checkpoint_id)
-            return checkpoint
-        except ObjectDoesNotExist:
-            return None
+            checkpoint = None
+        return checkpoint
 
     def update(self,
                longitude=None,
@@ -97,7 +126,7 @@ class Checkpoint(models.Model):
                description=None,
                source_url=None,
                position_number=None,
-               trip=None):
+               trip_id=None):
         """
         Updates checkpoint with given parameters.
         Args:
@@ -108,9 +137,9 @@ class Checkpoint(models.Model):
             description (text): description of checkpoint.
             position_number (int):  ordinal number of checkpoint.
             source_url (url):  url of the checkpoint's source.
-            trip (int):  ToDo foreign key to Trip model.
+            trip_id (int): id of foreign key to Trip model.
         Returns:
-            Checkpoint object if updating was successful and None if wasn't
+            Object<Checkpoint>: Object of Checkpoint if updating was successful and None if wasn't
         """
 
         if longitude:
@@ -125,16 +154,16 @@ class Checkpoint(models.Model):
             self.position_number = position_number
         if source_url:
             self.source_url = source_url
-        if longitude:
-            self.trip = trip
+        if trip_id:
+            self.trip = Trip.objects.get(id=trip_id)
+        self.last_modified = datetime.now()
         try:
             self.save()
-            return self
-        except ProtectedError:
-            return None
+        except models.ProtectedError:
+            pass
 
     @staticmethod
-    def delete(checkpoint_id):
+    def delete_by_id(checkpoint_id):
         """
         Deletes checkpoint.
         Args:
@@ -143,9 +172,11 @@ class Checkpoint(models.Model):
             True if deleting was successful
             False if deleting wasn't complete
         """
-        checkpoint = Checkpoint.objects.get(id=checkpoint_id)
+
         try:
-            super(Checkpoint, checkpoint).delete()
-            return True
-        except ProtectedError:
-            return False
+            checkpoint = Checkpoint.objects.get(id=checkpoint_id)
+        except ObjectDoesNotExist:
+            return None
+        checkpoint.delete()
+        return True
+      
