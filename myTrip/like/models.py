@@ -1,24 +1,34 @@
-"""This module contains Like model and basic methods."""
+"""This module contains Likes models and basic methods for Trip, Checkpoint, Photo and Comment."""
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+
+from checkpoint.models import Checkpoint
+from comment.models import Comment
+from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
-from checkpoint.models import Checkpoint
-from photo.models import Photo
-from comment.models import Comment
 
 
 class LikesTrip(models.Model):
     """
     LikesTrip
-    :argument id: int - auto generate primary key
-    :argument user: int - foreign key to CustomUser
-    :argument trip: int - foreign key to Trip
+        :argument id: int - auto generate primary key
+        :argument user: int - foreign key to CustomUser
+        :argument trip: int - foreign key to Trip
     """
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+
+    @staticmethod
+    def create(user, trip):
+        """A method creates like by user to trip."""
+        like = LikesTrip()
+        like.user = CustomUser.get_by_id(user)
+        like.trip = Trip.get_by_id(trip)
+        like.save()
+        return like
 
     @staticmethod
     def get_by_id(like_id):
@@ -65,6 +75,16 @@ class LikesTrip(models.Model):
         except ObjectDoesNotExist:
             return None
 
+    @staticmethod
+    def delete_by_id(like_id):
+        """A method delete like by id."""
+        try:
+            like = LikesTrip.objects.get(id=like_id)
+            like.delete()
+            return True
+        except ObjectDoesNotExist:
+            return None
+
     def to_dict(self):
         """
         Convert model object to dictionary.
@@ -82,25 +102,6 @@ class LikesTrip(models.Model):
             'trip_id': self.trip.id
         }
 
-    @staticmethod
-    def create(user, trip):
-        """A method creates like by user to trip."""
-        like = LikesTrip()
-        like.user = CustomUser.get_by_id(user)
-        like.trip = Trip.get_by_id(trip)
-        like.save()
-        return like
-
-    @staticmethod
-    def delete_by_id(like_id):
-        """A method delete like by id."""
-        try:
-            like = LikesTrip.objects.get(id=like_id)
-            like.delete()
-            return True
-        except ObjectDoesNotExist:
-            return None
-
     def __str__(self):
         return "id={} user={} trip={}".format(self.id, self.user, self.trip)
 
@@ -108,13 +109,22 @@ class LikesTrip(models.Model):
 class LikesCheckpoint(models.Model):
     """
     LikesCheckpoint
-    :argument id: int - auto generate primary key
-    :argument user: int - foreign key to CustomUser
-    :argument checkpoint: int - foreign key to Checkpoint
+        :argument id: int - auto generate primary key
+        :argument user: int - foreign key to CustomUser
+        :argument checkpoint: int - foreign key to Checkpoint
     """
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE)
+
+    @staticmethod
+    def create(user, checkpoint):
+        """A method creates like by user to checkpoint."""
+        like = LikesCheckpoint()
+        like.user = CustomUser.get_by_id(user)
+        like.checkpoint = Checkpoint.get_by_id(checkpoint)
+        like.save()
+        return like
 
     @staticmethod
     def get_by_id(like_id):
@@ -161,6 +171,16 @@ class LikesCheckpoint(models.Model):
         except ObjectDoesNotExist:
             return None
 
+    @staticmethod
+    def delete_by_id(like_id):
+        """A method delete like by id."""
+        try:
+            like = LikesCheckpoint.objects.get(id=like_id)
+            like.delete()
+            return True
+        except ObjectDoesNotExist:
+            return None
+
     def to_dict(self):
         """
         Convert model object to dictionary.
@@ -178,25 +198,6 @@ class LikesCheckpoint(models.Model):
             'checkpoint_id': self.checkpoint.id
         }
 
-    @staticmethod
-    def create(user, checkpoint):
-        """A method creates like by user to checkpoint."""
-        like = LikesCheckpoint()
-        like.user = CustomUser.get_by_id(user)
-        like.checkpoint = Checkpoint.get_by_id(checkpoint)
-        like.save()
-        return like
-
-    @staticmethod
-    def delete_by_id(like_id):
-        """A method delete like by id."""
-        try:
-            like = LikesCheckpoint.objects.get(id=like_id)
-            like.delete()
-            return True
-        except ObjectDoesNotExist:
-            return None
-
     def __str__(self):
         return "id={} user={} checkpoint={}".format(self.id, self.user, self.checkpoint)
 
@@ -204,13 +205,22 @@ class LikesCheckpoint(models.Model):
 class LikesPhoto(models.Model):
     """
     LikesPhoto
-    :argument id: int - auto generate primary key
-    :argument user: int - foreign key to CustomUser
-    :argument photo: int - foreign key to Photo
+        :argument id: int - auto generate primary key
+        :argument user: int - foreign key to CustomUser
+        :argument photo: int - foreign key to Photo
     """
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE)
+
+    @staticmethod
+    def create(user, photo):
+        """A method creates like by user to photo."""
+        like = LikesPhoto()
+        like.user = CustomUser.get_by_id(user)
+        like.photo = Photo.get_by_id(photo)
+        like.save()
+        return like
 
     @staticmethod
     def get_by_id(like_id):
@@ -257,6 +267,16 @@ class LikesPhoto(models.Model):
         except ObjectDoesNotExist:
             return None
 
+    @staticmethod
+    def delete_by_id(like_id):
+        """A method delete like by id."""
+        try:
+            like = LikesPhoto.objects.get(id=like_id)
+            like.delete()
+            return True
+        except ObjectDoesNotExist:
+            return None
+
     def to_dict(self):
         """
         Convert model object to dictionary.
@@ -274,25 +294,6 @@ class LikesPhoto(models.Model):
             'photo_id': self.photo.id
         }
 
-    @staticmethod
-    def create(user, photo):
-        """A method creates like by user to photo."""
-        like = LikesPhoto()
-        like.user = CustomUser.get_by_id(user)
-        like.photo = Photo.get_by_id(photo)
-        like.save()
-        return like
-
-    @staticmethod
-    def delete_by_id(like_id):
-        """A method delete like by id."""
-        try:
-            like = LikesPhoto.objects.get(id=like_id)
-            like.delete()
-            return True
-        except ObjectDoesNotExist:
-            return None
-
     def __str__(self):
         return "id={} user={} photo={}".format(self.id, self.user, self.photo)
 
@@ -300,13 +301,22 @@ class LikesPhoto(models.Model):
 class LikesComment(models.Model):
     """
     LikesComment
-    :argument id: int - auto generate primary key
-    :argument user: int - foreign key to CustomUser
-    :argument comment: int - foreign key to Comment
+        :argument id: int - auto generate primary key
+        :argument user: int - foreign key to CustomUser
+        :argument comment: int - foreign key to Comment
     """
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+    @staticmethod
+    def create(user, comment):
+        """A method creates like by user to comment."""
+        like = LikesComment()
+        like.user = CustomUser.get_by_id(user)
+        like.comment = Comment.get_by_id(comment)
+        like.save()
+        return like
 
     @staticmethod
     def get_by_id(like_id):
@@ -353,6 +363,16 @@ class LikesComment(models.Model):
         except ObjectDoesNotExist:
             return None
 
+    @staticmethod
+    def delete_by_id(like_id):
+        """A method delete like by id."""
+        try:
+            like = LikesComment.objects.get(id=like_id)
+            like.delete()
+            return True
+        except ObjectDoesNotExist:
+            return None
+
     def to_dict(self):
         """
         Convert model object to dictionary.
@@ -370,24 +390,5 @@ class LikesComment(models.Model):
             'comment_id': self.comment.id
         }
 
-    @staticmethod
-    def create(user, comment):
-        """A method creates like by user to comment."""
-        like = LikesComment()
-        like.user = CustomUser.get_by_id(user)
-        like.comment = Comment.get_by_id(comment)
-        like.save()
-        return like
-
-    @staticmethod
-    def delete_by_id(like_id):
-        """A method delete like by id."""
-        try:
-            like = LikesComment.objects.get(id=like_id)
-            like.delete()
-            return True
-        except ObjectDoesNotExist:
-            return None
-
     def __str__(self):
-        return "id={} user={} comment={}".format(self.id, self.comment)
+        return "id={} user={} comment={}".format(self.id, self.user, self.comment)
