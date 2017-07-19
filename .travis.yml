@@ -1,9 +1,13 @@
 language: python
 python:
-  - "3.6.1"  
+  - "3.6.1"
 
 install:
   - pip install -r requirements.txt
+cache: pip
+
+services:
+  - postgresql
 
 script:
   - cd myTrip/
