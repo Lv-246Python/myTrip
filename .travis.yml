@@ -4,11 +4,19 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - pip install coveralls
 cache: pip
 
 services:
   - postgresql
+before_script:
+  - psql -c 'create database travis;' -U postgres
 
 script:
   - cd myTrip/
-  - python manage.py test tests/unittests/registration
+  - pylint --rcfile=.pylintrc registration/views.py
+  - pylint --rcfile=.pylintrc registration/models.py
+  - coverage run --source=registration manage.py test tests/unittests/registration
+
+after_success:
+ - coveralls
