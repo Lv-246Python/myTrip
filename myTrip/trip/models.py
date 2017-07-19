@@ -1,8 +1,8 @@
 """This module contains Trip model class and basic functions."""
-from __future__ import unicode_literals
 from datetime import datetime
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+
 from registration.models import CustomUser
 
 class Trip(models.Model):
@@ -28,7 +28,7 @@ class Trip(models.Model):
             dict:
                 {
                 'id': id,
-                'user_id': user,
+                'user': user,
                 'title': title,
                 'created_at': date,
                 'description': description,
@@ -44,7 +44,7 @@ class Trip(models.Model):
             "status": self.status}
 
     def __repr__(self):
-        return "id:{} user_id:{} title:{} created_at:{}" \
+        return "id:{} user:{} title:{} created_at:{}" \
                " description:{} status:{}".format(self.id,
                                                   self.user,
                                                   self.title,
