@@ -40,6 +40,21 @@ INSTALLED_APPS = [
 
 ]
 
+SECRET_KEY = 'dfjn3uh334b3bj'
+
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+       'NAME': 'travis',
+       'USER': 'postgres',
+       'PASSWORD': '',
+       'HOST' : '127.0.0.1',
+       'PORT' : '5432',
+   }
+}
+
+# Authentication
+
 AUTH_USER_MODEL = 'registration.CustomUser'
 
 AUTHENTICATION_BACKENDS = ('registration.backends.CustomUserAuth', )
@@ -62,13 +77,13 @@ WSGI_APPLICATION = 'mytrip.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
