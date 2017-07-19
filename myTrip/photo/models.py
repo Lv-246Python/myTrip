@@ -1,7 +1,13 @@
 """Module contain photo model class and methods."""
 
+from datetime import datetime
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+
+from checkpoint.models import Checkpoint
+from registration.models import CustomUser
+from trip.models import Trip
 
 
 class Photo(models.Model):
@@ -9,17 +15,21 @@ class Photo(models.Model):
     Photo
     :argument id: int - auto generated primary key
     :argument src: url - photo source link
-    :argument user_id: int - ToDo foreign key to User model id
-    :argument trip_id: int - Todo foreign key to Trip model id
-    :argument checkpoint_id: int - ToDo foreign to Checkpoint model id
-    :argument description: str - description to photo.
+    :argument user: - foreign key to User model
+    :argument trip: - foreign key to Trip model
+    :argument checkpoint: - foreign to Checkpoint model
+    :argument description: str - description to photo
+    :argument created_at: date - time when created
+    :argument updated_at: date - time when updated.
     """
 
-    src = models.URLField(max_length=200)
-    user_id = models.IntegerField()
-    trip_id = models.IntegerField(null=True)
-    checkpoint_id = models.IntegerField(null=True)
+    src = models.URLField()
+    user = models.ForeignKey(CustomUser, null=True)
+    trip = models.ForeignKey(Trip, null=True)
+    checkpoint = models.ForeignKey(Checkpoint, null=True)
     description = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, editable=True)
 
     @staticmethod
     def get_by_id(photo_id):
@@ -28,7 +38,7 @@ class Photo(models.Model):
         Args:
             photo_id (int): photo id.
         Returns:
-            Object<Photo>: Object of Photo.
+            Object<Photo>: Object of Photo or None if got exception.
         """
         try:
             return Photo.objects.get(id=photo_id)
@@ -36,33 +46,33 @@ class Photo(models.Model):
             return None
 
     @staticmethod
-    def get_by_trip_id(trip_id):
+    def filter(trip_id, checkpoint_id):
         """
-        Get photo with given trip id
+        Get photo with given trip and checkpoint id
         Args:
-
+            trip_id (int): trip id
+            checkpoint_id (int): checkpoint id.
             trip_id (int): trip id.
-        Returns:
-            QuerySet<Photo>: QuerySet of Photo.
-        """
 
-        photos = Photo.objects.filter(trip_id=trip_id)
-        return photos
+        Returns:
+            QuerySet<Photos>: QuerySet of Photos.
+        """
+        return Photo.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
 
     @staticmethod
-    def create(src, user_id, trip_id=None, checkpoint_id=None, description=None):
+    def create(src, user, description, trip=None, checkpoint=None):
         """ Creating photo model, and returns created object"""
         photo = Photo()
         photo.src = src
-        photo.user_id = user_id
-        photo.trip_id = trip_id
-        photo.checkpoint_id = checkpoint_id
+        photo.trip = trip
+        photo.checkpoint = checkpoint
+        photo.user = user
         photo.description = description
         photo.save()
         return photo
 
-    def update(self, description=None):
-        """Updating photo model."""
+    def update(self, description):
+        """Updating photo description."""
         if description:
             self.description = description
         self.save()
@@ -74,17 +84,21 @@ class Photo(models.Model):
                 {
                     'id': id,
                     'src': source link,
-                    'user_id': user id,
+                    'user': user id,
                     'trip_id': trip id,
                     'checkpoit_id': checkpoint id,
-                    'description': description text
+                    'description': description text,
+                    'created': time when created,
+                    'last updated': time when last updated
                 }
         """
         return {
             "id": self.id,
             "src": self.src,
-            "user_id": self.user_id,
-            "trip_id": self.trip_id,
-            "checkpoint_id": self.checkpoint_id,
-            "description": self.description
+            "user": self.user.id if self.user else None,
+            "trip_id": self.trip.id if self.trip else None,
+            "checkpoint_id": self.checkpoint.id if self.checkpoint else None,
+            "description": self.description,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
         }
