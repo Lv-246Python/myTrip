@@ -27,8 +27,8 @@ class Checkpoint(models.Model):
     position_number = models.IntegerField()
     source_url = models.URLField(blank=True)
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
-    create_at = models.DateTimeField()
-    update_at = models.DateTimeField()
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True, editable=True)
 
     def to_dict(self):
         """
@@ -179,4 +179,3 @@ class Checkpoint(models.Model):
             return None
         checkpoint.delete()
         return True
-      

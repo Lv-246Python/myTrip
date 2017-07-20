@@ -5,6 +5,7 @@ from datetime import datetime
 from django.test import TestCase, Client
 
 from trip.models import Trip
+from registration.models import CustomUser
 from checkpoint.models import Checkpoint
 
 
@@ -20,9 +21,15 @@ class ViewTest(TestCase):
         Create a model of trip
         """
         cls.client = Client()
-        trip = Trip.objects.create(user=3, title="my_title",
+        user = CustomUser.objects.create(
+            id=1,
+            first_name='test',
+            last_name='test',
+            email='test.test@gmail.com',
+            password='user pass'
+        )
+        trip = Trip.objects.create(user=user, title="my_title",
                                        description="some_cool_trip", status=0)
-        trip.save()
         checkpoint = Checkpoint.objects.create(
             longitude=12,
             latitude=13,
@@ -34,7 +41,6 @@ class ViewTest(TestCase):
             create_at=datetime.now(),
             update_at=datetime.now()
         )
-        checkpoint.save()
         checkpoint = Checkpoint.objects.create(
             longitude=44,
             latitude=29,
@@ -46,8 +52,6 @@ class ViewTest(TestCase):
             create_at=datetime.now(),
             update_at=datetime.now()
         )
-        checkpoint.save()
-
 
     def test_get_by_id_success(self):
         """Test for get operation with passed checkpoint id."""

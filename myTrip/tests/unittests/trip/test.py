@@ -13,13 +13,13 @@ class ViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.client = Client()
-        user = CustomUser(email = 'ln@gmail.com', password = 'root')
-        user.save()
-        trip = Trip(user = user, title = 'title', description = 'description', status = 0)
-        trip.save()
+        user = CustomUser.objects.create(id=10, email = 'ln@gmail.com', password = 'root')
+        trip = Trip.objects.create(id=10, user = user, title = 'title', description = 'description', status = 0,
+                    create_at=(2017, 7, 20, 11, 38, 34, 466455),
+                    update_at=(2017, 7, 20, 11, 38, 34, 466455))
 
     def test_get(self):
-        response = self.client.get('/api/v1/trip/1/')
+        response = self.client.get('/api/v1/trip/10/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 6)
         response = self.client.get('/api/v1/trip/2/')
@@ -41,14 +41,14 @@ class ViewTest(TestCase):
                     "title": "test update",
                     "description": "some text",
                     "status":2}
-        response = self.client.put('/api/v1/trip/1/', json.dumps(data), content_type="application/json")
+        response = self.client.put('/api/v1/trip/10/', json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
         response = self.client.put('/api/v1/trip/2/', json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 404)
 
     def test_delete(self):
-        response = self.client.delete('/api/v1/trip/1/')
+        response = self.client.delete('/api/v1/trip/10/')
         self.assertEqual(response.status_code, 200)
 
         response = self.client.delete('/api/v1/trip/2/')

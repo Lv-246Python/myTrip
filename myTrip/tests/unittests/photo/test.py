@@ -16,52 +16,52 @@ class TestPlugin(TestCase):
 
     def setUp(self):
         """Creates objects to provide tests."""
-        CustomUser.objects.create(
-            id=1,
+        user = CustomUser.objects.create(
+            id=2,
             first_name='test',
             last_name='test',
             email='test@gmail.com',
             password='password'
         )
 
-        Trip.objects.create(
-            id=1,
-            user_id=1,
+        trip = Trip.objects.create(
+            id=2,
+            user=user,
             title='title1',
             description='description',
-            created_at=datetime(2017, 7, 18, 15, 19, 24),
+            create_at=datetime(2017, 7, 18, 15, 19, 24),
             status=0
         )
 
         Trip.objects.create(
-            id=2,
-            user_id=1,
+            id=3,
+            user=user,
             title='title2',
             description='description2',
-            created_at=datetime(2017, 7, 18, 15, 19, 24),
+            create_at=datetime(2017, 7, 18, 15, 19, 24),
             status=0
         )
 
         Checkpoint.objects.create(
-            id=1,
+            id=2,
             longitude=123,
             latitude=321,
             title='title1',
             description='description1',
             position_number=1,
             source_url='url1',
-            trip=1
+            trip=trip
         )
 
         Checkpoint.objects.create(
-            id=2,
+            id=3,
             longitude=543,
             latitude=456,
             title='title2',
             description='description2',
             position_number=2,
             source_url='url2',
-            trip=2
+            trip=trip
         )
 
         Photo.objects.create(
@@ -146,5 +146,3 @@ class TestPlugin(TestCase):
         expected = Photo.objects.get(id=6)
 
         self.assertEqual(photo, expected)
-
-

@@ -19,8 +19,8 @@ class CustomUser(AbstractBaseUser):
     last_name = models.CharField(max_length=254, blank=True)
     email = models.EmailField(unique=True, blank=False)
     password = models.CharField(max_length=254, blank=False)
-    created_at = models.DateTimeField(default=datetime.now())
-    modified_at = models.DateTimeField(default=datetime.now())
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True, editable=True)
 
     USERNAME_FIELD = 'email'
 
