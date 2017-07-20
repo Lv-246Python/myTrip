@@ -28,8 +28,8 @@ class Photo(models.Model):
     trip = models.ForeignKey(Trip, null=True)
     checkpoint = models.ForeignKey(Checkpoint, null=True)
     description = models.TextField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True, editable=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True, editable=True)
 
     @staticmethod
     def get_by_id(photo_id):

@@ -18,8 +18,9 @@ class Trip(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    created_at = models.DateTimeField(default=datetime.now, blank=True)
     status = models.IntegerField(default=0)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True, editable=True)
 
     def to_dict(self):
         """

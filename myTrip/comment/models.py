@@ -29,8 +29,8 @@ class Comment(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
     checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
     photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
-    created_at = models.DateTimeField(null=True)
-    modified_at = models.DateTimeField(null=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True, editable=True)
 
     @staticmethod
     def get_by_id(comment_id):
