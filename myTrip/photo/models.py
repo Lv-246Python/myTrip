@@ -1,7 +1,5 @@
 """Module contain photo model class and methods."""
 
-from datetime import datetime
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
@@ -88,8 +86,8 @@ class Photo(models.Model):
                     'trip_id': trip id,
                     'checkpoit_id': checkpoint id,
                     'description': description text,
-                    'created': time when created,
-                    'last updated': time when last updated
+                    'create_at': time when created,
+                    'update_at': time when last updated
                 }
         """
         return {
@@ -100,5 +98,5 @@ class Photo(models.Model):
             "checkpoint_id": self.checkpoint.id if self.checkpoint else None,
             "description": self.description,
             "create_at": self.create_at,
-            "updated_at": self.updated_at
+            "update_at": self.update_at
         }

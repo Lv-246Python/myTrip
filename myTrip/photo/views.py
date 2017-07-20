@@ -34,6 +34,8 @@ class PhotoView(View):
         post_data = json.loads(request.body.decode('utf-8'))
         user = CustomUser.get_by_id(request.user.id)
         trip = Trip.get_by_id(trip_id)
+        if not trip:
+            return HttpResponse(status=404)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.create(trip=trip, checkpoint=checkpoint,
                              user=user, src=post_data["src"], description=post_data["description"])

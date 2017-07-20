@@ -1,11 +1,11 @@
 """This module contains Unit Tests for Photo app models."""
 
-from datetime import datetime
+import json
 
-from django.test import TestCase
+from datetime import datetime
+from django.test import TestCase, Client
 
 from checkpoint.models import Checkpoint
-from comment.models import Comment
 from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
@@ -14,10 +14,13 @@ from trip.models import Trip
 class TestPlugin(TestCase):
     """Tests for Photo model."""
 
-    def setUp(self):
+    client = Client()
+    @classmethod
+    def setUp(cls):
         """Creates objects to provide tests."""
+
         user = CustomUser.objects.create(
-            id=2,
+            id=20,
             first_name='test',
             last_name='test',
             email='test@gmail.com',
@@ -25,7 +28,7 @@ class TestPlugin(TestCase):
         )
 
         trip = Trip.objects.create(
-            id=2,
+            id=20,
             user=user,
             title='title1',
             description='description',
@@ -33,17 +36,8 @@ class TestPlugin(TestCase):
             status=0
         )
 
-        Trip.objects.create(
-            id=3,
-            user=user,
-            title='title2',
-            description='description2',
-            create_at=datetime(2017, 7, 18, 15, 19, 24),
-            status=0
-        )
-
-        Checkpoint.objects.create(
-            id=2,
+        checkpoint = Checkpoint.objects.create(
+            id=20,
             longitude=123,
             latitude=321,
             title='title1',
@@ -53,96 +47,103 @@ class TestPlugin(TestCase):
             trip=trip
         )
 
-        Checkpoint.objects.create(
-            id=3,
-            longitude=543,
-            latitude=456,
-            title='title2',
-            description='description2',
-            position_number=2,
-            source_url='url2',
-            trip=trip
-        )
-
         Photo.objects.create(
             id=5,
             src='src1',
-            user_id=1,
-            trip_id=1,
-            checkpoint_id=1,
+            user=user,
+            trip=trip,
+            checkpoint=checkpoint,
             description='description1'
         )
 
         Photo.objects.create(
             id=6,
             src='src2',
-            user_id=1,
-            trip_id=2,
-            checkpoint_id=2,
+            user=user,
+            trip=trip,
+            checkpoint=checkpoint,
             description='description2'
         )
 
+    def test_get_by_trip_and_checkpoint_success(self):
+        """Test for get operation with passed trip id and checkpoint id."""
 
-    def test_get_by_id(self):
-        """Ensure that get by id method returns specific photo using id."""
+        response = self.client.get('/api/v1/trip/20/checkpoint/20/photo/')
+        self.assertEqual(response.status_code, 200)
 
-        result = Photo.get_by_id(6)
-        expected = Photo.objects.get(id=6)
+    def test_get_by_trip_and_checkpoint_none(self):
+        """Test for get operation with passed trip id and checkpoint id(wrong)."""
 
-        self.assertEqual(result, expected)
+        response = self.client.get('/api/v1/trip/30/checkpoint/30/photo/')
+        self.assertEqual(response.status_code, 204)
 
-    def test_get_by_id_none(self):
-        """Ensure that get_by_id method returns none if photo does not exist."""
+    def test_get_by_photo_id_success(self):
+        """Test for get operation with passed photo id."""
 
-        result = Photo.get_by_id(10)
-        self.assertIsNone(result)
+        response = self.client.get('/api/v1/trip/20/checkpoint/20/photo/5/')
+        self.assertEqual(response.status_code, 200)
 
-    def test_filter_method(self):
-        """Test for filter method returns all photos with given trip, checkpoint."""
+    def test_get_status_not_found(self):
+        """Test for get operation with passed id (wrong)."""
 
-        result = Photo.filter(trip_id=1, checkpoint_id=1)
-        expected = Photo.objects.filter(trip=1, checkpoint=1)
+        response = self.client.get('/api/v1/trip/20/checkpoint/4/photo/3/')
+        self.assertEqual(response.status_code, 204)
 
-        self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
+    def test_post_status_success(self):
+        """Test for post operation which will create new instance of photo."""
 
-    def test_filter_method_id_none(self):
-        """Ensure that filter method works correctly with wrong id's."""
+        response = self.client.post('/api/v1/trip/20/checkpoint/20/photo/', json.dumps({
+            "src": "url_of_image",
+            "user": 20,
+            "description": "random thing"}),
+                                    content_type="application/json")
+        self.assertEqual(response.status_code, 201)
 
-        result = Photo.filter(trip_id=25, checkpoint_id=25)
-        expected = Photo.objects.filter(trip=99, checkpoint=99)
+    def test_post_status_404(self):
+        """Test for post operation which will not create new instance of photo."""
 
-        self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
+        response = self.client.post('/api/v1/trip/631/checkpoint/135/photo/', json.dumps({
+            "src": "url_of_image",
+            "user": 20,
+            "description": "random thing"}),
+                                    content_type="application/json")
+        self.assertEqual(response.status_code, 404)
 
-
-    def test_create(self):
-        """Ensure that create method creates Photo object."""
-
-        user = CustomUser.objects.get(id=1)
-        trip = Trip.objects.get(id=1)
-        checkpoint = Checkpoint.objects.get(id=1)
-
-        data = {
-            'src': 'test url',
-            'description': "13w43yghert5er",
-            'user': user,
-            'trip': trip,
-            'checkpoint': checkpoint,
-        }
-
-        result = Photo.create(**data)
-        expected = Photo.objects.get(id=result.id)
-
-        self.assertEqual(result, expected)
-
-    def test_update(self):
-        """Ensure that update method updates specific Photo object."""
+    def test_put_status_success(self):
+        """Test for put operation which will modify photo model."""
 
         data = {
-            'description': 'test description update'
+            "description": "random thing"
         }
 
-        photo = Photo.objects.get(id=6)
-        photo.update(**data)
-        expected = Photo.objects.get(id=6)
+        response = self.client.put('/api/v1/photo/6/', json.dumps(data),
+                                   content_type="application/json")
+        self.assertEqual(response.status_code, 200)
 
-        self.assertEqual(photo, expected)
+    def test_put_status_404(self):
+        """
+        Test for put operation which will modify photo model.
+        Request has wrong id and status 404 must be returned
+        """
+
+        data = {
+            "description": "random thing"
+        }
+
+        response = self.client.put('/api/v1/photo/7/', json.dumps(data),
+                                   content_type="application/json")
+        self.assertEqual(response.status_code, 404)
+
+    def test_delete_status_success(self):
+        """Test for delete opertaion which will delete photo model."""
+
+        response = self.client.delete('/api/v1/photo/6/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_status_404(self):
+        """Test for delete opertaion which will delete photo model."""
+
+        response = self.client.delete('/api/v1/photo/8/')
+        self.assertEqual(response.status_code, 404)
+
+
