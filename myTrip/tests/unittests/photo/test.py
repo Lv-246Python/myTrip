@@ -15,6 +15,7 @@ class TestPlugin(TestCase):
     """Tests for Photo model."""
 
     client = Client()
+
     @classmethod
     def setUp(cls):
         """Creates objects to provide tests."""
@@ -135,15 +136,13 @@ class TestPlugin(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_delete_status_success(self):
-        """Test for delete opertaion which will delete photo model."""
+        """Test for delete operation which will delete photo model."""
 
         response = self.client.delete('/api/v1/photo/6/')
         self.assertEqual(response.status_code, 200)
 
     def test_delete_status_404(self):
-        """Test for delete opertaion which will delete photo model."""
+        """Test for delete operation which will delete photo model."""
 
         response = self.client.delete('/api/v1/photo/8/')
         self.assertEqual(response.status_code, 404)
-
-
