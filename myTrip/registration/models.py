@@ -41,8 +41,8 @@ class CustomUser(AbstractBaseUser):
         user = CustomUser()
         user.email = email.lower()
         user.set_password(password)
-        user.created_at = datetime.now()
-        user.modified_at = datetime.now()
+        user.create_at = datetime.now()
+        user.update_at = datetime.now()
         user.save()
         return user
 
@@ -126,7 +126,7 @@ class CustomUser(AbstractBaseUser):
             self.last_name = last_name
             return self.get_full_name()
 
-        self.modified_at = datetime.now()
+        self.update_at = datetime.now()
         self.save()
 
     def to_dict(self):
