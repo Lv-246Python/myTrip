@@ -1,8 +1,8 @@
 """This module contains comment model class and basic functions"""
 
-from django.db import models
 from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist, FieldError
+from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
 
 from trip.models import Trip
 
@@ -110,13 +110,13 @@ class Checkpoint(models.Model):
         checkpoint.description = description
         checkpoint.source_url = source_url
         checkpoint.position_number = position_number
-        checkpoint.trip = Trip.get_by_id(trip_id)
+        try:
+            checkpoint.trip = Trip.objects.get(id=trip_id)
+        except ObjectDoesNotExist:
+            return None
         checkpoint.create_at = datetime.now()
         checkpoint.update_at = datetime.now()
-        try:
-            checkpoint.save()
-        except FieldError:
-            checkpoint = None
+        checkpoint.save()
         return checkpoint
 
     def update(self,
