@@ -12,7 +12,7 @@ class Trip(models.Model):
      :argument user_id: int - ToDo foreign key to User model
      :argument title: str - title
      :argument description: text - description
-     :argument created_at: date - date
+     :argument create_at: date - date
      :argument status: int - 0-in progres, 1-annonced, 2-finished
     ."""
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
@@ -31,7 +31,7 @@ class Trip(models.Model):
                 'id': id,
                 'user': user,
                 'title': title,
-                'created_at': date,
+                'create_at': date,
                 'description': description,
                 'status': status
                 }
@@ -40,16 +40,16 @@ class Trip(models.Model):
             "id": self.id,
             "user": self.user.id,
             "title": self.title,
-            "created_at": self.created_at,
+            "create_at": self.create_at,
             "description": self.description,
             "status": self.status}
 
     def __repr__(self):
-        return "id:{} user:{} title:{} created_at:{}" \
+        return "id:{} user:{} title:{} create_at:{}" \
                " description:{} status:{}".format(self.id,
                                                   self.user,
                                                   self.title,
-                                                  self.created_at,
+                                                  self.create_at,
                                                   self.description,
                                                   self.status)
 
@@ -129,7 +129,7 @@ class Trip(models.Model):
             reversed trips
         """
         if not user_id:
-            trips = reversed(Trip.objects.all().order_by('-created_at')[:step])
+            trips = reversed(Trip.objects.all().order_by('-create_at')[:step])
             return trips
-        trips = reversed(Trip.objects.filter(user=user_id).order_by('-created_at')[:step])
+        trips = reversed(Trip.objects.filter(user=user_id).order_by('-create_at')[:step])
         return trips
