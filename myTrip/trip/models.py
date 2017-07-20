@@ -1,5 +1,4 @@
 """This module contains Trip model class and basic functions."""
-from datetime import datetime
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -120,7 +119,7 @@ class Trip(models.Model):
         trip.delete()
         return None
 
-    def get_trips(user_id,page=1,step=5):
+    def get_trips(user_id, page=1, step=5):
         """
         Returns the last 5 trips by the user
          Args:
