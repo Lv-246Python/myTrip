@@ -54,11 +54,12 @@ class CommentView(View):
             or
             HttpResponse: status: 404.
         """
-        message = json.loads(request.body.decode('utf-8'))['message']
-        user_id = json.loads(request.body.decode('utf-8'))['user_id']
-        if not message:
+
+        data = json.loads(request.body.decode('utf-8'))
+        if not data:
             return HttpResponse(status=400)
-        user = CustomUser.get_by_id(user_id)
+        print(data)
+        user = CustomUser.get_by_id(data['user_id'])
         trip = Trip.get_by_id(trip_id)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.get_by_id(photo_id)
@@ -67,7 +68,7 @@ class CommentView(View):
             'trip': trip,
             'checkpoint': checkpoint,
             'photo': photo,
-            'message': message
+            'message': data['message']
 
         }
         comment = Comment.create(**data)
