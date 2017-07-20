@@ -1,7 +1,5 @@
 """This module contains comment model class and basic functions."""
 
-from datetime import datetime
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
@@ -16,10 +14,10 @@ class Comment(models.Model):
     Comment
         :argument id: int - auto generated primary key
         :argument message: str - comment message
-        :argument user: int -  foreign key to User model
-        :argument trip: int - foreign key to trip model, one-to-many relation
-        :argument checkpoint: int - foreign key to checkpoint model, one-to-many relation
-        :argument photo: int - foreign key to photo model, one-to-many relation
+        :argument user: Object<CustomUser>  -  foreign key to User model
+        :argument trip: Object<Trip> - foreign key to trip model, one-to-many relation
+        :argument checkpoint: Object<Checkpoint> - foreign key to checkpoint model, one-to-many relation
+        :argument photo: Object<Photo> - foreign key to photo model, one-to-many relation
         :argument created_at: datetime - date and time of created comment
         :argument modified_at: datetime - date and time of modified comment
     """
@@ -56,13 +54,11 @@ class Comment(models.Model):
             checkpoint_id (int): user id foreign key to Checkpoint.
             photo_id (int): user id foreign key to Photo.
         Returns:
-            QuerySet<Comment>: QuerySet of Comments.
+            QuerySet<Comment>: QuerySet of Comments or None.
         """
-        try:
-            comments = Comment.objects.filter(trip=trip_id, checkpoint=checkpoint_id, photo=photo_id)
-            return comments
-        except ObjectDoesNotExist:
-            return None
+        comments = Comment.objects.filter(trip=trip_id, checkpoint=checkpoint_id,
+                                          photo=photo_id)
+        return comments
 
     @staticmethod
     def get_by_user_id(user_id):
@@ -71,13 +67,10 @@ class Comment(models.Model):
         Args:
             user_id (int): user id foreign key to CustomUser.
         Returns:
-            QuerySet<Comment>: QuerySet of Comments.
+            QuerySet<Comment>: QuerySet of Comments or None.
         """
-        try:
-            comment = Comment.objects.filter(user=user_id)
-            return comment
-        except ObjectDoesNotExist:
-            return None
+        comment = Comment.objects.filter(user=user_id)
+        return comment
 
     def to_dict(self):
         """Convert model object to dictionary.
@@ -90,7 +83,7 @@ class Comment(models.Model):
                     'trip': self.trip.id,
                     'checkpoint': checkpoint.id,
                     'photo': photo.id,
-                    'created': created
+                    'create_at': date of creation
                 }.
         """
         return {
@@ -100,8 +93,8 @@ class Comment(models.Model):
             'trip': self.trip.id if self.trip else None,
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
-            'created_at': self.created_at,
-            'modified_at': self.modified_at
+            'create_at': self.create_at,
+            'update_at': self.update_at
         }
 
     @staticmethod
@@ -124,7 +117,7 @@ class Comment(models.Model):
         comment.trip = trip
         comment.checkpoint = checkpoint
         comment.photo = photo
-        comment.created_at = datetime.now()
+
         comment.save()
 
         return comment
@@ -139,16 +132,15 @@ class Comment(models.Model):
         """
         if message:
             self.message = message
-            self.modified_at = datetime.now()
         self.save()
 
     def __repr__(self):
         return "id:{}, message:{}, user:{}, trip:{}, " \
-               "checkpoint:{}, photo:{}, created_at:{}, updated_at:{}".format(self.id,
-                                                                              self.message,
-                                                                              self.user,
-                                                                              self.trip.id,
-                                                                              self.checkpoint.id,
-                                                                              self.photo.id,
-                                                                              self.created_at,
-                                                                              self.modified_at)
+               "checkpoint:{}, photo:{}, create_at:{}, update_at:{}".format(self.id,
+                                                                            self.message,
+                                                                            self.user,
+                                                                            self.trip.id,
+                                                                            self.checkpoint.id,
+                                                                            self.photo.id,
+                                                                            self.create_at,
+                                                                            self.update_at)
