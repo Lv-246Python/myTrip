@@ -14,10 +14,7 @@ from trip.models import Trip
 class TestPlugin(TestCase):
     """Tests for Photo model."""
 
-    client = Client()
-
-    @classmethod
-    def setUp(cls):
+    def setUp(self):
         """Creates objects to provide tests."""
 
         user = CustomUser.objects.create(
@@ -27,6 +24,18 @@ class TestPlugin(TestCase):
             email='test@gmail.com',
             password='password'
         )
+
+        self.user = CustomUser.objects.create(
+            id=5,
+            first_name="qwer",
+            last_name="ty",
+            email="qwer@gmail.com",
+            password="password"
+        )
+        self.user.set_password('password')
+        self.user.save()
+        self.client = Client()
+        self.client.login(username="qwer@gmail.com", password="password")
 
         trip = Trip.objects.create(
             id=20,
@@ -51,7 +60,7 @@ class TestPlugin(TestCase):
         Photo.objects.create(
             id=5,
             src='src1',
-            user=user,
+            user=self.user,
             trip=trip,
             checkpoint=checkpoint,
             description='description1'
@@ -93,12 +102,12 @@ class TestPlugin(TestCase):
     def test_post_status_success(self):
         """Test for post operation which will create new instance of photo."""
 
-        response = self.client.post('/api/v1/trip/20/checkpoint/20/photo/', json.dumps({
+        request = self.client.post('/api/v1/trip/20/checkpoint/20/photo/', json.dumps({
             "src": "url_of_image",
             "user": 20,
             "description": "random thing"}),
                                     content_type="application/json")
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(request.status_code, 201)
 
     def test_post_status_404(self):
         """Test for post operation which will not create new instance of photo."""
@@ -117,11 +126,23 @@ class TestPlugin(TestCase):
             "description": "random thing"
         }
 
-        response = self.client.put('/api/v1/photo/6/', json.dumps(data),
+        response = self.client.put('/api/v1/photo/5/', json.dumps(data),
                                    content_type="application/json")
+
         self.assertEqual(response.status_code, 200)
 
-    def test_put_status_404(self):
+    def test_put_status_no_permission(self):
+        """Test for put operation which will modify photo model."""
+
+        data = {
+            "description": "random thing"
+        }
+
+        response = self.client.put('/api/v1/photo/6/', json.dumps(data),
+                                   content_type="application/json")
+        self.assertEqual(response.status_code, 403)
+
+    def test_put_status_400(self):
         """
         Test for put operation which will modify photo model.
         Request has wrong id and status 404 must be returned
@@ -133,16 +154,22 @@ class TestPlugin(TestCase):
 
         response = self.client.put('/api/v1/photo/7/', json.dumps(data),
                                    content_type="application/json")
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_delete_status_success(self):
         """Test for delete operation which will delete photo model."""
 
-        response = self.client.delete('/api/v1/photo/6/')
+        response = self.client.delete('/api/v1/photo/5/')
         self.assertEqual(response.status_code, 200)
 
-    def test_delete_status_404(self):
+    def test_delete_status_no_permission(self):
+        """Test for delete operation which will delete photo model."""
+
+        response = self.client.delete('/api/v1/photo/6/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_status_400(self):
         """Test for delete operation which will delete photo model."""
 
         response = self.client.delete('/api/v1/photo/8/')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
