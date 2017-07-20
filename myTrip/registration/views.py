@@ -34,8 +34,6 @@ def register(request):
                 return HttpResponse("This email is not valid format.", status=400)
         return HttpResponse("This email is already registered.", status=400)
 
-    return HttpResponse("Bad request.", status=400)
-
 def login(request):
     """
     Login method for auth.
@@ -57,8 +55,6 @@ def login(request):
             return HttpResponse("Login successfull.", status=200)
         return HttpResponse('Email or password invalid', status=403)
 
-    return HttpResponse("Bad request.", status=400)
-
 def logout(request):
     """
     Logout method for auth.
@@ -74,5 +70,3 @@ def logout(request):
             auth.logout(request)
             return HttpResponse("Logout successfull.", status=200)
         return HttpResponse("You're not logged in.", status=400)
-
-    return HttpResponse("Bad request.", status=400)

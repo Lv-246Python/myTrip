@@ -43,14 +43,14 @@ INSTALLED_APPS = [
 SECRET_KEY = 'dfjn3uh334b3bj'
 
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'NAME': 'travis',
-       'USER': 'postgres',
-       'PASSWORD': '',
-       'HOST' : '127.0.0.1',
-       'PORT' : '5432',
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'travis',
+        'USER': 'postgres',
+        'PASSWORD': '',
+        'HOST' : '127.0.0.1',
+        'PORT' : '5432',
+        }
 }
 
 # Authentication
