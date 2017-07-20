@@ -18,7 +18,10 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^api/v1/comment/', include('comment.urls')),
-    url(r'^api/v1/like/', include('like.urls')),
+    url(r'^api/v1/like/', include('like.urls_checkpoint')),
+    url(r'^api/v1/like/', include('like.urls_comment')),
+    url(r'^api/v1/like/', include('like.urls_photo')),
+    url(r'^api/v1/like/', include('like.urls_trip')),
     url(r'^api/v1/checkpoint/', include('checkpoint.urls')),
     url(r'^api/v1/trip/', include('trip.urls')),
     url(r'^api/v1/auth/', include('registration.urls')),

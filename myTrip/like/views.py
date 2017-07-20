@@ -92,15 +92,17 @@ class LikesPhotoView(View):
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 404.
         """
-        if like_id:
-            like = LikesPhoto.get_by_id(like_id)
-            if not like:
-                return HttpResponse(status=404)
-            like_dict = like.to_dict()
-            return JsonResponse(like_dict, status=200)
-        likes = LikesPhoto.get_by_photo_id(photo_id)
-        like_list = [like.to_dict() for like in likes]
-        return JsonResponse(like_list, status=200, safe=False)
+        if not like_id:
+            likes = LikesPhoto.get_by_photo_id(photo_id)
+            if not likes:
+                return HttpResponse(status=204)
+            data = [like.to_dict() for like in likes]
+            return JsonResponse(data, status=200, safe=False)
+
+        like = LikesPhoto.get_by_id(like_id)
+        if not like:
+            return HttpResponse(status=204)
+        return JsonResponse(like.to_dict(), status=200)
 
     def post(self, request):
         """Handles POST request, that return JSON response with HTTP status 201."""
