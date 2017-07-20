@@ -52,11 +52,12 @@ class Photo(models.Model):
         Args:
             trip_id (int): trip id
             checkpoint_id (int): checkpoint id.
+            trip_id (int): trip id.
+
         Returns:
             QuerySet<Photos>: QuerySet of Photos.
         """
         return Photo.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
-
 
     @staticmethod
     def create(src, user, description, trip=None, checkpoint=None):

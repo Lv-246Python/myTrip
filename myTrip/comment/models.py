@@ -1,13 +1,15 @@
 """This module contains comment model class and basic functions."""
 
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from datetime import datetime
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from registration.models import CustomUser
-from trip.models import Trip
+
 from checkpoint.models import Checkpoint
 from photo.models import Photo
+from registration.models import CustomUser
+from trip.models import Trip
 
-DEFAULT = None
 
 class Comment(models.Model):
     """
@@ -15,19 +17,20 @@ class Comment(models.Model):
         :argument id: int - auto generated primary key
         :argument message: str - comment message
         :argument user: int -  foreign key to User model
-        :argument trip: int - foreign key to trip model, many-to-many
-        relation
-        :argument checkpoint: int - foreign key to checkpoint model,
-        many-to-many relation
-        :argument photo: int - foreign key to photo model,
-        many-to-many relation.
+        :argument trip: int - foreign key to trip model, one-to-many relation
+        :argument checkpoint: int - foreign key to checkpoint model, one-to-many relation
+        :argument photo: int - foreign key to photo model, one-to-many relation
+        :argument created_at: datetime - date and time of created comment
+        :argument modified_at: datetime - date and time of modified comment
     """
 
     message = models.TextField()
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
-    trip = models.ManyToManyField(Trip)
-    checkpoint = models.ManyToManyField(Checkpoint)
-    photo = models.ManyToManyField(Photo)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
+    checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(null=True)
+    modified_at = models.DateTimeField(null=True)
 
     @staticmethod
     def get_by_id(comment_id):
@@ -39,49 +42,25 @@ class Comment(models.Model):
             Object<Comment>: Object of Comment.
         """
         try:
-            return Comment.objects.get(id=comment_id)
+            comment = Comment.objects.get(id=comment_id)
+            return comment
         except ObjectDoesNotExist:
             return None
 
     @staticmethod
-    def get_by_trip_id(trip_id):
+    def filter(trip_id=None, checkpoint_id=None, photo_id=None):
         """
-        Get Comments with given trip id
+        Get Comments with given trip id, checkpoint_id, photo_id.
         Args:
             trip_id (int): user id foreign key to Trip.
-        Returns:
-            QuerySet<Comment>: QuerySet of Comments.
-        """
-        try:
-            return Comment.objects.filter(trip=trip_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_checkpoint_id(checkpoint_id):
-        """
-        Get Comments with given trip id
-        Args:
-            checkpoint_id (int): user id foreign key to Trip.
-        Returns:
-            QuerySet<Comment>: QuerySet of Comments.
-        """
-        try:
-            return Comment.objects.filter(checkpoint=checkpoint_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_photo_id(photo_id):
-        """
-        Get Comments with given photo id
-        Args:
+            checkpoint_id (int): user id foreign key to Checkpoint.
             photo_id (int): user id foreign key to Photo.
         Returns:
             QuerySet<Comment>: QuerySet of Comments.
         """
         try:
-            return Comment.objects.filter(photo=photo_id)
+            comments = Comment.objects.filter(trip=trip_id, checkpoint=checkpoint_id, photo=photo_id)
+            return comments
         except ObjectDoesNotExist:
             return None
 
@@ -95,7 +74,8 @@ class Comment(models.Model):
             QuerySet<Comment>: QuerySet of Comments.
         """
         try:
-            return Comment.objects.filter(user=user_id)
+            comment = Comment.objects.filter(user=user_id)
+            return comment
         except ObjectDoesNotExist:
             return None
 
@@ -106,51 +86,69 @@ class Comment(models.Model):
                 {
                     'id': id,
                     'message': message,
-                    'user_id': user_id
+                    'user_id': user_id,
+                    'trip': self.trip.id,
+                    'checkpoint': checkpoint.id,
+                    'photo': photo.id,
+                    'created': created
                 }.
         """
         return {
             'id': self.id,
             'message': self.message,
-            'user': self.user.id
+            'user': self.user.id,
+            'trip': self.trip.id if self.trip else None,
+            'checkpoint': self.checkpoint.id if self.checkpoint else None,
+            'photo': self.photo.id if self.photo else None,
+            'created_at': self.created_at,
+            'modified_at': self.modified_at
         }
 
     @staticmethod
-    def create(message, user_id, trip_id, checkpoint_id, photo_id):
+    def create(message, user, trip=None, checkpoint=None, photo=None):
         """
         Creates Comment with message and user
         Args:
             message (str): message of comment
-            user_id (int): user id, who created comment.
+            user (int): user id, who created comment.
+            trip (int): trip id, makes relation to Trip model.
+            checkpoint (int): checkpoint id, makes relation to Checkpoint model.
+            photo (int): photo id, makes relation to Photo model.
         Returns:
             Object<Comment>: Object of Comment.
         """
         comment = Comment()
+
         comment.message = message
-        comment.user = CustomUser.get_by_id(user_id)
+        comment.user = user
+        comment.trip = trip
+        comment.checkpoint = checkpoint
+        comment.photo = photo
+        comment.created_at = datetime.now()
         comment.save()
-        trip = Trip.get_by_id(trip_id)
-        comment.trip.add(trip)
-        checkpoint = Checkpoint.get_by_id(checkpoint_id)
-        comment.checkpoint.add(checkpoint)
-        photo = Photo.get_by_id(photo_id)
-        comment.photo.add(photo)
+
         return comment
 
-    def update(self, message=DEFAULT):
+    def update(self, message=None):
         """
         Updates Comment with new message
          Args:
             message (str): new message of comment
         Returns:
-            Object<Comment>: Object of Comment or None when data fails.
+            Object<Comment>: Object of Comment.
         """
         if message:
             self.message = message
-        try:
-            self.save()
-        except ValidationError:
-            return None
+            self.modified_at = datetime.now()
+        self.save()
 
     def __repr__(self):
-        return "id:{} message:{} user:{}".format(self.id, self.message, self.user)
+        return "id:{}, message:{}, user:{}, trip:{}, " \
+               "checkpoint:{}, photo:{}, created_at:{}, updated_at:{}".format(self.id,
+                                                                              self.message,
+                                                                              self.user,
+                                                                              self.trip.id,
+                                                                              self.checkpoint.id,
+                                                                              self.photo.id,
+                                                                              self.created_at,
+                                                                              self.modified_at)
