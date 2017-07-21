@@ -96,5 +96,7 @@ class CustomUserModelTests(TestCase):
             'first_name': self.user.first_name,
             'last_name': self.user.last_name,
             'email': self.user.email,
+            'create_at': request['create_at'],
+            'update_at': request['update_at']
         }
         self.assertEqual(request, result)
