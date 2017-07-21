@@ -18,15 +18,16 @@ class LikesTrip(models.Model):
         :argument trip: int - foreign key to Trip
     """
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    trip = models.ForeignKey(Trip, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
 
     @staticmethod
     def create(user, trip):
         """A method creates like by user to trip."""
+
         like = LikesTrip()
-        like.user = CustomUser.get_by_id(user)
-        like.trip = Trip.get_by_id(trip)
+        like.user = user
+        like.trip = trip
         like.save()
         return like
 
@@ -114,17 +115,32 @@ class LikesCheckpoint(models.Model):
         :argument checkpoint: int - foreign key to Checkpoint
     """
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
 
     @staticmethod
-    def create(user, checkpoint):
+    def create(user, trip, checkpoint):
         """A method creates like by user to checkpoint."""
         like = LikesCheckpoint()
-        like.user = CustomUser.get_by_id(user)
-        like.checkpoint = Checkpoint.get_by_id(checkpoint)
+        like.user = user
+        like.trip = trip
+        like.checkpoint = checkpoint
         like.save()
         return like
+
+    @staticmethod
+    def filter(trip_id, checkpoint_id):
+        """
+        Get like with given trip and checkpoint id
+        Args:
+            trip_id (int): trip id
+            checkpoint_id (int): checkpoint id.
+
+        Returns:
+            QuerySet<LikesCheckpoint>: QuerySet of LikesCheckpoint.
+        """
+        return LikesCheckpoint.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
 
     @staticmethod
     def get_by_id(like_id):
@@ -210,17 +226,35 @@ class LikesPhoto(models.Model):
         :argument photo: int - foreign key to Photo
     """
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    photo = models.ForeignKey(Photo, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
+    checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
 
     @staticmethod
-    def create(user, photo):
+    def create(user, trip, checkpoint, photo):
         """A method creates like by user to photo."""
         like = LikesPhoto()
-        like.user = CustomUser.get_by_id(user)
-        like.photo = Photo.get_by_id(photo)
+        like.user = user
+        like.trip = trip
+        like.checkpoint = checkpoint
+        like.photo = photo
         like.save()
         return like
+
+    @staticmethod
+    def filter(trip_id, checkpoint_id, photo_id):
+        """
+        Get like with given trip id, checkpoint id and photo id.
+        Args:
+            trip_id (int): trip id
+            checkpoint_id (int): checkpoint id
+            photo_id (int): photo id.
+
+        Returns:
+            QuerySet<LikesPhoto>: QuerySet of LikesPhoto.
+        """
+        return LikesPhoto.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id, photo_id=photo_id)
 
     @staticmethod
     def get_by_id(like_id):
@@ -306,17 +340,39 @@ class LikesComment(models.Model):
         :argument comment: int - foreign key to Comment
     """
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
+    checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
 
     @staticmethod
-    def create(user, comment):
+    def create(user, trip, checkpoint, photo, comment):
         """A method creates like by user to comment."""
         like = LikesComment()
-        like.user = CustomUser.get_by_id(user)
-        like.comment = Comment.get_by_id(comment)
+        like.user = user
+        like.trip = trip
+        like.checkpoint = checkpoint
+        like.photo = photo
+        like.comment = comment
         like.save()
         return like
+
+    @staticmethod
+    def filter(trip_id, checkpoint_id, photo_id, comment_id):
+        """
+        Get like with given trip id, checkpoint id, photo id and comment id.
+        Args:
+            trip_id (int): trip id
+            checkpoint_id (int): checkpoint id
+            photo_id (int): photo id
+            comment_id (int): comment id.
+
+        Returns:
+            QuerySet<LikesComment>: QuerySet of LikesComment.
+        """
+        return LikesComment.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id,
+                                           photo_id=photo_id, comment_id=comment_id)
 
     @staticmethod
     def get_by_id(like_id):
