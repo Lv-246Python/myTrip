@@ -1,7 +1,6 @@
 """This module contains Unit Tests for Comment app models."""
 
 from datetime import datetime
-import mock
 
 from django.test import TestCase
 
