@@ -139,6 +139,8 @@ class CustomUser(AbstractBaseUser):
             'first_name': first_name,
             'last_name': last_name,
             'email': email,
+            'create_at': create_at,
+            'update_at': update_at
         """
 
         return {
@@ -146,4 +148,6 @@ class CustomUser(AbstractBaseUser):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
+            'create_at': self.create_at,
+            'update_at': self.update_at
         }
