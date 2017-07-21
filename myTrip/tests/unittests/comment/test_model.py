@@ -146,6 +146,24 @@ class TestPlugin(TestCase):
 
         self.assertEqual(result, expected)
 
+    def test_to_dict(self, *args):
+        """Ensure that to_dict methods builds a proper dict from Comment object."""
+
+        comment = Comment.objects.get(id=66)
+        result = comment.to_dict()
+        expected = {
+            'id': 66,
+            'message': 'test1',
+            'user': 1,
+            'trip': 10,
+            'checkpoint': 20,
+            'photo': 30,
+            'create_at': result['create_at'],
+            'update_at': result['update_at']
+        }
+
+        self.assertEqual(expected, result)
+
     def test_update(self):
         """Ensure that update method updates specific Comment object."""
 
