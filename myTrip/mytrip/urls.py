@@ -17,6 +17,7 @@ Including another URLconf
 from django.conf.urls import url, include
 
 urlpatterns = [
+    url('r^/', include('home.urls')),
     url(r'^api/v1/comment/', include('comment.urls')),
     url(r'^api/v1/like/', include('like.urls')),
     url(r'^api/v1/trip/', include('trip.urls')),
