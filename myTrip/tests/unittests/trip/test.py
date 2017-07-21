@@ -19,7 +19,7 @@ class ViewTest(TestCase):
                     update_at=(2017, 7, 20, 11, 38, 34, 466455))
 
     def test_get_by_id_success(self):
-        response = client.get('/api/v1/trip/10/')
+        response = self.client.get('/api/v1/trip/10/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 6)
         response = self.client.get('/api/v1/trip/')
