@@ -133,9 +133,8 @@ class ViewTest(TestCase):
     def test_post_status_success(self):
         """Ensure that post method creates new object with it relations and status 201."""
 
-        response = self.client.post('/api/v1/trip/10/checkpoint/20/photo/30/comment/',
-                                    json.dumps({'message': 'test message'}), content_type="application/json")
-
+        response = self.client.post('/api/v1/trip/10/checkpoint/20/photo/30/comment/', json.dumps({
+            "message": "test1"}), content_type="application/json")
         self.assertEqual(response.status_code, 201)
 
     def test_post_status_400(self):
