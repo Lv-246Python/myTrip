@@ -16,7 +16,6 @@ script:
   - cd myTrip/
   - pylint --rcfile=.pylintrc *
   - coverage run manage.py test
-  - coverage xml
 
 after_success:
  - codecov
