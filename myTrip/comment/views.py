@@ -59,7 +59,7 @@ class CommentView(View):
         if not data:
             return HttpResponse(status=400)
         print(data)
-        user = CustomUser.get_by_id(data['user_id'])
+        user = CustomUser.get_by_id(request.user.id)
         trip = Trip.get_by_id(trip_id)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.get_by_id(photo_id)
@@ -68,7 +68,7 @@ class CommentView(View):
             'trip': trip,
             'checkpoint': checkpoint,
             'photo': photo,
-            'message': data['message']
+            'message': data
 
         }
         comment = Comment.create(**data)
@@ -90,9 +90,8 @@ class CommentView(View):
         if not comment:
             return HttpResponse(status=404)
         update_data = json.loads(request.body.decode('utf-8'))
-        user_id = update_data['user_id']
-        if comment.user.id is user_id:
-            comment.update(update_data['message'])
+        if comment.user.id is request.user.id:
+            comment.update(update_data)
             return JsonResponse(comment.to_dict(), status=200)
 
         return HttpResponse(status=403)
@@ -109,5 +108,7 @@ class CommentView(View):
         comment = Comment.get_by_id(comment_id)
         if not comment:
             return HttpResponse(status=404)
-        comment.delete()
-        return HttpResponse(status=204)
+        if comment.user.id == request.user.id:
+            comment.delete()
+            return HttpResponse(status=204)
+        return HttpResponse(status=403)
