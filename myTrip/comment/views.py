@@ -58,7 +58,6 @@ class CommentView(View):
         data = json.loads(request.body.decode('utf-8'))
         if not data:
             return HttpResponse(status=400)
-        print(data)
         user = CustomUser.get_by_id(request.user.id)
         trip = Trip.get_by_id(trip_id)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
