@@ -74,7 +74,7 @@ class ViewTest(TestCase):
 
         Comment.objects.create(
             id=66,
-            message='test message',
+            message='test1',
             user=user,
             trip=trip,
             checkpoint=checkpoint,
@@ -83,7 +83,7 @@ class ViewTest(TestCase):
 
         Comment.objects.create(
             id=62,
-            message='test message',
+            message='test1',
             user=self.user,
             trip=trip,
             checkpoint=checkpoint,
@@ -133,16 +133,16 @@ class ViewTest(TestCase):
     def test_post_status_success(self):
         """Ensure that post method creates new object with it relations and status 201."""
 
-        response = self.client.post('/api/v1/trip/10/checkpoint/20/photo/30/comment/', json.dumps({
-            'message': 'test message'}),
-                                    content_type="application/json")
+        response = self.client.post('/api/v1/trip/10/checkpoint/20/photo/30/comment/',
+                                    json.dumps({'message': 'test message'}), content_type="application/json")
+
         self.assertEqual(response.status_code, 201)
 
     def test_post_status_400(self):
         """Ensure that post method returns status 400, when data is not passed."""
 
-        response = self.client.post('/api/v1/trip/30/checkpoint/20/photo/30/comment/', json.dumps({}),
-                                    content_type="application/json")
+        response = self.client.post('/api/v1/trip/30/checkpoint/20/photo/30/comment/',
+                                    json.dumps({}), content_type="application/json")
 
         self.assertEqual(response.status_code, 400)
 

@@ -1,7 +1,5 @@
 """This module contains Unit Tests for Comment app models."""
 
-from datetime import datetime
-
 from django.test import TestCase
 
 from checkpoint.models import Checkpoint
@@ -29,7 +27,6 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             title='title1',
             description='description1',
-            create_at=(2017, 7, 20, 11, 38, 34, 466455),
             status=0
         )
 
@@ -38,7 +35,6 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             title='title2',
             description='description2',
-            create_at=(2017, 7, 20, 11, 38, 34, 466455),
             status=0
         )
 
@@ -50,8 +46,7 @@ class TestPlugin(TestCase):
             description='description1',
             position_number=1,
             source_url='url1',
-            trip=Trip.objects.get(id=10),
-            create_at=(2017, 7, 20, 11, 38, 34, 466455)
+            trip=Trip.objects.get(id=10)
         )
 
         Checkpoint.objects.create(
@@ -62,8 +57,7 @@ class TestPlugin(TestCase):
             description='description2',
             position_number=2,
             source_url='url2',
-            trip=Trip.objects.get(id=11),
-            create_at=(2017, 7, 20, 11, 38, 34, 466455)
+            trip=Trip.objects.get(id=11)
         )
 
         Photo.objects.create(
@@ -72,8 +66,7 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=10),
             checkpoint=Checkpoint.objects.get(id=20),
-            description='description1',
-            create_at=(2017, 7, 20, 11, 38, 34, 466455)
+            description='description1'
         )
 
         Photo.objects.create(
@@ -82,19 +75,16 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=11),
             checkpoint=Checkpoint.objects.get(id=21),
-            description='description2',
-            create_at=(2017, 7, 20, 11, 38, 34, 466455)
+            description='description2'
         )
 
         Comment.objects.create(
             id=66,
-            message='test message',
+            message='test1',
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=10),
             checkpoint=Checkpoint.objects.get(id=20),
-            photo=Photo.objects.get(id=30),
-            create_at=datetime(2017, 7, 21, 11, 11, 11, 111111),
-            update_at=datetime(2017, 7, 21, 11, 11, 11, 111111)
+            photo=Photo.objects.get(id=30)
         )
 
     def test_get_by_id(self):
@@ -144,7 +134,7 @@ class TestPlugin(TestCase):
         photo = Photo.objects.get(id=30)
 
         data = {
-            'message': 'test message',
+            'message': 'test1',
             'user': user,
             'trip': trip,
             'checkpoint': checkpoint,
@@ -176,13 +166,13 @@ class TestPlugin(TestCase):
         result = repr(comment)
         expected = "id:{}, message:{}, user:{}, trip:{}, " \
                    "checkpoint:{}, photo:{}, create_at:{}, update_at:{}".format(
-            comment.id,
-            comment.message,
-            comment.user,
-            comment.trip.id,
-            comment.checkpoint.id,
-            comment.photo.id,
-            comment.create_at,
-            comment.update_at)
+                       comment.id,
+                       comment.message,
+                       comment.user,
+                       comment.trip.id,
+                       comment.checkpoint.id,
+                       comment.photo.id,
+                       comment.create_at,
+                       comment.update_at)
 
         self.assertEqual(result, expected)
