@@ -17,7 +17,6 @@ script:
   - pylint --rcfile=.pylintrc *
   - coverage run manage.py test
   - coverage xml
-  - coverage combine
 
 after_success:
  - codecov
