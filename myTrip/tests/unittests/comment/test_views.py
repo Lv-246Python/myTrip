@@ -1,7 +1,6 @@
 """Testing module for checkpoint views."""
 
 import json
-from datetime import datetime
 
 from django.test import TestCase, Client
 
@@ -17,31 +16,40 @@ JSON_LENGTH = 8
 class ViewTest(TestCase):
     """ Test for CRUD operation in checkpoint's view """
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
         """
         Preconfig for test.
         Include instance of Client to class as attribute
         Create a model of trip, checkpoint, photo
         """
-        cls.client = Client()
+        self.client = Client()
         user = CustomUser.objects.create(
             id=1,
             first_name='test',
             last_name='test',
             email='test.test@gmail.com',
-            password='user pass',
-            create_at=datetime(2017, 7, 18, 15, 19, 24),
-            update_at=datetime(2017, 7, 18, 15, 19, 24)
+            password='user pass'
         )
+
+        self.user = CustomUser.objects.create(
+            id=2,
+            first_name='test_name',
+            last_name='test_name',
+            email='test@mail.com',
+            password='password'
+        )
+
+        self.user.set_password('password')
+        self.user.save()
+        self.client = Client()
+        self.client.login(username="test@mail.com", password="password")
+
         trip = Trip.objects.create(
             id=10,
             user=user,
             title="my_title",
             description="some_cool_trip",
-            status=0,
-            create_at=datetime(2017, 7, 18, 15, 19, 24),
-            update_at=datetime(2017, 7, 18, 15, 19, 24)
+            status=0
         )
 
         checkpoint = Checkpoint.objects.create(
@@ -52,9 +60,7 @@ class ViewTest(TestCase):
             description="cool checkpoint",
             source_url="http://example.com",
             position_number=1,
-            trip=trip,
-            create_at=datetime(2017, 7, 18, 15, 19, 24),
-            update_at=datetime(2017, 7, 18, 15, 19, 24)
+            trip=trip
         )
 
         photo = Photo.objects.create(
@@ -63,20 +69,25 @@ class ViewTest(TestCase):
             user=user,
             trip=trip,
             checkpoint=checkpoint,
-            description='description1',
-            create_at=datetime(2017, 7, 18, 15, 19, 24),
-            update_at=datetime(2017, 7, 18, 15, 19, 24)
+            description='description1'
         )
 
-        comment = Comment.objects.create(
+        Comment.objects.create(
             id=66,
             message='test message',
             user=user,
             trip=trip,
             checkpoint=checkpoint,
-            photo=photo,
-            create_at=datetime(2017, 7, 18, 15, 19, 24),
-            update_at=datetime(2017, 7, 18, 15, 19, 24)
+            photo=photo
+        )
+
+        Comment.objects.create(
+            id=62,
+            message='test message',
+            user=self.user,
+            trip=trip,
+            checkpoint=checkpoint,
+            photo=photo
         )
 
     def test_get_by_id_success(self):
@@ -111,7 +122,7 @@ class ViewTest(TestCase):
 
         response = self.client.get('/api/v1/trip/10/checkpoint/20/photo/30/comment/')
         data = response.json()
-        self.assertEqual(len(data), 1)
+        self.assertEqual(len(data), 2)
 
     def test_get_response_length(self):
         """Ensure that get method returns all required comment fields."""
@@ -123,12 +134,11 @@ class ViewTest(TestCase):
         """Ensure that post method creates new object with it relations and status 201."""
 
         response = self.client.post('/api/v1/trip/10/checkpoint/20/photo/30/comment/', json.dumps({
-            'message': 'test message',
-            'user_id': 1}),
+            'message': 'test message'}),
                                     content_type="application/json")
         self.assertEqual(response.status_code, 201)
 
-    def test_post_status_404(self):
+    def test_post_status_400(self):
         """Ensure that post method returns status 400, when data is not passed."""
 
         response = self.client.post('/api/v1/trip/30/checkpoint/20/photo/30/comment/', json.dumps({}),
@@ -140,11 +150,10 @@ class ViewTest(TestCase):
         """Ensure that put method updates existed comment object."""
 
         data = {
-            'message': 'put message',
-            'user_id': 1
+            'message': 'put message'
         }
 
-        response = self.client.put('/api/v1/comment/66/', json.dumps(data),
+        response = self.client.put('/api/v1/comment/62/', json.dumps(data),
                                    content_type="application/json")
 
         self.assertEqual(response.status_code, 200)
@@ -153,8 +162,7 @@ class ViewTest(TestCase):
         """Ensure that put method returns status 404 when wrong id were send."""
 
         data = {
-            'message': 'test message update',
-            'user_id': 1
+            'message': 'test message update'
         }
 
         response = self.client.put('/api/v1/comment/2/',
@@ -166,8 +174,7 @@ class ViewTest(TestCase):
         """Ensure that put method returns status 403 when wrong user tries to change comment."""
 
         data = {
-            'message': 'test message update',
-            'user_id': 99
+            'message': 'test message update'
         }
 
         response = self.client.put('/api/v1/comment/66/', json.dumps(data),
@@ -175,14 +182,20 @@ class ViewTest(TestCase):
 
         self.assertEqual(response.status_code, 403)
 
+    def test_delete_status_403(self):
+        """Ensure that delete method returns status 403 when wrong user tries to delete comment."""
+
+        response = self.client.delete('/api/v1/comment/66/')
+        self.assertEqual(response.status_code, 403)
+
     def test_delete_404(self):
         """Ensure that delete method returns status 404 when wrong id were send."""
 
-        response = self.client.delete('api/v1/comment/1/')
+        response = self.client.delete('/api/v1/comment/999/')
         self.assertEqual(response.status_code, 404)
 
     def test_delete_success(self):
         """Ensure that delete method deletes comment object and returns status 204."""
 
-        response = self.client.delete('/api/v1/comment/66/')
+        response = self.client.delete('/api/v1/comment/62/')
         self.assertEqual(response.status_code, 204)

@@ -1,5 +1,8 @@
 """This module contains Unit Tests for Comment app models."""
 
+from datetime import datetime
+import mock
+
 from django.test import TestCase
 
 from checkpoint.models import Checkpoint
@@ -90,7 +93,9 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=10),
             checkpoint=Checkpoint.objects.get(id=20),
-            photo=Photo.objects.get(id=30)
+            photo=Photo.objects.get(id=30),
+            create_at=datetime(2017, 7, 21, 11, 11, 11, 111111),
+            update_at=datetime(2017, 7, 21, 11, 11, 11, 111111)
         )
 
     def test_get_by_id(self):
@@ -151,23 +156,6 @@ class TestPlugin(TestCase):
         expected = Comment.objects.get(id=result.id)
 
         self.assertEqual(result, expected)
-
-    def test_to_dict(self):
-        """Ensure that to_dict methods builds a proper dict from Comment object."""
-
-        comment = Comment.objects.get(id=66)
-        result = comment.to_dict()
-        expected = {
-            'id': 66,
-            'message': 'test message',
-            'user': 1,
-            'trip': 10,
-            'checkpoint': 20,
-            'photo': 30,
-
-        }
-
-        self.assertDictEqual(result, expected)
 
     def test_update(self):
         """Ensure that update method updates specific Comment object."""
