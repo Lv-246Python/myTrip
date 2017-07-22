@@ -31,8 +31,6 @@ class TripView(View):
             return HttpResponse(status=401)
         data["user"] = user
         trip = Trip.create(**data)
-        if not trip:
-            return HttpResponse(status=404)
         return HttpResponse(status=201)
 
     def put(self, request, trip_id):
