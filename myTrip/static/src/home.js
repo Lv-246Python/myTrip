@@ -1,9 +1,9 @@
 import React from "react";
 
-export default class Home extends React.Component {
+export default class Home extends React.Component{
     render() {
         return (
-            <p>Sweet home</p>
+            <h1>home</h1>
         )
     }
 }
