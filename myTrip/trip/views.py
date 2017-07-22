@@ -44,3 +44,4 @@ class TripView(View):
             Trip.delete_by_id(trip_id)
             return HttpResponse(status=200)
         return HttpResponse(status=404)
+        #dev_fix_feature
