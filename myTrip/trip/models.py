@@ -85,14 +85,8 @@ class Trip(models.Model):
         trip.title = title
         trip.description = description
         trip.status = status
-        # trip.save()
-        # return trip
-
-        try:
-            trip.save()
-            return trip
-        except Exception:
-            return None
+        trip.save()
+        return trip
 
     def edit(self, data):
         """
