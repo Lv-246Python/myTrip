@@ -10,14 +10,13 @@ from registration.models import CustomUser
 
 class ViewTest(TestCase):
 
-    @classmethod
-    def setUpTestData(cls):
+    def setUpData(self):
+        self.client = Client()
         user = CustomUser.objects.create(id=10, email = 'ln@gmail.com', password = 'root')
         trip = Trip.objects.create(id=10, user = user, title = 'title', description = 'description', status = 0,
                     create_at=(2017, 7, 20, 11, 38, 34, 466455),
                     update_at=(2017, 7, 20, 11, 38, 34, 466455))
-        client = Client(user)
-        client.login(username="ln@gmail.com", password="root")
+        self.client.login(email="ln@gmail.com", password="root")
 
     def test_get_by_id_success(self):
         response = self.client.get('/api/v1/trip/10/')
@@ -33,6 +32,7 @@ class ViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post(self):
+        self.client.login(username="ln@gmail.com", password="root")
         response = self.client.post('/api/v1/trip/', json.dumps({
                     "title": 'title',
                     "description": "some text",
