@@ -1,4 +1,5 @@
 """This module contains Class Based View for like application."""
+
 import json
 
 from django.http import JsonResponse, HttpResponse
