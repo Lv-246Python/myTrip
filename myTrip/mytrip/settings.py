@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'trip',
     'registration',
     'photo',
-
+    'home',
 ]
 
 SECRET_KEY = 'dfjn3uh334b3bj'
