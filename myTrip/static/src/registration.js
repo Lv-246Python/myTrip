@@ -65,10 +65,17 @@ class Registration_form extends React.Component {
             email,
             password
         })
-            .then( (response) => {
-                this.login()
-                this.props.history.push("/home")
-            })
+            .then(() => {
+                axios.post('/api/v1/auth/login/', {
+                    email,
+                    password
+                })
+                    .then( (response) => {
+                        if (response.status == 200) {
+                         this.props.history.push("/home");
+                        }
+                    })
+            });
         event.preventDefault();
     }
 
@@ -77,15 +84,20 @@ class Registration_form extends React.Component {
             <div className='registration_form'>
                 <h2>Registration form</h2>
                 <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Email:
-                        <input type="text" value={this.state.name} onChange={this.handleEmail} />
-                    </label><br/>
-                    <label>
-                        Password:
-                        <input type="password" value={this.state.password} onChange={this.handlePassword} />
-                    </label><br/>
-                    <input type="submit" value="Create free account" />
+                    <ul className='flex-outer'>
+                        <li>
+                            <label htmlFor='email'>Email:</label>
+                            <input type="text" value={this.state.email} onChange={this.handleEmail} id='email'/>
+                        </li>
+                        <li>
+                            <label htmlFor='password'>Password:</label>
+                            <input type="password" value={this.state.password} onChange={this.handlePassword}
+                             id='password'/>
+                        </li>
+                        <li>
+                            <input type="submit" id='Button' value="Create free account" />
+                        </li>
+                    </ul>
                 </form>
                 <p>or get yourself started with social networks</p>
             </div>

@@ -15,7 +15,7 @@ class Header extends React.Component {
                         <a href="#"><img src="static/img/logo.png" alt="logo" /></a>
                         <span id="logo"><Link to='/home'>TripTracker.com</Link></span>
                         <span id="login"><Link to="#">LOGIN</Link></span>
-                        <span id="register"><Link to='/registraion'>REGISTRATION</Link></span>
+                        <span id="register"><Link to='/registration'>REGISTRATION</Link></span>
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@ class Main extends React.Component {
         return (
             <main>
                 <Switch>
-                    <Route exact path='/registraion' component={Registration} />
+                    <Route exact path='/registration' component={Registration} />
                     <Route exact path='/home' component={Home} />
 
                 </Switch>
