@@ -33,3 +33,59 @@ header{
 .footer p{
   font-size: 20px;
 }
+
+.registration_header {
+    margin:0px;
+    padding:0px;
+    width:100;
+    text-align:center;
+}
+
+.registration_header > h1 {
+    display: inline-block;
+    vertical-align:middle;
+    margin-left:15px;
+}
+
+.registration_header > p {
+    text-align:center;
+    font-style:italic;
+}
+
+.centerBlock {
+    width:60%;
+    padding: 20px 100px;
+    margin-left:50%;
+    transform:translate(-50%,0);
+}
+
+.registraion_info {
+    width:50%;
+    padding:20px;
+}
+
+.registration_form {
+    width:50%;
+    padding:5px 20px 20px 20px;
+}
+.registration_form, .registraion_info {
+    border:2px solid gray;
+    float:left;
+}
+.info_el {
+    clear:both;
+    width:100%;
+}
+
+.info_note {
+    float:right;
+    font-size:14px;
+    font-style:italic;
+    width:70%;
+}
+
+.info_label {
+    font-weight:bold;
+    font-size:20px;
+    float:left;
+}
