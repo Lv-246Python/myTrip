@@ -1,4 +1,4 @@
-"""This module contains Likes models and basic methods for Trip, Checkpoint, Photo and Comment."""
+"""This module contains Like model class and basic methods for Trip, Checkpoint, Photo and Comment."""
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -40,7 +40,7 @@ class Like(models.Model):
         return like
 
     @staticmethod
-    def filter(trip_id, checkpoint_id, photo_id, comment_id):
+    def filter(trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
         """
         Get like with given trip id, checkpoint id, photo id and comment id.
         Args:
@@ -79,10 +79,8 @@ class Like(models.Model):
             QuerySet<Like>: QuerySet of Like,
             or None when exception works.
         """
-        try:
-            return Like.objects.filter(user=user_id)
-        except ObjectDoesNotExist:
-            return None
+        like = Like.objects.filter(user=user_id)
+        return like
 
     def to_dict(self):
         """

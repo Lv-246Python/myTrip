@@ -2,7 +2,7 @@
 
 import json
 
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
 
 from checkpoint.models import Checkpoint
@@ -33,29 +33,31 @@ class LikeView(View):
         if not like:
             return HttpResponse(status=404)
         like = like.to_dict()
-        return JsonResponse(like, status=200)
+        return JsonResponse(like, status=200, safe=False)
 
     def post(self, request, trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
         """Handles POST request, that return JSON response with HTTP status 201."""
         data = json.loads(request.body.decode('utf-8'))
         if not data:
             return HttpResponse(status=404)
-        user = CustomUser.get_by_id(data['user'])
-        checkpoint = Checkpoint.get_by_id(checkpoint_id)
+        user = CustomUser.get_by_id(request.user.id)
         trip = Trip.get_by_id(trip_id)
+        checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.get_by_id(photo_id)
         comment = Comment.get_by_id(comment_id)
-        like = Like.create(checkpoint=checkpoint, trip=trip, photo=photo, user=user, comment=comment)
-        print(like.to_dict())
+        like = Like.create(user=user, trip=trip, checkpoint=checkpoint, photo=photo, comment=comment)
         return JsonResponse(like.to_dict(), status=201)
 
-    def delete(self, like_id):
+    def delete(self, request, like_id, trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
         """
         Handles DELETE request, that return HTTP status 204,
+
         if exception: HTTP status 404.
         """
         like = Like.get_by_id(like_id)
         if not like:
             return HttpResponse(status=404)
-        like.delete()
-        return HttpResponse(status=204)
+        if like.user.id == request.user.id:
+            like.delete()
+            return HttpResponse(status=204)
+        return HttpResponse(status=403)
