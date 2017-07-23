@@ -14,7 +14,6 @@ class CheckpointView(View):
         Handles get request
         Return json and status 200 with new object if operation was successful
         Return status 404 if checkpoint with such checkpoint_id wasn't found
-        Return status 400 if checkpoint_id and trip_id wasn't passed
         """
 
         if checkpoint_id:
@@ -31,7 +30,7 @@ class CheckpointView(View):
         """
         Handles post request
         Create new object and returns status  200 if all was successful
-        Returns status 409 if creation doesn't occur
+        Returns status 404 if such trip wasn't found
         """
 
         data = json.loads(request.body.decode('utf-8'))
