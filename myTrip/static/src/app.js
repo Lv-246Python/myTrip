@@ -1,11 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Home from "./home.js";
+import Registration from "./registration.js";
 
 class Layout extends React.Component{
   render(){
     return(
-      <h1>It works!</h1>
-    );
+        <div>
+            <Home/>
+        </div>
+        );
   }
 }
 

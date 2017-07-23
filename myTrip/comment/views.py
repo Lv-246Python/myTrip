@@ -48,7 +48,7 @@ class CommentView(View):
     def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None):
         """Handles POST request.
         Creates new comment from request in database.
-        In response returns created comment or HttpResponse 404 if comment was not created.
+        In response returns created comment or HttpResponse 400 if comment was not created.
         Returns:
             JsonResponse: response: <comment>
             or
@@ -58,8 +58,8 @@ class CommentView(View):
         data = json.loads(request.body.decode('utf-8'))
         if not data:
             return HttpResponse(status=400)
-        print(data)
-        user = CustomUser.get_by_id(data['user_id'])
+        message = data['message']
+        user = CustomUser.get_by_id(request.user.id)
         trip = Trip.get_by_id(trip_id)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.get_by_id(photo_id)
@@ -68,19 +68,23 @@ class CommentView(View):
             'trip': trip,
             'checkpoint': checkpoint,
             'photo': photo,
-            'message': data['message']
-
+            'message': message
         }
         comment = Comment.create(**data)
         data = comment.to_dict()
         return JsonResponse(data, status=201)
 
-    def put(self, request, comment_id):
+    def put(self, request, comment_id, trip_id, checkpoint_id=None, photo_id=None):
         """Handles PUT request.
         Get comment data from PUT request and update comment from request profile in database.
+        Should have trip id or others in url.
         In response returns updated comment or HttpResponse 404 if comment was not found.
         Args:
             comment_id(int): comment id.
+            trip_id(int): id of Object<Trip>, required in url
+            checkpoint_id(int): id of Object<Checkpoint>, possible in url
+            photo_id(int): id of Object<Photo>, possible in url
+
         Returns:
             JsonResponse: response: <comment>
             or
@@ -90,16 +94,16 @@ class CommentView(View):
         if not comment:
             return HttpResponse(status=404)
         update_data = json.loads(request.body.decode('utf-8'))
-        user_id = update_data['user_id']
-        if comment.user.id is user_id:
-            comment.update(update_data['message'])
+        message = update_data['message']
+        if comment.user.id is request.user.id:
+            comment.update(message)
             return JsonResponse(comment.to_dict(), status=200)
 
         return HttpResponse(status=403)
 
-    def delete(self, request, comment_id):
+    def delete(self, request, comment_id, trip_id, checkpoint_id=None, photo_id=None):
         """Handles DELETE request.
-        Deletes comment from given comment id.
+        Deletes comment from given comment id, should have trip id or others in url.
         In response returns HttpStatus 204 or HttpResponse 404 if comment was not found.
         Returns:
             HttpResponse: status: 204
@@ -109,5 +113,7 @@ class CommentView(View):
         comment = Comment.get_by_id(comment_id)
         if not comment:
             return HttpResponse(status=404)
-        comment.delete()
-        return HttpResponse(status=204)
+        if comment.user.id == request.user.id:
+            comment.delete()
+            return HttpResponse(status=204)
+        return HttpResponse(status=403)

@@ -27,7 +27,6 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             title='title1',
             description='description1',
-            create_at=(2017, 7, 20, 11, 38, 34, 466455),
             status=0
         )
 
@@ -36,7 +35,6 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             title='title2',
             description='description2',
-            create_at=(2017, 7, 20, 11, 38, 34, 466455),
             status=0
         )
 
@@ -48,8 +46,7 @@ class TestPlugin(TestCase):
             description='description1',
             position_number=1,
             source_url='url1',
-            trip=Trip.objects.get(id=10),
-            create_at=(2017, 7, 20, 11, 38, 34, 466455)
+            trip=Trip.objects.get(id=10)
         )
 
         Checkpoint.objects.create(
@@ -60,8 +57,7 @@ class TestPlugin(TestCase):
             description='description2',
             position_number=2,
             source_url='url2',
-            trip=Trip.objects.get(id=11),
-            create_at=(2017, 7, 20, 11, 38, 34, 466455)
+            trip=Trip.objects.get(id=11)
         )
 
         Photo.objects.create(
@@ -70,8 +66,7 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=10),
             checkpoint=Checkpoint.objects.get(id=20),
-            description='description1',
-            create_at=(2017, 7, 20, 11, 38, 34, 466455)
+            description='description1'
         )
 
         Photo.objects.create(
@@ -80,13 +75,12 @@ class TestPlugin(TestCase):
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=11),
             checkpoint=Checkpoint.objects.get(id=21),
-            description='description2',
-            create_at=(2017, 7, 20, 11, 38, 34, 466455)
+            description='description2'
         )
 
         Comment.objects.create(
             id=66,
-            message='test message',
+            message='test1',
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=10),
             checkpoint=Checkpoint.objects.get(id=20),
@@ -140,7 +134,7 @@ class TestPlugin(TestCase):
         photo = Photo.objects.get(id=30)
 
         data = {
-            'message': 'test message',
+            'message': 'test1',
             'user': user,
             'trip': trip,
             'checkpoint': checkpoint,
@@ -152,22 +146,23 @@ class TestPlugin(TestCase):
 
         self.assertEqual(result, expected)
 
-    def test_to_dict(self):
+    def test_to_dict(self, *args):
         """Ensure that to_dict methods builds a proper dict from Comment object."""
 
         comment = Comment.objects.get(id=66)
         result = comment.to_dict()
         expected = {
             'id': 66,
-            'message': 'test message',
+            'message': 'test1',
             'user': 1,
             'trip': 10,
             'checkpoint': 20,
             'photo': 30,
-
+            'create_at': result['create_at'],
+            'update_at': result['update_at']
         }
 
-        self.assertDictEqual(result, expected)
+        self.assertEqual(expected, result)
 
     def test_update(self):
         """Ensure that update method updates specific Comment object."""
@@ -189,13 +184,13 @@ class TestPlugin(TestCase):
         result = repr(comment)
         expected = "id:{}, message:{}, user:{}, trip:{}, " \
                    "checkpoint:{}, photo:{}, create_at:{}, update_at:{}".format(
-            comment.id,
-            comment.message,
-            comment.user,
-            comment.trip.id,
-            comment.checkpoint.id,
-            comment.photo.id,
-            comment.create_at,
-            comment.update_at)
+                       comment.id,
+                       comment.message,
+                       comment.user,
+                       comment.trip.id,
+                       comment.checkpoint.id,
+                       comment.photo.id,
+                       comment.create_at,
+                       comment.update_at)
 
         self.assertEqual(result, expected)
