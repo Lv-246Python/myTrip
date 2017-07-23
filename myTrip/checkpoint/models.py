@@ -1,4 +1,4 @@
-"""This module contains comment model class and basic functions"""
+"""This module contains checkpoint model class and basic functions"""
 
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
@@ -84,6 +84,7 @@ class Checkpoint(models.Model):
         checkpoints = trip.checkpoint_set.all()
         return checkpoints
 
+    @staticmethod
     def create(longitude, latitude, title, description, source_url, position_number, trip_id):
         """
         Create checkpoint with given trip_id, longitude,latitude,title,description,source_url,
