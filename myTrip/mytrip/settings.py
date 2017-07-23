@@ -42,6 +42,16 @@ INSTALLED_APPS = [
 
 SECRET_KEY = 'dfjn3uh334b3bj'
 
+# Template configuration
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR,'static/src/')],
+        'APP_DIRS': True,
+    },
+]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load staticfiles %}
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,10 +20,10 @@
     <![endif]-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="{% static 'src/css/main.css' %}">
   </head>
   <body>
     <div id="app"></div>
-    <script src="../public/bundle.js" charset="utf-8"></script>
+    <script src="{% static 'public/bundle.js' %}" charset="utf-8"></script>
   </body>
 </html>

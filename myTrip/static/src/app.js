@@ -12,7 +12,7 @@ class Header extends React.Component {
             <div className="row">
                 <div className="col-md-12">
                     <div className="logo">
-                        <a href="#"><img src="./img/logo.png" alt="logo" /></a>
+                        <a href="#"><img src="static/img/logo.png" alt="logo" /></a>
                         <span id="logo"><Link to='/home'>TripTracker.com</Link></span>
                         <span id="login"><Link to="#">LOGIN</Link></span>
                         <span id="register"><Link to='/registraion'>REGISTRATION</Link></span>

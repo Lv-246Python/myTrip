@@ -6,7 +6,7 @@ class Registration_header extends React.Component {
     render() {
         return (
             <div className='registration_header'>
-                    <img src="./img/logo.png" alt="logo" /><h1>TripTracker.com</h1>
+                    <img src="static/img/logo.png" alt="logo" /><h1>TripTracker.com</h1>
                     <p>Get started for free</p>
             </div>
         );
@@ -61,16 +61,13 @@ class Registration_form extends React.Component {
     handleSubmit(event) {
         const email = this.state.email;
         const password = this.state.password;
-        axios.post('http://localhost:8000/api/v1/auth/register/', {
+        axios.post('/api/v1/auth/register/', {
             email,
             password
         })
-            .then(function(response) {
-                console.log(response);
+            .then( (response) => {
+                this.login()
                 this.props.history.push("/home")
-            })
-            .catch(function(error) {
-                console.log(error);
             })
         event.preventDefault();
     }
@@ -102,7 +99,7 @@ export default class Registration extends React.Component {
             <div>
                 < Registration_header />
                 <div className='centerBlock'>
-                    < Registration_form />
+                    < Registration_form history = {this.props.history} />
                     <div className='vertical-line'></div>
                     < Registration_info />
                 </div>
