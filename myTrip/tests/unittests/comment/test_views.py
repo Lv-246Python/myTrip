@@ -1,4 +1,4 @@
-"""Testing module for checkpoint views."""
+"""Testing module for comment views."""
 
 import json
 
@@ -14,13 +14,13 @@ JSON_LENGTH = 8
 
 
 class ViewTest(TestCase):
-    """ Test for CRUD operation in checkpoint's view """
+    """ Test for CRUD operation in comment's view """
 
     def setUp(self):
         """
         Preconfig for test.
         Include instance of Client to class as attribute
-        Create a model of trip, checkpoint, photo
+        Create a model of trip, checkpoint, photo, comment
         """
         self.client = Client()
         user = CustomUser.objects.create(
