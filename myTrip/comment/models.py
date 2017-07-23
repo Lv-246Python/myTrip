@@ -20,7 +20,7 @@ class Comment(models.Model):
         one-to-many relation
         :argument photo: Object<Photo> - foreign key to photo model, one-to-many relation
         :argument created_at: datetime - date and time of created comment
-        :argument modified_at: datetime - date and time of modified comment
+        :argument modified_at: datetime - date and time of modified commentgi
     """
 
     message = models.TextField()

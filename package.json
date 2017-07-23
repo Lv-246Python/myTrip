@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Lv-246Python/myTrip#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "babel-core": "^6.25.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
