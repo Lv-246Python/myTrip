@@ -165,7 +165,7 @@ class Checkpoint(models.Model):
             self - checkpoint object
         Returns:
             True if deleting was successful
-            False if deleting wasn't complete
+            None if deleting wasn't complete
         """
 
         try:
