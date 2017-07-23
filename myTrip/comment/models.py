@@ -91,7 +91,7 @@ class Comment(models.Model):
             'id': self.id,
             'message': self.message,
             'user': self.user.id,
-            'trip': self.trip.id if self.trip else None,
+            'trip': self.trip.id,
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
             'create_at': self.create_at,

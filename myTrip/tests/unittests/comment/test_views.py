@@ -93,13 +93,13 @@ class ViewTest(TestCase):
     def test_get_by_id_success(self):
         """Test for get operation with passed comment id."""
 
-        response = self.client.get('/api/v1/comment/66/')
+        response = self.client.get('/api/v1/trip/10/comment/66/')
         self.assertEqual(response.status_code, 200)
 
     def test_get_by_id_status_not_found(self):
         """Ensure that get method returns status 404 with non-existed object id."""
 
-        response = self.client.get('/api/v1/comment/1/')
+        response = self.client.get('/api/v1/trip/10/comment/1/')
         self.assertEqual(response.status_code, 404)
 
     def test_get_by_trip_checkpoint_photo_id(self):
@@ -152,7 +152,7 @@ class ViewTest(TestCase):
             'message': 'put message'
         }
 
-        response = self.client.put('/api/v1/comment/62/', json.dumps(data),
+        response = self.client.put('/api/v1/trip/10/comment/62/', json.dumps(data),
                                    content_type="application/json")
 
         self.assertEqual(response.status_code, 200)
@@ -164,7 +164,7 @@ class ViewTest(TestCase):
             'message': 'test message update'
         }
 
-        response = self.client.put('/api/v1/comment/2/',
+        response = self.client.put('/api/v1/trip/10/comment/2/',
                                    json.dumps(data), content_type="application/json")
 
         self.assertEqual(response.status_code, 404)
@@ -176,7 +176,7 @@ class ViewTest(TestCase):
             'message': 'test message update'
         }
 
-        response = self.client.put('/api/v1/comment/66/', json.dumps(data),
+        response = self.client.put('/api/v1/trip/10/comment/66/', json.dumps(data),
                                    content_type="application/json")
 
         self.assertEqual(response.status_code, 403)
@@ -184,17 +184,17 @@ class ViewTest(TestCase):
     def test_delete_status_403(self):
         """Ensure that delete method returns status 403 when wrong user tries to delete comment."""
 
-        response = self.client.delete('/api/v1/comment/66/')
+        response = self.client.delete('/api/v1/trip/10/comment/66/')
         self.assertEqual(response.status_code, 403)
 
     def test_delete_404(self):
         """Ensure that delete method returns status 404 when wrong id were send."""
 
-        response = self.client.delete('/api/v1/comment/999/')
+        response = self.client.delete('/api/v1/trip/10/comment/999/')
         self.assertEqual(response.status_code, 404)
 
     def test_delete_success(self):
         """Ensure that delete method deletes comment object and returns status 204."""
 
-        response = self.client.delete('/api/v1/comment/62/')
+        response = self.client.delete('/api/v1/trip/10/comment/62/')
         self.assertEqual(response.status_code, 204)
