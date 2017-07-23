@@ -55,8 +55,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'registration.CustomUser'
 
-AUTHENTICATION_BACKENDS = ('registration.backends.CustomUserAuth',)
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
