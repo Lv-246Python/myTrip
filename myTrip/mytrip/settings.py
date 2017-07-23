@@ -47,20 +47,20 @@ SECRET_KEY = 'dfjn3uh334b3bj'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'static/src/')],
+        'DIRS': [os.path.join(BASE_DIR, 'static/src/')],
         'APP_DIRS': True,
     },
 ]
 
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'NAME': 'travis',
-       'USER': 'postgres',
-       'PASSWORD': '',
-       'HOST': '127.0.0.1',
-       'PORT': '5432',
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'travis',
+        'USER': 'postgres',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
 
 # Authentication
@@ -100,7 +100,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+STATICFILES_DIRS = []
 
 try:
     from .local_settings import * # pylint: disable=wildcard-import,unused-wildcard-import
