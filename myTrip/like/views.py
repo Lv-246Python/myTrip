@@ -36,7 +36,10 @@ class LikeView(View):
         return JsonResponse(like, status=200, safe=False)
 
     def post(self, request, trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
-        """Handles POST request, that return JSON response with HTTP status 201."""
+        """
+        Handles POST request, that return JSON response with HTTP status 201,
+        if exception: HTTP status 404.
+        """
         data = json.loads(request.body.decode('utf-8'))
         if not data:
             return HttpResponse(status=404)
@@ -51,8 +54,8 @@ class LikeView(View):
     def delete(self, request, like_id, trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
         """
         Handles DELETE request, that return HTTP status 204,
-
-        if exception: HTTP status 404.
+        if exception: HTTP status 404,
+        if not correct user id: HTTP status 403.
         """
         like = Like.get_by_id(like_id)
         if not like:

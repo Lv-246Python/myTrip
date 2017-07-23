@@ -76,8 +76,7 @@ class Like(models.Model):
         Args:
             user_id (int): user id.
         Returns:
-            QuerySet<Like>: QuerySet of Like,
-            or None when exception works.
+            QuerySet<Like>: QuerySet of Like.
         """
         like = Like.objects.filter(user=user_id)
         return like
