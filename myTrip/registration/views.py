@@ -55,7 +55,7 @@ def login(request):
         user = auth.authenticate(username=email, password=password)
         if user:
             auth.login(request, user)
-            return HttpResponse("Login successfull.", status=200)
+            return HttpResponse("Login successful.", status=200)
         return HttpResponse('Email or password invalid', status=403)
 
 def logout(request):
@@ -71,5 +71,5 @@ def logout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             auth.logout(request)
-            return HttpResponse("Logout successfull.", status=200)
+            return HttpResponse("Logout successful.", status=200)
         return HttpResponse("You're not logged in.", status=400)
