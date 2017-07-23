@@ -25,6 +25,9 @@ def register(request):
         email = data["email"]
         password = data["password"]
 
+        if not email or not password:
+            return HttpResponse("Email and password must be set.", status=400)
+
         if not CustomUser.get_by_email(email):
             try:
                 validate_email(email)
