@@ -52,7 +52,7 @@ class CommentView(View):
         Returns:
             JsonResponse: response: <comment>
             or
-            HttpResponse: status: 404.
+            HttpResponse: status: 400.
         """
 
         data = json.loads(request.body.decode('utf-8'))
@@ -88,7 +88,8 @@ class CommentView(View):
         Returns:
             JsonResponse: response: <comment>
             or
-            HttpResponse: status: 404
+            HttpResponse: status: 404 when got wrong comment id,
+            HttpResponse: status: 403 when wrong user send request
         """
         comment = Comment.get_by_id(comment_id)
         if not comment:
@@ -108,7 +109,8 @@ class CommentView(View):
         Returns:
             HttpResponse: status: 204
             or
-            HttpResponse: status: 404.
+            HttpResponse: status: 404, when wrong comment id were send
+            HttpResponse: status: 403 when wrong user send request
         """
         comment = Comment.get_by_id(comment_id)
         if not comment:
