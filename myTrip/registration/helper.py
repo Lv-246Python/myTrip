@@ -1,3 +1,4 @@
+""" Contains HttpResponse shortcuts."""
 from django.http import HttpResponse
 
 # HttpResponse 4xx
