@@ -126,7 +126,7 @@ class ViewTest(TestCase):
             "source_url": "test_url",
             "position_number":5
         }
-
+        self.client.login(username='test.test@gmail.com', password='userpass')
         response = self.client.put('/api/v1/trip/2/checkpoint/2/', json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
@@ -144,9 +144,26 @@ class ViewTest(TestCase):
             "source_url": "test_url",
             "position_number":5
         }
-
+        self.client.login(username='test.test@gmail.com', password='userpass')
         response = self.client.put('/api/v1/trip/2/checkpoint/4/', json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 404)
+
+    def test_put_status_403(self):
+        """
+        Test for put operation which will modify checkpoint model.
+        Request has wrong id and status 404 must be returned
+        """
+
+        data = {
+            "longitude": 15,
+            "latitude": 15,
+            "title": "test",
+            "description": "test_checkpoint",
+            "source_url": "test_url",
+            "position_number":5
+        }
+        response = self.client.put('/api/v1/trip/2/checkpoint/4/', json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 403)
 
     def test_put_object_modified(self):
         """Test object's properties after put opertaion."""
@@ -159,7 +176,7 @@ class ViewTest(TestCase):
             "source_url": "test_url",
             "position_number": 5
         }
-
+        self.client.login(username='test.test@gmail.com', password='userpass')
         response = self.client.put('/api/v1/trip/2/checkpoint/2/', json.dumps(data),
                                    content_type="application/json")
         received_data = response.json()

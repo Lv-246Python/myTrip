@@ -48,7 +48,9 @@ class CheckpointView(View):
         Return status 200 if checkpoint has been successful updated
         Return status 404 if checkpoint with such checkpoint_id wasn't found
         """
-
+        trip = Trip.objects.get(id=trip_id)
+        if not trip.id == request.user.id:
+            return HttpResponse(status=403)
         checkpoint_object = Checkpoint.get_by_id(checkpoint_id)
         if not checkpoint_object:
             return HttpResponse(status=404)
