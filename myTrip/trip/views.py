@@ -51,7 +51,6 @@ class TripView(View):
         if not trip:
             return HttpResponse(status=404)
         if request.user.id == trip.user.id:
-            data = json.loads(request.body.decode('utf-8'))
             Trip.delete_by_id(trip_id)
             return HttpResponse(status=200)
         return HttpResponse(status=403)
