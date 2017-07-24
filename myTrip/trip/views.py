@@ -30,23 +30,29 @@ class TripView(View):
         if not user:
             return HttpResponse(status=401)
         data["user"] = user
-        Trip.create(**data)
+        Trip.create(data)
         return HttpResponse(status=201)
 
     def put(self, request, trip_id):
         """Handles PUT request."""
         trip = Trip.get_by_id(trip_id)
-        if trip and request.user.id == trip.user.id:
+        if not trip:
+            return HttpResponse(status=404)
+        if request.user.id == trip.user.id:
             data = json.loads(request.body.decode('utf-8'))
             trip.edit(data)
             return HttpResponse(status=200)
-        return HttpResponse(status=404)
+        return HttpResponse(status=403)
+
 
     def delete(self, request, trip_id):
         """Handles DELETE request."""
         trip = Trip.get_by_id(trip_id)
-        if trip and request.user.id == trip.user.id:
+        if not trip:
+            return HttpResponse(status=404)
+        if request.user.id == trip.user.id:
+            data = json.loads(request.body.decode('utf-8'))
             Trip.delete_by_id(trip_id)
             return HttpResponse(status=200)
-        return HttpResponse(status=404)
+        return HttpResponse(status=403)
         #dev_fix_feature2
