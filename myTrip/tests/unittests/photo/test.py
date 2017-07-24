@@ -126,7 +126,7 @@ class TestPlugin(TestCase):
             "description": "random thing"
         }
 
-        response = self.client.put('/api/v1/photo/5/', json.dumps(data),
+        response = self.client.put('/api/v1/trip/20/checkpoint/20/photo/5/', json.dumps(data),
                                    content_type="application/json")
 
         self.assertEqual(response.status_code, 200)
@@ -138,7 +138,7 @@ class TestPlugin(TestCase):
             "description": "random thing"
         }
 
-        response = self.client.put('/api/v1/photo/6/', json.dumps(data),
+        response = self.client.put('/api/v1/trip/20/checkpoint/20/photo/6/', json.dumps(data),
                                    content_type="application/json")
         self.assertEqual(response.status_code, 403)
 
@@ -152,24 +152,24 @@ class TestPlugin(TestCase):
             "description": "random thing"
         }
 
-        response = self.client.put('/api/v1/photo/7/', json.dumps(data),
+        response = self.client.put('/api/v1/trip/20/checkpoint/20/photo/7/', json.dumps(data),
                                    content_type="application/json")
         self.assertEqual(response.status_code, 400)
 
     def test_delete_status_success(self):
         """Test for delete operation which will delete photo model."""
 
-        response = self.client.delete('/api/v1/photo/5/')
+        response = self.client.delete('/api/v1/trip/20/checkpoint/20/photo/5/')
         self.assertEqual(response.status_code, 200)
 
     def test_delete_status_no_permission(self):
         """Test for delete operation which will delete photo model."""
 
-        response = self.client.delete('/api/v1/photo/6/')
+        response = self.client.delete('/api/v1/trip/20/checkpoint/20/photo/6/')
         self.assertEqual(response.status_code, 403)
 
     def test_delete_status_400(self):
         """Test for delete operation which will delete photo model."""
 
-        response = self.client.delete('/api/v1/photo/8/')
+        response = self.client.delete('/api/v1/trip/20/checkpoint/20/photo/8/')
         self.assertEqual(response.status_code, 400)

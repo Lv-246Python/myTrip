@@ -13,12 +13,12 @@ class Photo(models.Model):
     Photo
     :argument id: int - auto generated primary key
     :argument src: url - photo source link
-    :argument user: - foreign key to User model
-    :argument trip: - foreign key to Trip model
-    :argument checkpoint: - foreign to Checkpoint model
+    :argument user: Object<User> - foreign key to User model
+    :argument trip: Object<Trip> - foreign key to Trip model
+    :argument checkpoint: Object<Checkpoint> - foreign to Checkpoint model
     :argument description: str - description to photo
     :argument create_at: date - time when created
-    :argument updated_at: date - time when updated.
+    :argument update_at: date - time when updated.
     """
 
     src = models.URLField()
@@ -50,15 +50,13 @@ class Photo(models.Model):
         Args:
             trip_id (int): trip id
             checkpoint_id (int): checkpoint id.
-            trip_id (int): trip id.
-
         Returns:
             QuerySet<Photos>: QuerySet of Photos.
         """
         return Photo.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
 
     @staticmethod
-    def create(src, user, description, trip=None, checkpoint=None):
+    def create(src, user, description=None, trip=None, checkpoint=None):
         """ Creating photo model, and returns created object"""
         photo = Photo()
         photo.src = src
@@ -84,7 +82,7 @@ class Photo(models.Model):
                     'src': source link,
                     'user': user id,
                     'trip_id': trip id,
-                    'checkpoit_id': checkpoint id,
+                    'checkpoint_id': checkpoint id,
                     'description': description text,
                     'create_at': time when created,
                     'update_at': time when last updated
