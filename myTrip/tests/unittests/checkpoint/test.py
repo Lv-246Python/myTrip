@@ -26,8 +26,9 @@ class ViewTest(TestCase):
             first_name='test',
             last_name='test',
             email='test.test@gmail.com',
-            password='user pass'
         )
+        user.set_password('userpass')
+        user.save()
         trip = Trip.objects.create(id=2, user=user, title="my_title",
                                        description="some_cool_trip", status=0)
         checkpoint = Checkpoint.objects.create(
@@ -168,11 +169,19 @@ class ViewTest(TestCase):
     def test_delete_status_success(self):
         """Test for delete opertaion which will delete checkpoint model."""
 
+        self.client.login(username='test.test@gmail.com', password='userpass')
         response = self.client.delete('/api/v1/trip/2/checkpoint/2/')
         self.assertEqual(response.status_code, 200)
 
     def test_delete_status_404(self):
         """Test for delete opertaion which will delete checkpoint model."""
 
+        self.client.login(username='test.test@gmail.com', password='userpass')
         response = self.client.delete('/api/v1/trip/2/checkpoint/5/')
         self.assertEqual(response.status_code, 404)
+
+    def test_delete_status_403(self):
+        """Test for delete opertaion which will delete checkpoint model."""
+
+        response = self.client.delete('/api/v1/trip/2/checkpoint/5/')
+        self.assertEqual(response.status_code, 403)
