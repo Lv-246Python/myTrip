@@ -1,9 +1,7 @@
 """Contains everything we need for Registration and Authentication."""
 
-from datetime import datetime
-
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class CustomUser(AbstractBaseUser):
@@ -23,6 +21,8 @@ class CustomUser(AbstractBaseUser):
     update_at = models.DateTimeField(auto_now=True, editable=True)
 
     USERNAME_FIELD = 'email'
+    objects = BaseUserManager()
+
 
     @staticmethod
     def create(email, password):
@@ -35,14 +35,9 @@ class CustomUser(AbstractBaseUser):
             new CustomUser object.
         """
 
-        if not email or not password:
-            raise ValueError('The email & password must be set.')
-
         user = CustomUser()
         user.email = email.lower()
         user.set_password(password)
-        user.created_at = datetime.now()
-        user.modified_at = datetime.now()
         user.save()
         return user
 
@@ -126,7 +121,6 @@ class CustomUser(AbstractBaseUser):
             self.last_name = last_name
             return self.get_full_name()
 
-        self.modified_at = datetime.now()
         self.save()
 
     def to_dict(self):
@@ -139,6 +133,8 @@ class CustomUser(AbstractBaseUser):
             'first_name': first_name,
             'last_name': last_name,
             'email': email,
+            'create_at': create_at,
+            'update_at': update_at
         """
 
         return {
@@ -146,4 +142,6 @@ class CustomUser(AbstractBaseUser):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
+            'create_at': self.create_at,
+            'update_at': self.update_at
         }

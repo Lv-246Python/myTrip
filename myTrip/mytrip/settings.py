@@ -13,7 +13,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -21,7 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -43,21 +41,19 @@ INSTALLED_APPS = [
 SECRET_KEY = 'dfjn3uh334b3bj'
 
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'NAME': 'travis',
-       'USER': 'postgres',
-       'PASSWORD': '',
-       'HOST' : '127.0.0.1',
-       'PORT' : '5432',
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'travis',
+        'USER': 'postgres',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
 
 # Authentication
 
 AUTH_USER_MODEL = 'registration.CustomUser'
-
-AUTHENTICATION_BACKENDS = ('registration.backends.CustomUserAuth', )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,14 +81,13 @@ USE_L10N = True
 
 USE_TZ = False
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+STATICFILES_DIRS = []
 
 try:
-    from .local_settings import * # pylint: disable=wildcard-import,unused-wildcard-import
+    from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import
 except ImportError:
     pass

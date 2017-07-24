@@ -22,15 +22,16 @@ class ViewTest(TestCase):
         """
         cls.client = Client()
         user = CustomUser.objects.create(
-            id=1,
+            id=2,
             first_name='test',
             last_name='test',
             email='test.test@gmail.com',
             password='user pass'
         )
-        trip = Trip.objects.create(user=user, title="my_title",
+        trip = Trip.objects.create(id=2, user=user, title="my_title",
                                        description="some_cool_trip", status=0)
         checkpoint = Checkpoint.objects.create(
+            id=2,
             longitude=12,
             latitude=13,
             title="first_checkpoint",
@@ -42,6 +43,7 @@ class ViewTest(TestCase):
             update_at=datetime.now()
         )
         checkpoint = Checkpoint.objects.create(
+            id=3,
             longitude=44,
             latitude=29,
             title="second_checkpoint",
@@ -56,39 +58,39 @@ class ViewTest(TestCase):
     def test_get_by_id_success(self):
         """Test for get operation with passed checkpoint id."""
 
-        response = self.client.get('/api/v1/trip/1/checkpoint/1/')
+        response = self.client.get('/api/v1/trip/2/checkpoint/2/')
         self.assertEqual(response.status_code, 200)
 
     def test_get_status_not_found(self):
         """Test for get operation with passed id (wrong)."""
 
-        response = self.client.get('/api/v1/trip/1/checkpoint/3/')
+        response = self.client.get('/api/v1/trip/2/checkpoint/4/')
         self.assertEqual(response.status_code, 404)
 
     def test_get_by_trip_id(self):
         """Test for get operation with passed checkpoint id."""
 
-        response = self.client.get('/api/v1/trip/1/checkpoint/')
+        response = self.client.get('/api/v1/trip/2/checkpoint/')
         self.assertEqual(response.status_code, 200)
 
-    def test_get_by_trip_id(self):
+    def test_get_by_trip_id_length(self):
         """Test for get operation with passed checkpoint id."""
 
-        response = self.client.get('/api/v1/trip/1/checkpoint/')
+        response = self.client.get('/api/v1/trip/2/checkpoint/')
         data = response.json()
         self.assertEqual(len(data), 2)
 
     def test_get_response_length(self):
         """Test length of response object after get operation with passed id."""
 
-        response = self.client.get('/api/v1/trip/1/checkpoint/1/')
+        response = self.client.get('/api/v1/trip/2/checkpoint/2/')
         self.assertEqual(len(response.json()), JSON_LENGTH)
 
 
     def test_post_status_success(self):
         """Test for post operation which will create new instance of checkpoint."""
 
-        response = self.client.post('/api/v1/trip/1/checkpoint/', json.dumps({
+        response = self.client.post('/api/v1/trip/2/checkpoint/', json.dumps({
             "longitude": 20,
             "latitude": 10,
             "title": "new",
@@ -98,30 +100,19 @@ class ViewTest(TestCase):
             content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
+    def test_post_status_404(self):
+        """Test for post operation which will create new instance of checkpoint."""
 
-    def test_post_object(self):
-        """Test fields in database after post opertaion."""
-
-        response = self.client.post('/api/v1/trip/1/checkpoint/', json.dumps({
+        response = self.client.post('/api/v1/trip/3/checkpoint/', json.dumps({
             "longitude": 20,
             "latitude": 10,
             "title": "new",
             "description": "cool_checkpoint",
             "source_url": "my_url",
-            "position_number": 3}),
+            "position_number":3}),
             content_type="application/json")
+        self.assertEqual(response.status_code, 404)
 
-        check_data = {
-            "id": 3,
-            "longitude": 20,
-            "latitude": 10,
-            "title": "new",
-            "description": "cool_checkpoint",
-            "source_url": "my_url",
-            "position_number": 3,
-            "trip_id": 1
-        }
-        self.assertEqual(response.json(), check_data)
 
     def test_put_status_success(self):
         """Test for put operation which will modify checkpoint model."""
@@ -135,7 +126,7 @@ class ViewTest(TestCase):
             "position_number":5
         }
 
-        response = self.client.put('/api/v1/trip/1/checkpoint/1/', json.dumps(data), content_type="application/json")
+        response = self.client.put('/api/v1/trip/2/checkpoint/2/', json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_put_status_404(self):
@@ -153,7 +144,7 @@ class ViewTest(TestCase):
             "position_number":5
         }
 
-        response = self.client.put('/api/v1/trip/1/checkpoint/3/', json.dumps(data), content_type="application/json")
+        response = self.client.put('/api/v1/trip/2/checkpoint/4/', json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 404)
 
     def test_put_object_modified(self):
@@ -168,14 +159,20 @@ class ViewTest(TestCase):
             "position_number": 5
         }
 
-        response = self.client.put('/api/v1/trip/1/checkpoint/1/', json.dumps(data),
+        response = self.client.put('/api/v1/trip/2/checkpoint/2/', json.dumps(data),
                                    content_type="application/json")
         received_data = response.json()
         for key in data.keys():
             self.assertEqual(data[key], received_data[key])
 
-    def test_delete_status(self):
+    def test_delete_status_success(self):
         """Test for delete opertaion which will delete checkpoint model."""
 
-        response = self.client.delete('/api/v1/trip/1/checkpoint/1/')
+        response = self.client.delete('/api/v1/trip/2/checkpoint/2/')
         self.assertEqual(response.status_code, 200)
+
+    def test_delete_status_404(self):
+        """Test for delete opertaion which will delete checkpoint model."""
+
+        response = self.client.delete('/api/v1/trip/2/checkpoint/5/')
+        self.assertEqual(response.status_code, 404)

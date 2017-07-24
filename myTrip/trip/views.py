@@ -3,8 +3,8 @@ import json
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
 
-from .models import Trip
 from registration.models import CustomUser
+from .models import Trip
 
 class TripView(View):
     """Comments view handles GET, POST, PUT, DELETE requests."""
@@ -26,21 +26,27 @@ class TripView(View):
     def post(self, request):
         """Handles POST request."""
         data = json.loads(request.body.decode('utf-8'))
-        data["user"] = CustomUser.get_by_id(data["user"])
+        user = CustomUser.get_by_id(request.user.id)
+        if not user:
+            return HttpResponse(status=401)
+        data["user"] = user
         Trip.create(**data)
         return HttpResponse(status=201)
 
     def put(self, request, trip_id):
         """Handles PUT request."""
-        if Trip.get_by_id(trip_id):
+        trip = Trip.get_by_id(trip_id)
+        if trip and request.user.id == trip.user.id:
             data = json.loads(request.body.decode('utf-8'))
-            Trip.edit(data, trip_id)
+            trip.edit(data)
             return HttpResponse(status=200)
         return HttpResponse(status=404)
 
     def delete(self, request, trip_id):
         """Handles DELETE request."""
-        if Trip.get_by_id(trip_id):
+        trip = Trip.get_by_id(trip_id)
+        if trip and request.user.id == trip.user.id:
             Trip.delete_by_id(trip_id)
             return HttpResponse(status=200)
         return HttpResponse(status=404)
+        #dev_fix_feature

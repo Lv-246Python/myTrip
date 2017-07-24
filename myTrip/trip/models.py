@@ -1,5 +1,4 @@
 """This module contains Trip model class and basic functions."""
-from datetime import datetime
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -89,8 +88,7 @@ class Trip(models.Model):
         trip.save()
         return trip
 
-    @staticmethod
-    def edit(data, trip_id):
+    def edit(self, data):
         """
         Updates Trip with new title,description and status
          Args:
@@ -100,12 +98,12 @@ class Trip(models.Model):
         Returns:
             trip obj
         """
-        trip = Trip.objects.get(id=trip_id)
-        trip.title = data['title']
-        trip.description = data['description']
-        trip.status = data['status']
-        trip.save()
-        return trip
+        # trip = Trip.objects.get(id=trip_id)
+        self.title = data['title']
+        self.description = data['description']
+        self.status = data['status']
+        self.save()
+        return True
 
     @staticmethod
     def delete_by_id(trip_id):
@@ -114,13 +112,16 @@ class Trip(models.Model):
          Args:
             id(int): id of trip
         Returns:
-            none
+            true
         """
-        trip = Trip.objects.get(id=trip_id)
-        trip.delete()
-        return None
+        try:
+            trip = Trip.objects.get(id=trip_id)
+            trip.delete()
+            return True
+        except ObjectDoesNotExist:
+            return None
 
-    def get_trips(user_id,page=1,step=5):
+    def get_trips(user_id, page=1, step=5):
         """
         Returns the last 5 trips by the user
          Args:

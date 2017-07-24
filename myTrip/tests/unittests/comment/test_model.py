@@ -1,7 +1,5 @@
 """This module contains Unit Tests for Comment app models."""
 
-from datetime import datetime
-
 from django.test import TestCase
 
 from checkpoint.models import Checkpoint
@@ -26,19 +24,17 @@ class TestPlugin(TestCase):
 
         Trip.objects.create(
             id=10,
-            user_id=1,
+            user=CustomUser.objects.get(id=1),
             title='title1',
             description='description1',
-            created_at=datetime(2017, 7, 18, 15, 19, 24),
             status=0
         )
 
         Trip.objects.create(
             id=11,
-            user_id=1,
+            user=CustomUser.objects.get(id=1),
             title='title2',
             description='description2',
-            created_at=datetime(2017, 7, 18, 15, 19, 24),
             status=0
         )
 
@@ -50,7 +46,7 @@ class TestPlugin(TestCase):
             description='description1',
             position_number=1,
             source_url='url1',
-            trip=10
+            trip=Trip.objects.get(id=10)
         )
 
         Checkpoint.objects.create(
@@ -61,35 +57,34 @@ class TestPlugin(TestCase):
             description='description2',
             position_number=2,
             source_url='url2',
-            trip=11
+            trip=Trip.objects.get(id=11)
         )
 
         Photo.objects.create(
             id=30,
             src='src1',
-            user_id=1,
-            trip_id=10,
-            checkpoint_id=20,
+            user=CustomUser.objects.get(id=1),
+            trip=Trip.objects.get(id=10),
+            checkpoint=Checkpoint.objects.get(id=20),
             description='description1'
         )
 
         Photo.objects.create(
             id=31,
             src='src2',
-            user_id=1,
-            trip_id=11,
-            checkpoint_id=21,
+            user=CustomUser.objects.get(id=1),
+            trip=Trip.objects.get(id=11),
+            checkpoint=Checkpoint.objects.get(id=21),
             description='description2'
         )
 
         Comment.objects.create(
             id=66,
-            message='test message',
+            message='test1',
             user=CustomUser.objects.get(id=1),
             trip=Trip.objects.get(id=10),
             checkpoint=Checkpoint.objects.get(id=20),
-            photo=Photo.objects.get(id=30),
-            created_at=datetime(2017, 7, 18, 15, 19, 24)
+            photo=Photo.objects.get(id=30)
         )
 
     def test_get_by_id(self):
@@ -139,7 +134,7 @@ class TestPlugin(TestCase):
         photo = Photo.objects.get(id=30)
 
         data = {
-            'message': 'test message',
+            'message': 'test1',
             'user': user,
             'trip': trip,
             'checkpoint': checkpoint,
@@ -151,23 +146,23 @@ class TestPlugin(TestCase):
 
         self.assertEqual(result, expected)
 
-    def test_to_dict(self):
+    def test_to_dict(self, *args):
         """Ensure that to_dict methods builds a proper dict from Comment object."""
 
         comment = Comment.objects.get(id=66)
         result = comment.to_dict()
         expected = {
             'id': 66,
-            'message': 'test message',
+            'message': 'test1',
             'user': 1,
             'trip': 10,
             'checkpoint': 20,
             'photo': 30,
-            'created_at': datetime(2017, 7, 18, 15, 19, 24),
-            'modified_at': None
+            'create_at': result['create_at'],
+            'update_at': result['update_at']
         }
 
-        self.assertDictEqual(result, expected)
+        self.assertEqual(expected, result)
 
     def test_update(self):
         """Ensure that update method updates specific Comment object."""
@@ -188,14 +183,14 @@ class TestPlugin(TestCase):
         comment = Comment.objects.get(id=66)
         result = repr(comment)
         expected = "id:{}, message:{}, user:{}, trip:{}, " \
-                   "checkpoint:{}, photo:{}, created_at:{}, updated_at:{}".format(
+                   "checkpoint:{}, photo:{}, create_at:{}, update_at:{}".format(
                        comment.id,
                        comment.message,
                        comment.user,
                        comment.trip.id,
                        comment.checkpoint.id,
                        comment.photo.id,
-                       comment.created_at,
-                       comment.modified_at)
+                       comment.create_at,
+                       comment.update_at)
 
         self.assertEqual(result, expected)

@@ -25,6 +25,9 @@ def register(request):
         email = data["email"]
         password = data["password"]
 
+        if not email or not password:
+            return HttpResponse("Email and password must be set.", status=400)
+
         if not CustomUser.get_by_email(email):
             try:
                 validate_email(email)
@@ -33,8 +36,6 @@ def register(request):
             except ValidationError:
                 return HttpResponse("This email is not valid format.", status=400)
         return HttpResponse("This email is already registered.", status=400)
-
-    return HttpResponse("Bad request.", status=400)
 
 def login(request):
     """
@@ -54,10 +55,8 @@ def login(request):
         user = auth.authenticate(username=email, password=password)
         if user:
             auth.login(request, user)
-            return HttpResponse("Login successfull.", status=200)
+            return HttpResponse("Login successful.", status=200)
         return HttpResponse('Email or password invalid', status=403)
-
-    return HttpResponse("Bad request.", status=400)
 
 def logout(request):
     """
@@ -72,7 +71,5 @@ def logout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             auth.logout(request)
-            return HttpResponse("Logout successfull.", status=200)
+            return HttpResponse("Logout successful.", status=200)
         return HttpResponse("You're not logged in.", status=400)
-
-    return HttpResponse("Bad request.", status=400)
