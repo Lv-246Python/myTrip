@@ -3,7 +3,9 @@
 import json
 from django.http import JsonResponse, HttpResponse
 from django.views.generic import View
-from .models import  Checkpoint
+
+from .models import Checkpoint
+from trip.models import Trip
 
 
 class CheckpointView(View):
@@ -46,7 +48,9 @@ class CheckpointView(View):
         Return status 200 if checkpoint has been successful updated
         Return status 404 if checkpoint with such checkpoint_id wasn't found
         """
-
+        trip = Trip.objects.get(id=trip_id)
+        if not trip.id == request.user.id:
+            return HttpResponse(status=403)
         checkpoint_object = Checkpoint.get_by_id(checkpoint_id)
         if not checkpoint_object:
             return HttpResponse(status=404)
@@ -59,8 +63,11 @@ class CheckpointView(View):
         Handles delete request
         Returns 200 if checkpoint has been deleted
         Returns 404 if checkpoint with such checkpoint_id wasn't found
+        Returns 403 if user didn't create this trip
         """
-
+        trip = Trip.objects.get(id=trip_id)
+        if not trip.id == request.user.id:
+            return HttpResponse(status=403)
         result = Checkpoint.delete_by_id(checkpoint_id)
         if not result:
             return HttpResponse(status=404)

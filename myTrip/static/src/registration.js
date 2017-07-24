@@ -16,20 +16,23 @@ class Registration_header extends React.Component {
 class Registration_info extends React.Component {
     render() {
         return (
-            <div className='registraion_info'>
+            <div className='registration_info'>
                 <div className='info_el'>
-                    <p className='info_label'>Fun</p><p className='info_note'>
-                    Get a ton of fun exploring the worldwhile sharing your journey with the rest of the world
+                    <p className='info_label'>Fun</p>
+                    <p className='info_note'>
+                        Get a ton of fun exploring the worldwhile sharing your journey with the rest of the world
                     </p>
                 </div>
                 <div className='info_el'>
-                    <p className='info_label'>Easy</p><p className='info_note'>
-                    Easy to use. User-friendly interface
+                    <p className='info_label'>Easy</p>
+                    <p className='info_note'>
+                        Easy to use. User-friendly interface
                     </p>
                 </div>
                 <div className='info_el'>
-                    <p className='info_label'>Connect</p><p className='info_note'>
-                    With soical networks it's even easier with automatic checkpoint and media updates
+                    <p className='info_label'>Connect</p>
+                    <p className='info_note'>
+                        With soical networks it's even easier with automatic checkpoint and media updates
                     </p>
                 </div>
             </div>
@@ -65,10 +68,17 @@ class Registration_form extends React.Component {
             email,
             password
         })
-            .then( (response) => {
-                this.login()
-                this.props.history.push("/home")
-            })
+            .then(() => {
+                axios.post('/api/v1/auth/login/', {
+                    email,
+                    password
+                })
+                    .then( (response) => {
+                        if (response.status == 200) {
+                         this.props.history.push("/home");
+                        }
+                    })
+            });
         event.preventDefault();
     }
 
@@ -77,17 +87,27 @@ class Registration_form extends React.Component {
             <div className='registration_form'>
                 <h2>Registration form</h2>
                 <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Email:
-                        <input type="text" value={this.state.name} onChange={this.handleEmail} />
-                    </label><br/>
-                    <label>
-                        Password:
-                        <input type="password" value={this.state.password} onChange={this.handlePassword} />
-                    </label><br/>
-                    <input type="submit" value="Create free account" />
+                    <ul className='flex-outer'>
+                        <li>
+                            <label htmlFor='email'>Email:</label>
+                            <input type="text" value={this.state.email} onChange={this.handleEmail} id='email'/>
+                        </li>
+                        <li>
+                            <label htmlFor='password'>Password:</label>
+                            <input type="password" value={this.state.password} onChange={this.handlePassword}
+                             id='password'/>
+                        </li>
+                        <li>
+                            <input type="submit" id='Button' value="Create free account" />
+                        </li>
+                    </ul>
                 </form>
                 <p>or get yourself started with social networks</p>
+                <div className='sc_buttons'>
+                    <button className='sc_button fb_button'></button>
+                    <button className='sc_button insta_button'></button>
+                    <button className='sc_button google_button'></button>
+                </div>
             </div>
         );
     }
