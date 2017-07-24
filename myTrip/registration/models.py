@@ -2,6 +2,8 @@
 
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 
 class CustomUser(AbstractBaseUser):
@@ -22,7 +24,6 @@ class CustomUser(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
     objects = BaseUserManager()
-
 
     @staticmethod
     def create(email, password):
@@ -145,3 +146,10 @@ class CustomUser(AbstractBaseUser):
             'create_at': self.create_at,
             'update_at': self.update_at
         }
+
+    def email_validation(email):
+        try:
+            validate_email(email)
+            return True
+        except ValidationError:
+            return None

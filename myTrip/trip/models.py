@@ -68,7 +68,7 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def create(user, title, description, status):
+    def create(data):
         """
         Creates Trip
          Args:
@@ -79,12 +79,11 @@ class Trip(models.Model):
         Returns:
             trip object
         """
-
         trip = Trip()
-        trip.user = user
-        trip.title = title
-        trip.description = description
-        trip.status = status
+        trip.user = data['user']
+        trip.title = data['title']
+        trip.description = data['description']
+        trip.status = data['status']
         trip.save()
         return trip
 
