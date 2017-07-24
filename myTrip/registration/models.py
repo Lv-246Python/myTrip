@@ -1,7 +1,7 @@
 """Contains everything we need for Registration and Authentication."""
 
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class CustomUser(AbstractBaseUser):
@@ -21,7 +21,7 @@ class CustomUser(AbstractBaseUser):
     update_at = models.DateTimeField(auto_now=True, editable=True)
 
     USERNAME_FIELD = 'email'
-    objects = UserManager()
+    objects = BaseUserManager()
 
 
     @staticmethod
