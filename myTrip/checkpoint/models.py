@@ -50,8 +50,7 @@ class Checkpoint(models.Model):
                 "description": self.description,
                 "source_url": self.source_url,
                 "position_number": self.position_number,
-                "trip_id": self.trip.id,
-                }
+                "trip_id": self.trip.id}
 
     @staticmethod
     def get_by_id(checkpoint_id):

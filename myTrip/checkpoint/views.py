@@ -5,8 +5,8 @@ from django.views.generic import View
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import Checkpoint
 from trip.models import Trip
+from .models import Checkpoint
 
 
 class CheckpointView(View):
@@ -41,8 +41,9 @@ class CheckpointView(View):
             trip = Trip.objects.get(id=trip_id)
         except ObjectDoesNotExist:
             return HttpResponse(status=404)
-        result = Checkpoint.create(data['longitude'],data['latitude'], data['title'], data['description'],
-                                   data['source_url'],data['position_number'],trip)
+        result = Checkpoint.create(data['longitude'], data['latitude'], data['title'],
+                                   data['description'], data['source_url'],
+                                   data['position_number'], trip)
         return JsonResponse(result.to_dict(), status=200)
 
     def put(self, request, checkpoint_id, trip_id):
@@ -58,8 +59,8 @@ class CheckpointView(View):
         if not checkpoint:
             return HttpResponse(status=404)
         data = json.loads(request.body.decode('utf-8'))
-        checkpoint.update(data['longitude'],data['latitude'], data['title'], data['description'],
-                                 data['position_number'])
+        checkpoint.update(data['longitude'], data['latitude'],
+                          data['title'], data['description'], data['position_number'])
         return JsonResponse(checkpoint.to_dict(), status=200)
 
     def delete(self, request, checkpoint_id, trip_id):
