@@ -16,23 +16,20 @@ class Registration_header extends React.Component {
 class Registration_info extends React.Component {
     render() {
         return (
-            <div className='registration_info'>
+            <div className='registraion_info'>
                 <div className='info_el'>
-                    <p className='info_label'>Fun</p>
-                    <p className='info_note'>
-                        Get a ton of fun exploring the worldwhile sharing your journey with the rest of the world
+                    <p className='info_label'>Fun</p><p className='info_note'>
+                    Get a ton of fun exploring the worldwhile sharing your journey with the rest of the world
                     </p>
                 </div>
                 <div className='info_el'>
-                    <p className='info_label'>Easy</p>
-                    <p className='info_note'>
-                        Easy to use. User-friendly interface
+                    <p className='info_label'>Easy</p><p className='info_note'>
+                    Easy to use. User-friendly interface
                     </p>
                 </div>
                 <div className='info_el'>
-                    <p className='info_label'>Connect</p>
-                    <p className='info_note'>
-                        With soical networks it's even easier with automatic checkpoint and media updates
+                    <p className='info_label'>Connect</p><p className='info_note'>
+                    With soical networks it's even easier with automatic checkpoint and media updates
                     </p>
                 </div>
             </div>
@@ -103,11 +100,6 @@ class Registration_form extends React.Component {
                     </ul>
                 </form>
                 <p>or get yourself started with social networks</p>
-                <div className='sc_buttons'>
-                    <button className='sc_button fb_button'></button>
-                    <button className='sc_button insta_button'></button>
-                    <button className='sc_button google_button'></button>
-                </div>
             </div>
         );
     }
