@@ -174,3 +174,4 @@ class Checkpoint(models.Model):
             return None
         checkpoint.delete()
         return True
+    
