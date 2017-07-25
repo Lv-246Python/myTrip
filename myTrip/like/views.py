@@ -1,7 +1,5 @@
 """This module contains Class Based View for like application."""
 
-import json
-
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
 
@@ -14,9 +12,9 @@ from .models import Like
 
 
 class LikeView(View):
-    """LikeView view handles GET, POST, DELETE requests for LikeView model."""
+    """LikeView view handles GET and POST requests for LikeView model."""
 
-    def get(self, request, trip_id, checkpoint_id=None, photo_id=None, comment_id=None, like_id=None):
+    def get(self, request, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None, like_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 404.
@@ -35,7 +33,7 @@ class LikeView(View):
         like = like.to_dict()
         return JsonResponse(like, status=200, safe=False)
 
-    def post(self, request, trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
+    def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None):
         """
         Handles POST request, that return HTTP response with status 201, if like create,
         return HTTP response with status 200, if like delete,
@@ -53,7 +51,7 @@ class LikeView(View):
         like = Like.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo, comment=comment)
         if like:
             like.delete()
-            return HttpResponse(status=200)
+            return HttpResponse('Meh...', status=200)
         else:
             Like.create(user=user, trip=trip, checkpoint=checkpoint, photo=photo, comment=comment)
-            return HttpResponse(status=201)
+            return HttpResponse('Like it!', status=201)

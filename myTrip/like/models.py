@@ -40,10 +40,11 @@ class Like(models.Model):
         return like
 
     @staticmethod
-    def filter(user, trip, checkpoint=None, photo=None, comment=None):
+    def filter(user, trip=None, checkpoint=None, photo=None, comment=None):
         """
         Get like with given trip id, checkpoint id, photo id and comment id.
         Args:
+            user (int): user id
             trip (int): trip id
             checkpoint (int): checkpoint id
             photo (int): photo id
