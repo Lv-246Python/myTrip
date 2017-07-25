@@ -46,12 +46,13 @@ class Comment(models.Model):
             return None
 
     @staticmethod
-    def filter(trip=None, checkpoint=None, photo=None, user=None):
+    def filter(user=None, trip=None, checkpoint=None, photo=None):
         """
         Get Comments with given trip, checkpoint, photo.
         Args:
-            trip (Object<Trip>): Object<Trip>.
-            checkpoint (Object<Checkpoint>): Object<Checkpoint>.
+            user (Object<CustomUser>): object<CustomUser>,
+            trip (Object<Trip>): Object<Trip>,
+            checkpoint (Object<Checkpoint>): Object<Checkpoint>,
             photo (Object<Photo>):  Object<Photo>.
         Returns:
             QuerySet<Comment>: QuerySet of Comments or None.
@@ -123,12 +124,12 @@ class Comment(models.Model):
         self.save()
 
     def __repr__(self):
-        return """id:{}, message:{}, user:{}, trip:{}, 
-                   checkpoint:{}, photo:{}, create_at:{}, update_at:{}""".format(self.id,
-                                                                                 self.message,
-                                                                                 self.user,
-                                                                                 self.trip.id,
-                                                                                 self.checkpoint.id,
-                                                                                 self.photo.id,
-                                                                                 self.create_at,
-                                                                                 self.update_at)
+        return """id:{}, message:{}, user:{}, trip:{},
+                  checkpoint:{}, photo:{}, create_at:{}, update_at:{}""".format(self.id,
+                                                                                self.message,
+                                                                                self.user,
+                                                                                self.trip.id,
+                                                                                self.checkpoint.id,
+                                                                                self.photo.id,
+                                                                                self.create_at,
+                                                                                self.update_at)

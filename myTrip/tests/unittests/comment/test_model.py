@@ -22,6 +22,14 @@ class TestPlugin(TestCase):
         with patch('django.utils.timezone.now') as mock_test:
             mock_test.return_value = TEST_TIME
             CustomUser.objects.create(
+                id=99,
+                first_name='test1',
+                last_name='test1',
+                email='test1@gmail.com',
+                password='pass'
+            )
+
+            CustomUser.objects.create(
                 id=1,
                 first_name='test',
                 last_name='test',
@@ -37,14 +45,6 @@ class TestPlugin(TestCase):
                 status=0
             )
 
-            Trip.objects.create(
-                id=11,
-                user=CustomUser.objects.get(id=1),
-                title='title2',
-                description='description2',
-                status=0
-            )
-
             Checkpoint.objects.create(
                 id=20,
                 longitude=20.20,
@@ -56,17 +56,6 @@ class TestPlugin(TestCase):
                 trip=Trip.objects.get(id=10)
             )
 
-            Checkpoint.objects.create(
-                id=21,
-                longitude=21.21,
-                latitude=21.21,
-                title='title2',
-                description='description2',
-                position_number=2,
-                source_url='url2',
-                trip=Trip.objects.get(id=11)
-            )
-
             Photo.objects.create(
                 id=30,
                 src='src1',
@@ -74,15 +63,6 @@ class TestPlugin(TestCase):
                 trip=Trip.objects.get(id=10),
                 checkpoint=Checkpoint.objects.get(id=20),
                 description='description1'
-            )
-
-            Photo.objects.create(
-                id=31,
-                src='src2',
-                user=CustomUser.objects.get(id=1),
-                trip=Trip.objects.get(id=11),
-                checkpoint=Checkpoint.objects.get(id=21),
-                description='description2'
             )
 
             Comment.objects.create(
@@ -111,24 +91,24 @@ class TestPlugin(TestCase):
     def test_filter_with_trip_and_checkpoint_and_photo_id(self):
         """Test for filter method returns all comments with corrected trip,checkpoint,photo ids."""
 
-        result = Comment.filter(trip_id=10, checkpoint_id=20, photo_id=30)
-        expected = Comment.objects.filter(trip=10, checkpoint=20, photo=30)
+        user = CustomUser.objects.get(id=1)
+        trip = Trip.objects.get(id=10)
+        checkpoint = Checkpoint.objects.get(id=20)
+        photo = Photo.objects.get(id=30)
+        result = Comment.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
+        expected = Comment.objects.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
-    def test_filter_with_trip_and_checkpoint_and_photo_id_none(self):
+    def test_filter_with_user_and_trip_and_checkpoint_and_photo_id_none(self):
         """Ensure that filter method works correctly with wrong id's."""
 
-        result = Comment.filter(trip_id=99, checkpoint_id=99, photo_id=99)
-        expected = Comment.objects.filter(trip=99, checkpoint=99, photo=99)
-
-        self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
-
-    def test_get_by_user_id(self):
-        """Ensure that get by user id method returns all comments with corrected user id."""
-
-        result = Comment.get_by_user_id(1)
-        expected = Comment.objects.filter(user=1)
+        user = CustomUser.objects.get(id=99)
+        trip = Trip.objects.get(id=10)
+        checkpoint = Checkpoint.objects.get(id=20)
+        photo = Photo.objects.get(id=30)
+        result = Comment.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
+        expected = Comment.objects.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
@@ -189,8 +169,8 @@ class TestPlugin(TestCase):
 
         comment = Comment.objects.get(id=66)
         result = repr(comment)
-        expected = "id:{}, message:{}, user:{}, trip:{}, " \
-                   "checkpoint:{}, photo:{}, create_at:{}, update_at:{}".format(
+        expected = """id:{}, message:{}, user:{}, trip:{}, 
+                   checkpoint:{}, photo:{}, create_at:{}, update_at:{}""".format(
             comment.id,
             comment.message,
             comment.user,

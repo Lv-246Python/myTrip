@@ -122,7 +122,7 @@ class ViewTest(TestCase):
 
         response = self.client.get('/api/v1/trip/10/checkpoint/20/photo/30/comment/')
         data = response.json()
-        self.assertEqual(len(data), 2)
+        self.assertEqual(len(data), 1)
 
     def test_get_response_length(self):
         """Ensure that get method returns all required comment fields."""
