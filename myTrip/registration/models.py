@@ -160,4 +160,4 @@ class CustomUser(AbstractBaseUser):
             validate_email(email)
             return True
         except ValidationError:
-            return None
+            return False
