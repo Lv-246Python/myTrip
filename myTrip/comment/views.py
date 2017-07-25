@@ -24,6 +24,7 @@ class CommentView(View):
         Returns serialized QuerySet or Comment object to JSON with status 200,
         or returns status 404, when else statement works.
         Args:
+            request.user.id(int): id of logged user,
             comment_id(int): comment id,
             trip_id(int): trip id,
             checkpoint_id(int): checkpoint id,
@@ -34,7 +35,11 @@ class CommentView(View):
             HttpResponse: status: 404.
         """
         if not comment_id:
-            comments = Comment.filter(trip_id, checkpoint_id, photo_id)
+            user=CustomUser.get_by_id(request.user.id)
+            trip = Trip.get_by_id(trip_id)
+            checkpoint = Checkpoint.get_by_id(checkpoint_id)
+            photo = Photo.get_by_id(photo_id)
+            comments = Comment.filter(user=user,trip=trip,checkpoint=checkpoint,photo=photo)
             if not comments:
                 return HttpResponse(status=404)
             comments = [comment.to_dict() for comment in comments]
@@ -58,7 +63,7 @@ class CommentView(View):
         data = json.loads(request.body.decode('utf-8'))
         if not data:
             return HttpResponse(status=400)
-        message = data['message']
+        message = data.get('message')
         user = CustomUser.get_by_id(request.user.id)
         trip = Trip.get_by_id(trip_id)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)

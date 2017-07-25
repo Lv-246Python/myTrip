@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'home',
 ]
 
-SECRET_KEY = 'dfjn3uh334b3bj'
+SECRET_KEY = 'not_so_secret'
 
 # Template configuration
 

@@ -122,8 +122,8 @@ class Checkpoint(models.Model):
         Args:
             longitude (float):  1-st position coordinate.
             latitude (float): 2-nd position coordinate.
-            title (char): checkpoint's title.
-            description (text): description of checkpoint.
+            title (str): checkpoint's title.
+            description (str): description of checkpoint.
             position_number (int):  ordinal number of checkpoint.
         Returns:
             Object<Checkpoint>: Object of Checkpoint if updating was successful and None if wasn't
@@ -149,13 +149,13 @@ class Checkpoint(models.Model):
             self - checkpoint object
         Returns:
             True if deleting was successful
-            None if deleting wasn't complete
+            False if deleting wasn't complete
         """
 
         try:
             checkpoint = Checkpoint.objects.get(id=checkpoint_id)
         except ObjectDoesNotExist:
-            return None
+            return False
         checkpoint.delete()
         return True
     

@@ -46,31 +46,19 @@ class Comment(models.Model):
             return None
 
     @staticmethod
-    def filter(trip_id=None, checkpoint_id=None, photo_id=None):
+    def filter(trip=None, checkpoint=None, photo=None, user=None):
         """
-        Get Comments with given trip id, checkpoint_id, photo_id.
+        Get Comments with given trip, checkpoint, photo.
         Args:
-            trip_id (int): user id foreign key to Trip.
-            checkpoint_id (int): user id foreign key to Checkpoint.
-            photo_id (int): user id foreign key to Photo.
+            trip (Object<Trip>): Object<Trip>.
+            checkpoint (Object<Checkpoint>): Object<Checkpoint>.
+            photo (Object<Photo>):  Object<Photo>.
         Returns:
             QuerySet<Comment>: QuerySet of Comments or None.
         """
-        comments = Comment.objects.filter(trip=trip_id, checkpoint=checkpoint_id,
-                                          photo=photo_id)
+        comments = Comment.objects.filter(trip=trip, checkpoint=checkpoint,
+                                          photo=photo, user=user)
         return comments
-
-    @staticmethod
-    def get_by_user_id(user_id):
-        """
-        Get Comments with given user id
-        Args:
-            user_id (int): user id foreign key to CustomUser.
-        Returns:
-            QuerySet<Comment>: QuerySet of Comments or None.
-        """
-        comment = Comment.objects.filter(user=user_id)
-        return comment
 
     def to_dict(self):
         """Convert model object to dictionary.
@@ -135,12 +123,12 @@ class Comment(models.Model):
         self.save()
 
     def __repr__(self):
-        return "id:{}, message:{}, user:{}, trip:{}, " \
-               "checkpoint:{}, photo:{}, create_at:{}, update_at:{}".format(self.id,
-                                                                            self.message,
-                                                                            self.user,
-                                                                            self.trip.id,
-                                                                            self.checkpoint.id,
-                                                                            self.photo.id,
-                                                                            self.create_at,
-                                                                            self.update_at)
+        return """id:{}, message:{}, user:{}, trip:{}, 
+                   checkpoint:{}, photo:{}, create_at:{}, update_at:{}""".format(self.id,
+                                                                                 self.message,
+                                                                                 self.user,
+                                                                                 self.trip.id,
+                                                                                 self.checkpoint.id,
+                                                                                 self.photo.id,
+                                                                                 self.create_at,
+                                                                                 self.update_at)
