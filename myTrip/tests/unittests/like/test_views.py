@@ -155,11 +155,13 @@ class ViewTest(TestCase):
     def test_post_status_success_201(self):
         """Ensure that POST method creates new object with it relations and status 201."""
 
-        response = self.client.post(make_long_url(FAKE_ID), json.dumps({}), content_type="application/json")
+        response = self.client.post(make_long_url(FAKE_ID), json.dumps({}),
+                                    content_type="application/json")
         self.assertEqual(response.status_code, 201)
 
     def test_post_delete_like_status_200(self):
         """Ensure that POST method returns status 200, when like deleted."""
 
-        response = self.client.post(make_long_url(), json.dumps({}), content_type="application/json")
+        response = self.client.post(make_long_url(), json.dumps({}),
+                                    content_type="application/json")
         self.assertEqual(response.status_code, 200)

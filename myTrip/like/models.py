@@ -1,4 +1,6 @@
-"""This module contains Like model class and basic methods for Trip, Checkpoint, Photo and Comment."""
+"""
+This module contains Like model class and basic methods for Trip, Checkpoint, Photo and Comment.
+"""
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -104,9 +106,6 @@ class Like(models.Model):
         }
 
     def __str__(self):
-        return "id:{}, user:{}, trip:{}, checkpoint:{}, photo:{}, comment:{}".format(self.id,
-                                                                                     self.user,
-                                                                                     self.trip.id,
-                                                                                     self.checkpoint.id,
-                                                                                     self.photo.id,
-                                                                                     self.comment.id)
+        return "id:{}, user:{}, trip:{}, checkpoint:{}, photo:{}, comment:{}".\
+            format(self.id, self.user, self.trip.id, self.checkpoint.id,
+                   self.photo.id, self.comment.id)
