@@ -37,11 +37,14 @@ class LikeView(View):
 
     def post(self, request, trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
         """
-        Handles POST request, that return JSON response with HTTP status 201,
-        if exception: HTTP status 404.
+        Handles POST request, that return HTTP response with status 201, if like create,
+        return HTTP response with status 200, if like delete,
+        return HTTP response with status 401, if user not logged.
         """
-
         user = CustomUser.get_by_id(request.user.id)
+        if user is None:
+            return HttpResponse('Please, login.', status=401)
+
         trip = Trip.get_by_id(trip_id)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.get_by_id(photo_id)

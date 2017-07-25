@@ -44,10 +44,10 @@ class Like(models.Model):
         """
         Get like with given trip id, checkpoint id, photo id and comment id.
         Args:
-            trip_id (int): trip id
-            checkpoint_id (int): checkpoint id
-            photo_id (int): photo id
-            comment_id (int): comment id.
+            trip (int): trip id
+            checkpoint (int): checkpoint id
+            photo (int): photo id
+            comment (int): comment id.
         Returns:
             QuerySet<Like>: QuerySet of Like.
         """
@@ -74,7 +74,7 @@ class Like(models.Model):
         """
         Get Like with given user id.
         Args:
-            user_id (int): user id.
+            user (int): user id.
         Returns:
             QuerySet<Like>: QuerySet of Like.
         """

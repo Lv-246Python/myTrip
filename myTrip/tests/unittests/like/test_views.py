@@ -2,7 +2,7 @@
 
 import json
 
-from django.test import TestCase, Client
+from django.test import TestCase
 
 from checkpoint.models import Checkpoint
 from comment.models import Comment
@@ -11,7 +11,17 @@ from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
 
+FAKE_ID = 999
 JSON_LENGTH = 6
+
+
+def make_like_id_url(like_id=50, trip_id=10):
+    return '/api/v1/trip/{}/like/{}/'.format(trip_id, like_id)
+
+
+def make_long_url(trip_id=10, checkpoint_id=20, photo_id=30, comment_id=40):
+    return '/api/v1/trip/{}/checkpoint/{}/photo/{}/comment/{}/like/'.\
+        format(trip_id, checkpoint_id, photo_id, comment_id)
 
 
 class ViewTest(TestCase):
@@ -101,13 +111,13 @@ class ViewTest(TestCase):
     def test_get_by_id_success(self):
         """Test for GET operation with passed like id."""
 
-        response = self.client.get('/api/v1/trip/10/like/50/')
+        response = self.client.get(make_like_id_url())
         self.assertEqual(response.status_code, 200)
 
     def test_get_by_id_status_not_found(self):
         """Ensure that GET method returns status 404 with non-existed object id."""
 
-        response = self.client.get('/api/v1/trip/10/like/1/')
+        response = self.client.get(make_like_id_url(FAKE_ID))
         self.assertEqual(response.status_code, 404)
 
     def test_get_by_trip_checkpoint_photo_comment_id(self):
@@ -116,57 +126,30 @@ class ViewTest(TestCase):
         Object<Checkpoint> id, Object<Photo> id, Object<Comment> id.
         """
 
-        response = self.client.get('/api/v1/trip/10/checkpoint/20/photo/30/comment/40/like/')
+        response = self.client.get(make_long_url())
         self.assertEqual(response.status_code, 200)
 
     def test_get_by_trip_checkpoint_photo_comment_id_404(self):
         """Ensure that GET method returns status 404 when some wrong id was send."""
 
-        response = self.client.get('/api/v1/trip/10/checkpoint/20/photo/30/comment/404/like/')
+        response = self.client.get(make_long_url(FAKE_ID))
         self.assertEqual(response.status_code, 404)
-
-    def test_get_by_trip_id_length(self):
-        """Ensure that GET method returns correct number of Like objects."""
-
-        response = self.client.get('/api/v1/trip/10/checkpoint/20/photo/30/comment/40/like/')
-        data = response.json()
-        self.assertEqual(len(data), 2)
 
     def test_get_response_length(self):
         """Ensure that GET method returns all required like fields."""
 
-        response = self.client.get('/api/v1/trip/10/like/50/')
+        response = self.client.get(make_like_id_url())
         self.assertEqual(len(response.json()), JSON_LENGTH)
 
-    def test_post_status_success(self):
+    def test_post_status_success_201(self):
         """Ensure that POST method creates new object with it relations and status 201."""
 
-        response = self.client.post('/api/v1/trip/10/checkpoint/20/photo/30/comment/40/like/', json.dumps({"user": 1}),
-                                    content_type="application/json")
+        response = self.client.post(make_long_url(), json.dumps({}), content_type="application/json")
         self.assertEqual(response.status_code, 201)
 
-    def test_post_status_404(self):
-        """Ensure that POST method returns status 404, when data is not passed."""
+    def test_post_status_delete_200(self):
+        """Ensure that POST method returns status 200, when like deleted."""
 
-        response = self.client.post('/api/v1/trip/10/checkpoint/20/photo/30/comment/404/like/',
-                                    json.dumps({}), content_type="application/json")
+        response = self.client.post(make_long_url(), json.dumps({}), content_type="application/json")
 
-        self.assertEqual(response.status_code, 404)
-
-    def test_delete_status_403(self):
-        """Ensure that DELETE method returns status 403 when wrong user tries to delete comment."""
-
-        response = self.client.delete('/api/v1/trip/10/like/51/')
-        self.assertEqual(response.status_code, 403)
-
-    def test_delete_404(self):
-        """Ensure that DELETE method returns status 404 when wrong id were send."""
-
-        response = self.client.delete('/api/v1/trip/10/like/404/')
-        self.assertEqual(response.status_code, 404)
-
-    def test_delete_success(self):
-        """Ensure that DELETE method deletes comment object and returns status 204."""
-
-        response = self.client.delete('/api/v1/trip/10/like/50/')
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 200)
