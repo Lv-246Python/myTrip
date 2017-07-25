@@ -1,7 +1,5 @@
 """Module contain photo model class and methods."""
 
-from datetime import datetime
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
@@ -19,7 +17,7 @@ class Photo(models.Model):
     :argument trip: - foreign key to Trip model
     :argument checkpoint: - foreign to Checkpoint model
     :argument description: str - description to photo
-    :argument created_at: date - time when created
+    :argument create_at: date - time when created
     :argument updated_at: date - time when updated.
     """
 
@@ -28,8 +26,8 @@ class Photo(models.Model):
     trip = models.ForeignKey(Trip, null=True)
     checkpoint = models.ForeignKey(Checkpoint, null=True)
     description = models.TextField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True, editable=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True, editable=True)
 
     @staticmethod
     def get_by_id(photo_id):
@@ -88,8 +86,8 @@ class Photo(models.Model):
                     'trip_id': trip id,
                     'checkpoit_id': checkpoint id,
                     'description': description text,
-                    'created': time when created,
-                    'last updated': time when last updated
+                    'create_at': time when created,
+                    'update_at': time when last updated
                 }
         """
         return {
@@ -99,6 +97,6 @@ class Photo(models.Model):
             "trip_id": self.trip.id if self.trip else None,
             "checkpoint_id": self.checkpoint.id if self.checkpoint else None,
             "description": self.description,
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
+            "create_at": self.create_at,
+            "update_at": self.update_at
         }

@@ -2,12 +2,10 @@
 
 from json import loads
 
-from django.http import HttpResponse
 from django.contrib import auth
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 
 from .models import CustomUser
+from .helper import *
 
 
 def register(request):
@@ -22,19 +20,20 @@ def register(request):
 
     if request.method == 'POST':
         data = loads(request.body.decode('utf-8'))
-        email = data["email"]
-        password = data["password"]
+        email = data.get("email")
+        password = data.get("password")
 
-        if not CustomUser.get_by_email(email):
-            try:
-                validate_email(email)
-                CustomUser.create(email, password)
-                return HttpResponse("User successfully created.", status=201)
-            except ValidationError:
-                return HttpResponse("This email is not valid format.", status=400)
-        return HttpResponse("This email is already registered.", status=400)
+        if not email or not password:
+            return response_400_required
 
-    return HttpResponse("Bad request.", status=400)
+        if not CustomUser.email_validation(email):
+            return response_400_invalid_format
+
+        if CustomUser.get_by_email(email):
+            return response_400_already_registered
+
+        CustomUser.create(email, password)
+        return response_201_successfully_created
 
 def login(request):
     """
@@ -48,16 +47,14 @@ def login(request):
 
     if request.method == 'POST':
         data = loads(request.body.decode('utf-8'))
-        email = data["email"].lower()
-        password = data["password"]
+        email = data.get("email").lower()
+        password = data.get("password")
 
         user = auth.authenticate(username=email, password=password)
         if user:
             auth.login(request, user)
-            return HttpResponse("Login successfull.", status=200)
-        return HttpResponse('Email or password invalid', status=403)
-
-    return HttpResponse("Bad request.", status=400)
+            return response_200_login_successful
+        return response_403_invalid_credentials
 
 def logout(request):
     """
@@ -72,7 +69,5 @@ def logout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
             auth.logout(request)
-            return HttpResponse("Logout successfull.", status=200)
-        return HttpResponse("You're not logged in.", status=400)
-
-    return HttpResponse("Bad request.", status=400)
+            return response_200_logout_successful
+        return response_400_not_logged_in

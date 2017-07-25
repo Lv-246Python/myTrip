@@ -4,7 +4,7 @@ python:
 
 install:
   - pip install -r requirements.txt
-  - pip install codecov
+  - pip install coveralls
 cache: pip
 
 services:
@@ -14,9 +14,8 @@ before_script:
 
 script:
   - cd myTrip/
-  - pylint --rcfile=.pylintrc registration/views.py
-  - pylint --rcfile=.pylintrc registration/models.py
-  - coverage run --source=registration manage.py test tests/unittests/registration
+  - pylint --rcfile=.pylintrc *
+  - coverage run manage.py test
 
 after_success:
- - codecov 
+ - coveralls
