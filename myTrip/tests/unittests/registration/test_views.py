@@ -23,14 +23,6 @@ class RegistrationViewsTests(TestCase):
         self.user.set_password('password')
         self.user.save()
 
-    def test_login_bad_request(self):
-        """
-        Test 'login' view with bad request method.
-        """
-
-        request = self.client.get(reverse('login_view'))
-        self.assertEqual(request.status_code, 400)
-
     def test_login_success(self):
         """
         Test 'login' view.
@@ -70,14 +62,6 @@ class RegistrationViewsTests(TestCase):
                                    dumps({"email": "krest@gmail.com", "password": "pwd"}),
                                    content_type='application/json')
         self.assertEqual(request.status_code, 403)
-
-    def test_logout_bad_request(self):
-        """
-        Test 'logout' view with bad request method.
-        """
-
-        request = self.client.post(reverse('logout_view'))
-        self.assertEqual(request.status_code, 400)
 
     def test_logout_success(self):
         """

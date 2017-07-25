@@ -33,3 +33,153 @@ header{
 .footer p{
   font-size: 20px;
 }
+
+.registration_header {
+    margin:0px 0px 50px 0px;
+    padding:0px;
+    width:100;
+    text-align:center;
+}
+
+.registration_header > h1 {
+    font-size:40pt;
+    display: inline-block;
+    vertical-align:middle;
+    margin-left:15px;
+}
+
+.registration_header > img {
+    width:5%;
+}
+
+.registration_header > p {
+    text-align:center;
+    font-style:italic;
+    font-size:16pt;
+}
+
+.centerBlock {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.registration_info {
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+}
+
+.registration_form {
+    padding:5px 20px 20px 20px;
+}
+
+.vertical-line {
+    height:430px;
+    margin:0px 30px;
+    border:1px solid black;
+}
+
+.registration_form, .registration_info {
+    width:30%;
+    border:2px solid gray;
+}
+
+.registration_form > h2 {
+    padding:5px;
+    border-bottom:1px solid black;
+}
+
+ul {
+    list-style:none;
+}
+
+.registration_form  form {
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.registration_form  form  {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.registration_form > form > ul > li {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: flex-end;
+    margin:20px;
+}
+
+.registration_form > form > ul > li > label {
+    flex:1;
+    padding-right:30px;
+}
+
+.registration_form > form > ul > li > input {
+    border-radius:3px;
+}
+
+.registration_form > p {
+    margin:30px auto 10px auto;
+    text-align:center;
+    font-style:italic;
+}
+
+#Button {
+    padding:5px;
+    background-color:#3f4856;
+    color:white;
+    margin:auto;
+    font-size:14pt;
+}
+
+.sc_buttons {
+    display:flex;
+    justify-content:center;
+}
+
+.sc_button {
+    min-width:40px;
+    height:40px;
+    background-size:100%;
+    border-radius:5px;
+    border:0px;
+    margin:0 5% 0 5%;
+    transform: translate(0px,100%);
+}
+
+.fb_button {
+    background-image: url('./../../img/fb_icon-icons.png');
+    background-color:#71c0fc;
+}
+
+.insta_button {
+    background-image: url('./../../img/instagram-icon.png');
+    background-color:#f484ed;
+}
+
+.google_button {
+    background-image: url('./../../img/google-plus-128.png');
+    background-color:#ffa0a0;
+}
+
+.info_el {
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0px 10px 0px;
+}
+
+.info_note {
+    font-size:14px;
+    font-style:italic;
+    width:70%;
+}
+
+.info_label {
+    font-weight:bold;
+    font-size:20px;
+}

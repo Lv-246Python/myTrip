@@ -1,5 +1,4 @@
 """This module contains Trip model class and basic functions."""
-from datetime import datetime
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -12,14 +11,15 @@ class Trip(models.Model):
      :argument user_id: int - ToDo foreign key to User model
      :argument title: str - title
      :argument description: text - description
-     :argument created_at: date - date
+     :argument create_at: date - date
      :argument status: int - 0-in progres, 1-annonced, 2-finished
     ."""
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    created_at = models.DateTimeField(default=datetime.now, blank=True)
     status = models.IntegerField(default=0)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True, editable=True)
 
     def to_dict(self):
         """
@@ -30,7 +30,7 @@ class Trip(models.Model):
                 'id': id,
                 'user': user,
                 'title': title,
-                'created_at': date,
+                'create_at': date,
                 'description': description,
                 'status': status
                 }
@@ -39,16 +39,16 @@ class Trip(models.Model):
             "id": self.id,
             "user": self.user.id,
             "title": self.title,
-            "created_at": self.created_at,
+            "create_at": self.create_at,
             "description": self.description,
             "status": self.status}
 
     def __repr__(self):
-        return "id:{} user:{} title:{} created_at:{}" \
+        return "id:{} user:{} title:{} create_at:{}" \
                " description:{} status:{}".format(self.id,
                                                   self.user,
                                                   self.title,
-                                                  self.created_at,
+                                                  self.create_at,
                                                   self.description,
                                                   self.status)
 
@@ -68,7 +68,7 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def create(user, title, description, status):
+    def create(data):
         """
         Creates Trip
          Args:
@@ -79,17 +79,15 @@ class Trip(models.Model):
         Returns:
             trip object
         """
-
         trip = Trip()
-        trip.user = user
-        trip.title = title
-        trip.description = description
-        trip.status = status
+        trip.user = data['user']
+        trip.title = data['title']
+        trip.description = data['description']
+        trip.status = data['status']
         trip.save()
         return trip
 
-    @staticmethod
-    def edit(data, trip_id):
+    def edit(self, data):
         """
         Updates Trip with new title,description and status
          Args:
@@ -99,12 +97,12 @@ class Trip(models.Model):
         Returns:
             trip obj
         """
-        trip = Trip.objects.get(id=trip_id)
-        trip.title = data['title']
-        trip.description = data['description']
-        trip.status = data['status']
-        trip.save()
-        return trip
+        # trip = Trip.objects.get(id=trip_id)
+        self.title = data['title']
+        self.description = data['description']
+        self.status = data['status']
+        self.save()
+        return True
 
     @staticmethod
     def delete_by_id(trip_id):
@@ -113,13 +111,16 @@ class Trip(models.Model):
          Args:
             id(int): id of trip
         Returns:
-            none
+            true
         """
-        trip = Trip.objects.get(id=trip_id)
-        trip.delete()
-        return None
+        try:
+            trip = Trip.objects.get(id=trip_id)
+            trip.delete()
+            return True
+        except ObjectDoesNotExist:
+            return None
 
-    def get_trips(user_id,page=1,step=5):
+    def get_trips(user_id, page=1, step=5):
         """
         Returns the last 5 trips by the user
          Args:
@@ -128,7 +129,7 @@ class Trip(models.Model):
             reversed trips
         """
         if not user_id:
-            trips = reversed(Trip.objects.all().order_by('-created_at')[:step])
+            trips = reversed(Trip.objects.all().order_by('-create_at')[:step])
             return trips
-        trips = reversed(Trip.objects.filter(user=user_id).order_by('-created_at')[:step])
+        trips = reversed(Trip.objects.filter(user=user_id).order_by('-create_at')[:step])
         return trips

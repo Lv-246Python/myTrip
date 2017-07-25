@@ -1,9 +1,9 @@
 """Contains everything we need for Registration and Authentication."""
 
-from datetime import datetime
-
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
 
 
 class CustomUser(AbstractBaseUser):
@@ -19,10 +19,11 @@ class CustomUser(AbstractBaseUser):
     last_name = models.CharField(max_length=254, blank=True)
     email = models.EmailField(unique=True, blank=False)
     password = models.CharField(max_length=254, blank=False)
-    created_at = models.DateTimeField(default=datetime.now())
-    modified_at = models.DateTimeField(default=datetime.now())
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True, editable=True)
 
     USERNAME_FIELD = 'email'
+    objects = BaseUserManager()
 
     @staticmethod
     def create(email, password):
@@ -35,14 +36,9 @@ class CustomUser(AbstractBaseUser):
             new CustomUser object.
         """
 
-        if not email or not password:
-            raise ValueError('The email & password must be set.')
-
         user = CustomUser()
         user.email = email.lower()
         user.set_password(password)
-        user.created_at = datetime.now()
-        user.modified_at = datetime.now()
         user.save()
         return user
 
@@ -67,7 +63,7 @@ class CustomUser(AbstractBaseUser):
         """
         Check for user with given email. If exist return.
         Args:
-            user_email (int): new user's email.
+           user_email (str): new user's email.
         Returns:
             CustomUser object or None when exception works.
         """
@@ -126,7 +122,6 @@ class CustomUser(AbstractBaseUser):
             self.last_name = last_name
             return self.get_full_name()
 
-        self.modified_at = datetime.now()
         self.save()
 
     def to_dict(self):
@@ -139,6 +134,8 @@ class CustomUser(AbstractBaseUser):
             'first_name': first_name,
             'last_name': last_name,
             'email': email,
+            'create_at': create_at,
+            'update_at': update_at
         """
 
         return {
@@ -146,4 +143,21 @@ class CustomUser(AbstractBaseUser):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
+            'create_at': self.create_at,
+            'update_at': self.update_at
         }
+
+    def email_validation(email):
+        """
+        Checks if the email is in valid format
+        using Django 'email_validation'.
+        Args:
+            email(str): given email.
+        Returns:
+            True if email is valid, None if not.
+        """
+        try:
+            validate_email(email)
+            return True
+        except ValidationError:
+            return None
