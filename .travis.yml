@@ -4,7 +4,7 @@ python:
 
 install:
   - pip install -r requirements.txt
-  - pip install codecov
+  - pip install coveralls
 cache: pip
 
 services:
@@ -18,4 +18,4 @@ script:
   - coverage run manage.py test
 
 after_success:
- - codecov
+ - coveralls
