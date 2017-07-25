@@ -14,7 +14,7 @@ from .models import Photo
 class PhotoView(View):
     """Class that handle HTTP requests."""
 
-    def get(self, request, trip_id=None, checkpoint_id=None, photo_id=None):
+    def get(self, request, trip_id, checkpoint_id=None, photo_id=None):
         """GET request handler. Can return photo/photos ordered by given arguments."""
         if not photo_id:
             photos = Photo.filter(trip_id, checkpoint_id)
@@ -28,7 +28,7 @@ class PhotoView(View):
         data = photo.to_dict()
         return JsonResponse(data, status=200)
 
-    def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None):
+    def post(self, request, trip_id, checkpoint_id=None, photo_id=None):
         """POST request handler. Creating a new photo object and return status 201("created")."""
         post_data = json.loads(request.body.decode('utf-8'))
         user = CustomUser.get_by_id(request.user.id)

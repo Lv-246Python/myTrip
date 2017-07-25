@@ -11,6 +11,12 @@ from registration.models import CustomUser
 from trip.models import Trip
 
 
+def url_switcher(trip_id, checkpoint_id=None, photo_id=None):
+    if photo_id:
+        return "/api/v1/trip/{}/checkpoint/{}/photo/{}/".format(trip_id, checkpoint_id, photo_id)
+    return "/api/v1/trip/{}/checkpoint/{}/photo/".format(trip_id, checkpoint_id)
+
+
 class TestPlugin(TestCase):
     """Tests for Photo model."""
 
@@ -78,41 +84,41 @@ class TestPlugin(TestCase):
     def test_get_by_trip_and_checkpoint_success(self):
         """Test for get operation with passed trip id and checkpoint id."""
 
-        response = self.client.get('/api/v1/trip/20/checkpoint/20/photo/')
+        response = self.client.get(url_switcher(20, 20))
         self.assertEqual(response.status_code, 200)
 
     def test_get_by_trip_and_checkpoint_none(self):
         """Test for get operation with passed trip id and checkpoint id(wrong)."""
 
-        response = self.client.get('/api/v1/trip/30/checkpoint/30/photo/')
+        response = self.client.get(url_switcher(30, 30))
         self.assertEqual(response.status_code, 204)
 
     def test_get_by_photo_id_success(self):
         """Test for get operation with passed photo id."""
 
-        response = self.client.get('/api/v1/trip/20/checkpoint/20/photo/5/')
+        response = self.client.get(url_switcher(20, 20, 5))
         self.assertEqual(response.status_code, 200)
 
     def test_get_status_not_found(self):
         """Test for get operation with passed id (wrong)."""
 
-        response = self.client.get('/api/v1/trip/20/checkpoint/4/photo/3/')
+        response = self.client.get(url_switcher(20, 4, 3))
         self.assertEqual(response.status_code, 204)
 
     def test_post_status_success(self):
         """Test for post operation which will create new instance of photo."""
 
-        request = self.client.post('/api/v1/trip/20/checkpoint/20/photo/', json.dumps({
+        request = self.client.post(url_switcher(20, 20), json.dumps({
             "src": "url_of_image",
             "user": 20,
             "description": "random thing"}),
-                                    content_type="application/json")
+                                   content_type="application/json")
         self.assertEqual(request.status_code, 201)
 
     def test_post_status_404(self):
         """Test for post operation which will not create new instance of photo."""
 
-        response = self.client.post('/api/v1/trip/631/checkpoint/135/photo/', json.dumps({
+        response = self.client.post(url_switcher(631, 135), json.dumps({
             "src": "url_of_image",
             "user": 20,
             "description": "random thing"}),
@@ -126,7 +132,7 @@ class TestPlugin(TestCase):
             "description": "random thing"
         }
 
-        response = self.client.put('/api/v1/trip/20/checkpoint/20/photo/5/', json.dumps(data),
+        response = self.client.put(url_switcher(20, 20, 5), json.dumps(data),
                                    content_type="application/json")
 
         self.assertEqual(response.status_code, 200)
@@ -138,7 +144,7 @@ class TestPlugin(TestCase):
             "description": "random thing"
         }
 
-        response = self.client.put('/api/v1/trip/20/checkpoint/20/photo/6/', json.dumps(data),
+        response = self.client.put(url_switcher(20, 20, 6), json.dumps(data),
                                    content_type="application/json")
         self.assertEqual(response.status_code, 403)
 
@@ -152,24 +158,25 @@ class TestPlugin(TestCase):
             "description": "random thing"
         }
 
-        response = self.client.put('/api/v1/trip/20/checkpoint/20/photo/7/', json.dumps(data),
+        response = self.client.put(url_switcher(20, 20, 8), json.dumps(data),
                                    content_type="application/json")
         self.assertEqual(response.status_code, 400)
 
     def test_delete_status_success(self):
         """Test for delete operation which will delete photo model."""
 
-        response = self.client.delete('/api/v1/trip/20/checkpoint/20/photo/5/')
+        response = self.client.delete(url_switcher(20, 20, 5))
         self.assertEqual(response.status_code, 200)
 
     def test_delete_status_no_permission(self):
         """Test for delete operation which will delete photo model."""
 
-        response = self.client.delete('/api/v1/trip/20/checkpoint/20/photo/6/')
+        response = self.client.delete(url_switcher(20, 20, 6))
         self.assertEqual(response.status_code, 403)
 
     def test_delete_status_400(self):
         """Test for delete operation which will delete photo model."""
 
-        response = self.client.delete('/api/v1/trip/20/checkpoint/20/photo/8/')
+        response = self.client.delete(url_switcher(20, 20, 8))
         self.assertEqual(response.status_code, 400)
+
