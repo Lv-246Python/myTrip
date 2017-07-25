@@ -1,216 +1,182 @@
-"""Testing module for checkpoint views."""
+"""This module contains Unit Tests for Photo app models."""
 
 import json
-from unittest import mock
+
 from datetime import datetime
 from django.test import TestCase, Client
 
-from trip.models import Trip
-from registration.models import CustomUser
 from checkpoint.models import Checkpoint
+from photo.models import Photo
+from registration.models import CustomUser
+from trip.models import Trip
 
 
-JSON_LENGTH = 8
-TIME_STAMP = 1500914872
-VALID_URL_CHECKPOINT_ID = '/api/v1/trip/2/checkpoint/2/'
-INVALID_URL_CHECKPOINT_ID = '/api/v1/trip/2/checkpoint/4/'
-VALID_URL_TRIP_ID = '/api/v1/trip/2/checkpoint/'
-INVALID_URL_TRIP_ID = '/api/v1/trip/3/checkpoint/'
+def url_switcher(trip_id, checkpoint_id=None, photo_id=None):
+    if photo_id:
+        return "/api/v1/trip/{}/checkpoint/{}/photo/{}/".format(trip_id, checkpoint_id, photo_id)
+    return "/api/v1/trip/{}/checkpoint/{}/photo/".format(trip_id, checkpoint_id)
 
-class ViewTest(TestCase):
-    """ Test for CRUD operation in checkpoint's view """
 
-    @classmethod
-    def setUpTestData(cls):
-        """Previous configuration for test.
-        Include instance of Client to class as attribute
-        Create a model of trip
-        """
-        cls.client = Client()
-        test_time = datetime.fromtimestamp(TIME_STAMP)
-        with mock.patch('django.utils.timezone.now') as mock_now:
-            mock_now.return_value = test_time
-            user = CustomUser.objects.create(
-                id=2,
-                first_name='test',
-                last_name='test',
-                email='test.test@gmail.com',
-            )
-            user.set_password('userpass')
-            user.save()
-            trip = Trip.objects.create(id=2, user=user, title="my_title",
-                                           description="some_cool_trip", status=0)
-            checkpoint = Checkpoint.objects.create(
-                id=2,
-                longitude=12,
-                latitude=13,
-                title="first_checkpoint",
-                description="cool checkpoint",
-                source_url="http://example.com",
-                position_number=1,
-                trip=trip,
-                create_at=datetime.now(),
-                update_at=datetime.now()
-            )
-            checkpoint = Checkpoint.objects.create(
-                id=3,
-                longitude=44,
-                latitude=29,
-                title="second_checkpoint",
-                description="one more cool_ heckpoint",
-                source_url="http://example.com",
-                position_number=2,
-                trip=trip,
-                create_at=datetime.now(),
-                update_at=datetime.now()
-            )
+class TestPlugin(TestCase):
+    """Tests for Photo model."""
 
-    def test_get_by_id_success(self):
-        """Test for get operation with passed checkpoint id."""
+    def setUp(self):
+        """Creates objects to provide tests."""
 
-        response = self.client.get(VALID_URL_CHECKPOINT_ID)
+        user = CustomUser.objects.create(
+            id=20,
+            first_name='test',
+            last_name='test',
+            email='test@gmail.com',
+            password='password'
+        )
+
+        self.user = CustomUser.objects.create(
+            id=5,
+            first_name="qwer",
+            last_name="ty",
+            email="qwer@gmail.com",
+            password="password"
+        )
+        self.user.set_password('password')
+        self.user.save()
+        self.client = Client()
+        self.client.login(username="qwer@gmail.com", password="password")
+
+        trip = Trip.objects.create(
+            id=20,
+            user=user,
+            title='title1',
+            description='description',
+            create_at=datetime(2017, 7, 18, 15, 19, 24),
+            status=0
+        )
+
+        checkpoint = Checkpoint.objects.create(
+            id=20,
+            longitude=123,
+            latitude=321,
+            title='title1',
+            description='description1',
+            position_number=1,
+            source_url='url1',
+            trip=trip
+        )
+
+        Photo.objects.create(
+            id=5,
+            src='src1',
+            user=self.user,
+            trip=trip,
+            checkpoint=checkpoint,
+            description='description1'
+        )
+
+        Photo.objects.create(
+            id=6,
+            src='src2',
+            user=user,
+            trip=trip,
+            checkpoint=checkpoint,
+            description='description2'
+        )
+
+    def test_get_by_trip_and_checkpoint_success(self):
+        """Test for get operation with passed trip id and checkpoint id."""
+
+        response = self.client.get(url_switcher(20, 20))
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_by_trip_and_checkpoint_none(self):
+        """Test for get operation with passed trip id and checkpoint id(wrong)."""
+
+        response = self.client.get(url_switcher(30, 30))
+        self.assertEqual(response.status_code, 204)
+
+    def test_get_by_photo_id_success(self):
+        """Test for get operation with passed photo id."""
+
+        response = self.client.get(url_switcher(20, 20, 5))
         self.assertEqual(response.status_code, 200)
 
     def test_get_status_not_found(self):
         """Test for get operation with passed id (wrong)."""
 
-        response = self.client.get(INVALID_URL_CHECKPOINT_ID)
-        self.assertEqual(response.status_code, 404)
-
-    def test_get_by_trip_id(self):
-        """Test for get operation with passed checkpoint id."""
-
-        response = self.client.get(VALID_URL_TRIP_ID)
-        self.assertEqual(response.status_code, 200)
-
-    def test_get_by_trip_id_length(self):
-        """Test for get operation with passed checkpoint id."""
-
-        response = self.client.get(VALID_URL_TRIP_ID)
-        data = response.json()
-        self.assertEqual(len(data), 2)
-
-    def test_get_response_length(self):
-        """Test length of response object after get operation with passed id."""
-
-        response = self.client.get(VALID_URL_CHECKPOINT_ID)
-        self.assertEqual(len(response.json()), JSON_LENGTH)
+        response = self.client.get(url_switcher(20, 4, 3))
+        self.assertEqual(response.status_code, 204)
 
     def test_post_status_success(self):
-        """Test for post operation which will create new instance of checkpoint."""
+        """Test for post operation which will create new instance of photo."""
 
-        response = self.client.post(VALID_URL_TRIP_ID, json.dumps({
-            "longitude": 20,
-            "latitude": 10,
-            "title": "new",
-            "description": "cool_checkpoint",
-            "source_url": "my_url",
-            "position_number":3}),
-            content_type="application/json")
-        self.assertEqual(response.status_code, 200)
+        request = self.client.post(url_switcher(20, 20), json.dumps({
+            "src": "url_of_image",
+            "user": 20,
+            "description": "random thing"}),
+                                   content_type="application/json")
+        self.assertEqual(request.status_code, 201)
 
     def test_post_status_404(self):
-        """Test for post operation which will create new instance of checkpoint."""
+        """Test for post operation which will not create new instance of photo."""
 
-        response = self.client.post(INVALID_URL_TRIP_ID, json.dumps({
-            "longitude": 20,
-            "latitude": 10,
-            "title": "new",
-            "description": "cool_checkpoint",
-            "source_url": "my_url",
-            "position_number":3}),
-            content_type="application/json")
+        response = self.client.post(url_switcher(631, 135), json.dumps({
+            "src": "url_of_image",
+            "user": 20,
+            "description": "random thing"}),
+                                    content_type="application/json")
         self.assertEqual(response.status_code, 404)
 
     def test_put_status_success(self):
-        """Test for put operation which will modify checkpoint model."""
+        """Test for put operation which will modify photo model."""
 
         data = {
-            "longitude": 15,
-            "latitude": 15,
-            "title": "test",
-            "description": "test_checkpoint",
-            "position_number": 5,
+            "description": "random thing"
         }
-        self.client.login(username='test.test@gmail.com', password='userpass')
-        response = self.client.put(VALID_URL_CHECKPOINT_ID, json.dumps(data), content_type="application/json")
+
+        response = self.client.put(url_switcher(20, 20, 5), json.dumps(data),
+                                   content_type="application/json")
+
         self.assertEqual(response.status_code, 200)
 
-    def test_put_status_404(self):
-        """
-        Test for put operation which will modify checkpoint model.
-        Request has wrong id and status 404 must be returned
-        """
+    def test_put_status_no_permission(self):
+        """Test for put operation which will modify photo model."""
 
         data = {
-            "longitude": 15,
-            "latitude": 15,
-            "title": "test",
-            "description": "test_checkpoint",
-            "position_number": 5,
+            "description": "random thing"
         }
-        self.client.login(username='test.test@gmail.com', password='userpass')
-        response = self.client.put(INVALID_URL_CHECKPOINT_ID, json.dumps(data), content_type="application/json")
-        self.assertEqual(response.status_code, 404)
 
-    def test_put_status_403(self):
-        """
-        Test for put operation which will modify checkpoint model.
-        Request has wrong id and status 404 must be returned
-        """
-
-        data = {
-            "longitude": 15,
-            "latitude": 15,
-            "title": "test",
-            "description": "test_checkpoint",
-            "position_number": 5,
-        }
-        response = self.client.put(INVALID_URL_CHECKPOINT_ID, json.dumps(data), content_type="application/json")
+        response = self.client.put(url_switcher(20, 20, 6), json.dumps(data),
+                                   content_type="application/json")
         self.assertEqual(response.status_code, 403)
 
-    def test_put_object_modified(self):
-        """Test object's properties after put opertaion."""
+    def test_put_status_400(self):
+        """
+        Test for put operation which will modify photo model.
+        Request has wrong id and status 404 must be returned
+        """
 
-        check_data = {
-            "id": 2,
-            "longitude": 15,
-            "latitude": 15,
-            "title": "test",
-            "description": "test_checkpoint",
-            "source_url": "http://example.com",
-            "position_number": 5,
-            "trip_id": 2,
-        }
         data = {
-            "longitude": 15,
-            "latitude": 15,
-            "title": "test",
-            "description": "test_checkpoint",
-            "position_number": 5,
+            "description": "random thing"
         }
-        self.client.login(username='test.test@gmail.com', password='userpass')
-        response = self.client.put(VALID_URL_CHECKPOINT_ID, json.dumps(data),
+
+        response = self.client.put(url_switcher(20, 20, 8), json.dumps(data),
                                    content_type="application/json")
-        received_data = response.json()
-        self.assertDictEqual(received_data, check_data)
+        self.assertEqual(response.status_code, 400)
 
     def test_delete_status_success(self):
-        """Test for delete opertaion which will delete checkpoint model."""
+        """Test for delete operation which will delete photo model."""
 
-        self.client.login(username='test.test@gmail.com', password='userpass')
-        response = self.client.delete(VALID_URL_CHECKPOINT_ID)
+        response = self.client.delete(url_switcher(20, 20, 5))
         self.assertEqual(response.status_code, 200)
 
-    def test_delete_status_404(self):
-        """Test for delete opertaion which will delete checkpoint model."""
+    def test_delete_status_no_permission(self):
+        """Test for delete operation which will delete photo model."""
 
-        self.client.login(username='test.test@gmail.com', password='userpass')
-        response = self.client.delete(INVALID_URL_CHECKPOINT_ID)
-        self.assertEqual(response.status_code, 404)
-
-    def test_delete_status_403(self):
-        """Test for delete opertaion which will delete checkpoint model."""
-
-        response = self.client.delete(INVALID_URL_CHECKPOINT_ID)
+        response = self.client.delete(url_switcher(20, 20, 6))
         self.assertEqual(response.status_code, 403)
+
+    def test_delete_status_400(self):
+        """Test for delete operation which will delete photo model."""
+
+        response = self.client.delete(url_switcher(20, 20, 8))
+        self.assertEqual(response.status_code, 400)
+
