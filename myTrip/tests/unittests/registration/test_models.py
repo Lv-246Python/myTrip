@@ -124,3 +124,21 @@ class CustomUserModelTests(TestCase):
             'update_at': TEST_TIME
         }
         self.assertEqual(request, result)
+
+    def test_email_validation_true(self):
+        """
+        Test CustomUser.email_validation() method.
+        """
+
+        request = CustomUser.email_validation("test@gmail.com")
+        result = True
+        self.assertEqual(request, result)
+
+    def test_email_validation_false(self):
+        """
+        Test CustomUser.email_validation() method.
+        """
+
+        request = CustomUser.email_validation("test_gmail.com")
+        result = False
+        self.assertEqual(request, result)
