@@ -16,10 +16,12 @@ JSON_LENGTH = 6
 
 
 def make_like_id_url(like_id=50, trip_id=10):
+    """Create url with like id."""
     return '/api/v1/trip/{}/like/{}/'.format(trip_id, like_id)
 
 
 def make_long_url(trip_id=10, checkpoint_id=20, photo_id=30, comment_id=40):
+    """Create url without like id."""
     return '/api/v1/trip/{}/checkpoint/{}/photo/{}/comment/{}/like/'.\
         format(trip_id, checkpoint_id, photo_id, comment_id)
 
@@ -29,9 +31,9 @@ class ViewTest(TestCase):
 
     def setUp(self):
         """
-        Preconfig for test.
+        Preconfiguration for test.
         Include instance of Client to class as attribute.
-        Create a model of trip, checkpoint, photo and comment.
+        Create a model of trip, checkpoint, photo, comment and like.
         """
         user = CustomUser.objects.create(
             id=1,
@@ -40,6 +42,8 @@ class ViewTest(TestCase):
             email='email.test@gmail.com',
             password='password'
         )
+        user.set_password('password')
+        user.save()
 
         self.user = CustomUser.objects.create(
             id=2,
@@ -48,9 +52,9 @@ class ViewTest(TestCase):
             email='second.email.test@mail.com',
             password='password'
         )
-
         self.user.set_password('password')
         self.user.save()
+
         self.client.login(username="email.test@gmail.com", password="password")
 
         trip = Trip.objects.create(
@@ -108,19 +112,19 @@ class ViewTest(TestCase):
             comment=comment
         )
 
-    def test_get_by_id_success(self):
+    def test_get_by_id_success_200(self):
         """Test for GET operation with passed like id."""
 
         response = self.client.get(make_like_id_url())
         self.assertEqual(response.status_code, 200)
 
-    def test_get_by_id_status_not_found(self):
+    def test_get_by_id_status_not_found_404(self):
         """Ensure that GET method returns status 404 with non-existed object id."""
 
         response = self.client.get(make_like_id_url(FAKE_ID))
         self.assertEqual(response.status_code, 404)
 
-    def test_get_by_trip_checkpoint_photo_comment_id(self):
+    def test_get_all_likes_by_url_200(self):
         """
         Ensure that GET method returns status 200 with given Object<Trip> id,
         Object<Checkpoint> id, Object<Photo> id, Object<Comment> id.
@@ -129,11 +133,18 @@ class ViewTest(TestCase):
         response = self.client.get(make_long_url())
         self.assertEqual(response.status_code, 200)
 
-    def test_get_by_trip_checkpoint_photo_comment_id_404(self):
+    def test_get_all_likes_by_url_status_not_found_404(self):
         """Ensure that GET method returns status 404 when some wrong id was send."""
 
         response = self.client.get(make_long_url(FAKE_ID))
         self.assertEqual(response.status_code, 404)
+
+    def test_get_number_of_likes_by_url(self):
+        """Ensure that get method returns correct number of Like objects."""
+
+        response = self.client.get(make_long_url())
+        data = response.json()
+        self.assertEqual(len(data), 2)
 
     def test_get_response_length(self):
         """Ensure that GET method returns all required like fields."""
@@ -144,12 +155,11 @@ class ViewTest(TestCase):
     def test_post_status_success_201(self):
         """Ensure that POST method creates new object with it relations and status 201."""
 
-        response = self.client.post(make_long_url(), json.dumps({}), content_type="application/json")
+        response = self.client.post(make_long_url(FAKE_ID), json.dumps({}), content_type="application/json")
         self.assertEqual(response.status_code, 201)
 
-    def test_post_status_delete_200(self):
+    def test_post_delete_like_status_200(self):
         """Ensure that POST method returns status 200, when like deleted."""
 
         response = self.client.post(make_long_url(), json.dumps({}), content_type="application/json")
-
         self.assertEqual(response.status_code, 200)

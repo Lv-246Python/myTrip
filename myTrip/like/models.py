@@ -40,11 +40,10 @@ class Like(models.Model):
         return like
 
     @staticmethod
-    def filter(user, trip=None, checkpoint=None, photo=None, comment=None):
+    def filter(trip=None, checkpoint=None, photo=None, comment=None):
         """
         Get like with given trip id, checkpoint id, photo id and comment id.
         Args:
-            user (int): user id
             trip (int): trip id
             checkpoint (int): checkpoint id
             photo (int): photo id
@@ -52,8 +51,7 @@ class Like(models.Model):
         Returns:
             QuerySet<Like>: QuerySet of Like.
         """
-        return Like.objects.filter(user=user, trip=trip, checkpoint=checkpoint,
-                                   photo=photo, comment=comment)
+        return Like.objects.filter(trip=trip, checkpoint=checkpoint, photo=photo, comment=comment)
 
     @staticmethod
     def get_by_id(like_id):
