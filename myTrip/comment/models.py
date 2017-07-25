@@ -16,10 +16,11 @@ class Comment(models.Model):
         :argument message: str - comment message
         :argument user: Object<CustomUser>  -  foreign key to User model
         :argument trip: Object<Trip> - foreign key to trip model, one-to-many relation
-        :argument checkpoint: Object<Checkpoint> - foreign key to checkpoint model, one-to-many relation
+        :argument checkpoint: Object<Checkpoint> - foreign key to checkpoint model,
+        one-to-many relation
         :argument photo: Object<Photo> - foreign key to photo model, one-to-many relation
         :argument created_at: datetime - date and time of created comment
-        :argument modified_at: datetime - date and time of modified comment
+        :argument modified_at: datetime - date and time of modified commentgi
     """
 
     message = models.TextField()
