@@ -1,6 +1,9 @@
 """This module contains Unit Tests for Comment app models."""
 
+from datetime import datetime
+
 from django.test import TestCase
+from unittest.mock import patch
 
 from checkpoint.models import Checkpoint
 from comment.models import Comment
@@ -8,84 +11,88 @@ from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
 
+TEST_TIME = datetime(2017, 7, 25, 12, 00, 00)
+
 
 class TestPlugin(TestCase):
     """Tests for Comment model."""
 
     def setUp(self):
         """Creates objects to provide tests."""
-        CustomUser.objects.create(
-            id=1,
-            first_name='test',
-            last_name='test',
-            email='test.test@gmail.com',
-            password='user pass'
-        )
+        with patch('django.utils.timezone.now') as mock_test:
+            mock_test.return_value = TEST_TIME
+            CustomUser.objects.create(
+                id=1,
+                first_name='test',
+                last_name='test',
+                email='test.test@gmail.com',
+                password='user pass'
+            )
 
-        Trip.objects.create(
-            id=10,
-            user=CustomUser.objects.get(id=1),
-            title='title1',
-            description='description1',
-            status=0
-        )
+            Trip.objects.create(
+                id=10,
+                user=CustomUser.objects.get(id=1),
+                title='title1',
+                description='description1',
+                status=0
+            )
 
-        Trip.objects.create(
-            id=11,
-            user=CustomUser.objects.get(id=1),
-            title='title2',
-            description='description2',
-            status=0
-        )
+            Trip.objects.create(
+                id=11,
+                user=CustomUser.objects.get(id=1),
+                title='title2',
+                description='description2',
+                status=0
+            )
 
-        Checkpoint.objects.create(
-            id=20,
-            longitude=20.20,
-            latitude=20.20,
-            title='title1',
-            description='description1',
-            position_number=1,
-            source_url='url1',
-            trip=Trip.objects.get(id=10)
-        )
+            Checkpoint.objects.create(
+                id=20,
+                longitude=20.20,
+                latitude=20.20,
+                title='title1',
+                description='description1',
+                position_number=1,
+                source_url='url1',
+                trip=Trip.objects.get(id=10)
+            )
 
-        Checkpoint.objects.create(
-            id=21,
-            longitude=21.21,
-            latitude=21.21,
-            title='title2',
-            description='description2',
-            position_number=2,
-            source_url='url2',
-            trip=Trip.objects.get(id=11)
-        )
+            Checkpoint.objects.create(
+                id=21,
+                longitude=21.21,
+                latitude=21.21,
+                title='title2',
+                description='description2',
+                position_number=2,
+                source_url='url2',
+                trip=Trip.objects.get(id=11)
+            )
 
-        Photo.objects.create(
-            id=30,
-            src='src1',
-            user=CustomUser.objects.get(id=1),
-            trip=Trip.objects.get(id=10),
-            checkpoint=Checkpoint.objects.get(id=20),
-            description='description1'
-        )
+            Photo.objects.create(
+                id=30,
+                src='src1',
+                user=CustomUser.objects.get(id=1),
+                trip=Trip.objects.get(id=10),
+                checkpoint=Checkpoint.objects.get(id=20),
+                description='description1'
+            )
 
-        Photo.objects.create(
-            id=31,
-            src='src2',
-            user=CustomUser.objects.get(id=1),
-            trip=Trip.objects.get(id=11),
-            checkpoint=Checkpoint.objects.get(id=21),
-            description='description2'
-        )
+            Photo.objects.create(
+                id=31,
+                src='src2',
+                user=CustomUser.objects.get(id=1),
+                trip=Trip.objects.get(id=11),
+                checkpoint=Checkpoint.objects.get(id=21),
+                description='description2'
+            )
 
-        Comment.objects.create(
-            id=66,
-            message='test1',
-            user=CustomUser.objects.get(id=1),
-            trip=Trip.objects.get(id=10),
-            checkpoint=Checkpoint.objects.get(id=20),
-            photo=Photo.objects.get(id=30)
-        )
+            Comment.objects.create(
+                id=66,
+                message='test1',
+                user=CustomUser.objects.get(id=1),
+                trip=Trip.objects.get(id=10),
+                checkpoint=Checkpoint.objects.get(id=20),
+                photo=Photo.objects.get(id=30)
+            )
 
     def test_get_by_id(self):
         """Ensure that get by id method returns specific comment using id."""
@@ -158,8 +165,8 @@ class TestPlugin(TestCase):
             'trip': 10,
             'checkpoint': 20,
             'photo': 30,
-            'create_at': result['create_at'],
-            'update_at': result['update_at']
+            'create_at': TEST_TIME,
+            'update_at': TEST_TIME
         }
 
         self.assertEqual(expected, result)
@@ -184,13 +191,13 @@ class TestPlugin(TestCase):
         result = repr(comment)
         expected = "id:{}, message:{}, user:{}, trip:{}, " \
                    "checkpoint:{}, photo:{}, create_at:{}, update_at:{}".format(
-                       comment.id,
-                       comment.message,
-                       comment.user,
-                       comment.trip.id,
-                       comment.checkpoint.id,
-                       comment.photo.id,
-                       comment.create_at,
-                       comment.update_at)
+            comment.id,
+            comment.message,
+            comment.user,
+            comment.trip.id,
+            comment.checkpoint.id,
+            comment.photo.id,
+            comment.create_at,
+            comment.update_at)
 
         self.assertEqual(result, expected)

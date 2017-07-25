@@ -1,9 +1,9 @@
 """Contains everything we need for Registration and Authentication."""
 
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.db import models
 
 
 class CustomUser(AbstractBaseUser):
@@ -63,7 +63,7 @@ class CustomUser(AbstractBaseUser):
         """
         Check for user with given email. If exist return.
         Args:
-            user_email (int): new user's email.
+           user_email (str): new user's email.
         Returns:
             CustomUser object or None when exception works.
         """
@@ -148,6 +148,14 @@ class CustomUser(AbstractBaseUser):
         }
 
     def email_validation(email):
+        """
+        Checks if the email is in valid format
+        using Django 'email_validation'.
+        Args:
+            email(str): given email.
+        Returns:
+            True if email is valid, None if not.
+        """
         try:
             validate_email(email)
             return True

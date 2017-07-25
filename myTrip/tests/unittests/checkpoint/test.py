@@ -1,7 +1,7 @@
 """Testing module for checkpoint views."""
 
 import json
-import mock
+from unittest import mock
 from datetime import datetime
 from django.test import TestCase, Client
 

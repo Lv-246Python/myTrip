@@ -39,28 +39,20 @@ class Registration_info extends React.Component {
         );
     }
 }
-
-
-
 class Registration_form extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {email: '', password: ''};
-
         this.handlePassword = this.handlePassword.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
     handlePassword(event) {
         this.setState({password: event.target.value});
     }
-
     handleEmail(event) {
         this.setState({email: event.target.value});
     }
-
     handleSubmit(event) {
         const email = this.state.email;
         const password = this.state.password;
@@ -81,7 +73,6 @@ class Registration_form extends React.Component {
             });
         event.preventDefault();
     }
-
     render() {
         return (
             <div className='registration_form'>
@@ -112,7 +103,6 @@ class Registration_form extends React.Component {
         );
     }
 }
-
 export default class Registration extends React.Component {
     render() {
         return (
