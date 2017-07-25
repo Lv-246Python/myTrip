@@ -169,8 +169,8 @@ class TestPlugin(TestCase):
 
         comment = Comment.objects.get(id=66)
         result = repr(comment)
-        expected = """id:{}, message:{}, user:{}, trip:{}, 
-                   checkpoint:{}, photo:{}, create_at:{}, update_at:{}""".format(
+        expected = """id:{}, message:{}, user:{}, trip:{},
+                  checkpoint:{}, photo:{}, create_at:{}, update_at:{}""".format(
             comment.id,
             comment.message,
             comment.user,
