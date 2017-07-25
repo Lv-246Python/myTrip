@@ -42,7 +42,8 @@ class PhotoView(View):
         return JsonResponse(data, status=201)
 
     def put(self, request, trip_id=None, checkpoint_id=None, photo_id=None):
-        """PUT request handler. If photo object found by id and user is owner, try to update photo."""
+        """PUT request handler.
+        If photo object found by id and user is owner, try to update photo."""
         update_data = json.loads(request.body.decode('utf-8'))
         photo = Photo.get_by_id(photo_id)
         if not photo:
@@ -54,7 +55,8 @@ class PhotoView(View):
         return HttpResponse(status=403)
 
     def delete(self, request, trip_id=None, checkpoint_id=None, photo_id=None):
-        """DELETE request handler. If photo were found by id and user is owner, try to delete photo."""
+        """DELETE request handler.
+        If photo were found by id and user is owner, try to delete photo."""
         photo = Photo.get_by_id(photo_id)
         if not photo:
             return HttpResponse(status=400)
