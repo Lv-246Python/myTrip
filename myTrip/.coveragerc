@@ -8,7 +8,6 @@ source =
     checkpoint
     comment
     photo
-    tests
 
 omit =
     *migrations*
@@ -16,3 +15,4 @@ omit =
     *urls.py*
     *__init__.py*
     *backends.py*
+    *helper.py*

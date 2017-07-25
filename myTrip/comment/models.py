@@ -20,7 +20,7 @@ class Comment(models.Model):
         one-to-many relation
         :argument photo: Object<Photo> - foreign key to photo model, one-to-many relation
         :argument created_at: datetime - date and time of created comment
-        :argument modified_at: datetime - date and time of modified comment
+        :argument modified_at: datetime - date and time of modified commentgi
     """
 
     message = models.TextField()
@@ -91,7 +91,7 @@ class Comment(models.Model):
             'id': self.id,
             'message': self.message,
             'user': self.user.id,
-            'trip': self.trip.id if self.trip else None,
+            'trip': self.trip.id,
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
             'create_at': self.create_at,

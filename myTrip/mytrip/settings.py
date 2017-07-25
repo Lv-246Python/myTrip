@@ -55,8 +55,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'registration.CustomUser'
 
-AUTHENTICATION_BACKENDS = ('registration.backends.CustomUserAuth',)
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -87,7 +85,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+STATICFILES_DIRS = []
 
 try:
     from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import
