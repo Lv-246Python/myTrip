@@ -15,8 +15,8 @@ class CustomUser(AbstractBaseUser):
     :argument email: str - new user's emailAdress
     """
 
-    first_name = models.CharField(max_length=254, blank=True)
-    last_name = models.CharField(max_length=254, blank=True)
+    first_name = models.CharField(max_length=254, blank=True, null=True)
+    last_name = models.CharField(max_length=254, blank=True, null=True)
     email = models.EmailField(unique=True, blank=False)
     password = models.CharField(max_length=254, blank=False)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -26,12 +26,14 @@ class CustomUser(AbstractBaseUser):
     objects = BaseUserManager()
 
     @staticmethod
-    def create(email, password):
+    def create(email, password, first_name=None, last_name=None):
         """
         Creates and saves a User with the given email and password.
         Args:
             email (str): new user's email.
             password (str): new user's password.
+            first_name (str): new user's first name.
+            last_name (str): new user's last name.
         Returns:
             new CustomUser object.
         """
@@ -39,6 +41,8 @@ class CustomUser(AbstractBaseUser):
         user = CustomUser()
         user.email = email.lower()
         user.set_password(password)
+        user.first_name = first_name
+        user.last_name = last_name
         user.save()
         return user
 
