@@ -2,25 +2,59 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
-import Registration from "./registration.js"
-import Home from "./home.js"
-import Comment from "./comment";
+import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import Registration from "./registration.js";
+import Home from "./home.js";
+
+injectTapEventPlugin();
 
 class Header extends React.Component {
     render() {
         return (
-        <header>
-            <div className="row">
-                <div className="col-md-12">
-                    <div className="logo">
-                        <a href="#"><img src="static/img/logo.png" alt="logo" /></a>
-                        <span id="logo"><Link to='/home'>TripTracker.com</Link></span>
-                        <span id="login"><Link to="#">LOGIN</Link></span>
-                        <span id="register"><Link to='/registration'>REGISTRATION</Link></span>
+            <AppBar
+                className='header'
+                style = {{
+                    height: "80px"
+                }}
+                iconStyleLeft = {{
+                    fontSize:"2em"
+                }}
+                iconElementLeft = {
+                    <div className='title'>
+                        <img className='header_icon' src='static/img/logo.png' />
+                        <Link to='/home'>TripTracker</Link>
                     </div>
-                </div>
-            </div>
-        </header>
+                }
+                iconElementRight = {
+                    <div className='title'>
+                        <FlatButton
+                            label='REGISTRATION'
+                            containerElement={<Link to="/registration"/>}
+                            labelStyle = {{
+                                fontSize:"1.3em",
+                                color:"white"
+                            }}
+                        />
+                        <FlatButton
+                            label='LOGIN'
+                            containerElement={<Link to="/home"/>}
+                            labelStyle = {{
+                                fontSize:"1.3em",
+                                color:"white"
+                            }}
+                        />
+                    </div>
+                }
+                iconStyleRight = {{
+                    marginBottom:"8px",
+                    display:"flex",
+                    alignItems:"center",
+                }}
+            />
         );
     }
 }
@@ -32,7 +66,6 @@ class Main extends React.Component {
                 <Switch>
                     <Route exact path='/registration' component={Registration} />
                     <Route exact path='/home' component={Home} />
-
                 </Switch>
             </main>
         );
@@ -42,10 +75,12 @@ class Main extends React.Component {
 class Layout extends React.Component {
     render() {
         return (
-            <div className="container-fluid">
-                <Header/>
-                <Main/>
-            </div>
+           <MuiThemeProvider>
+               <div>
+                   <Header/>
+                   <Main/>
+               </div>
+            </MuiThemeProvider>
         );
     }
 }
