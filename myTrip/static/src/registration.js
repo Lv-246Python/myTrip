@@ -64,6 +64,7 @@ class Registration_form extends React.Component {
                 />
                 <RaisedButton label="Sign UP"
                     primary={true}
+                    onTouchTap={handleSubmit}
                     style={{
                         margin:"5%"
                     }}
