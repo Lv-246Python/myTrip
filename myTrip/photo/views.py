@@ -31,7 +31,7 @@ class PhotoView(View):
     def post(self, request, trip_id, checkpoint_id=None, photo_id=None):
         """POST request handler. Creating a new photo object and return status 201("created")."""
         post_data = json.loads(request.body.decode('utf-8'))
-        user = CustomUser.get_by_id(request.user.id)
+        user = CustomUser.get_by_id(request.user.id)    # перевіряє, чи залогован юзер
         trip = Trip.get_by_id(trip_id)
         if not trip:
             return HttpResponse(status=404)

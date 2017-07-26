@@ -1,27 +1,59 @@
-"""This module contains Like model and basic methods."""
+"""
+This module contains Like model class and basic methods for Trip, Checkpoint, Photo and Comment.
+"""
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+
+from checkpoint.models import Checkpoint
+from comment.models import Comment
+from photo.models import Photo
+from registration.models import CustomUser
+from trip.models import Trip
 
 
 class Like(models.Model):
     """
     Like
-    :argument id: int - auto generate primary key
-    :argument user: int - ToDo foreign key
-    :argument trip: int - ToDo foreign key
-    :argument checkpoint: int - ToDo foreign key
-    :argument photo: int - ToDo foreign key
-    :argument comment: int - ToDo foreign key
+        :argument id: int - auto generate primary key
+        :argument user: int - foreign key to CustomUser
+        :argument trip: int - foreign key to Trip
+        :argument checkpoint: int - foreign key to Checkpoint
+        :argument photo: int - foreign key to Photo
+        :argument comment: int - foreign key to Comment
     """
 
-    user = models.IntegerField()
-    trip = models.IntegerField(null=True)
-    checkpoint = models.IntegerField(null=True)
-    photo = models.IntegerField(null=True)
-    comment = models.IntegerField(null=True)
-    create_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True, editable=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=True)
+    checkpoint = models.ForeignKey(Checkpoint, on_delete=models.CASCADE, null=True)
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
+
+    @staticmethod
+    def create(user, trip, checkpoint, photo, comment):
+        """A method creates like by user."""
+        like = Like()
+        like.user = user
+        like.trip = trip
+        like.checkpoint = checkpoint
+        like.photo = photo
+        like.comment = comment
+        like.save()
+        return like
+
+    @staticmethod
+    def filter(trip=None, checkpoint=None, photo=None, comment=None):
+        """
+        Get like with given trip id, checkpoint id, photo id and comment id.
+        Args:
+            trip (int): trip id
+            checkpoint (int): checkpoint id
+            photo (int): photo id
+            comment (int): comment id.
+        Returns:
+            QuerySet<Like>: QuerySet of Like.
+        """
+        return Like.objects.filter(trip=trip, checkpoint=checkpoint, photo=photo, comment=comment)
 
     @staticmethod
     def get_by_id(like_id):
@@ -39,64 +71,16 @@ class Like(models.Model):
             return None
 
     @staticmethod
-    def get_by_trip_id(trip_id):
+    def get_by_user_id(user):
         """
-        Get Like with given trip id.
+        Get Like with given user id.
         Args:
-            trip_id (int): trip id.
+            user (int): user id.
         Returns:
-            QuerySet<Like>: QuerySet of Like,
-            or None when exception works.
+            QuerySet<Like>: QuerySet of Like.
         """
-        try:
-            return Like.objects.filter(trip=trip_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_checkpoint_id(checkpoint_id):
-        """
-        Get Like with given checkpoint id.
-        Args:
-            checkpoint_id (int): checkpoint id.
-        Returns:
-            QuerySet<Like>: QuerySet of Like,
-            or None when exception works.
-        """
-        try:
-            return Like.objects.filter(id=checkpoint_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_photo_id(photo_id):
-        """
-        Get Like with given photo id.
-        Args:
-            photo_id (int): photo id.
-        Returns:
-            QuerySet<Like>: QuerySet of Like,
-            or None when exception works.
-        """
-        try:
-            return Like.objects.filter(id=photo_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_comment_id(comment_id):
-        """
-        Get Like with given comment id.
-        Args:
-            comment_id (int): comment id.
-        Returns:
-            QuerySet<Like>: QuerySet of Like,
-            or None when exception works.
-        """
-        try:
-            return Like.objects.filter(id=comment_id)
-        except ObjectDoesNotExist:
-            return None
+        like = Like.objects.filter(user=user)
+        return like
 
     def to_dict(self):
         """
@@ -114,39 +98,14 @@ class Like(models.Model):
         """
         return {
             'id': self.id,
-            'user_id': self.user,
-            'trip_id': self.trip,
-            'checkpoint_id': self.checkpoint,
-            'photo_id': self.photo,
-            'comment_id': self.comment
+            'user_id': self.user.id,
+            'trip_id': self.trip.id,
+            'checkpoint_id': self.checkpoint.id if self.checkpoint else None,
+            'photo_id': self.photo.id if self.photo else None,
+            'comment_id': self.comment.id if self.comment else None
         }
 
-    @staticmethod
-    def create(user, trip=None, checkpoint=None, photo=None, comment=None):
-        """A method creates like by user to trip/checkpoint/photo/comment."""
-        like = Like()
-        like.user = user
-        like.trip = trip
-        like.checkpoint = checkpoint
-        like.photo = photo
-        like.comment = comment
-        like.save()
-        return like
-
-    @staticmethod
-    def delete_by_id(like_id):
-        """A method delete like by id."""
-        try:
-            like = Like.objects.get(id=like_id)
-            like.delete()
-            return True
-        except ObjectDoesNotExist:
-            return None
-
     def __str__(self):
-        return "id={} user={} trip={} checkpoint={} photo={} comment={}".format(self.id,
-                                                                                self.user,
-                                                                                self.trip,
-                                                                                self.checkpoint,
-                                                                                self.photo,
-                                                                                self.comment)
+        return "id:{}, user:{}, trip:{}, checkpoint:{}, photo:{}, comment:{}".\
+            format(self.id, self.user, self.trip.id, self.checkpoint.id,
+                   self.photo.id, self.comment.id)
