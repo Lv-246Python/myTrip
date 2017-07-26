@@ -4,6 +4,7 @@ import { HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
 import Registration from "./registration.js"
 import Home from "./home.js"
+import Comment from "./comment";
 
 class Header extends React.Component {
     render() {

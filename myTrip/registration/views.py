@@ -22,6 +22,8 @@ def register(request):
         data = loads(request.body.decode('utf-8'))
         email = data.get("email")
         password = data.get("password")
+        first_name = data.get("first_name")
+        last_name = data.get("last_name")
 
         if not email or not password:
             return response_400_required
@@ -32,7 +34,7 @@ def register(request):
         if CustomUser.get_by_email(email):
             return response_400_already_registered
 
-        CustomUser.create(email, password)
+        CustomUser.create(email, password, first_name, last_name)
         return response_201_successfully_created
 
 def login(request):
