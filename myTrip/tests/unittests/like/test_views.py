@@ -3,6 +3,7 @@
 import json
 
 from django.test import TestCase
+from django.urls import reverse
 
 from checkpoint.models import Checkpoint
 from comment.models import Comment
@@ -165,3 +166,11 @@ class ViewTest(TestCase):
         response = self.client.post(make_long_url(), json.dumps({}),
                                     content_type="application/json")
         self.assertEqual(response.status_code, 200)
+
+    def test_post_by_not_logged_user_status_401(self):
+        """Ensure that POST method returns status 401, if user not logged."""
+
+        self.client.get(reverse('logout_view'))
+        response = self.client.post(make_long_url(), json.dumps({}),
+                                    content_type="application/json")
+        self.assertEqual(response.status_code, 401)
