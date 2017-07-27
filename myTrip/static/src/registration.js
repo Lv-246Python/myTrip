@@ -53,18 +53,20 @@ class Registration_form extends React.Component {
                     name="last_name"
                 />
                 <TextField
+                    onChange={this.handleEmail}
                     hintText="Email"
                     name="email"
                     type="email"
                 />
                 <TextField
+                    onChange={this.handlePassword}
                     hintText="Password"
                     name="password"
                     type='password'
                 />
                 <RaisedButton label="Sign UP"
                     primary={true}
-                    onTouchTap={handleSubmit}
+                    onTouchTap={this.handleSubmit}
                     style={{
                         margin:"5%"
                     }}
