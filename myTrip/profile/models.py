@@ -100,3 +100,4 @@ class Profile(models.Model):
             "instagram": self.instagram,
             "google": self.google,
         }
+
