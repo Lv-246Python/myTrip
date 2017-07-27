@@ -8,7 +8,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Registration from "./registration.js";
-import Home from "./home.js";
+import Home from "./home/home.js";
 
 injectTapEventPlugin();
 
