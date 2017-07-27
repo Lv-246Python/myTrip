@@ -25,7 +25,7 @@ class Header extends React.Component {
                 }}
                 iconElementLeft = {
                     <div className='title'>
-                        <img className='header_icon' src='public/img/logo.png' />
+                        <img className='header_icon' src='src/img/logo.png' />
                         <Link to='/home'>TripTracker</Link>
                     </div>
                 }
