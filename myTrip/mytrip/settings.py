@@ -35,7 +35,15 @@ INSTALLED_APPS = [
     'trip',
     'registration',
     'photo',
+    'home',
+]
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'static/public/')],
+        'APP_DIRS': True,
+    },
 ]
 
 SECRET_KEY = 'not_so_secret'
@@ -84,8 +92,8 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = []
+STATIC_URL = '/public/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/public/'),]
 
 try:
     from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import
