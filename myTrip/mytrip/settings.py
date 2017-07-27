@@ -92,8 +92,8 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/public/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/public/'),]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'),]
 
 try:
     from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import
