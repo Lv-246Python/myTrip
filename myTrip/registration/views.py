@@ -20,7 +20,7 @@ def register(request):
 
     if request.method == 'POST':
         data = loads(request.body.decode('utf-8'))
-        email = data.get("email")
+        email = data.get("email").lower()
         password = data.get("password")
         first_name = data.get("first_name")
         last_name = data.get("last_name")
