@@ -2,19 +2,69 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
+import axios from "axios"
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import Home from "./home.js";
 import Registration from "./registration.js";
-import Home from "./home/home.js";
-import Comment from './comment/comment';
+
 
 injectTapEventPlugin();
 
 class Header extends React.Component {
+    constructor(props) {
+        super(props);
+        this.logout = this.logout.bind(this);
+    }
+
+    logout() {
+        axios.get('api/v1/auth/logout/').then((response) => {
+            if (response.status == 200) {
+                this.props.loginHandler(false);
+            }
+        })
+    }
+
     render() {
+        let elementRight;
+        if (!this.props.logged) {
+            elementRight = (
+                <div className='title'>
+                    <FlatButton
+                        label='REGISTRATION'
+                        containerElement={<Link to="/registration"/>}
+                        labelStyle = {{
+                            fontSize:"1.3em",
+                            color:"white"
+                        }}
+                    />
+                    <FlatButton
+                        label='LOGIN'
+                        containerElement={<Link to="/home"/>}
+                        labelStyle = {{
+                            fontSize:"1.3em",
+                            color:"white"
+                        }}
+                    />
+                </div>
+            )
+        } else {
+            elementRight =  (
+                <div className='title'>
+                    <FlatButton
+                        label='LOGOUT'
+                        onTouchTap = {this.logout}
+                        labelStyle = {{
+                            fontSize:"1.3em",
+                            color:"white"
+                        }}
+                    />
+                </div>
+            )
+        }
         return (
             <AppBar
                 className='header'
@@ -30,26 +80,7 @@ class Header extends React.Component {
                         <Link to='/home'>TripTracker</Link>
                     </div>
                 }
-                iconElementRight = {
-                    <div className='title'>
-                        <FlatButton
-                            label='REGISTRATION'
-                            containerElement={<Link to="/registration"/>}
-                            labelStyle = {{
-                                fontSize:"1.3em",
-                                color:"white"
-                            }}
-                        />
-                        <FlatButton
-                            label='LOGIN'
-                            containerElement={<Link to="/home"/>}
-                            labelStyle = {{
-                                fontSize:"1.3em",
-                                color:"white"
-                            }}
-                        />
-                    </div>
-                }
+                iconElementRight = {elementRight}
                 iconStyleRight = {{
                     marginBottom:"8px",
                     display:"flex",
@@ -72,9 +103,13 @@ class Main extends React.Component {
             <main>
                 <Switch>
                     <Route exact path='/' component={Home} />
-                    <Route exact path='/registration' component={Registration} />
+                    <Route exact path='/registration'
+                        render={(props) => <Registration
+                            loginHandler={this.props.loginHandler}
+                             {...props}
+                        /> }
+                    />
                     <Route component={NotFound} />
-                    <Route exact path='/comment' component={Comment} />
                 </Switch>
             </main>
         );
@@ -82,13 +117,24 @@ class Main extends React.Component {
 }
 
 class Layout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {'logged':false};
+        this.loginHandler = this.loginHandler.bind(this);
+    }
+    componentWillMount() {
+        let logged = document.cookie.indexOf('sessionid') != -1;
+        this.setState({logged})
+    }
+    loginHandler(value) {
+        this.setState({'logged':value});
+    }
     render() {
         return (
            <MuiThemeProvider>
                <div>
-                   <Header/>
-                   <Main/>
-                   <Comment/>
+                   <Header logged={this.state.logged} loginHandler={this.loginHandler}/>
+                   <Main loginHandler={this.loginHandler} />
                </div>
             </MuiThemeProvider>
         );

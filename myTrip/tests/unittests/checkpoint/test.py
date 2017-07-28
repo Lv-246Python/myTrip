@@ -57,7 +57,7 @@ class ViewTest(TestCase):
                 longitude=44,
                 latitude=29,
                 title="second_checkpoint",
-                description="one more cool_ heckpoint",
+                description="one more cool_ checkpoint",
                 source_url="http://example.com",
                 position_number=2,
                 trip=trip,
@@ -170,7 +170,7 @@ class ViewTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_put_object_modified(self):
-        """Test object's properties after put opertaion."""
+        """Test object's properties after put operation."""
 
         check_data = {
             "id": 2,
@@ -196,21 +196,21 @@ class ViewTest(TestCase):
         self.assertDictEqual(received_data, check_data)
 
     def test_delete_status_success(self):
-        """Test for delete opertaion which will delete checkpoint model."""
+        """Test for delete operation which will delete checkpoint model."""
 
         self.client.login(username='test.test@gmail.com', password='userpass')
         response = self.client.delete(VALID_URL_CHECKPOINT_ID)
         self.assertEqual(response.status_code, 200)
 
     def test_delete_status_404(self):
-        """Test for delete opertaion which will delete checkpoint model."""
+        """Test for delete operation which will delete checkpoint model."""
 
         self.client.login(username='test.test@gmail.com', password='userpass')
         response = self.client.delete(INVALID_URL_CHECKPOINT_ID)
         self.assertEqual(response.status_code, 404)
 
     def test_delete_status_403(self):
-        """Test for delete opertaion which will delete checkpoint model."""
+        """Test for delete operation which will delete checkpoint model."""
 
         response = self.client.delete(INVALID_URL_CHECKPOINT_ID)
         self.assertEqual(response.status_code, 403)
