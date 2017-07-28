@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from registration.models import CustomUser
 
+
 class Trip(models.Model):
     """
      Trip
@@ -13,7 +14,7 @@ class Trip(models.Model):
      :argument description: text - description
      :argument create_at: date - date
      :argument status: int - 0-in progres, 1-annonced, 2-finished
-    ."""
+    """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -109,7 +110,7 @@ class Trip(models.Model):
         """
         Deletes Trip by id
          Args:
-            id(int): id of trip
+            trip_id(int): id of trip
         Returns:
             true
         """
@@ -120,11 +121,14 @@ class Trip(models.Model):
         except ObjectDoesNotExist:
             return None
 
+    @staticmethod
     def get_trips(user_id, page=1, step=5):
         """
         Returns the last 5 trips by the user
          Args:
-            none
+            user_id
+            page
+            step
         Returns:
             reversed trips
         """
