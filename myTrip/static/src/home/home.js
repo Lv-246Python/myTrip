@@ -5,17 +5,19 @@ import Paper from 'material-ui/Paper';
 import SwipeableViews from 'react-swipeable-views';
 import MapsPlace from 'material-ui/svg-icons/maps/place';
 import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
+import {orange500} from 'material-ui/styles/colors'
 
 const home={
     paperPageOne:{
         display:'block',
         margin:'auto',
-        width:'95%',
-
+        width:'90%'
     },
     imgPaperOne:{
-       display:'block',
+        display:'block',
         margin:'auto',
+        width:'90%',
+        height:'80%'
     },
     placePageOne:{
        width: 60,
@@ -23,6 +25,14 @@ const home={
        bottom:'25%',
        left:'50%'
 
+    },
+    paperTripPageOne:{
+        position:'absolute',
+        backgroundColor:orange500,
+        width:200,
+        height:50,
+        bottom:'33%',
+        left:'33%',
     }
 };
 
@@ -35,33 +45,22 @@ class PaperPageOne extends React.Component{
 
     constructor(props){
         super(props);
+        this.state={
+          visibility:'hidden'
+        };
         this.onClick = this.onClick.bind(this);
     };
 
     onClick(){
-        return React.createClassReact.createClass({
-          render() {
-            return {
-              type: 'Paper',
-              props: {
-                className: 'add_checkpoint',
-                children: {
-                  type: 'b',
-                  props: {
-                    children: 'Add checkpoint'
-                  }
-                }
-              }
-            };
-          }
-        })
-    };
+        home.paperTripPageOne.visibility = 'visible';
+    }
 
     render(){
         return(
             <Paper style={home.paperPageOne} zDepth={2}>
                <img src="static/src/img/trip.jpg" style={home.imgPaperOne}/>
                <MapsPlace style={home.placePageOne} onClick={this.onClick}/>
+                <Paper style={home.paperTripPageOne} zDepth={4}/>
                <MapsAddLocation className={"second_checkpoint"} style={iconStyles}/>
                <MapsAddLocation className={"third_checkpoint"} style={iconStyles}/>
             </Paper>
@@ -72,7 +71,7 @@ class PaperPageOne extends React.Component{
 class PaperPageTwo extends React.Component{
     render(){
         return(
-            <Paper className={"paper"} zDepth={2}>
+            <Paper style={home.paperPageOne} zDepth={2}>
                <img src="static/src/img/trip.jpg" style={home.imgPaperOne}/>
                <MapsAddLocation className={"fourth_checkpoint"} style={iconStyles}/>
                <MapsAddLocation className={"fifth_checkpoint"} style={iconStyles}/>
@@ -85,7 +84,7 @@ class PaperPageTwo extends React.Component{
 class PaperPageThree extends React.Component{
     render(){
         return(
-            <Paper className={"paper"} zDepth={2}>
+            <Paper style={home.paperPageOne} zDepth={2}>
                <img src="static/src/img/trip.jpg"/>
             </Paper>
         )
