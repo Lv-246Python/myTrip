@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^api/v1/trip/', include('trip.urls')),
     url(r'^api/v1/auth/', include('registration.urls')),
     url(r'^api/v1/photo/', include('photo.urls')),
+    url(r'^api/v1/profile/', include('profile.urls')),
     url(r'', include('home.urls')),
 ]
