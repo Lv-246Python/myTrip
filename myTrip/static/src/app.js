@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
@@ -25,7 +25,7 @@ class Header extends React.Component {
                 }}
                 iconElementLeft = {
                     <div className='title'>
-                        <img className='header_icon' src='src/img/logo.png' />
+                        <img className='header_icon' src='static/src/img/logo.png' />
                         <Link to='/home'>TripTracker</Link>
                     </div>
                 }
@@ -59,13 +59,20 @@ class Header extends React.Component {
     }
 }
 
+class NotFound extends React.Component {
+    render() {
+        return <h1>Not found</h1>
+    }
+}
+
 class Main extends React.Component {
     render() {
         return (
             <main>
                 <Switch>
+                    <Route exact path='/' component={Home} />
                     <Route exact path='/registration' component={Registration} />
-                    <Route exact path='/home' component={Home} />
+                    <Route component={NotFound} />
                 </Switch>
             </main>
         );

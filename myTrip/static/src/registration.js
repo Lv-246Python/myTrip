@@ -9,7 +9,15 @@ import RaisedButton from 'material-ui/FlatButton';
 class Registration_form extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {email: '', password: '', first_name: '', last_name:''};
+        this.state = {
+            email: '',
+            password: '',
+            first_name: '',
+            last_name:'',
+            emailError:'',
+            passwordError:'',
+            serverError:''
+        };
         this.handlePassword = this.handlePassword.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,7 +38,21 @@ class Registration_form extends React.Component {
     }
     handleSubmit(event) {
         const email = this.state.email;
+        if (email == '') {
+            this.setState({'emailError':'Email field is required'});
+            return
+        } else {
+            this.setState({'emailError':''});
+        }
         const password = this.state.password;
+        if (password == '') {
+            this.setState({'passwordError':'Password field is required'});
+            return
+        } else {
+            this.setState({'passwordError':''});
+        }
+        const first_name = this.state.first_name;
+        const last_name = this.state.last_name;
         axios.post('/api/v1/auth/register/', {
             email,
             password,
@@ -38,16 +60,18 @@ class Registration_form extends React.Component {
             last_name
         })
             .then(() => {
+                console.log('!!!!********!!!!!!!!');
                 axios.post('/api/v1/auth/login/', {
                     email,
                     password
                 })
                     .then( (response) => {
-                        if (response.status == 200) {
-                         this.props.history.push("/home");
-                        }
+                        this.props.history.push("/home");
                     })
-            });
+            })
+            .catch( (error) => {
+                this.setState({"serverError":error.response.data});
+            })
         event.preventDefault();
     }
     render() {
@@ -67,12 +91,14 @@ class Registration_form extends React.Component {
                 <TextField
                     onChange={this.handleEmail}
                     hintText="Email"
+                    errorText={this.state.emailError}
                     name="email"
                     type="email"
                 />
                 <TextField
                     onChange={this.handlePassword}
                     hintText="Password"
+                    errorText={this.state.passwordError}
                     name="password"
                     type='password'
                 />
@@ -86,6 +112,7 @@ class Registration_form extends React.Component {
                         fontSize:"1.2em"
                     }}
                  />
+                 <p className='serverError'>{this.state.serverError}</p>
             </div>
         );
     }
