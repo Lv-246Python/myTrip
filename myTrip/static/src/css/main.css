@@ -3,3 +3,8 @@
     text-decoration:none;
     margin:5px;
 }
+
+#serverError {
+    font-size:32pt;
+    color:red;
+}
