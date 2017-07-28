@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios"
 
 import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/FlatButton';
 
@@ -60,13 +59,13 @@ class Registration_form extends React.Component {
             last_name
         })
             .then(() => {
-                console.log('!!!!********!!!!!!!!');
                 axios.post('/api/v1/auth/login/', {
                     email,
                     password
                 })
                     .then( (response) => {
-                        this.props.history.push("/home");
+                        this.props.loginHandler(true);
+                        this.props.history.push('/');
                     })
             })
             .catch( (error) => {
@@ -127,7 +126,10 @@ export default class Registration extends React.Component {
             }}
             zDepth={2} >
 
-                  <Registration_form history = {this.props.history} />
+                <Registration_form
+                    loginHandler = {this.props.loginHandler}
+                    history={this.props.history}
+                />
 
             </Paper>
         );
