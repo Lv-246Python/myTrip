@@ -2,10 +2,12 @@ import React from "react";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
-import SwipeableViews from 'react-swipeable-views';
 import MapsPlace from 'material-ui/svg-icons/maps/place';
 import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
 import {orange500} from 'material-ui/styles/colors'
+
+// npm install react-swipeable-views
+import SwipeableViews from 'react-swipeable-views';
 
 const home={
     paperPageOne:{
