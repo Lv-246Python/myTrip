@@ -8,6 +8,7 @@ source =
     checkpoint
     comment
     photo
+    like
 
 omit =
     *migrations*
