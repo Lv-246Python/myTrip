@@ -7,11 +7,77 @@ import MapsPlace from 'material-ui/svg-icons/maps/place';
 import MapsAddLocation from 'material-ui/svg-icons/maps/add-location';
 import MapsBeenHere from 'material-ui/svg-icons/maps/beenhere'
 import {orange500,green600,yellow500,tealA400,blue500} from 'material-ui/styles/colors';
+import './home.less';
 
-let iconStyles = {
-            width: 60,
-            height: 60,
-        };
+let home ={
+
+    imgPaperOne:{
+        display:'block',
+        margin:'auto',
+        width:'100%',
+
+    },
+    placePageOne:{
+        position:'absolute',
+       width: 60,
+       height: 60,
+       bottom:'30%',
+       left:'43.5%'
+
+    },
+    paperOneTripText:{
+        fontSize:30,
+        textAlign:'center',
+    },
+    placeOneAddPageOne:{
+       position:'absolute',
+       width: 60,
+       height: 60,
+       bottom:'37.8%',
+       left:'38.5%'
+    },
+    paperTwoTripText:{
+        fontSize:30,
+        textAlign:'center',
+    },
+    placeTwoAddPageOne:{
+       position:'absolute',
+       width: 60,
+       height: 60,
+       bottom:'42.5%',
+       right:'43.8%'
+    },
+
+    paperThreeTripText:{
+        fontSize:30,
+        textAlign:'center',
+    },
+
+    placeThreeAddPageOne:{
+       position:'absolute',
+       width: 60,
+       height: 60,
+       bottom:'55%',
+       right:'35%'
+    },
+
+    paperFourTripText:{
+        fontSize:30,
+        textAlign:'center',
+    },
+
+    placeEndTripPageOne:{
+       position:'absolute',
+       width: 60,
+       height: 60,
+       top:'9%',
+       right:'45%'
+    },
+    paperFiveTripText:{
+        fontSize:30,
+        textAlign:'center',
+    },
+};
 
 class PaperPageOne extends React.Component{
 
@@ -92,26 +158,8 @@ class PaperPageOne extends React.Component{
 
 
     render(){
-        let home={
-            paperPageOne:{
-                display:'block',
-                margin:'auto',
-                width:'90%'
-            },
-            imgPaperOne:{
-                display:'block',
-                margin:'auto',
-                width:'90%',
-                height:'80%'
-            },
-            placePageOne:{
-                position:'absolute',
-               width: 60,
-               height: 60,
-               bottom:'30%',
-               left:'43.5%'
+        let paper={
 
-            },
             paperOneTripPageOne:{
                 position:'absolute',
                 backgroundColor:orange500,
@@ -121,17 +169,7 @@ class PaperPageOne extends React.Component{
                 left:'27%',
                 visibility: this.state.visibilityLabelOne,
             },
-            paperOneTripText:{
-                fontSize:30,
-                textAlign:'center',
-            },
-            placeOneAddPageOne:{
-               position:'absolute',
-               width: 60,
-               height: 60,
-               bottom:'37.8%',
-               left:'38.5%'
-            },
+
             paperTwoTripPageOne:{
                 position:'absolute',
                 backgroundColor:green600,
@@ -141,17 +179,7 @@ class PaperPageOne extends React.Component{
                 left:'22%',
                 visibility: this.state.visibilityLabelTwo,
             },
-            paperTwoTripText:{
-                fontSize:30,
-                textAlign:'center',
-            },
-            placeTwoAddPageOne:{
-               position:'absolute',
-               width: 60,
-               height: 60,
-               bottom:'42.5%',
-               right:'43.8%'
-            },
+
             paperThreeTripPageOne:{
                 position:'absolute',
                 backgroundColor:yellow500,
@@ -161,18 +189,7 @@ class PaperPageOne extends React.Component{
                 right:'25%',
                 visibility: this.state.visibilityLabelThree,
             },
-            paperThreeTripText:{
-                fontSize:30,
-                textAlign:'center',
-            },
 
-            placeThreeAddPageOne:{
-               position:'absolute',
-               width: 60,
-               height: 60,
-               bottom:'55%',
-               right:'35%'
-            },
             paperFourTripPageOne:{
                 position:'absolute',
                 backgroundColor:tealA400,
@@ -182,18 +199,7 @@ class PaperPageOne extends React.Component{
                 right:'19%',
                 visibility: this.state.visibilityLabelFour,
             },
-            paperFourTripText:{
-                fontSize:30,
-                textAlign:'center',
-            },
 
-            placeEndTripPageOne:{
-               position:'absolute',
-               width: 60,
-               height: 60,
-               top:'9%',
-               right:'45%'
-            },
              paperFiveTripPageOne:{
                 position:'absolute',
                 backgroundColor:blue500,
@@ -203,46 +209,42 @@ class PaperPageOne extends React.Component{
                 right:'38%',
                 visibility: this.state.visibilityLabelFive,
             },
-            paperFiveTripText:{
-                fontSize:30,
-                textAlign:'center',
-            },
 };
         return(
-            <Paper style={home.paperPageOne} zDepth={2}>
+            <Paper className="paperPageOne" zDepth={2}>
                <img src="static/src/img/trip.jpg" style={home.imgPaperOne}/>
                <MapsPlace style={home.placePageOne}
                           onMouseOver={this.onMouseOverTextChangeOne}
                           onMouseOut={this.onMouseOutTextChangeOne}/>
-                <Paper style={home.paperOneTripPageOne} zDepth={4}>
+                <Paper style={paper.paperOneTripPageOne} zDepth={4}>
                     <span style={home.paperOneTripText}>Start trip</span>
                 </Paper>
 
                <MapsAddLocation onMouseOver={this.onMouseOverTextChangeTwo}
                                 onMouseOut={this.onMouseOutTextChangeTwo}
                                 style={home.placeOneAddPageOne}/>
-                <Paper style={home.paperTwoTripPageOne} zDepth={4}>
+                <Paper style={paper.paperTwoTripPageOne} zDepth={4}>
                     <span style={home.paperTwoTripText}>Add checkpoint</span>
                 </Paper>
 
                <MapsAddLocation onMouseOver={this.onMouseOverTextChangeThree}
                                 onMouseOut={this.onMouseOutTextChangeThree}
                                 style={home.placeTwoAddPageOne}/>
-                <Paper style={home.paperThreeTripPageOne} zDepth={4}>
+                <Paper style={paper.paperThreeTripPageOne} zDepth={4}>
                     <span style={home.paperThreeTripText}>Add checkpoint</span>
                 </Paper>
 
                 <MapsAddLocation onMouseOver={this.onMouseOverTextChangeFour}
                                  onMouseOut={this.onMouseOutTextChangeFour}
                                  style={home.placeThreeAddPageOne}/>
-                <Paper style={home.paperFourTripPageOne} zDepth={4}>
+                <Paper style={paper.paperFourTripPageOne} zDepth={4}>
                     <span style={home.paperFourTripText}>Add checkpoint</span>
                 </Paper>
 
                 <MapsBeenHere onMouseOver={this.onMouseOverTextChangeFive}
                               onMouseOut={this.onMouseOutTextChangeFive}
                               style={home.placeEndTripPageOne}/>
-                <Paper style={home.paperFiveTripPageOne} zDepth={4}>
+                <Paper style={paper.paperFiveTripPageOne} zDepth={4}>
                     <span style={home.paperFiveTripText}>Finish your trip!</span>
                 </Paper>
             </Paper>
@@ -251,13 +253,89 @@ class PaperPageOne extends React.Component{
 }
 
 class PaperPageTwo extends React.Component{
+
     render(){
+        let paperTwo={
+
+            paperOneTripPageOne:{
+                position:'relative',
+                backgroundColor:orange500,
+                width:200,
+                height:50,
+                bottom:'27%',
+                left:'27%',
+            },
+
+            paperTwoTripPageOne:{
+                position:'relative',
+                backgroundColor:green600,
+                width:230,
+                height:50,
+                bottom:'46%',
+                left:'22%',
+
+            },
+
+            paperThreeTripPageOne:{
+                position:'relative',
+                backgroundColor:yellow500,
+                width:230,
+                height:50,
+                bottom:'40%',
+                right:'25%',
+
+            },
+
+            paperFourTripPageOne:{
+                position:'relative',
+                backgroundColor:tealA400,
+                width:230,
+                height:50,
+                top:'30%',
+                right:'19%',
+
+            },
+
+             paperFiveTripPageOne:{
+                position:'relative',
+                backgroundColor:blue500,
+                width:230,
+                height:50,
+                top:'20%',
+                right:'38%',
+
+            },
+};
         return(
-            <Paper zDepth={2}>
-               <img src="static/src/img/trip.jpg"/>
-               <MapsAddLocation className={"fourth_checkpoint"} style={iconStyles}/>
-               <MapsAddLocation className={"fifth_checkpoint"} style={iconStyles}/>
-               <MapsAddLocation className={"sixth_checkpoint"} style={iconStyles}/>
+            <Paper className="paperPageOne" zDepth={2}>
+
+                <img src="static/src/img/trip.jpg" style={home.imgPaperOne}/>
+                <div>
+                <MapsPlace />
+                <Paper  zDepth={4}>
+                    <span >Start trip</span>
+                </Paper>
+
+                <MapsAddLocation />
+                <Paper  zDepth={4}>
+                    <span >Add checkpoint</span>
+                </Paper>
+
+                <MapsAddLocation />
+                <Paper  zDepth={4}>
+                    <span >Add checkpoint</span>
+                </Paper>
+
+                <MapsAddLocation />
+                <Paper  zDepth={4}>
+                    <span>Add checkpoint</span>
+                </Paper>
+
+                <MapsBeenHere />
+                <Paper  zDepth={4}>
+                    <span >Finish your trip!</span>
+                </Paper>
+                </div>
             </Paper>
         )
     }
@@ -265,9 +343,23 @@ class PaperPageTwo extends React.Component{
 
 class PaperPageThree extends React.Component{
     render(){
+       let home={
+            paperPageThree:{
+                display:'block',
+                margin:'auto',
+                width:'90%'
+            },
+             imgPaperThree:{
+                display:'block',
+                margin:'auto',
+                width:'100%',
+             }
+         };
         return(
-            <Paper zDepth={2}>
-               <img src="static/src/img/trip.jpg"/>
+            <Paper style={home.paperPageThree} zDepth={2}>
+
+                 <img src="static/src/img/trip.jpg" style={home.imgPaperThree}/>
+
             </Paper>
         )
     }
