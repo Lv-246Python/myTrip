@@ -9,6 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Home from "./home.js";
+import Login from "./login.js";
 import Registration from "./registration.js";
 
 
@@ -43,7 +44,7 @@ class Header extends React.Component {
                     />
                     <FlatButton
                         label='LOGIN'
-                        containerElement={<Link to="/home"/>}
+                        containerElement={<Link to="/login"/>}
                         labelStyle = {{
                             fontSize:"1.3em",
                             color:"white"
@@ -106,8 +107,14 @@ class Main extends React.Component {
                     <Route exact path='/registration'
                         render={(props) => <Registration
                             loginHandler={this.props.loginHandler}
-                             {...props}
+                            {...props}
                         /> }
+                    />
+                    <Route exact path='/login'
+                        render={(props) => <Login
+                            loginHandler={this.props.loginHandler}
+                            {...props}
+                        />}
                     />
                     <Route component={NotFound} />
                 </Switch>
