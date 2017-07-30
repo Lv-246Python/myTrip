@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
@@ -16,7 +17,6 @@ const styles = {
 };
 
 export class CommentForm extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -25,10 +25,16 @@ export class CommentForm extends React.Component {
             open: false,
             comment_message: ''
         };
+        this.handleComment = this.handleComment.bind(this);
     }
 
-    handleTouchTap = () => {
+    handleTouchTap = (event) => {
         this.setState({open: true});
+        const message = this.state.comment_message;
+        axios.post('api/v1/trip/2/comment/', {
+            message
+        })
+        event.preventDefault();
     };
 
     handleActionTouchTap = () => {
@@ -40,9 +46,8 @@ export class CommentForm extends React.Component {
         this.setState({open: false});
     };
 
-    handleComment = (event) => {
-        const value = event.target.value;
-        this.setState({comment_message: value});
+    handleComment(event) {
+       this.setState({'comment_message': event.target.value});
     };
 
     render() {
