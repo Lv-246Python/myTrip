@@ -9,6 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Registration from "./registration.js";
 import Home from "./home/home.js";
+import Profile from "./profile/profile.js";
 
 injectTapEventPlugin();
 
@@ -71,6 +72,7 @@ class Main extends React.Component {
             <main>
                 <Switch>
                     <Route exact path='/' component={Home} />
+                    <Route exact path='/profile' component={Profile} />
                     <Route exact path='/registration' component={Registration} />
                     <Route component={NotFound} />
                 </Switch>
