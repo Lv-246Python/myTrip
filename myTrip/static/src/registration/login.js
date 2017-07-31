@@ -5,6 +5,10 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/FlatButton';
 
+import {loginService} from './registration.service.js'
+
+
+
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +22,7 @@ class LoginForm extends React.Component {
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
     }
     handleEmail(event) {
         this.setState({'email': event.target.value});
@@ -25,28 +30,29 @@ class LoginForm extends React.Component {
     handlePassword(event) {
         this.setState({'password': event.target.value});
     }
+
     handleSubmit(event) {
         const email = this.state.email;
         const password = this.state.password;
         if (email == '') {
             this.setState({'emailError':'Email field is required'});
-            return
+            return false
         } else {
             this.setState({'emailError':''});
         }
         if (password == '') {
             this.setState({'passwordError':'Password field is required'});
-            return
+            return false
         } else {
             this.setState({'passwordError':''});
         }
-        axios.post('/api/v1/auth/login/', {
-            email,
-            password
-        })
+        loginService(email, password)
             .then( (response) => {
                 this.props.loginHandler(true);
                 this.props.history.push('/');
+            })
+            .catch( (error) => {
+                this.setState({"serverError":error.response.data});
             })
         event.preventDefault();
     }

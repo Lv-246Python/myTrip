@@ -8,9 +8,10 @@ import FlatButton from 'material-ui/FlatButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import Home from "./home.js";
-import Login from "./login.js";
-import Registration from "./registration.js";
+import Home from "./home/home.js";
+import Login from "./registration/login.js";
+import Registration from "./registration/registration.js";
+import {logoutService} from './registration/registration.service.js'
 
 
 injectTapEventPlugin();
@@ -22,7 +23,7 @@ class Header extends React.Component {
     }
 
     logout() {
-        axios.get('api/v1/auth/logout/').then((response) => {
+        logoutService().then((response) => {
             if (response.status == 200) {
                 this.props.loginHandler(false);
             }
@@ -35,20 +36,16 @@ class Header extends React.Component {
             elementRight = (
                 <div className='title'>
                     <FlatButton
+                        className='header_btn'
                         label='REGISTRATION'
+                        labelStyle={{fontSize:'1.3em'}}
                         containerElement={<Link to="/registration"/>}
-                        labelStyle = {{
-                            fontSize:"1.3em",
-                            color:"white"
-                        }}
                     />
                     <FlatButton
+                        className='header_btn'
                         label='LOGIN'
                         containerElement={<Link to="/login"/>}
-                        labelStyle = {{
-                            fontSize:"1.3em",
-                            color:"white"
-                        }}
+                        labelStyle = {{fontSize:"1.3em"}}
                     />
                 </div>
             )
@@ -57,11 +54,9 @@ class Header extends React.Component {
                 <div className='title'>
                     <FlatButton
                         label='LOGOUT'
+                        className='header_btn'
                         onTouchTap = {this.logout}
-                        labelStyle = {{
-                            fontSize:"1.3em",
-                            color:"white"
-                        }}
+                        labelStyle = {{fontSize:"1.3em"}}
                     />
                 </div>
             )
@@ -69,16 +64,13 @@ class Header extends React.Component {
         return (
             <AppBar
                 className='header'
-                style = {{
-                    height: "80px"
-                }}
                 iconStyleLeft = {{
                     fontSize:"2em"
                 }}
                 iconElementLeft = {
                     <div className='title'>
                         <img className='header_icon' src='static/src/img/logo.png' />
-                        <Link to='/home'>TripTracker</Link>
+                        <Link to='/'>TripTracker</Link>
                     </div>
                 }
                 iconElementRight = {elementRight}
