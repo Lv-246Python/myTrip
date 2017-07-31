@@ -1,120 +1,82 @@
-@orange500: #ff9800;
-@green600:#43a047;
-@yellow500: #ffeb3b;
-@tealA400: #1de9b6;
-@blue500: #2196f3;
+@color_button_register: #FFEB3B;
 
 .paperPageOne{
-    display:block;
+    width:90%;
+    height:auto;
     margin:auto;
 
 }
 .imgPaperOne{
-    display:block;
-    margin:auto;
     width:100%;
+    height:auto;
 }
 
-.placePageOne{
-   position:absolute;
-   bottom:30%;
-   left:43.5%;
-}
-
-.paperOneTripPageOne {
-    position: absolute;
-    background-color: @orange500;
-    width: 200px;
-    height: 50px;
-    bottom: 27%;
-    left: 27%;
-    visibility: hidden;
-}
-
-.paperOneTripText{
-    font-size:30px;
-    text-align:center;
-}
-
-.placeOneAddPageOne{
-   position:absolute;
-
-   bottom:37.8%;
-   left:38.5%;
-}
-
-.paperTwoTripPageOne{
-    position:absolute;
-    background-color:@green600;
-    width:230px;
-    height:50px;
-    bottom:46%;
-    left:22%;
-    visibility: hidden;
-}
-
-.paperTwoTripText{
-  font-size:30px;
+.paperPageThree{
+  width:80%;
+  height:auto;
+  margin:auto;
   text-align:center;
 }
 
-.placeTwoAddPageOne{
-       position:absolute;
-       bottom:42.5%;
-       right:43.8%;
-}
+.enhancedText{
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 30px;
 
-.paperThreeTripPageOne{
-    position:absolute;
-    width:230px;
-    height:50px;
-    top:30%;
-    right:19%;
-    visibility: hidden;
 }
+.flex_container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  margin: 70px;
 
-.paperThreeTripText{
-      font-size:30px;
+
+  .paper{
+    &_fb, &_instagram, &_google{
+      width: 300px;
+      height: 100px;
+  }}
+
+  .text{
+    &_fb, &_instagram, &_google{
+      font-family: Impact, Charcoal, sans-serif;
+      font-size: 36px;
       text-align:center;
-}
-.placeThreeAddPageOne{
-   position:absolute;
-   width: 60px;
-   height: 60px;
-   bottom:55%;
-   right:35%;
+    }
+  }
 }
 
-.paperFourTripPageOne{
-    position:absolute;
-    width:230px;
-    height:50px;
-    top:30%;
-    right:19%;
+#button_register{
+  font-family: Impact, Charcoal, sans-serif;
+  font-size:40px;
 }
 
-.paperFourTripText{
-    font-size:30px;
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) { }
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+
+  .enhancedText{
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 24px;
+    margin:5%;
     text-align:center;
+
 }
 
-.placeEndTripPageOne{
-       position:absolute;
-       width: 60px;
-       height: 60px;
-       top:9%;
-       right:45%;
 }
 
-.paperFiveTripPageOne{
-    position:absolute;
-    width:230px;
-    height:50px;
-    top:20%;
-    right:38%;
-}
-
-.paperFiveTripText{
-    font-size:30px;
-    text-align:center;
+@media all and (max-width: 480px) {
+  .enhancedText {
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 14px;
+    margin: 5%;
+    text-align: center;
+  }
 }
