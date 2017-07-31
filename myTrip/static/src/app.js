@@ -12,7 +12,7 @@ import Home from "./home/home.js";
 import Comment from "./comment/comment.js";
 import Login from "./registration/login.js";
 import Registration from "./registration/registration.js";
-import Trip from "./trip/trip.js";
+import Trip from './trip/trip.js';
 import { logoutService } from './registration/registration.service.js';
 
 
