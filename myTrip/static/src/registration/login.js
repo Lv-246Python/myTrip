@@ -1,12 +1,10 @@
 import React from "react";
-import axios from "axios"
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/FlatButton';
 
 import {loginService} from './registration.service.js'
-
 
 
 class LoginForm extends React.Component {
