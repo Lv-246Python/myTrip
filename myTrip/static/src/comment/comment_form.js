@@ -31,7 +31,7 @@ export class CommentForm extends React.Component {
     handleTouchTap = (event) => {
         this.setState({open: true});
         const message = this.state.comment_message;
-        axios.post('api/v1/trip/2/comment/', {
+        axios.post('api/v1/trip/7/comment/', {
             message
         })
         event.preventDefault();
