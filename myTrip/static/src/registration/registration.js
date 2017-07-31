@@ -83,7 +83,7 @@ class RegistrationForm extends React.Component {
                     hintText="Email"
                     errorText={this.state.emailError}
                     name="email"
-                    type="email"
+                    type="text"
                 />
                 <TextField
                     onChange={this.handlePassword}

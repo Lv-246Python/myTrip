@@ -28,7 +28,7 @@ export class CommentItem extends React.Component {
 }
 
 componentDidMount() {
-  axios.get('api/v1/trip/2/comment/')
+  axios.get('api/v1/trip/7/comment/')
     .then(response => {
       const comments = response.data;
       this.setState({comments});
@@ -39,7 +39,7 @@ componentDidMount() {
 render() {
     return (
       <div>
-            {this.state.comments.length && this.state.comments.map((comment) =>
+            {this.state.comments.length && this.state.comments.map( comment =>
                 (<ListItem>
                 <Card>
                     <CardHeader
