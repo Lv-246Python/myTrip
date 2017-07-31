@@ -12,7 +12,8 @@ import Home from "./home/home.js";
 import Comment from "./comment/comment.js";
 import Login from "./registration/login.js";
 import Registration from "./registration/registration.js";
-import { logoutService } from './registration/registration.service.js'
+import Trip from "./trip/trip.js";
+import { logoutService } from './registration/registration.service.js';
 
 
 injectTapEventPlugin();
@@ -109,7 +110,8 @@ class Main extends React.Component {
                             {...props}
                         />}
                     />
-                     <Route exact path='/comment' component={Comment} />    
+                     <Route exact path='/comment' component={Comment} />
+                     <Route exact path='/trip' component={Trip} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
