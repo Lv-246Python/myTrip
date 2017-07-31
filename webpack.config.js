@@ -17,8 +17,11 @@ var config = {
         },
         {
             test: /\.less$/,
+            //ExtractPlugin needs to extract styles into separte file.
             use: ExtractTextPlugin.extract({
+                //fallback uses to run style-loader when css is not extracted
                 fallback: 'style-loader',
+                //less-loader needs to bundle all .less files, css-loader needs to translate into css
                 use: ['css-loader', 'less-loader']
       })
         }

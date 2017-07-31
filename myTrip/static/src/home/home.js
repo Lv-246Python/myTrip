@@ -9,75 +9,6 @@ import MapsBeenHere from 'material-ui/svg-icons/maps/beenhere'
 import {orange500,green600,yellow500,tealA400,blue500} from 'material-ui/styles/colors';
 import './home.less';
 
-let home ={
-
-    imgPaperOne:{
-        display:'block',
-        margin:'auto',
-        width:'100%',
-
-    },
-    placePageOne:{
-        position:'absolute',
-       width: 60,
-       height: 60,
-       bottom:'30%',
-       left:'43.5%'
-
-    },
-    paperOneTripText:{
-        fontSize:30,
-        textAlign:'center',
-    },
-    placeOneAddPageOne:{
-       position:'absolute',
-       width: 60,
-       height: 60,
-       bottom:'37.8%',
-       left:'38.5%'
-    },
-    paperTwoTripText:{
-        fontSize:30,
-        textAlign:'center',
-    },
-    placeTwoAddPageOne:{
-       position:'absolute',
-       width: 60,
-       height: 60,
-       bottom:'42.5%',
-       right:'43.8%'
-    },
-
-    paperThreeTripText:{
-        fontSize:30,
-        textAlign:'center',
-    },
-
-    placeThreeAddPageOne:{
-       position:'absolute',
-       width: 60,
-       height: 60,
-       bottom:'55%',
-       right:'35%'
-    },
-
-    paperFourTripText:{
-        fontSize:30,
-        textAlign:'center',
-    },
-
-    placeEndTripPageOne:{
-       position:'absolute',
-       width: 60,
-       height: 60,
-       top:'9%',
-       right:'45%'
-    },
-    paperFiveTripText:{
-        fontSize:30,
-        textAlign:'center',
-    },
-};
 
 class PaperPageOne extends React.Component{
 
@@ -158,94 +89,59 @@ class PaperPageOne extends React.Component{
 
 
     render(){
-        let paper={
-
-            paperOneTripPageOne:{
-                position:'absolute',
-                backgroundColor:orange500,
-                width:200,
-                height:50,
-                bottom:'27%',
-                left:'27%',
-                visibility: this.state.visibilityLabelOne,
-            },
-
-            paperTwoTripPageOne:{
-                position:'absolute',
-                backgroundColor:green600,
-                width:230,
-                height:50,
-                bottom:'46%',
-                left:'22%',
-                visibility: this.state.visibilityLabelTwo,
-            },
-
-            paperThreeTripPageOne:{
-                position:'absolute',
-                backgroundColor:yellow500,
-                width:230,
-                height:50,
-                bottom:'40%',
-                right:'25%',
-                visibility: this.state.visibilityLabelThree,
-            },
-
-            paperFourTripPageOne:{
-                position:'absolute',
-                backgroundColor:tealA400,
-                width:230,
-                height:50,
-                top:'30%',
-                right:'19%',
-                visibility: this.state.visibilityLabelFour,
-            },
-
-             paperFiveTripPageOne:{
-                position:'absolute',
-                backgroundColor:blue500,
-                width:230,
-                height:50,
-                top:'20%',
-                right:'38%',
-                visibility: this.state.visibilityLabelFive,
-            },
-};
         return(
             <Paper className="paperPageOne" zDepth={2}>
-               <img src="static/src/img/trip.jpg" style={home.imgPaperOne}/>
-               <MapsPlace style={home.placePageOne}
+               <img src="static/src/img/trip.jpg" className="imgPaperOne"/>
+               <MapsPlace className="placePageOne"
+                          style={{width:64,height:64}}
                           onMouseOver={this.onMouseOverTextChangeOne}
-                          onMouseOut={this.onMouseOutTextChangeOne}/>
-                <Paper style={paper.paperOneTripPageOne} zDepth={4}>
-                    <span style={home.paperOneTripText}>Start trip</span>
+                          onMouseOut={this.onMouseOutTextChangeOne}
+               />
+                <Paper className="paperOneTripPageOne" style={{backgroundColor:orange500,
+                    visibility:this.state.visibilityLabelOne}}
+                    zDepth={4}>
+                    <span className="paperOneTripText" >Start trip</span>
                 </Paper>
 
                <MapsAddLocation onMouseOver={this.onMouseOverTextChangeTwo}
                                 onMouseOut={this.onMouseOutTextChangeTwo}
-                                style={home.placeOneAddPageOne}/>
-                <Paper style={paper.paperTwoTripPageOne} zDepth={4}>
-                    <span style={home.paperTwoTripText}>Add checkpoint</span>
+                                className="placeOneAddPageOne"
+                                style={{width:64,height:64}}
+               />
+                <Paper className="paperTwoTripPageOne" style={{backgroundColor:green600,
+                    visibility: this.state.visibilityLabelTwo}}
+                       zDepth={4}>
+                    <span className="paperTwoTripText">Add checkpoint</span>
                 </Paper>
 
                <MapsAddLocation onMouseOver={this.onMouseOverTextChangeThree}
                                 onMouseOut={this.onMouseOutTextChangeThree}
-                                style={home.placeTwoAddPageOne}/>
-                <Paper style={paper.paperThreeTripPageOne} zDepth={4}>
-                    <span style={home.paperThreeTripText}>Add checkpoint</span>
+                                className="placeTwoAddPageOne"
+                                style={{width:64,height:64}}
+               />
+                <Paper className="paperThreeTripPageOne" style={{backgroundColor:yellow500,
+                    visibility: this.state.visibilityLabelThree}} zDepth={4}>
+                    <span className="paperThreeTripText">Add checkpoint</span>
                 </Paper>
 
                 <MapsAddLocation onMouseOver={this.onMouseOverTextChangeFour}
                                  onMouseOut={this.onMouseOutTextChangeFour}
-                                 style={home.placeThreeAddPageOne}/>
-                <Paper style={paper.paperFourTripPageOne} zDepth={4}>
-                    <span style={home.paperFourTripText}>Add checkpoint</span>
+                                 className="placeThreeAddPageOne"
+                                 style={{width:64,height:64}}
+                />
+                <Paper className="paperFourTripPageOne" style={{backgroundColor:tealA400,
+                    visibility: this.state.visibilityLabelFour}} zDepth={4}>
+                    <span className="paperFourTripText">Add checkpoint</span>
                 </Paper>
 
                 <MapsBeenHere onMouseOver={this.onMouseOverTextChangeFive}
                               onMouseOut={this.onMouseOutTextChangeFive}
-                              style={home.placeEndTripPageOne}/>
-                <Paper style={paper.paperFiveTripPageOne} zDepth={4}>
-                    <span style={home.paperFiveTripText}>Finish your trip!</span>
+                              className="placeEndTripPageOne"
+                              style={{width:64,height:64}}
+                />
+                <Paper className="paperFiveTripPageOne" style={{backgroundColor:blue500,
+                    visibility: this.state.visibilityLabelFive}} zDepth={4}>
+                    <span className="paperFiveTripText">Finish your trip!</span>
                 </Paper>
             </Paper>
         )
@@ -255,61 +151,10 @@ class PaperPageOne extends React.Component{
 class PaperPageTwo extends React.Component{
 
     render(){
-        let paperTwo={
-
-            paperOneTripPageOne:{
-                position:'relative',
-                backgroundColor:orange500,
-                width:200,
-                height:50,
-                bottom:'27%',
-                left:'27%',
-            },
-
-            paperTwoTripPageOne:{
-                position:'relative',
-                backgroundColor:green600,
-                width:230,
-                height:50,
-                bottom:'46%',
-                left:'22%',
-
-            },
-
-            paperThreeTripPageOne:{
-                position:'relative',
-                backgroundColor:yellow500,
-                width:230,
-                height:50,
-                bottom:'40%',
-                right:'25%',
-
-            },
-
-            paperFourTripPageOne:{
-                position:'relative',
-                backgroundColor:tealA400,
-                width:230,
-                height:50,
-                top:'30%',
-                right:'19%',
-
-            },
-
-             paperFiveTripPageOne:{
-                position:'relative',
-                backgroundColor:blue500,
-                width:230,
-                height:50,
-                top:'20%',
-                right:'38%',
-
-            },
-};
         return(
             <Paper className="paperPageOne" zDepth={2}>
 
-                <img src="static/src/img/trip.jpg" style={home.imgPaperOne}/>
+                <img src="static/src/img/trip.jpg" className="imgPaperOne"/>
                 <div>
                 <MapsPlace />
                 <Paper  zDepth={4}>
