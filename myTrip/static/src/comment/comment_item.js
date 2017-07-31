@@ -1,10 +1,10 @@
 import React from 'react';
+import axios from 'axios';
 
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import FlatButton from 'material-ui/FlatButton';
 import ListItem from 'material-ui/List/ListItem';
-
 
 const styles = {
   avatar: {
@@ -19,22 +19,39 @@ const styles = {
 };
 
 export class CommentItem extends React.Component {
-    render() {
-        return (
-            <ListItem>
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      comments: [{a: '2', b: 4}, {a: 1, b: 3}]
+    };
+}
+
+componentDidMount() {
+  axios.get('api/v1/trip/2/comment/')
+    .then(response => {
+      const comments = response.data;
+      this.setState({comments});
+    }
+    );
+}
+
+render() {
+    return (
+      <div>
+            {this.state.comments.length && this.state.comments.map((comment) =>
+                (<ListItem>
                 <Card>
                     <CardHeader
-                        title="Roman Hrytskiv"
-                        subtitle="29/07/2017"
+                        title={comment.user}
+                        subtitle={comment.update_at}
                         expandable={true} />
 
                     <CardText
                         actAsExpander={true}
                         style={styles.commentText}>
-                        <UserAvatar />
-                        Nice views man!
-                        <br />
-                        I wish I could go there with you but i have to code. See you in a month!
+                        <Avatar src="static/src/img/avatar.jpg" size={40} style={styles.avatar}/>
+                        {comment.message}
                     </CardText>
 
                     <CardActions
@@ -42,15 +59,9 @@ export class CommentItem extends React.Component {
                       <FlatButton label="Edit" />
                       <FlatButton label="Delete" />
                     </CardActions>
-
                 </Card>
-            </ListItem>
-        );
-    }
-}
-
-class UserAvatar extends React.Component {
-    render() {
-        return (<Avatar src="static/src/img/avatar.jpg" size={40} style={styles.avatar}/>);
-    }
+            </ListItem>))}
+      </div>
+    );
+  }
 }

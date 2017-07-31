@@ -47,7 +47,7 @@ class Comment(models.Model):
             return None
 
     @staticmethod
-    def filter(user=None, trip=None, checkpoint=None, photo=None):
+    def filter(trip=None, checkpoint=None, photo=None):
         """
         Get Comments with given trip, checkpoint, photo.
         Args:
@@ -59,7 +59,7 @@ class Comment(models.Model):
             QuerySet<Comment>: QuerySet of Comments or None.
         """
         comments = Comment.objects.filter(trip=trip, checkpoint=checkpoint,
-                                          photo=photo, user=user)
+                                          photo=photo)
         return comments
 
     def to_dict(self):

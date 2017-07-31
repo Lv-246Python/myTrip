@@ -30,8 +30,7 @@ export default class Comment extends React.Component {
             <Paper zDepth={5} rounded={false} style={styles.paper}>
                 <div>
                     <List>
-                        <CommentItem/>
-                        <CommentItem/>
+                        <CommentItem />
                     </List>
 
                     <Divider style={styles.divider}/>
