@@ -43,11 +43,15 @@ class RegistrationForm extends React.Component {
         const first_name = this.state.first_name;
         const last_name = this.state.last_name;
         const password = this.state.password;
+        const EMAIL_REGEXP = /.+@.+\..+/;
         if (email == '') {
             this.setState({'emailError':'Email field is required'});
             return
+        } else if (email.match(EMAIL_REGEXP) == null) {
+            this.setState({'emailError':'Email fields is not in valid form'})
+            return
         } else {
-            this.setState({'emailError':''});
+            this.setState({'emailError':''})
         }
         if (password == '') {
             this.setState({'passwordError':'Password field is required'});
