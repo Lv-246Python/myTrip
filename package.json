@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-core": "^6.25.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.1.2",
     "less": "^2.7.2",
@@ -30,7 +31,6 @@
     "react-swipeable-views": "^0.12.5",
     "react-tap-event-plugin": "^2.0.1",
     "style-loader": "^0.18.2"
-
   },
   "devDependencies": {
     "babel-loader": "^7.1.1",
