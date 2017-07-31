@@ -5,6 +5,8 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/FlatButton';
 
+import {loginService, registerService} from './registration.service.js';
+
 class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);
@@ -53,21 +55,9 @@ class RegistrationForm extends React.Component {
         } else {
             this.setState({'passwordError':''});
         }
-        axios.post('/api/v1/auth/register/', {
-            email,
-            password,
-            first_name,
-            last_name
-        })
+        registerService(email, password, first_name, last_name)
             .then(() => {
-                axios.post('/api/v1/auth/login/', {
-                    email,
-                    password
-                })
-                    .then( (response) => {
-                        this.props.loginHandler(true);
-                        this.props.history.push('/');
-                    })
+                    this.props.history.push('/login');
             })
             .catch( (error) => {
                 this.setState({"serverError":error.response.data});

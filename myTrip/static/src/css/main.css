@@ -1,10 +1,13 @@
+.header {
+    height: 80px;
+}
+
 .title > a {
     color:white;
     text-decoration:none;
     margin:5px;
 }
 
-#serverError {
-    font-size:32pt;
-    color:red;
+.header_btn {
+    color:#ffffff !important;
 }
