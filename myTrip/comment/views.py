@@ -35,11 +35,10 @@ class CommentView(View):
             HttpResponse: status: 404.
         """
         if not comment_id:
-            user = CustomUser.get_by_id(request.user.id)
             trip = Trip.get_by_id(trip_id)
             checkpoint = Checkpoint.get_by_id(checkpoint_id)
             photo = Photo.get_by_id(photo_id)
-            comments = Comment.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
+            comments = Comment.filter(trip=trip, checkpoint=checkpoint, photo=photo)
             if not comments:
                 return HttpResponse(status=404)
             comments = [comment.to_dict() for comment in comments]

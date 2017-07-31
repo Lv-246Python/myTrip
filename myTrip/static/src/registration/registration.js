@@ -2,72 +2,62 @@ import React from "react";
 import axios from "axios"
 
 import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/FlatButton';
 
-class Registration_form extends React.Component {
+import {loginService, registerService} from './registration.service.js';
+
+class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
-            first_name: '',
+            first_name:'',
             last_name:'',
-            emailError:'',
+            email:'',
+            password:'',
             passwordError:'',
+            emailError:'',
             serverError:''
         };
-        this.handlePassword = this.handlePassword.bind(this);
-        this.handleEmail = this.handleEmail.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFirstName = this.handleFirstName.bind(this);
         this.handleLastName = this.handleLastName.bind(this);
-    }
-    handlePassword(event) {
-        this.setState({password: event.target.value});
-    }
-    handleFirstName(event) {
-        this.setState({first_name: event.target.value});
-    }
-    handleLastName(event) {
-        this.setState({last_name: event.target.value});
+        this.handleEmail = this.handleEmail.bind(this);
+        this.handlePassword = this.handlePassword.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleEmail(event) {
-        this.setState({email: event.target.value});
+        this.setState({'email': event.target.value});
+    }
+    handlePassword(event) {
+        this.setState({'password': event.target.value});
+    }
+
+    handleFirstName(event) {
+        this.setState({'first_name': event.target.value});
+    }
+    handleLastName(event) {
+        this.setState({'last_name': event.target.value});
     }
     handleSubmit(event) {
         const email = this.state.email;
+        const first_name = this.state.first_name;
+        const last_name = this.state.last_name;
+        const password = this.state.password;
         if (email == '') {
             this.setState({'emailError':'Email field is required'});
             return
         } else {
             this.setState({'emailError':''});
         }
-        const password = this.state.password;
         if (password == '') {
             this.setState({'passwordError':'Password field is required'});
             return
         } else {
             this.setState({'passwordError':''});
         }
-        const first_name = this.state.first_name;
-        const last_name = this.state.last_name;
-        axios.post('/api/v1/auth/register/', {
-            email,
-            password,
-            first_name,
-            last_name
-        })
+        registerService(email, password, first_name, last_name)
             .then(() => {
-                console.log('!!!!********!!!!!!!!');
-                axios.post('/api/v1/auth/login/', {
-                    email,
-                    password
-                })
-                    .then( (response) => {
-                        this.props.history.push("/home");
-                    })
+                    this.props.history.push('/login');
             })
             .catch( (error) => {
                 this.setState({"serverError":error.response.data});
@@ -93,7 +83,7 @@ class Registration_form extends React.Component {
                     hintText="Email"
                     errorText={this.state.emailError}
                     name="email"
-                    type="email"
+                    type="text"
                 />
                 <TextField
                     onChange={this.handlePassword}
@@ -127,7 +117,10 @@ export default class Registration extends React.Component {
             }}
             zDepth={2} >
 
-                  <Registration_form history = {this.props.history} />
+                < RegistrationForm
+                    loginHandler = {this.props.loginHandler}
+                    history = {this.props.history}
+                />
 
             </Paper>
         );
