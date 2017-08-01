@@ -1,15 +1,16 @@
 import React from "react";
 
 import Paper from 'material-ui/Paper';
-import {Link} from "react-router-dom";
-import {Tabs, Tab} from 'material-ui/Tabs';
-import FlatButton from 'material-ui/FlatButton';
+import { Link } from "react-router-dom";
+import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
-import {cyan500} from 'material-ui/styles/colors'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import './home.less';
 
+const FIRST_SLIDE_INDEX = 0;
+const LAST_SLIDE_INDEX = 3;
+const CHANGE_SLIDE_TIME = 5000;
 
 class PaperPageOne extends React.Component{
 
@@ -38,30 +39,7 @@ class PaperPageTwo extends React.Component{
 class PaperPageThree extends React.Component{
     render(){
         return(
-         <Paper className="paperPageThree" zDepth={2}>
-
-             <span className="enhancedText">Enhanced with social networks</span>
-             <div className="flex_container">
-             <Paper className="paper_fb" zDepth={4} circle={true}>
-                 <div className="text_fb">facebook</div>
-             </Paper>
-
-             <Paper className="paper_instagram" zDepth={4} circle={true}>
-                 <div className="text_instagram">instagram</div>
-             </Paper>
-
-             <Paper className="paper_google" zDepth={4} circle={true}>
-                 <div className="text_google">google</div>
-             </Paper>
-            </div>
-             <div>
-             <FlatButton label="Register"
-                         containerElement={<Link to="/registration"/>}
-                         labelStyle={{fontSize:'3em'}}
-                         hoverColor={cyan500}
-             />
-             </div>
-         </Paper>
+            <div>ToDo Help Component</div>
         )
     }
 }
@@ -71,7 +49,7 @@ class HomeTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      slideIndex: 0,
+      slideIndex: FIRST_SLIDE_INDEX,
     };
     this.handleChange = this.handleChange.bind(this);
     this.onMouseOverSlide = this.onMouseOverSlide.bind(this);
@@ -90,18 +68,18 @@ class HomeTab extends React.Component {
   };
 
   onMouseOutSlide(){
-      this.intervalId = setInterval(this.timer.bind(this), 5000);
+      this.intervalId = setInterval(this.timer.bind(this), CHANGE_SLIDE_TIME);
   };
 
   timer() {
-    this.setState({slideIndex: this.state.slideIndex + 1});
-    if(this.state.slideIndex >= 3) {
-      this.setState({slideIndex: 0})
+    this.setState({slideIndex: this.state.slideIndex + 1 });
+    if(this.state.slideIndex >= LAST_SLIDE_INDEX) {
+      this.setState({slideIndex: FIRST_SLIDE_INDEX})
     }
   }
 
   componentDidMount() {
-      this.intervalId = setInterval(this.timer.bind(this), 5000);
+      this.intervalId = setInterval(this.timer.bind(this), CHANGE_SLIDE_TIME);
   }
 
   render() {
@@ -113,7 +91,7 @@ class HomeTab extends React.Component {
         >
           <Tab label="Share your journey" value={0} />
           <Tab label="Add content" value={1} />
-          <Tab label="Social" value={2} />
+          <Tab label="Help" value={2} />
         </Tabs>
         <SwipeableViews
           index={this.state.slideIndex}
