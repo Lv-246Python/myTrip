@@ -10,7 +10,7 @@ from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
 
-JSON_LENGTH = 8
+JSON_LENGTH = 9
 
 
 class ViewTest(TestCase):
@@ -122,7 +122,7 @@ class ViewTest(TestCase):
 
         response = self.client.get('/api/v1/trip/10/checkpoint/20/photo/30/comment/')
         data = response.json()
-        self.assertEqual(len(data), 1)
+        self.assertEqual(len(data), 2)
 
     def test_get_response_length(self):
         """Ensure that get method returns all required comment fields."""
