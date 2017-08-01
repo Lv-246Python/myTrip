@@ -91,24 +91,22 @@ class TestPlugin(TestCase):
     def test_filter_with_trip_and_checkpoint_and_photo_id(self):
         """Test for filter method returns all comments with corrected trip,checkpoint,photo ids."""
 
-        user = CustomUser.objects.get(id=1)
         trip = Trip.objects.get(id=10)
         checkpoint = Checkpoint.objects.get(id=20)
         photo = Photo.objects.get(id=30)
-        result = Comment.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
-        expected = Comment.objects.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
+        result = Comment.filter(trip=trip, checkpoint=checkpoint, photo=photo)
+        expected = Comment.objects.filter(trip=trip, checkpoint=checkpoint, photo=photo)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
     def test_filter_with_user_and_trip_and_checkpoint_and_photo_id_none(self):
         """Ensure that filter method works correctly with wrong id's."""
 
-        user = CustomUser.objects.get(id=99)
         trip = Trip.objects.get(id=10)
         checkpoint = Checkpoint.objects.get(id=20)
         photo = Photo.objects.get(id=30)
-        result = Comment.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
-        expected = Comment.objects.filter(user=user, trip=trip, checkpoint=checkpoint, photo=photo)
+        result = Comment.filter(trip=trip, checkpoint=checkpoint, photo=photo)
+        expected = Comment.objects.filter(trip=trip, checkpoint=checkpoint, photo=photo)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
@@ -146,7 +144,8 @@ class TestPlugin(TestCase):
             'checkpoint': 20,
             'photo': 30,
             'create_at': TEST_TIME,
-            'update_at': TEST_TIME
+            'update_at': TEST_TIME,
+            'user_name': CustomUser.get_full_name(CustomUser.get_by_id(comment.user.id))
         }
 
         self.assertEqual(expected, result)
@@ -170,7 +169,9 @@ class TestPlugin(TestCase):
         comment = Comment.objects.get(id=66)
         result = repr(comment)
         expected = """id:{}, message:{}, user:{}, trip:{},
-                  checkpoint:{}, photo:{}, create_at:{}, update_at:{}""".format(
+                  checkpoint:{}, photo:{}, create_at:{}, 
+                  update_at:{}, 
+                  user_name:{}""".format(
             comment.id,
             comment.message,
             comment.user,
@@ -178,6 +179,7 @@ class TestPlugin(TestCase):
             comment.checkpoint.id,
             comment.photo.id,
             comment.create_at,
-            comment.update_at)
+            comment.update_at,
+            CustomUser.get_full_name(CustomUser.get_by_id(comment.user.id)))
 
         self.assertEqual(result, expected)
