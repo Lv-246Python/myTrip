@@ -8,8 +8,6 @@ import SwipeableViews from 'react-swipeable-views';
 import {cyan500} from 'material-ui/styles/colors'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
-
 import './home.less';
 
 
@@ -59,9 +57,8 @@ class PaperPageThree extends React.Component{
              <div>
              <FlatButton label="Register"
                          containerElement={<Link to="/registration"/>}
+                         labelStyle={{fontSize:'3em'}}
                          hoverColor={cyan500}
-                         styles={{fontSize:40}}
-                         fullWidth={true}
              />
              </div>
          </Paper>
