@@ -23,18 +23,16 @@ export class CommentForm extends React.Component {
             autoHideDuration: 3000,
             message: 'Comment added',
             open: false,
-            comment_message: ''
+            comment_text: ''
         };
-        this.handleComment = this.handleComment.bind(this);
     }
 
     handleTouchTap = (event) => {
         this.setState({open: true});
-        const message = this.state.comment_message;
-        axios.post('api/v1/trip/7/comment/', {
+        const message = this.state.comment_text;
+        axios.post('api/v1/trip/2/comment/', {
             message
         })
-        event.preventDefault();
     };
 
     handleActionTouchTap = () => {
@@ -46,8 +44,8 @@ export class CommentForm extends React.Component {
         this.setState({open: false});
     };
 
-    handleComment(event) {
-       this.setState({'comment_message': event.target.value});
+    handleComment = (event) => {
+        this.setState({'comment_text': event.target.value});
     };
 
     render() {
@@ -56,26 +54,22 @@ export class CommentForm extends React.Component {
               <Paper style={styles.paper}>
                   <TextField
                   fullWidth={true}
-                  multiLine={true}
                   floatingLabelText="Write a comment"
-                  value={this.state.comment_message}
-                  onChange={this.handleComment}
-                  />
+                  value={this.state.comment_text}
+                  onChange={this.handleComment} />
                   <br />
 
                   <RaisedButton
                     onTouchTap={this.handleTouchTap}
-                    label="Add"
-                  />
+                    label="Add" />
 
                   <Snackbar
                     open={this.state.open}
                     message={this.state.message}
-                    action="undo"
+                    action="Undo"
                     autoHideDuration={this.state.autoHideDuration}
                     onActionTouchTap={this.handleActionTouchTap}
-                    onRequestClose={this.handleRequestClose}
-                  />
+                    onRequestClose={this.handleRequestClose} />
               </Paper>
           </div>
     );
