@@ -111,11 +111,15 @@ class ViewTest(TestCase):
         response = self.client.get('/api/v1/trip/10/checkpoint/20/photo/30/comment/')
         self.assertEqual(response.status_code, 200)
 
-    def test_get_by_trip_checkpoint_photo_id_404(self):
-        """Ensure that get method returns status 404 when some wrong id was send."""
+    def test_get_by_trip_checkpoint_photo_id_none(self):
+        """
+        Ensure that get method returns none from filter method
+        of models objects when some wrong id was send.
+        """
 
         response = self.client.get('/api/v1/trip/10/checkpoint/20/photo/1/comment/')
-        self.assertEqual(response.status_code, 404)
+        data = response.json()
+        self.assertEqual(len(data), 0)
 
     def test_get_by_trip_id_length(self):
         """Ensure that get method returns correct number of Comment objects."""
