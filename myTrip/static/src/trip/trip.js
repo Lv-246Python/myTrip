@@ -35,6 +35,7 @@ class TripHeader extends React.Component {
             <AuthorName />
             <AuthorAvatar />
             <TripTitle />
+            <TripStatus />
          </Paper>
       );
    }
@@ -68,6 +69,17 @@ class TripTitle extends React.Component {
       return (
          <div>
             <h3>TripTitle</h3>
+         </div>
+      );
+   }
+}
+
+
+class TripStatus extends React.Component {
+   render() {
+      return (
+         <div>
+            <h3>TripStatus</h3>
          </div>
       );
    }
