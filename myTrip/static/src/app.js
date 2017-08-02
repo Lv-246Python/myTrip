@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 import axios from "axios"
 import AppBar from 'material-ui/AppBar';
@@ -9,9 +9,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Home from "./home/home.js";
+import Comments from "./comment/Comments.js";
 import Login from "./registration/login.js";
 import Registration from "./registration/registration.js";
-import {logoutService} from './registration/registration.service.js'
+import { logoutService } from './registration/registration.service.js'
 
 
 injectTapEventPlugin();
@@ -108,6 +109,7 @@ class Main extends React.Component {
                             {...props}
                         />}
                     />
+                <Route exact path='/comments' component={Comments} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
