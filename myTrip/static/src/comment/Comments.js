@@ -49,6 +49,7 @@ export default class Comments extends React.Component {
             this.setState({comments});
         });
     }
+    
     componentDidMount() {
         this.getData()
     }
