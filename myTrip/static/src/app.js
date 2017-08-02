@@ -110,7 +110,8 @@ class Main extends React.Component {
                             {...props}
                         />}
                     />
-                     <Route exact path='/comments' component={Comments} />    <Route exact path='/trip' component={Trip} />
+                     <Route exact path='/comments' component={Comments} />
+                     <Route exact path='/trip' component={Trip} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
