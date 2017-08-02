@@ -1,5 +1,6 @@
 import React from "react";
-import {Link} from 'react-router-dom'
+import axios from "axios";
+import {Link} from 'react-router-dom';
 
 import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
@@ -7,10 +8,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
-
 import './profile.less';
 
 const styles = {
+  underlineDisabledStyle:{
+    color: blue500,
+  },
   errorStyle: {
     color: blue500,
   },
@@ -25,13 +28,14 @@ const styles = {
   },
 };
 
-let response = {
+// hardcoded response
+let resp = {
     email: 'someemail@gmail.com',
-    name: 'Adolf',
-    surname: 'Gitler',
+    name: 'Alber',
+    surname: 'Unter',
     age: '35',
     gender: 'male',
-    hobbies: 'flexbox',
+    hobbies: 'random text ----------------------------------------',
     avatar_src: 'static/src/img/avatar_example.jpg'
 };
 
@@ -39,80 +43,112 @@ let response = {
 class TextBlock extends React.Component {
     constructor(props){
         super(props);
-        this.state = {
-            email:'',
-            name: '',
-            surname: '',
-            age: '',
-            gender: '',
-            hobbies: '',
-            avatar_src: ''
-        };
-    this.changeName = this.changeName.bind(this);
+        this.state = props.data;
+        this.state.z = {}
 
     };
 
-    changeName(event) {
-        this.setState({'name': event.target.value});
+    getProfile = () => {
+    return axios.get('/api/v1/trip/5/photo/3/')
+    .then(response => this.setState({z: response.data}))
+    .catch(error => console.log(error))
+    }
+
+    componentDidMount(){
+        this.getProfile()
+    }
+
+    onChange = (event, newValue) => {
+        this.setState({[event.target.name]: newValue});
     };
 
-    EditProfile(event){
-        console.log(this.state.name)
-    };
+    putProfile = (name, surname, age, gender, hobbies) => {
+        return axios.put('/api/v1/profile/', {
+            name,
+            surname,
+            age,
+            gender,
+            hobbies
+        })
+    }
 
 
-
+    testEdit = (event) => {
+        const name = this.state.name;
+        const surname = this.state.surname;
+        const age = this.state.age;
+        const gender = this.state.gender;
+        const hobbies = this.state.hobbies;
+        this.putProfile(
+            name,
+            surname,
+            age,
+            gender,
+            hobbies
+            )
+        console.log(name,surname,age,gender,hobbies)
+    }
 
     render(){
         return(
       <div className='textBlock'>
         <TextField
           floatingLabelText="Email:"
-          defaultValue={this.props.data.email}
+          defaultValue={this.state.email}
           disabled={true}
           fullWidth={true}
-          floatingLabelStyle={styles.floatingLabelStyle}
+          floatingLabelStyle={styles.underlineDisabledStyle}
+          underlineStyle={styles.underlineStyle}
           hintStyle={styles.errorStyle}
         /><br />
         <TextField
           floatingLabelText="Name:"
-          defaultValue={this.props.data.name}
-          onChange={this.changeName}
+          name="name"
+          value={this.state.name}
+          onChange={this.onChange}
           fullWidth={true}
           floatingLabelStyle={styles.floatingLabelStyle}
         /><br />
         <TextField
           floatingLabelText="Surname:"
-          defaultValue={this.props.data.surname}
+          defaultValue={this.state.surname}
           fullWidth={true}
+          name="surname"
+          onChange={this.onChange}
           floatingLabelStyle={styles.floatingLabelStyle}
           underlineStyle={styles.underlineStyle}
         /><br />
         <TextField
           floatingLabelText="Age:"
-          defaultValue={this.props.data.age}
+          defaultValue={this.state.age}
           fullWidth={true}
+          name='age'
+          onChange={this.onChange}
           floatingLabelStyle={styles.floatingLabelStyle}
           underlineFocusStyle={styles.underlineStyle}
         /><br />
         <TextField
           floatingLabelText="Gender:"
-          defaultValue={this.props.data.gender}
+          defaultValue={this.state.gender}
           fullWidth={true}
+          name='gender'
+          onChange={this.onChange}
           floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
         />
         <TextField
           floatingLabelText="Hobbies:"
-          defaultValue={this.props.data.hobbies}
+          defaultValue={this.state.hobbies}
           fullWidth={true}
+          name='hobbies'
           multiLine={true}
+          onChange={this.onChange}
           rows={2}
-          rowsMax={4}
+          rowsMax={5}
           floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
         />
-        <FlatButton onTouchTap={this.EditProfile} label="Edit profile" primary={true} fullWidth={true} />
+        <FlatButton onTouchTap={this.testEdit} label="Edit profile" primary={true} fullWidth={true} />
       </div>
     );
 };
@@ -129,9 +165,6 @@ class Avatars extends React.Component {
 }
 
 class Buttons extends React.Component {
-    clickEvent() {
-        console.log('test')
-    }
   render() {
     return(
       <div className='divbutton'>
@@ -161,8 +194,8 @@ export default class Profile extends React.Component {
   render(){
     return (
           <Paper className='MainPaper' zDepth={2} >
-            <Avatars data={response}/>
-            <TextBlock data={response} />
+            <Avatars data={resp}/>
+            <TextBlock data={resp} />
             <Buttons />
           </Paper>
       );
