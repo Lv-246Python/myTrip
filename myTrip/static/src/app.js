@@ -9,7 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Home from "./home/home.js";
-import Comment from "./comment/comment.js";
+import Comments from "./comment/Comments.js";
 import Login from "./registration/login.js";
 import Registration from "./registration/registration.js";
 import Trip from './trip/trip.js';
@@ -110,8 +110,7 @@ class Main extends React.Component {
                             {...props}
                         />}
                     />
-                     <Route exact path='/comment' component={Comment} />
-                     <Route exact path='/trip' component={Trip} />
+                     <Route exact path='/comments' component={Comments} />    <Route exact path='/trip' component={Trip} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
