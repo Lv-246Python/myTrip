@@ -7,23 +7,11 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField';
-import {orange500, blue500} from 'material-ui/styles/colors';
+import {blue900, blue500 } from 'material-ui/styles/colors';
 import './profile.less';
 
 const styles = {
-  underlineDisabledStyle:{
-    color: blue500,
-  },
-  errorStyle: {
-    color: blue500,
-  },
-  underlineStyle: {
-    borderColor: blue500,
-  },
   floatingLabelStyle: {
-    color: blue500,
-  },
-  floatingLabelFocusStyle: {
     color: blue500,
   },
 };
@@ -35,7 +23,7 @@ let resp = {
     surname: 'Unter',
     age: '35',
     gender: 'male',
-    hobbies: 'random text ----------------------------------------',
+    hobbies: '',
     avatar_src: 'static/src/img/avatar_example.jpg'
 };
 
@@ -49,7 +37,7 @@ class TextBlock extends React.Component {
     };
 
     getProfile = () => {
-    return axios.get('/api/v1/trip/5/photo/3/')
+    return axios.get('/api/v1/profile/')
     .then(response => this.setState({z: response.data}))
     .catch(error => console.log(error))
     }
@@ -73,7 +61,7 @@ class TextBlock extends React.Component {
     }
 
 
-    testEdit = (event) => {
+    profileEdit = (event) => {
         const name = this.state.name;
         const surname = this.state.surname;
         const age = this.state.age;
@@ -94,12 +82,9 @@ class TextBlock extends React.Component {
       <div className='textBlock'>
         <TextField
           floatingLabelText="Email:"
-          defaultValue={this.state.email}
-          disabled={true}
+          value={this.state.email}
           fullWidth={true}
-          floatingLabelStyle={styles.underlineDisabledStyle}
-          underlineStyle={styles.underlineStyle}
-          hintStyle={styles.errorStyle}
+          floatingLabelStyle={styles.floatingLabelStyle}
         /><br />
         <TextField
           floatingLabelText="Name:"
@@ -116,7 +101,6 @@ class TextBlock extends React.Component {
           name="surname"
           onChange={this.onChange}
           floatingLabelStyle={styles.floatingLabelStyle}
-          underlineStyle={styles.underlineStyle}
         /><br />
         <TextField
           floatingLabelText="Age:"
@@ -125,7 +109,6 @@ class TextBlock extends React.Component {
           name='age'
           onChange={this.onChange}
           floatingLabelStyle={styles.floatingLabelStyle}
-          underlineFocusStyle={styles.underlineStyle}
         /><br />
         <TextField
           floatingLabelText="Gender:"
@@ -148,7 +131,9 @@ class TextBlock extends React.Component {
           floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
         />
-        <FlatButton onTouchTap={this.testEdit} label="Edit profile" primary={true} fullWidth={true} />
+        <FlatButton onTouchTap={this.profileEdit} 
+        label="Edit profile" primary={true} fullWidth={true} 
+        rippleColor={blue900} />
       </div>
     );
 };
@@ -158,7 +143,8 @@ class TextBlock extends React.Component {
 class Avatars extends React.Component {
     render(){
         return(
-         <Avatar className='avatar' src={this.props.data.avatar_src} size={200} />
+         <Avatar className='avatar' onClick={console.log('hello')} src={this.props.data.avatar_src} size={200}
+          />
         );
     };
 
