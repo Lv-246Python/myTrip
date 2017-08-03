@@ -14,12 +14,11 @@ export default class Layout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {'logged':false};
-        this.loginHandler = this.loginHandler.bind(this);
     }
     componentWillMount() {
         this.setState({logged:logged()});
     }
-    loginHandler(value) {
+    loginHandler = value => {
         this.setState({'logged':value});
     }
     render() {

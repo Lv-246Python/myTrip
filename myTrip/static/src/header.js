@@ -11,10 +11,9 @@ import { LabelSize, iconLeftStyle, iconRightStyle } from './header.style.js';
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this);
     }
 
-    logout() {
+    logout = () => {
         logoutService().then((response) => {
             this.props.loginHandler(false);
         })
