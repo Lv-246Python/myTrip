@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
-import { logoutService } from './registration/registration.service.js'
-
+import { logged } from './utils.js';
+import { logoutService } from './registration/registration.service.js';
+import { LabelSize, iconLeftStyle, iconRightStyle } from './header.style.js';
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -15,28 +16,26 @@ export default class Header extends React.Component {
 
     logout() {
         logoutService().then((response) => {
-            if (response.status == 200) {
-                this.props.loginHandler(false);
-            }
+            this.props.loginHandler(false);
         })
     }
 
     render() {
         let elementRight;
-        if (!this.props.logged) {
+        if (!logged()) {
             elementRight = (
                 <div className='title'>
                     <FlatButton
                         className='header_btn'
                         label='REGISTRATION'
-                        labelStyle={{fontSize:'1.3em'}}
+                        labelStyle={LabelSize}
                         containerElement={<Link to="/registration"/>}
                     />
                     <FlatButton
                         className='header_btn'
                         label='LOGIN'
                         containerElement={<Link to="/login"/>}
-                        labelStyle = {{fontSize:"1.3em"}}
+                        labelStyle = {LabelSize}
                     />
                 </div>
             )
@@ -47,7 +46,7 @@ export default class Header extends React.Component {
                         label='LOGOUT'
                         className='header_btn'
                         onTouchTap = {this.logout}
-                        labelStyle = {{fontSize:"1.3em"}}
+                        labelStyle = {LabelSize}
                     />
                 </div>
             )
@@ -55,21 +54,15 @@ export default class Header extends React.Component {
         return (
             <AppBar
                 className='header'
-                iconStyleLeft = {{
-                    fontSize:"2em"
-                }}
+                iconStyleLeft = { iconLeftStyle }
                 iconElementLeft = {
                     <div className='title'>
                         <img className='header_icon' src='static/src/img/logo.png' />
                         <Link to='/'>TripTracker</Link>
                     </div>
                 }
-                iconElementRight = {elementRight}
-                iconStyleRight = {{
-                    marginBottom:"8px",
-                    display:"flex",
-                    alignItems:"center",
-                }}
+                iconElementRight = { elementRight }
+                iconStyleRight = { iconRightStyle }
             />
         );
     }
