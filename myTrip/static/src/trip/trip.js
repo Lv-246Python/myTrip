@@ -1,6 +1,5 @@
-// npm install --save google-maps-react
-
 import React from 'react';
+import axios from "axios";
 
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardMedia, CardText, CardActions } from 'material-ui/Card';
@@ -9,6 +8,7 @@ import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton'
 
 /*
 import Checkpoint from 'checkpoint';
@@ -30,15 +30,72 @@ const styles = {
 };
 
 
+// hardcoded response
+let resp = {
+    title: 'Baku journey',
+    description: 'Alber',
+    status: 0,
+    create_at: '2017-08-03 21:45:02.047092+03',
+    update_at: '2017-08-03 21:45:02.047111+03',
+};
+
+
 class Trip extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {trip: []}
+
+    };
+
+    getTrip = () => {
+    return axios.get('/api/v1/trip/')
+    .then(response => {const trip = response.data; this.setState({trip});})
+    .catch(error => console.log(error))
+    }
+
+    componentDidMount(){
+        this.getTrip()
+    }
+
+    onChange = (event, newValue) => {
+        this.setState({[event.target.name]: newValue});
+    };
+
+    putTrip = (title, description, status, create_at, update_at) => {
+        return axios.put('/api/v1/trip/', {
+            title,
+            description,
+            status,
+        })
+    }
+
+    tripEdit = (event) => {
+        const title = this.state.title;
+        const description = this.state.description;
+        const status = this.state.status;
+        this.putTrip(
+            title,
+            description,
+            status,
+            )
+        console.log(title, description, status, create_at, update_at)
+    }
+
+
    render() {
       return (
          <div>
+
          <Card style={styles.card}>
 
+         <FlatButton onTouchTap={this.tripEdit}
+          label="Edit profile" primary={true} fullWidth={true}
+         />
+
             <CardHeader
-               title={<h2>Baku journey</h2>}
-               subtitle="Status: announced. Last date update: 5 days ago"
+             title={this.state.title}
+             subtitle={this.state.status}
+             onChange={this.onChange}
             />
 
             <CardMedia>
@@ -58,10 +115,11 @@ class Trip extends React.Component {
             <CardText>
               <h3>Description</h3>
                 <TextField
-                  hintText="Type here your description"
+                  description={this.state.description}
                   multiLine={true}
                   fullWidth={true}
                   rowsMax={25}
+                  onChange={this.onChange}
                 />
             </CardText>
 
