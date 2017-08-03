@@ -33,7 +33,7 @@ const styles = {
 // hardcoded response
 let resp = {
     title: 'Baku journey',
-    description: 'Alber',
+    description: 'Trip description',
     status: 0,
     create_at: '2017-08-03 21:45:02.047092+03',
     update_at: '2017-08-03 21:45:02.047111+03',

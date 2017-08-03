@@ -1,7 +1,3 @@
-// npm install material-ui
-// npm install material-ui-icons
-// npm install typeface-roboto --save
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';        // npm install prop-types --save
 import classnames from 'classnames';        // npm install classnames --save

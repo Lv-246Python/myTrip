@@ -5,7 +5,8 @@ import Home from "./home/home.js";
 import Comments from "./comment/Comments.js";
 import Login from "./registration/login.js";
 import Registration from "./registration/registration.js";
-import NotFound from './notFound.js'
+import Trip from "./trip/trip.js";
+import NotFound from './notFound.js';
 
 export default class MainRoute extends React.Component {
     render() {
@@ -26,6 +27,8 @@ export default class MainRoute extends React.Component {
                         />}
                     />
                     <Route exact path='/comment' component={Comment} />
+                    <Route exact path='/trip/:id' component={Trip} />
+                    <Route exact path='/trip' component={Trip} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
