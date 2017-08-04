@@ -7,6 +7,7 @@ import { blue500 } from 'material-ui/styles/colors';
 
 import './profile.less';
 import { styles } from './profile.style.js';
+import { getProfile, putProfile } from './profile.service.js';
 
 
 
@@ -16,30 +17,13 @@ export class TextBlock extends React.Component {
         this.state = props.data;
     };
 
-    getProfile = () => {
-    return axios.get('/api/v1/profile/')
-    .then(response => this.setState({state: response.data}))
-    .catch(error => console.log(error))
-    }
-
     componentDidMount(){
-        this.getProfile()
+        getProfile()
     }
 
     onChange = (event, newValue) => {
         this.setState({[event.target.name]: newValue});
     };
-
-    putProfile = (name, surname, age, gender, hobbies) => {
-        return axios.put('/api/v1/profile/', {
-            name,
-            surname,
-            age,
-            gender,
-            hobbies
-        })
-    }
-
 
     profileEdit = (event) => {
         const name = this.state.name;
