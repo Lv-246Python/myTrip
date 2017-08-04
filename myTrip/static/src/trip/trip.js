@@ -61,7 +61,7 @@ class Trip extends React.Component {
         this.setState({[event.target.name]: newValue});
     };
 
-    putTrip = (title, description, status, create_at, update_at) => {
+    putTrip = (title, description, status) => {
         return axios.put('/api/v1/trip/', {
             title,
             description,
