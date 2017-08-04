@@ -6,12 +6,7 @@ import TextField from 'material-ui/TextField';
 import { blue500 } from 'material-ui/styles/colors';
 
 import './profile.less';
-
-const styles = {
-  LabelStyle: {
-    color: blue500,
-  },
-};
+import { styles } from './profile.style.js';
 
 
 
