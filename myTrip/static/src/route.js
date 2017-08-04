@@ -5,6 +5,7 @@ import Home from "./home/home.js";
 import Comments from "./comment/Comments.js";
 import Login from "./registration/login.js";
 import Registration from "./registration/registration.js";
+import Profile from "./profile/profile.js";
 import NotFound from './notFound.js'
 
 export default class MainRoute extends React.Component {
@@ -26,6 +27,7 @@ export default class MainRoute extends React.Component {
                         />}
                     />
                     <Route exact path='/comment' component={Comment} />
+                    <Route exact path='/profile' component={Profile} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
