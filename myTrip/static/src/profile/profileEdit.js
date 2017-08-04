@@ -31,7 +31,7 @@ export class TextBlock extends React.Component {
         const age = this.state.age;
         const gender = this.state.gender;
         const hobbies = this.state.hobbies;
-        this.putProfile(
+        putProfile(
             name,
             surname,
             age,
