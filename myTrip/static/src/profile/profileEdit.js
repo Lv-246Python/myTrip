@@ -76,7 +76,7 @@ export class TextBlock extends React.Component {
           value={this.state.name}
           onChange={this.onChange}
           fullWidth={true}
-          floatingLabelStyle={styles.floatingLabelStyle}
+          floatingLabelStyle={styles.LabelStyle}
         /><br />
         <TextField
           floatingLabelText="Surname:"
@@ -84,7 +84,7 @@ export class TextBlock extends React.Component {
           fullWidth={true}
           name="surname"
           onChange={this.onChange}
-          floatingLabelStyle={styles.floatingLabelStyle}
+          floatingLabelStyle={styles.LabelStyle}
         /><br />
         <TextField
           floatingLabelText="Age:"
@@ -92,7 +92,7 @@ export class TextBlock extends React.Component {
           fullWidth={true}
           name='age'
           onChange={this.onChange}
-          floatingLabelStyle={styles.floatingLabelStyle}
+          floatingLabelStyle={styles.LabelStyle}
         /><br />
         <TextField
           floatingLabelText="Gender:"
@@ -100,8 +100,8 @@ export class TextBlock extends React.Component {
           fullWidth={true}
           name='gender'
           onChange={this.onChange}
-          floatingLabelStyle={styles.floatingLabelStyle}
-          floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+          floatingLabelStyle={styles.LabelStyle}
+          floatingLabelFocusStyle={styles.LabelStyle}
         />
         <TextField
           floatingLabelText="Hobbies:"
@@ -112,8 +112,8 @@ export class TextBlock extends React.Component {
           onChange={this.onChange}
           rows={2}
           rowsMax={5}
-          floatingLabelStyle={styles.floatingLabelStyle}
-          floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+          floatingLabelStyle={styles.LabelStyle}
+          floatingLabelFocusStyle={styles.LabelStyle}
         />
         <FlatButton onTouchTap={this.profileEdit} 
         label="Edit profile" primary={true} fullWidth={true} 
