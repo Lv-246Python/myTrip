@@ -1,23 +1,15 @@
 """This module contains Unit Tests for Comment app models."""
 
 from datetime import datetime
-from unittest.mock import patch
 
 from django.test import TestCase
+from unittest.mock import patch
 
 from checkpoint.models import Checkpoint
 from comment.models import Comment
 from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
-
-GOOD_USER_ID = 1
-BAD_USER_ID = 99
-GOOD_TRIP_ID = 10
-GOOD_CHECKPOINT_ID = 20
-GOOD_PHOTO_ID = 30
-GOOD_COMMENT_ID = 66
-BAD_COMMENT_ID = 99
 
 TEST_TIME = datetime(2017, 7, 25, 12, 00, 00)
 
@@ -30,7 +22,7 @@ class TestPlugin(TestCase):
         with patch('django.utils.timezone.now') as mock_test:
             mock_test.return_value = TEST_TIME
             CustomUser.objects.create(
-                id=BAD_USER_ID,
+                id=99,
                 first_name='test1',
                 last_name='test1',
                 email='test1@gmail.com',
@@ -38,7 +30,7 @@ class TestPlugin(TestCase):
             )
 
             CustomUser.objects.create(
-                id=GOOD_USER_ID,
+                id=1,
                 first_name='test',
                 last_name='test',
                 email='test.test@gmail.com',
@@ -46,15 +38,15 @@ class TestPlugin(TestCase):
             )
 
             Trip.objects.create(
-                id=GOOD_TRIP_ID,
-                user=CustomUser.objects.get(id=GOOD_USER_ID),
+                id=10,
+                user=CustomUser.objects.get(id=1),
                 title='title1',
                 description='description1',
                 status=0
             )
 
             Checkpoint.objects.create(
-                id=GOOD_CHECKPOINT_ID,
+                id=20,
                 longitude=20.20,
                 latitude=20.20,
                 title='title1',
@@ -65,35 +57,35 @@ class TestPlugin(TestCase):
             )
 
             Photo.objects.create(
-                id=GOOD_PHOTO_ID,
+                id=30,
                 src='src1',
-                user=CustomUser.objects.get(id=GOOD_USER_ID),
-                trip=Trip.objects.get(id=GOOD_TRIP_ID),
-                checkpoint=Checkpoint.objects.get(id=GOOD_CHECKPOINT_ID),
+                user=CustomUser.objects.get(id=1),
+                trip=Trip.objects.get(id=10),
+                checkpoint=Checkpoint.objects.get(id=20),
                 description='description1'
             )
 
             Comment.objects.create(
-                id=GOOD_COMMENT_ID,
+                id=66,
                 message='test1',
-                user=CustomUser.objects.get(id=GOOD_USER_ID),
-                trip=Trip.objects.get(id=GOOD_TRIP_ID),
-                checkpoint=Checkpoint.objects.get(id=GOOD_CHECKPOINT_ID),
-                photo=Photo.objects.get(id=GOOD_PHOTO_ID)
+                user=CustomUser.objects.get(id=1),
+                trip=Trip.objects.get(id=10),
+                checkpoint=Checkpoint.objects.get(id=20),
+                photo=Photo.objects.get(id=30)
             )
 
     def test_get_by_id(self):
         """Ensure that get by id method returns specific comment using id."""
 
-        result = Comment.get_by_id(GOOD_COMMENT_ID)
-        expected = Comment.objects.get(id=GOOD_COMMENT_ID)
+        result = Comment.get_by_id(66)
+        expected = Comment.objects.get(id=66)
 
         self.assertEqual(result, expected)
 
     def test_get_by_id_none(self):
         """Ensure that get_by_id method returns none if comment does not exist."""
 
-        result = Comment.get_by_id(BAD_COMMENT_ID)
+        result = Comment.get_by_id(99)
         self.assertIsNone(result)
 
     def test_filter_with_trip_and_checkpoint_and_photo_id(self):
@@ -121,10 +113,10 @@ class TestPlugin(TestCase):
     def test_create(self):
         """Ensure that create method creates Comment object."""
 
-        user = CustomUser.objects.get(id=GOOD_USER_ID)
-        trip = Trip.objects.get(id=GOOD_TRIP_ID)
-        checkpoint = Checkpoint.objects.get(id=GOOD_CHECKPOINT_ID)
-        photo = Photo.objects.get(id=GOOD_PHOTO_ID)
+        user = CustomUser.objects.get(id=1)
+        trip = Trip.objects.get(id=10)
+        checkpoint = Checkpoint.objects.get(id=20)
+        photo = Photo.objects.get(id=30)
 
         data = {
             'message': 'test1',
@@ -142,15 +134,15 @@ class TestPlugin(TestCase):
     def test_to_dict(self, *args):
         """Ensure that to_dict methods builds a proper dict from Comment object."""
 
-        comment = Comment.objects.get(id=GOOD_COMMENT_ID)
+        comment = Comment.objects.get(id=66)
         result = comment.to_dict()
         expected = {
-            'id': GOOD_COMMENT_ID,
+            'id': 66,
             'message': 'test1',
-            'user': GOOD_USER_ID,
-            'trip': GOOD_TRIP_ID,
-            'checkpoint': GOOD_CHECKPOINT_ID,
-            'photo': GOOD_PHOTO_ID,
+            'user': 1,
+            'trip': 10,
+            'checkpoint': 20,
+            'photo': 30,
             'create_at': TEST_TIME,
             'update_at': TEST_TIME,
             'user_name': CustomUser.get_full_name(CustomUser.get_by_id(comment.user.id))
@@ -165,9 +157,9 @@ class TestPlugin(TestCase):
             'message': 'test message updated'
         }
 
-        comment = Comment.objects.get(id=GOOD_COMMENT_ID)
+        comment = Comment.objects.get(id=66)
         comment.update(**data)
-        expected = Comment.objects.get(id=GOOD_COMMENT_ID)
+        expected = Comment.objects.get(id=66)
 
         self.assertEqual(comment, expected)
 
