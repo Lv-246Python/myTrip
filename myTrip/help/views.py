@@ -1,21 +1,34 @@
 import json
 
-from django.core.mail import send_mail
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.views.generic.base import View
 
-EMAIL_HOST_USER = 'morfeos7887@gmail.com'
-SUCCESS_MESSAGE = 'Your message were send. Thanks!'
-FAIL_MESSAGE = 'Something went wrong...'
-USER_MAIL = 'zherebukh.yurii@gmail.com'
+from utils.mailer import email_sender
+from help.models import Help
+
+RESPONSE_MESSAGE = {
+    'response_message': 'success!'
+}
+QUERYSET_HELP = []
+
 
 class EmailSendView(View):
+
+    def get(self, request):
+        helps = Help.filter()
+        helps = [help.to_dict() for help in helps]
+        return JsonResponse(helps, status=200, safe=False)
+
     def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
-        if not data:
-            return HttpResponse(status=400)
-        subject = data.get('subject')
-        message = data.get('message')
-        #user_email = data.get('user_email')
-        send_mail('Test', 'Test', 'yura7887@gmail.com', ['morfeos7887@gmail.com'], fail_silently=False)
-        return JsonResponse(json.dumps(SUCCESS_MESSAGE), status=200)
+        subject = str(data.get('subject'))
+        message = str(data.get('message'))
+        to = str(data.get('to'))
+        is_static_answer = str(data.get('is_static_answer'))
+
+        help = Help()
+        help.create(subject=subject, message=message, email_to=to, is_static_answer=is_static_answer)
+
+        #email_sender(subject=subject, message=message, to=to)
+
+        return JsonResponse(RESPONSE_MESSAGE, status=201)
