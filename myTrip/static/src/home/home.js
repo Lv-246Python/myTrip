@@ -7,6 +7,7 @@ import SwipeableViews from 'react-swipeable-views';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import './home.less';
+import Help from './help/Help'
 
 const FIRST_SLIDE_INDEX = 0;
 const LAST_SLIDE_INDEX = 3;
@@ -39,7 +40,7 @@ class PaperPageTwo extends React.Component{
 class PaperPageThree extends React.Component{
     render(){
         return(
-            <div>ToDo Help Component</div>
+            <Help/>
         )
     }
 }

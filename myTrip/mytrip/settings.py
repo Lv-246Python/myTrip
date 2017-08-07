@@ -103,3 +103,7 @@ try:
 except ImportError:
     pass
 
+try:
+    from .email_info import *
+except ImportError:
+    pass
