@@ -19,14 +19,14 @@ export default class Profile extends React.Component {
         age: 56,
         gender: 'male',
         hobbies: 'reading books, traveling',
-        avatarUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-ginger-guy.png'
+        avatarUrl: 'static/src/img/avatar_example.jpg'
         }
     }
     
   render(){
     return (
           <Paper className='MainPaper'  zDepth={2} >
-            <Avatars data={this.state.avatarUrl} />
+            <Avatars avatarSrc={this.state.avatarUrl} />
             <TextBlock data={this.state} />
             <Buttons />
           </Paper>
