@@ -5,19 +5,13 @@ from django.http import JsonResponse, HttpResponse
 from django.views.generic.base import View
 
 from help.models import Help
-from utils.mailer import email_sender
+from utils.mailer import email_sender, message_format
 
 RESPONSE_MESSAGE = {
     'response_message': 'success!'
 }
 
 FEEDBACK_SUBJECT = 'Feedback'
-
-
-def message_format(to, subject, message):
-    """Template for admin's emailing."""
-    return "This user {}\n Sent you email with this subject: {}\nEmail body:\n{}".format(
-        to, subject, message)
 
 
 class EmailSendView(View):
@@ -53,7 +47,7 @@ class EmailSendView(View):
             return HttpResponse(status=400)
         subject = str(data.get('subject'))
         message = str(data.get('message'))
-        to = str(data.get('to'))
+        to = list(str(data.get('to')))
 
         help_obj = Help()
         help_obj.create(subject=subject, message=message, email_to=to)
