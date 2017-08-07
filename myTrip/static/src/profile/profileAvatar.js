@@ -8,7 +8,7 @@ export class Avatars extends React.Component {
     render(){
         return(
        	<div className='avatar'>
-         <Avatar className='avatar' src={this.props.data} size={200}
+         <Avatar className='avatar' src={this.props.avatarSrc} size={200}
           />
         </div>
         );
