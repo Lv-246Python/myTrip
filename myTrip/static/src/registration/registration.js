@@ -2,11 +2,28 @@ import React from "react";
 
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import {loginService, registerService} from './registration.service.js';
 import { emailIsNotValid, EMAIL_REGEXP, fieldIsEmpty } from './../utils.js';
-import { paperStyle, PaperZDepth, RaisedButtonStyle, LabelSize } from './registration.style.js';
+
+const style = {
+    paperStyle : {
+        margin:"5% auto",
+        width:"40%",
+    },
+
+    PaperZDepth : 2,
+
+    RaisedButtonStyle : {
+        margin:"5%"
+    },
+
+    LabelSize : {
+        fontSize:"1.2em"
+    }
+
+}
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -62,7 +79,7 @@ export default class Registration extends React.Component {
 
     render() {
         return (
-            <Paper style = {paperStyle} zDepth={PaperZDepth} >
+            <Paper style = {style.paperStyle} zDepth={style.PaperZDepth} >
                 <div className='form_fields'>
                     <h1>REGISTRATION</h1>
                     <TextField
@@ -92,8 +109,8 @@ export default class Registration extends React.Component {
                     <RaisedButton label="Sign UP"
                         primary={true}
                         onTouchTap={this.handleSubmit}
-                        style={ RaisedButtonStyle }
-                        labelStyle = { LabelSize }
+                        style={ style.RaisedButtonStyle }
+                        labelStyle = { style.LabelSize }
                      />
                      <p className='serverError'>{this.state.serverError}</p>
                 </div>

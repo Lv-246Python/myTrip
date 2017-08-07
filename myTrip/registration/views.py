@@ -1,8 +1,11 @@
 """Contains views for registration app."""
 
 from json import loads
+import urllib
 
+from django.shortcuts import redirect
 from django.contrib import auth
+from mytrip.settings import FACEBOOK_APP_ID as CLIENT_ID, FACEBOOK_API_SECRET as CLIENT_SECRET
 
 from .models import CustomUser
 from .helper import *
@@ -37,6 +40,7 @@ def register(request):
         CustomUser.create(email, password, first_name, last_name)
         return response_201_successfully_created
 
+
 def login(request):
     """
     Login method for auth.
@@ -58,6 +62,7 @@ def login(request):
             return response_200_login_successful
         return response_403_invalid_credentials
 
+
 def logout(request):
     """
     Logout method for auth.
@@ -73,3 +78,49 @@ def logout(request):
             auth.logout(request)
             return response_200_logout_successful
         return response_400_not_logged_in
+
+
+def facebook_login(request):
+    """
+    Provides Facebook authentication.
+    Args:
+        request: http request.
+    Returns:
+        Redirect to Facebook login page
+    """
+    link = ('https://www.facebook.com/v2.10/dialog/oauth?'
+            'client_id={client_id}&'
+            'redirect_uri={redirect_uri}').format(
+                client_id=CLIENT_ID,
+                redirect_uri='http://triptrck.com/api/v1/auth/facebook_registration/')
+    return redirect(link)
+
+
+def facebook_registration(request):
+    """
+        Provides Facebook user access.
+        Args:
+            request: http request with Facebook code.
+        Returns:
+            Facebook user
+        """
+    code = request.GET['code']
+    link = ("https://graph.facebook.com/v2.10/oauth/access_token?"
+            "client_id={client_id}&"
+            "redirect_uri={redirect_uri}&"
+            "client_secret={client_secret}&"
+            "code={code}").format(
+                client_id=CLIENT_ID,
+                redirect_uri='http://triptrck.com/api/v1/auth/facebook_registration/',
+                client_secret=CLIENT_SECRET,
+                code=code)
+    token_request = urllib.request.urlopen(link)
+    token = loads(token_request.read().decode('utf-8')).get('access_token')
+    user_request = urllib.request.urlopen(('https://graph.facebook.com/me?'
+                                           'access_token={token}').format(
+                                               token=token))
+    user = loads(user_request.read().decode('utf-8'))
+    print(user)
+    response = redirect('http://triptrck.com/')
+    print(response)
+    return response
