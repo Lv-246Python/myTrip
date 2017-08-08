@@ -37,7 +37,7 @@ def register(request):
         if CustomUser.get_by_email(email):
             return response_400_already_registered
 
-        CustomUser.create(email, password, first_name, last_name)
+        CustomUser.create(email=email, password=password, first_name=first_name, last_name=last_name)
         return response_201_successfully_created
 
 
@@ -92,11 +92,11 @@ def facebook_login(request):
             'client_id={client_id}&'
             'redirect_uri={redirect_uri}').format(
                 client_id=CLIENT_ID,
-                redirect_uri='http://triptrck.com/api/v1/auth/facebook_registration/')
+                redirect_uri='http://triptrck.com/api/v1/auth/facebook_auth/')
     return redirect(link)
 
 
-def facebook_registration(request):
+def facebook_auth(request):
     """
         Provides Facebook user access.
         Args:
@@ -111,7 +111,7 @@ def facebook_registration(request):
             "client_secret={client_secret}&"
             "code={code}").format(
                 client_id=CLIENT_ID,
-                redirect_uri='http://triptrck.com/api/v1/auth/facebook_registration/',
+                redirect_uri='http://triptrck.com/api/v1/auth/facebook_auth/',
                 client_secret=CLIENT_SECRET,
                 code=code)
     token_request = urllib.request.urlopen(link)
@@ -119,8 +119,12 @@ def facebook_registration(request):
     user_request = urllib.request.urlopen(('https://graph.facebook.com/me?'
                                            'access_token={token}').format(
                                                token=token))
-    user = loads(user_request.read().decode('utf-8'))
-    print(user)
-    response = redirect('http://triptrck.com/')
-    print(response)
-    return response
+    user_data = loads(user_request.read().decode('utf-8'))
+    facebook_id = str(user_data['id'])
+    user = CustomUser.get_by_facebook_id(facebook_id=facebook_id)
+    if not user:
+        first_name, last_name = user_data['name'].split()
+        CustomUser.create(facebook_id=facebook_id, password=token,
+                          first_name=first_name, last_name=last_name)
+    auth.login(request, user)
+    return redirect('http://triptrck.com/')
