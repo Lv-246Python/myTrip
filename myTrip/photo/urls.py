@@ -5,4 +5,5 @@ urlpatterns = [
     url(r'^$', PhotoView.as_view(), name='photos'),
     url(r'^(?P<photo_id>\d+)/$', PhotoView.as_view(), name='photo'),
     url(r'^(?P<photo_id>\d+)/comment/', include('comment.urls')),
+    url(r'^(?P<photo_id>\d+)/like/', include('like.urls'))
 ]
