@@ -10,11 +10,12 @@ import TextField from 'material-ui/TextField';
 const styles = {
   avatar: {
       marginRight: 10,
-      marginBottom: 10
+      marginBottom: 0
   },
 
   commentText: {
-      fontSize: 20
+      fontSize: 20,
+      lineHeight: "150%"
   },
 
 };

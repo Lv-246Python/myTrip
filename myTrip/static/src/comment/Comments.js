@@ -9,8 +9,6 @@ import ListItem from 'material-ui/List/ListItem';
 import { CommentItem } from './CommentItem';
 import { CommentForm } from './CommentForm';
 
-var moment = require('moment');
-
 const styles = {
     paper: {
         paddingLeft: 15,
@@ -38,18 +36,23 @@ export default class Comments extends React.Component {
         };
     }
 
-    deleteComment(commentId){
-        axios.delete('api/v1/trip/2/comment/' + commentId + '/')
+    formatDate(date) {
+        let dt = new Date(date);
+        return dt.toDateString();
+    }
+
+    deleteComment(commentId) {
+        axios.delete('api/v1/trip/1/comment/' + commentId + '/')
             .then(() => this.getData());
     }
 
     getData = () => {
-        axios.get('api/v1/trip/2/comment/').then(response => {
+        axios.get('api/v1/trip/1/comment/').then(response => {
             const comments = response.data;
             this.setState({comments});
         });
     }
-    
+
     componentDidMount() {
         this.getData()
     }
@@ -64,7 +67,7 @@ export default class Comments extends React.Component {
                             <ListItem key={comment.id}>
                                 <CommentItem
                                     username={comment.user_name}
-                                    updated={moment(comment.update_at).format('MMMM Do, h:mm a')}
+                                    updated={this.formatDate(comment.update_at)}
                                     message={comment.message}
                                     commentId={comment.id}
                                     deleteComment={this.deleteComment}
