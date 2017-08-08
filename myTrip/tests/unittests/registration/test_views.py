@@ -7,6 +7,7 @@ from django.urls import reverse
 
 from registration.models import CustomUser
 
+FACEBOOK_AUTH_URL = "http://triptrck.com/api/v1/auth/facebook_auth/"
 
 class RegistrationViewsTests(TestCase):
     """
@@ -114,4 +115,7 @@ class RegistrationViewsTests(TestCase):
                                    content_type='application/json')
         self.assertEqual(request.status_code, 400)
 
-    def test_facebook_
+    def test_facebook_login(self):
+        self.client.get('https://developers.facebook.com/checkpoint/test-user-login/107581666616749')
+        request = self.client.get("http://triptrck.com/api/v1/auth/facebook_auth/")
+        self.assertEqual(request.status_code, 302)
