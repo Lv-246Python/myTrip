@@ -5,7 +5,7 @@ import { Avatars } from './profileAvatar.js';
 import { Buttons } from './profileButtons.js';
 import { TextBlock } from './profileEdit.js'
 
-
+import { hardcodedResponse } from './hardcodedResponse.js';
 import './profile.less';
 
 
@@ -13,13 +13,13 @@ export default class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        email: 'joegrecarlin@gmail.com',
-        name: 'Joegre',
-        surname: 'Carlin',
-        age: 56,
-        gender: 'male',
-        hobbies: 'reading books, traveling',
-        avatarUrl: 'static/src/img/avatar_example.jpg'
+        email: hardcodedResponse.email,
+        name: hardcodedResponse.name,
+        surname: hardcodedResponse.surname,
+        age: hardcodedResponse.age,
+        gender: hardcodedResponse.gender,
+        hobbies: hardcodedResponse.hobbies,
+        avatarUrl: hardcodedResponse.avatarUrl
         }
     }
     
