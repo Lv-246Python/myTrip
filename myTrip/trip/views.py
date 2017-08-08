@@ -6,22 +6,22 @@ from django.views.generic.base import View
 from registration.models import CustomUser
 from .models import Trip
 
+
 class TripView(View):
     """Comments view handles GET, POST, PUT, DELETE requests."""
 
-    def get(self, request, trip_id=None):
-        """Handles GET request"""
-        if not trip_id:
-            user_id = request.user.id
-            trips = Trip.get_trips(user_id)
-            trips = [trip.to_dict() for trip in trips]
-            return JsonResponse(trips, status=200, safe=False)
-        else:
+    def get(self, request, trip_id=None, user_id=None):
+        """Handles GET request with ability to surf trip-list, by logged and not logged users."""
+        page = int(request.GET.get('page', 0))
+        if trip_id:
             trip = Trip.get_by_id(trip_id)
             if trip:
                 trip = trip.to_dict()
                 return JsonResponse(trip, status=200, safe=False)
             return HttpResponse(status=404)
+        trips = Trip.get_trips(user_id=user_id, page=page)
+        trips = [trip.to_dict() for trip in trips]
+        return JsonResponse(trips[::-1], status=200, safe=False)
 
     def post(self, request):
         """Handles POST request."""
@@ -44,7 +44,6 @@ class TripView(View):
             return HttpResponse(status=200)
         return HttpResponse(status=403)
 
-
     def delete(self, request, trip_id):
         """Handles DELETE request."""
         trip = Trip.get_by_id(trip_id)
@@ -54,4 +53,3 @@ class TripView(View):
             Trip.delete_by_id(trip_id)
             return HttpResponse(status=200)
         return HttpResponse(status=403)
-        #dev_fix_feature2

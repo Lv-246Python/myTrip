@@ -56,7 +56,7 @@ export default class Header extends React.Component {
                 iconStyleLeft = { iconLeftStyle }
                 iconElementLeft = {
                     <div className='title'>
-                        <img className='header_icon' src='static/src/img/logo.png' />
+                        <img className='header_icon' src='/static/src/img/logo.png' />
                         <Link to='/'>TripTracker</Link>
                     </div>
                 }
