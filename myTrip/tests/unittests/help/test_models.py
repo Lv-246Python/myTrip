@@ -85,7 +85,7 @@ class TestPlugin(TestCase):
         """Ensure that __repr__ method builds a proper repr representation of a Help object."""
         help_obj = Help.objects.get(id=HELP_ID_ONE)
         result = repr(help_obj)
-        expected = """id: {}, message: {}, email_to: {}, response_message: {}, create_at: {}, 
+        expected = """id: {}, message: {}, email_to: {}, response_message: {}, create_at: {},
         update_at: {}""".format(help_obj.id, help_obj.message, help_obj.email_to,
                                 help_obj.response_message, help_obj.create_at, help_obj.update_at)
 
