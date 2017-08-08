@@ -36,13 +36,13 @@ class ViewTest(TestCase):
             email_to='test2@mail.com'
         )
 
-    def test_get_all_status_200(self):
+    def test_get_filter_by_step_status_200(self):
         """Ensure that get method returns status 200 as response with success operation."""
 
         response = self.client.get(HELP_URL)
         self.assertEqual(response.status_code, 200)
 
-    def test_get_all_length(self):
+    def test_get_filter_by_step_length(self):
         """Ensure that get method returns correct number of Help objects."""
         response = self.client.get(HELP_URL)
         data = response.json()

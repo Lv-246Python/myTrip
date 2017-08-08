@@ -19,15 +19,15 @@ class EmailSendView(View):
 
     def get(self, request):
         """Handles GET request.
-        Calls all() method of Help model and returns QuerySet of last 20 converted to dictionary
-        with status 200. Or returns empty Json object with status 200
+        Calls filter_with_step() method of Help model and returns QuerySet of last 20 converted
+        to dictionary objects with status 200. Or returns None with status 200
         Help objects.
          Returns:
             JsonResponse: response: <help>.
             or
             HttpResponse: status 200
         """
-        helps = Help.all()
+        helps = Help.filter_with_step()
         helps = [help_obj.to_dict() for help_obj in helps]
         return JsonResponse(helps, status=200, safe=False)
 
@@ -40,7 +40,6 @@ class EmailSendView(View):
             JsonResponse: response: <comment>
             or
             HttpResponse: status: 400.
-        .
         """
         data = json.loads(request.body.decode('utf-8'))
         if not data:
