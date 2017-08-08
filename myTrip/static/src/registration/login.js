@@ -95,7 +95,7 @@ export default class Login extends React.Component {
                         label = "Login with Facebook"
                         primary = {true}
                         icon = { <div className='fb_icon'></div> }
-                        href="http://triptrck.com/api/v1/auth/facebook_login/"
+                        href="http://triptrck.com/api/v1/auth/facebook_auth/"
                      />
                      <p className='serverError'>{ this.state.serverError }</p>
                 </div>

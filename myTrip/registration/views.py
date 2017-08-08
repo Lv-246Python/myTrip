@@ -37,7 +37,8 @@ def register(request):
         if CustomUser.get_by_email(email):
             return response_400_already_registered
 
-        CustomUser.create(email=email, password=password, first_name=first_name, last_name=last_name)
+        CustomUser.create(email=email, password=password,
+                          first_name=first_name, last_name=last_name)
         return response_201_successfully_created
 
 
@@ -80,7 +81,7 @@ def logout(request):
         return response_400_not_logged_in
 
 
-def facebook_login(request):
+def facebook_auth(request):
     """
     Provides Facebook authentication.
     Args:
@@ -92,17 +93,17 @@ def facebook_login(request):
             'client_id={client_id}&'
             'redirect_uri={redirect_uri}').format(
                 client_id=CLIENT_ID,
-                redirect_uri='http://triptrck.com/api/v1/auth/facebook_auth/')
+                redirect_uri='http://triptrck.com/api/v1/auth/facebook_login/')
     return redirect(link)
 
 
-def facebook_auth(request):
+def facebook_login(request):
     """
         Provides Facebook user access.
         Args:
             request: http request with Facebook code.
         Returns:
-            Facebook user
+            Redirect to home page
         """
     code = request.GET['code']
     link = ("https://graph.facebook.com/v2.10/oauth/access_token?"
@@ -111,7 +112,7 @@ def facebook_auth(request):
             "client_secret={client_secret}&"
             "code={code}").format(
                 client_id=CLIENT_ID,
-                redirect_uri='http://triptrck.com/api/v1/auth/facebook_auth/',
+                redirect_uri='http://triptrck.com/api/v1/auth/facebook_login/',
                 client_secret=CLIENT_SECRET,
                 code=code)
     token_request = urllib.request.urlopen(link)

@@ -113,3 +113,5 @@ class RegistrationViewsTests(TestCase):
                                           "created": None, "last_modified": None}),
                                    content_type='application/json')
         self.assertEqual(request.status_code, 400)
+
+    def test_facebook_
