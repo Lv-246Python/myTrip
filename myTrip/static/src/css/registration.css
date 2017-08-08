@@ -1,0 +1,27 @@
+.form_fields {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    min-width:300px;
+}
+
+.form_fields > h1 {
+    font-size:2em;
+    margin:5%;
+    color:#00BCD4;
+}
+
+p {
+    color:#ff0000;
+    font-style:italic;
+}
+
+.fb_icon {
+    background-image:url('../img/fb_icon-icons.png');
+    background-size:contain;
+    display:inline-block;
+    margin:0px !important;
+    width:28px;
+    height:28px;
+}

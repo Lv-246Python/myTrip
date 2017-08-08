@@ -13,13 +13,14 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+SESSION_COOKIE_HTTPONLY = False
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'triptrck.com',
+]
 
 # Application definition
 
@@ -35,7 +36,16 @@ INSTALLED_APPS = [
     'trip',
     'registration',
     'photo',
+    'home',
+    #'corsheaders',
+]
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'static/public/')],
+        'APP_DIRS': True,
+    },
 ]
 
 SECRET_KEY = 'not_so_secret'
@@ -56,6 +66,7 @@ DATABASES = {
 AUTH_USER_MODEL = 'registration.CustomUser'
 
 MIDDLEWARE = [
+    #'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -63,6 +74,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+#CORS_ALLOW_CREDENTIALS = True
+#CORS_ORIGIN_ALLOW_ALL = True
+
 
 ROOT_URLCONF = 'mytrip.urls'
 
@@ -81,11 +96,12 @@ USE_L10N = True
 
 USE_TZ = False
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'),]
 
 try:
     from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import
