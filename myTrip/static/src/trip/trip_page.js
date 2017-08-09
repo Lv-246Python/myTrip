@@ -16,7 +16,6 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import EditIcon from 'material-ui/svg-icons/content/create';
 import EditDescriptionIcon from 'material-ui/svg-icons/editor/border-color';
 import TitleIcon from 'material-ui/svg-icons/editor/title';
-import TripItem from './trip_item'
 import './trip.less'
 
 /*
@@ -33,7 +32,14 @@ export default class TripPage extends React.Component {
         //get trip id from page id
         this.tripId = this.props.match.params.id;
         this.state = {
-            trip: null
+            trip: null,
+            titleEdit: false,
+            descriptionEdit: false,
+            openDelete: false,
+            disabledEdit: true,
+            disabledDelete: true,
+            editTitleText: '',
+            editDescriptionText: '',
         };
     };
 
@@ -43,6 +49,12 @@ export default class TripPage extends React.Component {
             const trip = response.data;
             this.setState({trip: trip});
         });
+    };
+
+    //delete trip from backend by url with trip id
+    deleteTrip(tripId){
+        axios.delete(`api/v1/trip/${this.tripId}/`)
+            .then(() => this.getTrip());
     };
 
     //add trip data to state and rerender page
@@ -65,19 +77,65 @@ export default class TripPage extends React.Component {
                 render other part of page while trip=null, after componentDidMount, rerender page with trip data
                 */}
 
-                {trip && <TripItem trip={trip} />}
+                {trip &&
+
+                <div>
+                    <Card>
+                        <Card>
+                            <CardHeader
+                            className='tripPageHeader'
+                            title={<h3>{this.state.trip.title}</h3>}
+                            subtitle={moment(this.state.trip.create_at).format('MMMM Do, h:mm a')}
+                            />
+                        </Card>
+
+                        {/*
+                        there will be Google Map component
+                        */}
+
+                        <CardMedia className='tripGoogleMap'>
+                            <img src="/static/src/img/world_map.jpg" />
+                        </CardMedia>
+
+                        {/*
+                        there will be <Photo /> component
+                        */}
+
+                        <CardMedia className='tripPhotoGallery'>
+                            <h3>Trip Photo Gallery</h3>
+                        </CardMedia>
+
+                        <CardText className='tripDescription'>
+                            <h3>Description</h3>
+                            {this.state.trip.description}
+                        </CardText>
+
+                        {/*
+                        there will be <Like /> component
+                        */}
+
+                        <div className='tripLikeIcon'>
+                            <CardActions>
+                                <Checkbox
+                                checkedIcon={<ActionFavorite />}
+                                uncheckedIcon={<ActionFavoriteBorder />} />
+                            </CardActions>
+                        </div>
+                    </Card>
+                </div>
+                }
 
                 {/*
                 there will be <Comment /> component
                 */}
 
-                <Card>
+                <Card className='tripComments'>
                     <CardHeader
                     title={<h3>Comments</h3>}
                     actAsExpander={true}
                     showExpandableButton={true} />
 
-                    <CardText className='comments' expandable={true}>
+                    <CardText expandable={true}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
                         Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
@@ -89,13 +147,13 @@ export default class TripPage extends React.Component {
                 there will be <Checkpoint /> component
                 */}
 
-                <Card>
+                <Card className='tripCheckpoints'>
                     <CardHeader
                     title={<h3>Checkpoints</h3>}
                     actAsExpander={true}
                     showExpandableButton={true} />
 
-                    <CardText className='checkpoints' expandable={true}>
+                    <CardText expandable={true}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
                         Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
@@ -106,41 +164,54 @@ export default class TripPage extends React.Component {
               </Card>
             </main>
 
+            {/*
+            left side menu
+            */}
+
             <nav className="HolyGrail-left">
               <List>
                 <ListItem
+                  className='buttonHome'
                   primaryText="Home"
                   leftIcon={<HomeIcon />}
                   containerElement={<Link to='/' />}/>
 
                 <ListItem
+                  className='buttonProfile'
                   primaryText="Profile"
                   leftIcon={<ProfileIcon />} />
 
                 <ListItem
+                  className='buttonAllTrips'
                   primaryText="All trips"
                   leftIcon={<AllTripsIcon />}
                   containerElement={<Link to='/trips' />}/>
 
                 <ListItem
+                  className='buttonEditTrip'
                   primaryText="Edit trip"
                   leftIcon={<EditIcon />}
                   initiallyOpen={false}
                   primaryTogglesNestedList={true}
                   nestedItems={[
-                    <ListItem
-                      key={1}
-                      primaryText="Edit title"
-                      leftIcon={<TitleIcon />}
-                    />,
-                    <ListItem
-                      key={2}
-                      primaryText="Edit description"
-                      leftIcon={<EditDescriptionIcon />}
-                    />,
+
+                      <ListItem
+                        key={1}
+                        className='buttonEditTitle'
+                        primaryText="Edit title"
+                        leftIcon={<TitleIcon />}
+                      />,
+
+                      <ListItem
+                        key={2}
+                        className='buttonEditDescription'
+                        primaryText="Edit description"
+                        leftIcon={<EditDescriptionIcon />}
+                      />,
                   ]} />
 
                 <ListItem
+                  className='buttonDeleteTrip'
                   primaryText="Delete trip"
                   leftIcon={<DeleteIcon />} />
 
