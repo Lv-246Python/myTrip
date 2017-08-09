@@ -31,7 +31,7 @@ export default class TripTile extends React.Component {
                     <img src={this.state.tripPhoto.src} />
                     */}
 
-                    <img src="/static/src/img/world_map.jpg" />
+                    <img src="http://www.apaseotravel.com/wp-apaseo/wp-content/uploads/2016/03/LateSAil-Bahamas3.jpg" />
                 </CardMedia>
 
                 </GridTile>

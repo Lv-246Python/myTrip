@@ -2,14 +2,11 @@ import React from 'react';
 import axios from "axios";
 import moment from 'moment';
 
-import PropTypes from 'prop-types';
-import Paper from 'material-ui/Paper';
 import { Card, CardHeader, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import FlatButton from 'material-ui/FlatButton'
 import TripItem from './trip_item'
 
 /*

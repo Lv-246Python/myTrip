@@ -1,11 +1,16 @@
 import React from 'react';
 import moment from 'moment';
 
-
 import { Card, CardHeader, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+
+import {List, ListItem} from 'material-ui/List';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import EditIcon from 'material-ui/svg-icons/content/create';
+import EditDescriptionIcon from 'material-ui/svg-icons/editor/border-color';
+import TitleIcon from 'material-ui/svg-icons/editor/title';
 
 /*
 import Map from 'map';
@@ -14,6 +19,14 @@ import Like from 'like';
 */
 
 const styles = {
+    column: {
+    display: 'flex',
+    flexDirection: 'column',
+    },
+    menu: {
+    flex: 1,
+
+    },
     card: {
         maxWidth: 800,
         margin: 'auto',
@@ -33,13 +46,41 @@ export default class TripItem extends React.Component {
 
     render(){
         return (
-        <div>
-            <Card style={styles.card}>
+        <div style={styles.card}>
+            <Card>
 
-                <CardHeader
-                title={this.state.title}
-                subtitle={moment(this.state.create_at).format('MMMM Do, h:mm a')}
-                />
+                <Card>
+                    <CardHeader
+                    title={this.state.title}
+                    subtitle={moment(this.state.create_at).format('MMMM Do, h:mm a')}
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                    />
+
+                    <CardText className='comments' expandable={true}>
+                      <List>
+                        <ListItem
+                          primaryText="Edit trip"
+                          leftIcon={<EditIcon />}
+                          initiallyOpen={false}
+                          primaryTogglesNestedList={true}
+                          nestedItems={[
+                            <ListItem
+                              key={1}
+                              primaryText="Edit title"
+                              leftIcon={<TitleIcon />}
+                            />,
+                            <ListItem
+                              key={2}
+                              primaryText="Edit description"
+                              leftIcon={<EditDescriptionIcon />}
+                            />,
+                          ]} />
+                        <ListItem primaryText="Delete trip" leftIcon={<DeleteIcon />} />
+
+                      </List>
+                    </CardText>
+                </Card>
 
                 {/*
                 there will be Google Map component
@@ -74,6 +115,7 @@ export default class TripItem extends React.Component {
                 </CardActions>
 
             </Card>
+
         </div>
         );
     }

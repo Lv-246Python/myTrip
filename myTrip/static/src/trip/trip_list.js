@@ -70,9 +70,11 @@ export default class TripList extends React.Component {
         this.getData();
     };
 
-    //if page of trip-list was changed by next/previous buttons, returns new list data
+    //if page of trip-list was changed by next/previous buttons,
+    //render trip list with new list data
     componentDidUpdate(prevProps, prevState) {
         this.state.page !== prevState.page && this.getData();
+        console.log(this.state.allTrips.length)
     };
 
     render() {
