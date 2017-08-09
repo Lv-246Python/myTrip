@@ -1,6 +1,52 @@
 
 .allTrips {
+    margin: auto;
+    max-width: 1450px;
+}
+
+.footer {
+    max-height: 50 px;
+}
+
+.directionButtons {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around
+    justify-content: center;
+}
+
+.gridList {
+    display: flex;
+    justify-content: space-around;
+}
+
+.HolyGrail,
+.HolyGrail-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.HolyGrail-left {
+    order: -1;
+}
+
+@media (min-width: 100px) {
+  .HolyGrail-body {
+    flex-direction: row;
+    flex: 1;
+  }
+  .HolyGrail-content {
+    flex: 1;
+    justify-content: center;
+    max-width: 900px;
+  }
+  .HolyGrail-left, .HolyGrail-right {
+    /* 15em is the width of the columns */
+    flex: 0 0 15em;
+  }
+}
+
+.likeIcon {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 16px;
 }

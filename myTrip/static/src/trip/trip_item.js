@@ -5,37 +5,13 @@ import { Card, CardHeader, CardMedia, CardText, CardActions } from 'material-ui/
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-
-import {List, ListItem} from 'material-ui/List';
-import DeleteIcon from 'material-ui/svg-icons/action/delete';
-import EditIcon from 'material-ui/svg-icons/content/create';
-import EditDescriptionIcon from 'material-ui/svg-icons/editor/border-color';
-import TitleIcon from 'material-ui/svg-icons/editor/title';
+import './trip.less'
 
 /*
 import Map from 'map';
 import Photo from 'photo'
 import Like from 'like';
 */
-
-const styles = {
-    column: {
-    display: 'flex',
-    flexDirection: 'column',
-    },
-    menu: {
-    flex: 1,
-
-    },
-    card: {
-        maxWidth: 800,
-        margin: 'auto',
-    },
-    checkbox: {
-        marginLeft: 750,
-        marginBottom: 16,
-    },
-};
 
 
 export default class TripItem extends React.Component {
@@ -46,40 +22,14 @@ export default class TripItem extends React.Component {
 
     render(){
         return (
-        <div style={styles.card}>
+        <div>
             <Card>
 
                 <Card>
                     <CardHeader
-                    title={this.state.title}
+                    title={<h3>{this.state.title}</h3>}
                     subtitle={moment(this.state.create_at).format('MMMM Do, h:mm a')}
-                    actAsExpander={true}
-                    showExpandableButton={true}
                     />
-
-                    <CardText className='comments' expandable={true}>
-                      <List>
-                        <ListItem
-                          primaryText="Edit trip"
-                          leftIcon={<EditIcon />}
-                          initiallyOpen={false}
-                          primaryTogglesNestedList={true}
-                          nestedItems={[
-                            <ListItem
-                              key={1}
-                              primaryText="Edit title"
-                              leftIcon={<TitleIcon />}
-                            />,
-                            <ListItem
-                              key={2}
-                              primaryText="Edit description"
-                              leftIcon={<EditDescriptionIcon />}
-                            />,
-                          ]} />
-                        <ListItem primaryText="Delete trip" leftIcon={<DeleteIcon />} />
-
-                      </List>
-                    </CardText>
                 </Card>
 
                 {/*
@@ -107,12 +57,13 @@ export default class TripItem extends React.Component {
                 there will be <Like /> component
                 */}
 
+                <div className='likeIcon'>
                 <CardActions>
                     <Checkbox
                     checkedIcon={<ActionFavorite />}
-                    uncheckedIcon={<ActionFavoriteBorder />}
-                    style={styles.checkbox} />
+                    uncheckedIcon={<ActionFavoriteBorder />} />
                 </CardActions>
+                </div>
 
             </Card>
 
