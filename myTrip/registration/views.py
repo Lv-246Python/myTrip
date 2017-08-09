@@ -112,10 +112,10 @@ def facebook_login(request):
 
     code = request.GET['code']
     link = FACEBOOK_TOKEN_URL.format(
-                client_id=CLIENT_ID,
-                redirect_uri=FACEBOOK_REDIRECT_URL,
-                client_secret=CLIENT_SECRET,
-                code=code)
+        client_id=CLIENT_ID,
+        redirect_uri=FACEBOOK_REDIRECT_URL,
+        client_secret=CLIENT_SECRET,
+        code=code)
     token_request = urllib.request.urlopen(link)
     token = loads(token_request.read().decode('utf-8')).get('access_token')
     user_request = urllib.request.urlopen(FACEBOOK_USER_URL.format(token=token))
