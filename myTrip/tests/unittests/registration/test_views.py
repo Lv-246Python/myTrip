@@ -1,13 +1,33 @@
 """Contains view tests for registration app."""
 
+from mock import patch
 from json import dumps
 
-from django.test import TestCase
 from django.urls import reverse
+from django.test import TestCase
 
 from registration.models import CustomUser
 
+
 FACEBOOK_AUTH_URL = "http://triptrck.com/api/v1/auth/facebook_auth/"
+FACEBOOK_LOGIN_URL = "http://triptrck.com/api/v1/auth/facebook_login/?code=test_code"
+
+def auth_urlopen(url):
+
+    class Response:
+        def __init__(self, data):
+            self.data = dumps(data).encode()
+
+        def read(self):
+            return self.data
+
+    if 'oauth' in url:
+        data = {'access_token': 'test_token'}
+    elif 'access_token' in url:
+        data = {'id': 1412412141, 'name': 'Bob Dylan'}
+
+    return Response(data=data)
+
 
 class RegistrationViewsTests(TestCase):
     """
@@ -115,7 +135,19 @@ class RegistrationViewsTests(TestCase):
                                    content_type='application/json')
         self.assertEqual(request.status_code, 400)
 
-    def test_facebook_login(self):
-        self.client.get('https://developers.facebook.com/checkpoint/test-user-login/107581666616749')
-        request = self.client.get("http://triptrck.com/api/v1/auth/facebook_auth/")
+    def test_facebook_auth(self):
+        """
+        Test 'Facebook_auth" view'
+        """
+
+        request = self.client.get(FACEBOOK_AUTH_URL)
+        self.assertEqual(request.status_code, 302)
+
+    @patch('urllib.request.urlopen', side_effect=auth_urlopen)
+    def test_facebook_login(self, mock):
+        """
+        Test Facebook_login view
+        """
+
+        request = self.client.get(FACEBOOK_LOGIN_URL)
         self.assertEqual(request.status_code, 302)
