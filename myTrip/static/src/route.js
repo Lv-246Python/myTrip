@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Switch } from 'react-router-dom';
 
-import Home from "./home/home.js";
-import Comments from "./comment/Comments.js";
-import Login from "./registration/login.js";
-import Registration from "./registration/registration.js";
-import NotFound from './notFound.js'
+import Home from "./home/home";
+import Comments from "./comment/Comments";
+import Login from "./registration/login";
+import Registration from "./registration/registration";
+import NotFound from './notFound'
 
 export default class MainRoute extends React.Component {
     render() {

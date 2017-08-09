@@ -4,9 +4,9 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/FlatButton';
 
-import {loginService, registerService} from './registration.service.js';
-import { emailIsNotValid, EMAIL_REGEXP, fieldIsEmpty } from './../utils.js';
-import { paperStyle, PaperZDepth, RaisedButtonStyle, LabelSize } from './registration.style.js';
+import {loginService, registerService} from './registration.service';
+import { emailIsNotValid, EMAIL_REGEXP, fieldIsEmpty } from './../utils';
+import { paperStyle, PaperZDepth, RaisedButtonStyle, LabelSize } from './registration.style';
 
 export default class Registration extends React.Component {
     constructor(props) {
