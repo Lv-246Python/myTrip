@@ -32,9 +32,7 @@ class EmailSendView(View):
         Creates new Help object from request in database.
         In response returns created Help object or HttpResponse 400 if comment was not created.
         Returns:
-            JsonResponse: response: <Help>
-            or
-            HttpResponse: status: 400.
+            JsonResponse: response: <Help>.
         """
         data = json.loads(request.body.decode('utf-8'))
         if not data:
