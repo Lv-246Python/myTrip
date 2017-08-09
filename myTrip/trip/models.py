@@ -4,16 +4,17 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from registration.models import CustomUser
 
+
 class Trip(models.Model):
     """
-     Trip
-     :argument id: int - auto generated primary key
-     :argument user_id: int - ToDo foreign key to User model
-     :argument title: str - title
-     :argument description: text - description
-     :argument create_at: date - date
-     :argument status: int - 0-in progres, 1-annonced, 2-finished
-    ."""
+    Trip
+    :argument id: int - auto generated primary key,
+    :argument user_id: int - foreign key to User model,
+    :argument title: str - title,
+    :argument description: str - description,
+    :argument create_at: datetime - date,
+    :argument status: int - 0-in progress, 1-announced, 2-finished.
+    """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -55,11 +56,11 @@ class Trip(models.Model):
     @staticmethod
     def get_by_id(trip_id):
         """
-        Get Trip with given trip id
+        Get Trip with given trip id.
         Args:
             trip_id (int): trip id.
         Returns:
-            rtrip object
+            trip Object.
         """
         try:
             trip = Trip.objects.get(id=trip_id)
@@ -71,13 +72,14 @@ class Trip(models.Model):
     def create(data):
         """
         Creates Trip
-         Args:
-            user (int): fk to user
-            title (str): title of trip.
-            description (str): describtion,
-            status (int): trip status
+        Args:
+            data (dict):
+                user (int): fk to user.
+                title (str): title of trip.
+                description (str): description.
+                status (int): trip status.
         Returns:
-            trip object
+            trip Object.
         """
         trip = Trip()
         trip.user = data['user']
@@ -89,15 +91,15 @@ class Trip(models.Model):
 
     def edit(self, data):
         """
-        Updates Trip with new title,description and status
-         Args:
-            title (str): title of trip.
-            description (str): describtion,
-            status (int): trip status
+        Updates Trip with new title, description and status.
+        Args:
+            data (dict):
+                title (str): title of trip.
+                description (str): description.
+                status (int): trip status.
         Returns:
-            trip obj
+            trip Object.
         """
-        # trip = Trip.objects.get(id=trip_id)
         self.title = data['title']
         self.description = data['description']
         self.status = data['status']
@@ -108,10 +110,10 @@ class Trip(models.Model):
     def delete_by_id(trip_id):
         """
         Deletes Trip by id
-         Args:
-            id(int): id of trip
+        Args:
+            trip_id (int): id of trip.
         Returns:
-            true
+            True.
         """
         try:
             trip = Trip.objects.get(id=trip_id)
@@ -120,16 +122,21 @@ class Trip(models.Model):
         except ObjectDoesNotExist:
             return None
 
-    def get_trips(user_id, page=1, step=5):
+    @staticmethod
+    def get_trips(user_id, page=0, step=6):
         """
-        Returns the last 5 trips by the user
-         Args:
-            none
+        Returns last 6 trips, also by the user.
+        Args:
+            user_id (int): id of user,
+            page (int): number of trip-list,
+            step (int): maximum quantity of trips on one page of trip-list,
         Returns:
-            reversed trips
+            reversed trips.
         """
+        start = step*page
+        end = start + step
         if not user_id:
-            trips = reversed(Trip.objects.all().order_by('-create_at')[:step])
+            trips = reversed(Trip.objects.all().order_by('-create_at')[start:end])
             return trips
-        trips = reversed(Trip.objects.filter(user=user_id).order_by('-create_at')[:step])
+        trips = reversed(Trip.objects.filter(user=user_id).order_by('-create_at')[start:end])
         return trips
