@@ -10,7 +10,7 @@ from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
 
-JSON_LENGTH = 8
+JSON_LENGTH = 9
 BAD_TRIP_ID = 99
 BAD_COMMENT_ID = 99
 COMMENT_ID_UNLOGGED_USER = 66
@@ -130,18 +130,22 @@ class ViewTest(TestCase):
         response = self.client.get(url_with_all_ids())
         self.assertEqual(response.status_code, 200)
 
-    def test_get_by_trip_checkpoint_photo_id_404(self):
-        """Ensure that get method returns status 404 when some wrong id was send."""
+    def test_get_by_trip_checkpoint_photo_id_none(self):
+        """
+        Ensure that get method returns none from filter method
+        of models objects when some wrong id was send.
+        """
 
-        response = self.client.get(url_with_all_ids(BAD_TRIP_ID))
-        self.assertEqual(response.status_code, 404)
+        response = self.client.get(url_with_all_ids(trip_id=BAD_TRIP_ID))
+        data = response.json()
+        self.assertEqual(len(data), 0)
 
     def test_get_by_filter_id_length(self):
         """Ensure that get method returns correct number of Comment objects."""
 
         response = self.client.get(url_with_all_ids())
         data = response.json()
-        self.assertEqual(len(data), 1)
+        self.assertEqual(len(data), 2)
 
     def test_get_response_length(self):
         """Ensure that get method returns all required comment fields."""

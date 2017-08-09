@@ -84,7 +84,7 @@ class Photo(models.Model):
                     'src': source link,
                     'user': user id,
                     'trip_id': trip id,
-                    'checkpoit_id': checkpoint id,
+                    'checkpoint_id': checkpoint id,
                     'description': description text,
                     'create_at': time when created,
                     'update_at': time when last updated

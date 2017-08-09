@@ -92,5 +92,5 @@ configurations are in **.pylintrc** config file. To check specific  file or pack
 
 * To run webpack you should be in the directory where webpack.config.js is located and type:
     ```sh
-    ./node_modules/webpack/bin/webpack
+    ./node_modules/webpack/bin/webpack.js
     ```

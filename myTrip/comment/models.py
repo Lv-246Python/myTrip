@@ -47,11 +47,10 @@ class Comment(models.Model):
             return None
 
     @staticmethod
-    def filter(user=None, trip=None, checkpoint=None, photo=None):
+    def filter(trip=None, checkpoint=None, photo=None):
         """
         Get Comments with given trip, checkpoint, photo.
         Args:
-            user (Object<CustomUser>): object<CustomUser>,
             trip (Object<Trip>): Object<Trip>,
             checkpoint (Object<Checkpoint>): Object<Checkpoint>,
             photo (Object<Photo>):  Object<Photo>.
@@ -59,7 +58,7 @@ class Comment(models.Model):
             QuerySet<Comment>: QuerySet of Comments or None.
         """
         comments = Comment.objects.filter(trip=trip, checkpoint=checkpoint,
-                                          photo=photo, user=user)
+                                          photo=photo)
         return comments
 
     def to_dict(self):
@@ -73,7 +72,8 @@ class Comment(models.Model):
                     'trip': self.trip.id,
                     'checkpoint': checkpoint.id,
                     'photo': photo.id,
-                    'create_at': date of creation
+                    'create_at': date of creation,
+                    'user_name': full name of created user
                 }.
         """
         return {
@@ -84,7 +84,8 @@ class Comment(models.Model):
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
             'create_at': self.create_at,
-            'update_at': self.update_at
+            'update_at': self.update_at,
+            'user_name': CustomUser.get_full_name(CustomUser.get_by_id(self.user.id))
         }
 
     @staticmethod
@@ -126,11 +127,15 @@ class Comment(models.Model):
 
     def __repr__(self):
         return """id:{}, message:{}, user:{}, trip:{},
-                  checkpoint:{}, photo:{}, create_at:{}, update_at:{}""".format(self.id,
-                                                                                self.message,
-                                                                                self.user,
-                                                                                self.trip.id,
-                                                                                self.checkpoint.id,
-                                                                                self.photo.id,
-                                                                                self.create_at,
-                                                                                self.update_at)
+                  checkpoint:{}, photo:{}, create_at:{}, 
+                  update_at:{}, 
+                  user_name:{}""".format(
+                      self.id,
+                      self.message,
+                      self.user,
+                      self.trip.id,
+                      self.checkpoint.id,
+                      self.photo.id,
+                      self.create_at,
+                      self.update_at,
+                      CustomUser.get_full_name(CustomUser.get_by_id(self.user.id)))
