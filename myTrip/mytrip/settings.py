@@ -22,6 +22,8 @@ ALLOWED_HOSTS = [
     'triptrck.com',
 ]
 
+# Facebook credentials
+
 FACEBOOK_APP_ID = ''
 FACEBOOK_API_SECRET = ''
 
