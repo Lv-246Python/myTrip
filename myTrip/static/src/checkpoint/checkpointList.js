@@ -14,7 +14,6 @@ class CheckpointList extends React.Component{
 
     render(){
         if(this.props.checkpoints != null && this.props.checkpoints.length > 0){
-            console.log('from container',this.props.checkpoints);
             var list = this.props.checkpoints.reverse();
                 list = list.map(item =>{
                      return (

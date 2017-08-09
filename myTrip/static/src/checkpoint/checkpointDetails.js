@@ -7,12 +7,7 @@ import {closeDetails} from './actions/index.js'
 import {store} from './testing-page-for-checkpoints.js'
 class CheckpoinDetails extends React.Component {
 
-    test(){
-        store.dispatch({type:'TEST',test:null})
-    }
-
     render(){
-        console.log('props from checkcreateCheckpointcreateCheckpointpoint details',this.props)
         if(this.props.active != null){
             var  self = this;
             return(

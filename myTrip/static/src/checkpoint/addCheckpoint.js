@@ -8,7 +8,6 @@ import {createCheckpointUpdateList} from './actions/index.js'
 
 class AddCheckpoint extends React.Component{
 
- 
     render(){
         const longitude = 1;
         const latitude = 2;
