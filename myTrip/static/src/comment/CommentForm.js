@@ -1,50 +1,30 @@
 import React from 'react';
-import axios from 'axios';
 
 import Paper from 'material-ui/Paper';
-import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const styles = {
-  paper: {
-      marginLeft: 15,
-      marginRight: 15,
-      marginTop: 10,
-      padding: 10
-  },
-
-};
+import { postData } from './CommentServices';
+import { styles } from './CommentStyles';
 
 export class CommentForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            autoHideDuration: 3000,
-            message: 'Comment added',
-            open: false,
-            comment_text: ''
+            commentText: ''
         };
     }
 
     handleTouchTap = (event) => {
-        this.setState({open: true});
-        const message = this.state.comment_text;
-        axios.post('api/v1/trip/1/comment/', {
-            message
-        })
+        postData(this.state.commentText)
             .then(() => {
-                 this.props.getData();
-                 this.setState({comment_text: ''});
+                 this.props.renderData();
+                 this.setState({commentText: ''});
             });
     };
 
-    handleRequestClose = () => {
-        this.setState({open: false});
-    };
-
     handleComment = (event) => {
-        this.setState({'comment_text': event.target.value});
+        this.setState({'commentText': event.target.value});
     };
 
     render() {
@@ -54,20 +34,13 @@ export class CommentForm extends React.Component {
                   <TextField
                   fullWidth={true}
                   floatingLabelText="Write a comment"
-                  value={this.state.comment_text}
+                  value={this.state.commentText}
                   onChange={this.handleComment} />
                   <br />
 
                   <RaisedButton
                     onTouchTap={this.handleTouchTap}
                     label="Add" />
-
-                  <Snackbar
-                    open={this.state.open}
-                    message={this.state.message}
-                    autoHideDuration={this.state.autoHideDuration}
-                    onActionTouchTap={this.handleActionTouchTap}
-                    onRequestClose={this.handleRequestClose} />
               </Paper>
           </div>
     );
