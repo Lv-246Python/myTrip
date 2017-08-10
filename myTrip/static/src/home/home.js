@@ -1,10 +1,12 @@
-import React from "react";
+import React from 'react';
 
 import Paper from 'material-ui/Paper';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import Snackbar from 'material-ui/Snackbar';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 import './home.less';
 import Help from './help/Help'
@@ -40,7 +42,7 @@ class PaperPageTwo extends React.Component{
 class PaperPageThree extends React.Component{
     render(){
         return(
-            <Help/>
+            <Help handler={this.props.handler}/>
         )
     }
 }
@@ -51,6 +53,8 @@ class HomeTab extends React.Component {
     super(props);
     this.state = {
       slideIndex: FIRST_SLIDE_INDEX,
+      open: false,
+      responseMessage: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.onMouseOverSlide = this.onMouseOverSlide.bind(this);
@@ -83,6 +87,21 @@ class HomeTab extends React.Component {
       this.intervalId = setInterval(this.timer.bind(this), CHANGE_SLIDE_TIME);
   }
 
+  //Calls at children message_buttons component to receive data.
+  handler = (open, responseMessage) => {
+      this.setState({
+          'open':open,
+          'responseMessage': responseMessage
+      });
+  };
+
+    //Handles Snackbar closure
+    handleRequestClose = () => {
+    this.setState({
+      'open': false,
+    });
+  };
+
   render() {
         return (
         <div>
@@ -102,8 +121,15 @@ class HomeTab extends React.Component {
         >
           <PaperPageOne/>
           <PaperPageTwo/>
-          <PaperPageThree/>
+          <PaperPageThree handler={this.handler}/>
         </SwipeableViews>
+
+        <Snackbar
+          open={this.state.open}
+          message={this.state.responseMessage}
+          autoHideDuration={3000}
+          onRequestClose={this.handleRequestClose}
+        />
       </div>
     )
   }
@@ -113,5 +139,4 @@ const Home = () => (
     <HomeTab/>
   </MuiThemeProvider>
 );
-
 export default Home;
