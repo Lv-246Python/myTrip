@@ -1,11 +1,11 @@
 """Module contain profile model class and methods."""
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.db import models
 
 from registration.models import CustomUser
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 class Profile(models.Model):
     """
@@ -35,6 +35,9 @@ class Profile(models.Model):
 
     @receiver(post_save, sender=CustomUser)
     def create_user_profile(sender, instance, created, **kwargs):
+        """
+        Create Profile object when CustomUser Object created.
+        """
         if created:
             Profile.objects.create(user=instance)
 
@@ -133,4 +136,3 @@ class Profile(models.Model):
             "instagram": self.instagram,
             "google": self.google,
         }
-

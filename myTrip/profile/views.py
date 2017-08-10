@@ -43,4 +43,3 @@ class ProfileView(View):
             google=update_data.get('google'))
         data = profile.to_dict()
         return JsonResponse(data, status=200)
-
