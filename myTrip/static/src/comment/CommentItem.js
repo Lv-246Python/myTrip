@@ -4,6 +4,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 import { putData } from './CommentServices';
@@ -54,17 +55,18 @@ export class CommentItem extends React.Component {
 
     render() {
         const actionsEdit = [
-          <FlatButton
+            <FlatButton
             label="Cancel"
             secondary={true}
+            disableTouchRipple={true}
             onTouchTap={this.handleCloseEditDialog}
-          />,
+            />,
 
-          <FlatButton
+            <RaisedButton
             label="Submit"
             disabled={this.state.disabled}
             onTouchTap={this.handleSubmit}
-          />,
+            />,
         ];
 
         return (
@@ -79,18 +81,19 @@ export class CommentItem extends React.Component {
                           actAsExpander={true}
                           style={styles.commentText}>
                           <Avatar src="static/src/img/avatar.jpg" size={40} style={styles.avatar} />
-                          {this.props.message}
+                            {this.props.message}
                       </CardText>
 
                       <CardActions
                           expandable={true}>
                         <FlatButton
-                            onTouchTap={this.handleOpenEditDialog}
-                            label="Edit" />
+                            label="Edit"
+                            disableTouchRipple={true}
+                            onTouchTap={this.handleOpenEditDialog} />
                         <FlatButton
-                            onTouchTap={this.handleDelete}
                             label="Delete"
-                            secondary={true} />
+                            secondary={true}
+                            onTouchTap={this.handleDelete} />
                       </CardActions>
 
                       <Dialog
