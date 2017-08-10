@@ -17,8 +17,9 @@ class CustomUser(AbstractBaseUser):
 
     first_name = models.CharField(max_length=254, blank=True, null=True)
     last_name = models.CharField(max_length=254, blank=True, null=True)
-    email = models.EmailField(unique=True, blank=False)
+    email = models.EmailField(unique=True, blank=True, null=True)
     password = models.CharField(max_length=254, blank=False)
+    facebook_id = models.CharField(max_length=254, unique=True, blank=True, null=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, editable=True)
 
@@ -26,11 +27,12 @@ class CustomUser(AbstractBaseUser):
     objects = BaseUserManager()
 
     @staticmethod
-    def create(email, password, first_name=None, last_name=None):
+    def create(password, email=None, facebook_id=None, first_name=None, last_name=None):
         """
         Creates and saves a User with the given email and password.
         Args:
             email (str): new user's email.
+            facebook_id(str): user_id in facebook
             password (str): new user's password.
             first_name (str): new user's first name.
             last_name (str): new user's last name.
@@ -40,6 +42,7 @@ class CustomUser(AbstractBaseUser):
 
         user = CustomUser()
         user.email = email
+        user.facebook_id = facebook_id
         user.set_password(password)
         user.first_name = first_name
         user.last_name = last_name
@@ -165,3 +168,18 @@ class CustomUser(AbstractBaseUser):
             return True
         except ValidationError:
             return False
+
+    @staticmethod
+    def get_by_facebook_id(facebook_id):
+        """
+               Checks if the user with such facebook_id is registered
+               Args:
+                   facebook_id(str): given facebook_id.
+               Returns:
+                   User if user exists, None if not
+               """
+        try:
+            user = CustomUser.objects.get(facebook_id=facebook_id)
+            return user
+        except CustomUser.DoesNotExist:
+            return None

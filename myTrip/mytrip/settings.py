@@ -12,14 +12,20 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 SESSION_COOKIE_HTTPONLY = False
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'triptrck.com',
+]
+
+# Facebook credentials
+
+FACEBOOK_APP_ID = ''
+FACEBOOK_API_SECRET = ''
 
 # Application definition
 
@@ -36,6 +42,7 @@ INSTALLED_APPS = [
     'registration',
     'photo',
     'home',
+    #'corsheaders',
     'utils',
     'help',
 ]
@@ -66,6 +73,7 @@ DATABASES = {
 AUTH_USER_MODEL = 'registration.CustomUser'
 
 MIDDLEWARE = [
+    #'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -73,6 +81,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+#CORS_ALLOW_CREDENTIALS = True
+#CORS_ORIGIN_ALLOW_ALL = True
+
 
 ROOT_URLCONF = 'mytrip.urls'
 

@@ -9,7 +9,14 @@ import TripList from "./trip/trip_list";
 import TripPage from "./trip/trip_page";
 import NotFound from './notFound';
 
+
 export default class MainRoute extends React.Component {
+    componentDidMount = () => {
+        if (window.location.hash == '#_=_') {
+            window.location.hash = '';
+            history.pushState('', document.title, window.location.pathname);
+        }
+    }
     render() {
         return (
             <main>
@@ -29,7 +36,7 @@ export default class MainRoute extends React.Component {
                     />
                     <Route exact path='/trips' component={TripList} />
                     <Route exact path='/trip/:id' component={TripPage} />
-                    <Route exact path='/comments' component={Comments} />
+                    <Route exact path='/comments' component={() => (<Comments tripId={1} />)}/>
                     <Route component={NotFound} />
                 </Switch>
             </main>
