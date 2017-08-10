@@ -10,19 +10,6 @@ import TripTile from './trip_tile'
 import './trip.less'
 
 
-const styles = {
-
-    gridList: {
-        width: 1500,
-    },
-
-    buttons: {
-        display: 'flex',
-        justifyContent: 'center',
-    },
-};
-
-
 export default class TripList extends React.Component {
     constructor(props) {
         super(props);
@@ -74,12 +61,11 @@ export default class TripList extends React.Component {
     //render trip list with new list data
     componentDidUpdate(prevProps, prevState) {
         this.state.page !== prevState.page && this.getData();
-        console.log(this.state.allTrips.length)
     };
 
     render() {
         return (
-            <div className='allTrips'>
+            <main className='allTrips'>
 
                 <Card>
                     <CardHeader
@@ -88,9 +74,9 @@ export default class TripList extends React.Component {
                     />
 
                     <CardMedia>
-                        <GridList className='gridList'
+                      <div className='gridList'>
+                        <GridList
                             cellHeight={'auto'}
-                            style={styles.gridList}
                             cols={3}
                             padding={20} >
 
@@ -108,15 +94,22 @@ export default class TripList extends React.Component {
                                 created={moment(trip.create_at).format('MMMM Do, h:mm a')} />
                             ))}
                         </GridList>
+                      </div>
                     </CardMedia>
 
-                    <CardActions style={styles.buttons}>
+                    <div className='directionButtons'>
+                    <CardActions>
+
                         <FlatButton label="Previous" onTouchTap={this.prevPage} />
                         <FlatButton label="Next" onTouchTap={this.nextPage} />
+
                     </CardActions>
+                    </div>
 
                 </Card>
-            </div>
+              <footer className='footer'>
+              </footer>
+            </main>
         );
     };
 };
