@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
-import { logged } from './utils.js';
-import { logoutService } from './registration/registration.service.js';
-import { LabelSize, iconLeftStyle, iconRightStyle } from './header.style.js';
+import { logged } from './utils';
+import { logoutService } from './registration/registration.service';
+import { LabelSize, iconLeftStyle, iconRightStyle } from './header.style';
 
 export default class Header extends React.Component {
     constructor(props) {

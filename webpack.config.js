@@ -11,7 +11,7 @@ var config = {
     module: {
         loaders: [
         {
-            test: /\.js/,
+            test: /\.jsx?/,
             include: path.join(__dirname, 'myTrip/static/'),
             loader: 'babel-loader'
         },

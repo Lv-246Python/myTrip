@@ -9,6 +9,7 @@ import TripList from "./trip/trip_list";
 import TripPage from "./trip/trip_page";
 import NotFound from './notFound';
 
+
 export default class MainRoute extends React.Component {
     render() {
         return (
