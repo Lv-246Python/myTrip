@@ -6,7 +6,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-import { logged } from '../utils.js';
 import { putData } from './CommentServices';
 import { styles } from './CommentStyles';
 
