@@ -13,7 +13,6 @@ import { styles } from './CommentStyles';
 export default class Comments extends React.Component {
     constructor(props) {
         super(props);
-        this.renderData = this.renderData.bind(this);
         this.state = {
             comments: []
         };

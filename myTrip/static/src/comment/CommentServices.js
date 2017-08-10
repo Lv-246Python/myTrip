@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const tripUrl = 'api/v1/trip/';
+
 export function deleteComment(tripId, commentId) {
-    return axios.delete('api/v1/trip/' + tripId + '/comment/' + commentId + '/');
+    return axios.delete(tripUrl + tripId + '/comment/' + commentId + '/');
 };
 
 export function formatDate(date) {
@@ -9,17 +11,17 @@ export function formatDate(date) {
 };
 
 export function putData(tripId, commentId, message) {
-    return axios.put('api/v1/trip/' + tripId + '/comment/' + commentId + '/', {
+    return axios.put(tripUrl + tripId + '/comment/' + commentId + '/', {
         message
     })
 };
 
 export function postData(tripId, message) {
-    return axios.post('api/v1/trip/' + tripId + '/comment/', {
+    return axios.post(tripUrl + tripId + '/comment/', {
         message
     })
 };
 
 export function getData(tripId) {
-    return axios.get('api/v1/trip/' + tripId + '/comment/');
+    return axios.get(tripUrl + tripId + '/comment/');
 };
