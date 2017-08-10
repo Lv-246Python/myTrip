@@ -101,6 +101,7 @@ export class CommentItem extends React.Component {
                         open={this.state.dialogEdit}>
 
                             <TextField
+                            autoFocus
                             fullWidth={true}
                             floatingLabelText="Write a new comment"
                             value={this.state.editCommentText}
