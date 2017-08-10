@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'photo',
     'home',
     #'corsheaders',
+    'utils',
+    'help',
 ]
 
 TEMPLATES = [
@@ -110,5 +112,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'),]
 
 try:
     from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import
+except ImportError:
+    pass
+
+try:
+    from .email_info import *
 except ImportError:
     pass
