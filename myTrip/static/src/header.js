@@ -6,7 +6,22 @@ import FlatButton from 'material-ui/FlatButton';
 
 import { logged } from './utils';
 import { logoutService } from './registration/registration.service';
-import { LabelSize, iconLeftStyle, iconRightStyle } from './header.style';
+
+const style = {
+    LabelSize : {
+        fontSize:"1.3em"
+    },
+
+    iconLeftStyle : {
+         fontSize:"2em"
+    },
+
+    iconRightStyle : {
+        marginBottom:"8px",
+        display:"flex",
+        alignItems:"center"
+    }
+}
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -27,14 +42,14 @@ export default class Header extends React.Component {
                     <FlatButton
                         className='header_btn'
                         label='REGISTRATION'
-                        labelStyle={LabelSize}
+                        labelStyle={ style.LabelSize }
                         containerElement={<Link to="/registration"/>}
                     />
                     <FlatButton
                         className='header_btn'
                         label='LOGIN'
                         containerElement={<Link to="/login"/>}
-                        labelStyle = {LabelSize}
+                        labelStyle = {style.LabelSize}
                     />
                 </div>
             )
@@ -45,7 +60,7 @@ export default class Header extends React.Component {
                         label='LOGOUT'
                         className='header_btn'
                         onTouchTap = {this.logout}
-                        labelStyle = {LabelSize}
+                        labelStyle = { style.LabelSize }
                     />
                 </div>
             )
@@ -53,7 +68,7 @@ export default class Header extends React.Component {
         return (
             <AppBar
                 className='header'
-                iconStyleLeft = { iconLeftStyle }
+                iconStyleLeft = { style.iconLeftStyle }
                 iconElementLeft = {
                     <div className='title'>
                         <img className='header_icon' src='/static/src/img/logo.png' />
@@ -61,7 +76,7 @@ export default class Header extends React.Component {
                     </div>
                 }
                 iconElementRight = { elementRight }
-                iconStyleRight = { iconRightStyle }
+                iconStyleRight = { style.iconRightStyle }
             />
         );
     }

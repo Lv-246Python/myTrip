@@ -3,6 +3,7 @@ import axios from "axios"
 const loginUrl = '/api/v1/auth/login/';
 const registerUrl = '/api/v1/auth/register/';
 const logoutUrl = 'api/v1/auth/logout/';
+const facebookLoginUrl = 'api/v1/auth/facebook_login/'
 
 export function loginService(email, password) {
     return axios.post(loginUrl, {

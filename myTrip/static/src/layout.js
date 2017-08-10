@@ -8,6 +8,8 @@ import MainRoute from './route';
 import NotFound from './notFound';
 import { logged } from './utils'
 
+import './layout.less'
+
 injectTapEventPlugin();
 
 export default class Layout extends React.Component {
