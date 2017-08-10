@@ -1,19 +1,24 @@
-import axios from "axios"
+import axios from "axios";
+
+export const profileURL = '/api/v1/profile/';
 
 export const getProfile = () => {
-    return axios.get('/api/v1/profile/')
-    .then(response => this.setState({state: response.data}))
-    .catch(error => console.log(error))
+    return axios.get(profileURL)
+    .then(response => {
+        const data = response.data;
+        this.setState({profile: data})})
+        .catch(error => console.log(error))
     }
 
-export const putProfile = (name, surname, age, gender, hobbies) => {
-        return axios.put('/api/v1/profile/', {
-            name,
-            surname,
+export const putProfile = (first_name, last_name, age, gender, hobbies, avatar, instagram) => {
+        return axios.put(profileURL, {
+            first_name,
+            last_name,
             age,
             gender,
-            hobbies
+            hobbies,            
+            avatar,
+            instagram,
         })
     }
-
 

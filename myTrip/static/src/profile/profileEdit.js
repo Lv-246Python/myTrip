@@ -1,12 +1,12 @@
 import React from "react";
-import { onlyAlpha, onlyDigit } from './../utils.js';
+import { onlyAlpha, onlyDigit } from './../utils';
 
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { blue500 } from 'material-ui/styles/colors';
-import { putProfile } from './profile.service.js';
+import { putProfile } from './profile.service';
 
 import './profile.less';
 
@@ -19,11 +19,11 @@ const styles = {
 export class TextBlock extends React.Component {
     constructor(props){
         super(props);
-        this.state = props.data;
+        this.state = props.profile;
     };
 
     onChange = (event, newValue) => {
-      if (event.target.name === "name" || event.target.name === "surname"){
+      if (event.target.name === "first_name" || event.target.name === "last_name"){
           if (onlyAlpha(newValue)) 
           {  
             this.setState({[event.target.name]: newValue}); 
@@ -40,8 +40,15 @@ export class TextBlock extends React.Component {
         this.setState({age: value});
       }
     }
-    profileEdit = (event) => {
-        putProfile(this.state)
+    profileEdit = () => {
+        const first_name = this.state.first_name;
+        const last_name = this.state.last_name;
+        const age = this.state.age;
+        const gender = this.state.gender;
+        const hobbies = this.state.hobbies;
+        const avatar = this.state.avatar;
+        putProfile(first_name, last_name, age, gender, hobbies, avatar)
+        .then(this.props.getProfile())
     }
 
     render(){
@@ -56,8 +63,8 @@ export class TextBlock extends React.Component {
 
         <TextField
           floatingLabelText="Name:"
-          value={this.state.name}
-          name="name"
+          value={this.state.first_name}
+          name="first_name"
           onChange={this.onChange}
           fullWidth={true}
           floatingLabelStyle={styles.LabelStyle}
@@ -65,9 +72,9 @@ export class TextBlock extends React.Component {
 
         <TextField
           floatingLabelText="Surname:"
-          value={this.state.surname}
+          value={this.state.last_name}
           fullWidth={true}
-          name="surname"
+          name="last_name"
           onChange={this.onChange}
           floatingLabelStyle={styles.LabelStyle}
         />
@@ -105,7 +112,7 @@ export class TextBlock extends React.Component {
         <TextField
           floatingLabelText="Change avatar:"
           fullWidth={true}
-          name='avatarUrl'
+          name='avatar'
           onChange={this.onChange}
           floatingLabelStyle={styles.LabelStyle}
         />

@@ -11,6 +11,8 @@ import TripList from "./trip/trip_list";
 import TripPage from "./trip/trip_page";
 import Subscribes from "./subscribe/Subscribes";
 import TripMap from "./checkpoint/trip-map.js";
+import Profile from "./profile/profile.js";
+import ProfileByID from "./profile/profileByID.js";
 import NotFound from './notFound';
 
 
@@ -48,6 +50,8 @@ export default class MainRoute extends React.Component {
                                                 tripId={1}
                                                 tripPhotoId="/photo/1" />)}/>
                     <Route exact path='/trip-map' component={TripMap} />
+                    <Route exact path="/profile/" component={Profile} />
+                    <Route exact path="/profile/:id" component={ProfileByID} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
