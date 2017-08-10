@@ -9,6 +9,8 @@ import { GridTile } from 'material-ui/GridList';
 import Photo from 'photo'
 */
 
+let img = "http://www.apaseotravel.com/wp-apaseo/wp-content/uploads/2016/03/LateSAil-Bahamas3.jpg";
+
 export default class TripTile extends React.Component {
     constructor(props){
         super(props);
@@ -31,7 +33,7 @@ export default class TripTile extends React.Component {
                     <img src={this.state.tripPhoto.src} />
                     */}
 
-                    <img src="http://www.apaseotravel.com/wp-apaseo/wp-content/uploads/2016/03/LateSAil-Bahamas3.jpg" />
+                    <img src={img} />
                 </CardMedia>
 
                 </GridTile>
