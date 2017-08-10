@@ -15,7 +15,6 @@ export class CommentItem extends React.Component {
         super(props);
         this.state = {
             dialogEdit: false,
-            dialogDelete: false,
             disabled: true,
             editCommentText: ''
         };
@@ -23,20 +22,13 @@ export class CommentItem extends React.Component {
 
     handleOpenEditDialog = () => {
       this.setState({dialogEdit: true});
-    };
-
-    handleOpenDeleteDialog = () => {
-      this.setState({dialogDelete: true});
+      this.setState({'editCommentText': this.props.message});
     };
 
     handleCloseEditDialog = () => {
       this.setState({dialogEdit: false});
       this.setState({'disabled': true});
       this.setState({'editCommentText': ''});
-    };
-
-    handleCloseDeleteDialog = () => {
-      this.setState({dialogDelete: false});
     };
 
     handleEditCommentText = (event) => {
@@ -76,18 +68,6 @@ export class CommentItem extends React.Component {
           />,
         ];
 
-        const actionsDelete = [
-          <FlatButton
-            label="Cancel"
-            secondary={true}
-            onTouchTap={this.handleCloseDeleteDialog}
-          />,
-          <FlatButton
-            label="Delete"
-            onTouchTap={this.handleDelete}
-          />,
-        ];
-
         return (
               <div>
                   <Card>
@@ -109,7 +89,7 @@ export class CommentItem extends React.Component {
                             onTouchTap={this.handleOpenEditDialog}
                             label="Edit" />
                         <FlatButton
-                            onTouchTap={this.handleOpenDeleteDialog}
+                            onTouchTap={this.handleDelete}
                             label="Delete"
                             secondary={true} />
                       </CardActions>
@@ -126,12 +106,6 @@ export class CommentItem extends React.Component {
                             value={this.state.editCommentText}
                             onChange={this.handleEditCommentText} />
                       </Dialog>
-
-                      <Dialog
-                        title="Delete comment"
-                        actions={actionsDelete}
-                        modal={true}
-                        open={this.state.dialogDelete} />
                   </Card>
               </div>
             );
