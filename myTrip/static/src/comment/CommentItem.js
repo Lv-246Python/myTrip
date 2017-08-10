@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
@@ -7,69 +6,50 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-const styles = {
-  avatar: {
-      marginRight: 10,
-      marginBottom: 10
-  },
-
-  commentText: {
-      fontSize: 20
-  },
-
-};
+import { putData } from './CommentServices';
+import { styles } from './CommentStyles';
 
 export class CommentItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            openEdit: false,
-            openDelete: false,
-            disabledEdit: true,
-            edit_comment_text: ''
+            dialogEdit: false,
+            disabled: true,
+            editCommentText: ''
         };
     }
 
-    handleOpenEdit = () => {
-      this.setState({openEdit: true});
+    handleOpenEditDialog = () => {
+      this.setState({dialogEdit: true});
+      this.setState({'editCommentText': this.props.message});
     };
 
-    handleOpenDelete = () => {
-      this.setState({openDelete: true});
+    handleCloseEditDialog = () => {
+      this.setState({dialogEdit: false});
+      this.setState({'disabled': true});
+      this.setState({'editCommentText': ''});
     };
 
-    handleCloseEdit = () => {
-      this.setState({openEdit: false});
-      this.setState({'disabledEdit': true});
-      this.setState({'edit_comment_text': ''});
-    };
-
-    handleCloseDelete = () => {
-      this.setState({openDelete: false});
-    };
-
-    handleEdit = (event) => {
-        this.setState({'edit_comment_text': event.target.value});
-        if (this.state.edit_comment_text.length !== 0) {
-            this.setState({'disabledEdit': false});
+    handleEditCommentText = (event) => {
+        this.setState({'editCommentText': event.target.value});
+        if (this.state.editCommentText.length !== 0) {
+            this.setState({'disabled': false});
         };
     };
 
     handleSubmit = () => {
-        const message = this.state.edit_comment_text;
-        axios.put('api/v1/trip/2/comment/' + this.props.commentId + '/', {
-            message
-        })
+        putData(this.props.tripId, this.props.commentId, this.state.editCommentText)
             .then(() => {
-                 this.props.getData();
-                 this.setState({edit_comment_text: ''});
-                 this.setState({openEdit: false});
-                 this.setState({'disabledEdit': true});
+                 this.props.renderData();
+                 this.setState({editCommentText: ''});
+                 this.setState({dialogEdit: false});
+                 this.setState({'disabled': true});
             });
     };
 
     handleDelete = () => {
-        this.props.deleteComment(this.props.commentId);
+        this.props.deleteComment(this.props.tripId, this.props.commentId)
+            .then(() => this.props.renderData());
     };
 
     render() {
@@ -77,25 +57,13 @@ export class CommentItem extends React.Component {
           <FlatButton
             label="Cancel"
             secondary={true}
-            onTouchTap={this.handleCloseEdit}
+            onTouchTap={this.handleCloseEditDialog}
           />,
+
           <FlatButton
             label="Submit"
-            disabled={this.state.disabledEdit}
+            disabled={this.state.disabled}
             onTouchTap={this.handleSubmit}
-          />,
-        ];
-
-        const actionsDelete = [
-          <FlatButton
-            label="Cancel"
-            secondary={true}
-            onTouchTap={this.handleCloseDelete}
-          />,
-          <FlatButton
-            label="Delete"
-            disabled={this.state.disabledDelete}
-            onTouchTap={this.handleDelete}
           />,
         ];
 
@@ -117,10 +85,10 @@ export class CommentItem extends React.Component {
                       <CardActions
                           expandable={true}>
                         <FlatButton
-                            onTouchTap={this.handleOpenEdit}
+                            onTouchTap={this.handleOpenEditDialog}
                             label="Edit" />
                         <FlatButton
-                            onTouchTap={this.handleOpenDelete}
+                            onTouchTap={this.handleDelete}
                             label="Delete"
                             secondary={true} />
                       </CardActions>
@@ -129,20 +97,15 @@ export class CommentItem extends React.Component {
                         title="Edit comment"
                         actions={actionsEdit}
                         modal={true}
-                        open={this.state.openEdit}>
+                        open={this.state.dialogEdit}>
 
                             <TextField
+                            autoFocus
                             fullWidth={true}
                             floatingLabelText="Write a new comment"
-                            value={this.state.edit_comment_text}
-                            onChange={this.handleEdit} />
+                            value={this.state.editCommentText}
+                            onChange={this.handleEditCommentText} />
                       </Dialog>
-
-                      <Dialog
-                        title="Delete comment"
-                        actions={actionsDelete}
-                        modal={true}
-                        open={this.state.openDelete} />
                   </Card>
               </div>
             );
