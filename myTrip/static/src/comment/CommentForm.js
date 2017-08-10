@@ -16,7 +16,7 @@ export class CommentForm extends React.Component {
     }
 
     handleTouchTap = (event) => {
-        postData(this.state.commentText)
+        postData(this.props.tripId, this.state.commentText)
             .then(() => {
                  this.props.renderData();
                  this.setState({commentText: ''});

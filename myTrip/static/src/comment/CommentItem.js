@@ -47,7 +47,7 @@ export class CommentItem extends React.Component {
     };
 
     handleSubmit = () => {
-        putData(this.props.commentId, this.state.editCommentText)
+        putData(this.props.tripId, this.props.commentId, this.state.editCommentText)
             .then(() => {
                  this.props.renderData();
                  this.setState({editCommentText: ''});
@@ -57,7 +57,7 @@ export class CommentItem extends React.Component {
     };
 
     handleDelete = () => {
-        this.props.deleteComment(this.props.commentId)
+        this.props.deleteComment(this.props.tripId, this.props.commentId)
             .then(() => this.props.renderData());
     };
 
@@ -84,7 +84,6 @@ export class CommentItem extends React.Component {
           />,
           <FlatButton
             label="Delete"
-            disabled={this.state.disabled}
             onTouchTap={this.handleDelete}
           />,
         ];

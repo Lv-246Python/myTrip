@@ -25,7 +25,7 @@ export default class MainRoute extends React.Component {
                             {...props}
                         />}
                     />
-                <Route exact path='/comments' component={Comments} />
+                <Route exact path='/comments' component={() => (<Comments tripId={1} />)}/>
                     <Route component={NotFound} />
                 </Switch>
             </main>

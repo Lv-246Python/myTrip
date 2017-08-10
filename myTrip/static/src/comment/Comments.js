@@ -20,7 +20,7 @@ export default class Comments extends React.Component {
     }
 
     renderData = () => {
-        getData()
+        getData(this.props.tripId)
             .then(response => {
                 const comments = response.data;
                 this.setState({comments});
@@ -43,6 +43,7 @@ export default class Comments extends React.Component {
                                     updated={formatDate(comment.update_at)}
                                     message={comment.message}
                                     commentId={comment.id}
+                                    tripId={this.props.tripId}
                                     deleteComment={deleteComment}
                                     renderData={this.renderData}
                                     />
@@ -51,7 +52,7 @@ export default class Comments extends React.Component {
                     </List>
 
                     <Divider style={styles.divider} />
-                    <CommentForm renderData={this.renderData} />
+                    <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
                 </div>
             </Paper>
         );
