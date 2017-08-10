@@ -7,6 +7,7 @@ import Comments from "./comment/Comments";
 import Login from "./registration/login";
 import Registration from "./registration/registration";
 import CreateTrip from "./trip/create_trip";
+import Profile from "./profile/profile"
 import TripList from "./trip/trip_list";
 import TripPage from "./trip/trip_page";
 import Subscribes from "./subscribe/Subscribes";
