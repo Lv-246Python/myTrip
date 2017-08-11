@@ -22,17 +22,17 @@ export default class Comments extends React.Component {
         getData(this.props.tripId)
             .then(response => {
                 const comments = response.data;
-                this.setState({comments});
+                this.setState({comments: comments});
             });
     }
 
     componentDidMount() {
-        this.renderData()
+        this.renderData();
     }
 
     render() {
         return (
-            <Paper zDepth={5} rounded={false} style={styles.paper}>
+            <Paper zDepth={2} rounded={false} style={styles.paper}>
                 <div>
                     <List>
                         {this.state.comments.map(comment => (

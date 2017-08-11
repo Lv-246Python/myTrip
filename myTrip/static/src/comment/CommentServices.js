@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const tripUrl = 'api/v1/trip/';
+const tripUrl = '/api/v1/trip/';
 
 export function deleteComment(tripId, commentId) {
     return axios.delete(tripUrl + tripId + '/comment/' + commentId + '/');
