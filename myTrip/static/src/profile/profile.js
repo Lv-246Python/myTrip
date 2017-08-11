@@ -4,7 +4,7 @@ import axios from "axios";
 import Paper from 'material-ui/Paper';
 import { Avatars } from './profileAvatar';
 import { Buttons } from './profileButtons';
-import { TextBlock } from './profileEdit'
+import { TextBlock } from './profileEdit';
 
 import './profile.less';
 
