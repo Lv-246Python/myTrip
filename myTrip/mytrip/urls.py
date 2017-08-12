@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^api/v1/photo/', include('photo.urls')),
     url(r'api/v1/help/', include('help.urls')),
     url(r'.*', include('home.urls')),
+    url(r'^api/v1/subscribe/', include('subscribe.urls'))
 
 ]
