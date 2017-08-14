@@ -32,28 +32,25 @@ export default class Comments extends React.Component {
 
     render() {
         return (
-            <Paper zDepth={2} rounded={false} style={styles.paper}>
-                <div>
-                    <List>
-                        {this.state.comments.map(comment => (
-                            <ListItem key={comment.id}>
-                                <CommentItem
-                                    username={comment.user_name}
-                                    updated={formatDate(comment.update_at)}
-                                    message={comment.message}
-                                    commentId={comment.id}
-                                    tripId={this.props.tripId}
-                                    deleteComment={deleteComment}
-                                    renderData={this.renderData}
-                                    />
-                            </ListItem>
-                        ))}
-                    </List>
+            <div>
+                <List>
+                    {this.state.comments.map(comment => (
+                        <ListItem key={comment.id}>
+                            <CommentItem
+                                username={comment.user_name}
+                                updated={formatDate(comment.update_at)}
+                                message={comment.message}
+                                commentId={comment.id}
+                                tripId={this.props.tripId}
+                                renderData={this.renderData}
+                                />
+                        </ListItem>
+                    ))}
+                </List>
 
-                    <Divider style={styles.divider} />
-                    <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
-                </div>
-            </Paper>
+                <Divider style={styles.divider} />
+                <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
+            </div>
         );
     }
 }

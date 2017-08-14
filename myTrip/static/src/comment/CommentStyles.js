@@ -18,16 +18,22 @@ export const styles = {
 
     avatar: {
         marginRight: 10,
-        marginBottom: 0
+        marginBottom: -7
     },
 
     commentText: {
-        fontSize: 20,
+        fontSize: 17,
         lineHeight: "150%"
     },
 
     divider: {
-        backgroundColor: 'grey'
+        backgroundColor: 'grey',
+        marginBottom: 15
+    },
+
+    snackbarBody: {
+        textAlign: 'center',
+        marginBottom: 5
     }
 
 };

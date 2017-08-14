@@ -4,27 +4,43 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import { CommentNotification } from './CommentNotification';
 import { postData } from './CommentServices';
 import { styles } from './CommentStyles';
+import { userId } from '../utils';
 
 export class CommentForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            commentText: ''
+            newCommentText: '',
+            disabled: true,
+            open: false,
         };
     }
 
-    handleTouchTap = (event) => {
-        postData(this.props.tripId, this.state.commentText)
+    handleRequestClose = () => {
+        this.setState({open: false});
+    };
+
+    handleTouchTap = () => {
+        postData(this.props.tripId, this.state.newCommentText)
             .then(() => {
                  this.props.renderData();
-                 this.setState({commentText: ''});
+                 this.setState({newCommentText: ''});
+                 this.setState({disabled: true});
+                 this.setState({open: true});
             });
     };
 
     handleComment = (event) => {
-        this.setState({'commentText': event.target.value});
+        this.setState({'newCommentText': event.target.value});
+        if (event.target.value.length > 0) {
+             this.setState({disabled: false});
+         } else {
+             this.setState({disabled: true});
+         }
+
     };
 
     render() {
@@ -34,13 +50,21 @@ export class CommentForm extends React.Component {
                   <TextField
                   fullWidth={true}
                   floatingLabelText="Write a comment"
-                  value={this.state.commentText}
+                  value={this.state.newCommentText}
                   onChange={this.handleComment} />
+
                   <br />
 
                   <RaisedButton
                     onTouchTap={this.handleTouchTap}
+                    primary={true}
+                    disabled={this.state.disabled}
                     label="Add" />
+
+                <CommentNotification
+                    open={this.state.open}
+                    message={'Comment added'}
+                    onRequestClose={this.handleRequestClose} />
               </Paper>
           </div>
     );
