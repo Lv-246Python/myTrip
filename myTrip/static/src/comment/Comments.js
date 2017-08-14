@@ -32,7 +32,7 @@ export default class Comments extends React.Component {
 
     render() {
         return (
-            <Paper zDepth={5} rounded={false} style={styles.paper}>
+
                 <div>
                     <List>
                         {this.state.comments.map(comment => (
@@ -45,7 +45,7 @@ export default class Comments extends React.Component {
                                     tripId={this.props.tripId}
                                     deleteComment={deleteComment}
                                     renderData={this.renderData}
-                                    />
+                                />
                             </ListItem>
                         ))}
                     </List>
@@ -53,7 +53,7 @@ export default class Comments extends React.Component {
                     <Divider style={styles.divider} />
                     <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
                 </div>
-            </Paper>
+
         );
     }
 }

@@ -136,7 +136,7 @@ class Trip(models.Model):
         start = step*page
         end = start + step
         if not user_id:
-            trips = reversed(Trip.objects.all().order_by('-create_at')[start:end])
+            trips = (Trip.objects.all().order_by('-create_at')[start:end])
             return trips
-        trips = reversed(Trip.objects.filter(user=user_id).order_by('-create_at')[start:end])
+        trips = (Trip.objects.filter(user=user_id).order_by('-create_at')[start:end])
         return trips

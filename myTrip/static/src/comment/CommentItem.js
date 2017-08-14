@@ -78,7 +78,7 @@ export class CommentItem extends React.Component {
                       <CardText
                           actAsExpander={true}
                           style={styles.commentText}>
-                          <Avatar src="static/src/img/avatar.jpg" size={40} style={styles.avatar} />
+                          <Avatar src="/static/src/img/avatar.jpg" size={40} style={styles.avatar} />
                           {this.props.message}
                       </CardText>
 

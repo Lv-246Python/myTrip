@@ -25,23 +25,33 @@
 }
 
 @media (min-width: 100px) {
-  .HolyGrail-body {
-    flex-direction: row;
-    flex: 1;
-  }
-  .HolyGrail-content {
-    flex: 1;
-    justify-content: center;
-    max-width: 900px;
-  }
-  .HolyGrail-left, .HolyGrail-right {
-    /* 15em is the width of the columns */
-    flex: 0 0 15em;
-  }
+    .HolyGrail-body {
+        flex-direction: row;
+        flex: 1;
+    }
+    .HolyGrail-content {
+        flex: 1;
+        justify-content: center;
+        max-width: 900px;
+    }
+    .HolyGrail-left, .HolyGrail-right {
+        /* 15em is the width of the columns */
+        flex: 0 0 15em;
+    }
 }
 
 .tripLikeIcon {
     display: flex;
     justify-content: flex-end;
     padding-bottom: 16px;
+}
+
+.tripEditTitle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tripEditSubmitButton {
+    display: flex;
+    justify-content: flex-end;
 }

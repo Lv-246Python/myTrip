@@ -30,7 +30,7 @@ export class CommentForm extends React.Component {
     render() {
         return (
           <div>
-              <Paper style={styles.paper}>
+
                   <TextField
                   fullWidth={true}
                   floatingLabelText="Write a comment"
@@ -41,7 +41,7 @@ export class CommentForm extends React.Component {
                   <RaisedButton
                     onTouchTap={this.handleTouchTap}
                     label="Add" />
-              </Paper>
+
           </div>
     );
   }

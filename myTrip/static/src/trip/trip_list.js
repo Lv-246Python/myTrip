@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from "axios";
-import moment from 'moment';
 
 import { Card, CardHeader, CardMedia, CardActions } from 'material-ui/Card';
 import { GridList } from 'material-ui/GridList';
+import { getTrip, formatDate } from './trip_service';
 import Subheader from 'material-ui/Subheader';
 import FlatButton from 'material-ui/FlatButton';
 import TripTile from './trip_tile'
@@ -74,27 +74,27 @@ export default class TripList extends React.Component {
                     />
 
                     <CardMedia>
-                      <div className='gridList'>
-                        <GridList
-                            cellHeight={'auto'}
-                            cols={3}
-                            padding={20} >
+                        <div className='gridList'>
+                            <GridList
+                                cellHeight={'auto'}
+                                cols={3}
+                                padding={20} >
 
-                            {/*
-                            wrap every JSON with trip data into own trip tile
-                            */}
+                                {/*
+                                wrap every JSON with trip data into own trip tile
+                                */}
 
-                            {this.state.allTrips.map(trip => (
-                                <TripTile
-                                key={trip.id}
-                                tripId={trip.id}
-                                title={trip.title}
-                                description={trip.description}
-                                user={trip.user}
-                                created={moment(trip.create_at).format('MMMM Do, h:mm a')} />
-                            ))}
-                        </GridList>
-                      </div>
+                                {this.state.allTrips.map(trip => (
+                                    <TripTile
+                                    key={trip.id}
+                                    tripId={trip.id}
+                                    title={trip.title}
+                                    description={trip.description}
+                                    user={trip.user}
+                                    created={formatDate(trip.create_at)} />
+                                ))}
+                            </GridList>
+                        </div>
                     </CardMedia>
 
                     <div className='directionButtons'>
@@ -107,8 +107,8 @@ export default class TripList extends React.Component {
                     </div>
 
                 </Card>
-              <footer className='footer'>
-              </footer>
+                <footer className='footer'>
+                </footer>
             </main>
         );
     };

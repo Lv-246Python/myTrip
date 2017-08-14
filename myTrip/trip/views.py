@@ -21,7 +21,7 @@ class TripView(View):
             return HttpResponse(status=404)
         trips = Trip.get_trips(user_id=user_id, page=page)
         trips = [trip.to_dict() for trip in trips]
-        return JsonResponse(trips[::-1], status=200, safe=False)
+        return JsonResponse(trips, status=200, safe=False)
 
     def post(self, request):
         """Handles POST request."""
