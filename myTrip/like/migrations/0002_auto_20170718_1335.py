@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         ('photo', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('trip', '0001_initial'),
-        ('checkpoint', '0002_auto_20170718_1335'),
+        ('checkpoint', '0001_initial'),
         ('comment', '0001_initial'),
         ('like', '0001_initial'),
     ]
