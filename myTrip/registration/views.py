@@ -7,6 +7,8 @@ from django.shortcuts import redirect
 from django.contrib import auth
 from mytrip.settings import FACEBOOK_APP_ID as CLIENT_ID, FACEBOOK_API_SECRET as CLIENT_SECRET
 
+from activation.models import HashUser
+from utils.mailer import email_sender
 from .models import CustomUser
 from .helper import *
 
@@ -17,6 +19,13 @@ FACEBOOK_USER_URL = 'https://graph.facebook.com/me?access_token={token}'
 FACEBOOK_REDIRECT_URL = 'http://triptrck.com/api/v1/auth/facebook_login/'
 FACEBOOK_AUTH_URL = ('https://www.facebook.com/v2.10/dialog/oauth?'
                      'client_id={client_id}&redirect_uri={redirect_uri}')
+
+
+MESSAGE = """
+    Hello, if you want to activate your account on TripTracker.com
+    you need to click on this url:
+        {url}
+"""
 
 
 def register(request):
@@ -45,8 +54,14 @@ def register(request):
         if CustomUser.get_by_email(email):
             return response_400_already_registered
 
-        CustomUser.create(email=email, password=password,
+        user = CustomUser.create(email=email, password=password,
                           first_name=first_name, last_name=last_name)
+        hash = str(uuid.uuid4()).replace('-', '')
+        # hash = HashUser.get_hash(user=user, hash=hash)
+        LINK = 'http:triptrck.com/api/v1/activation/?hash=' + hash
+        email_sender(subject='tripTracker activation',
+                     message=MESSAGE.format(url=LINK),
+                     to=email)
         return response_201_successfully_created
 
 

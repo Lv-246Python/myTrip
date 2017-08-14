@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'registration',
     'photo',
     'home',
-    #'corsheaders',
     'utils',
     'help',
+    'activation',
 ]
 
 TEMPLATES = [

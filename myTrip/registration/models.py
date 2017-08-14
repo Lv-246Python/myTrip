@@ -10,7 +10,8 @@ class CustomUser(AbstractBaseUser):
     """
     User model.
     :argument id: int - auto generated primary key
-    :argument first_name: str - new user's firstName
+    :argument facebook_id: str - user id in facebook
+    :argument facebook_id: str - new user's firstName
     :argument last_name: str - new user's lastName
     :argument email: str - new user's emailAdress
     """
@@ -42,6 +43,7 @@ class CustomUser(AbstractBaseUser):
 
         user = CustomUser()
         user.email = email
+        user.is_active = False
         user.facebook_id = facebook_id
         user.set_password(password)
         user.first_name = first_name
