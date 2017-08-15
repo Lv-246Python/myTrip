@@ -7,15 +7,15 @@ import { getTrip, formatDate } from './trip_service';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
+import Comments from "../comment/Comments";
 import Divider from 'material-ui/Divider';
 import SubHeader from 'material-ui/Subheader';
-import TextField from 'material-ui/TextField';
-import TripDescription from './trip_description'
-import TripHeader from './trip_header'
+import TripDescription from './trip_editor_description'
+import TripEditorTitle from './trip_editor_title'
 import TripNavigation from './trip_navigation'
-import TripMenu from './trip_menu'
+import TripDelete from './trip_delete'
 import './trip.less'
-import Comments from "../comment/Comments";
+
 /*
 import Checkpoint from 'checkpoint';
 import Comment from 'comment';
@@ -63,109 +63,113 @@ export default class TripPage extends React.Component {
                     rerender page with trip data
                     */}
 
-                    {trip &&
-
-                    <div>
-                        <Card>
+                        {trip &&
                             <Card>
-                                <CardHeader className='tripPageHeader'
-                                    title={<h3>{trip.title}</h3>}
-                                    subtitle={formatDate(trip.create_at)}
-                                    >
+                                <CardHeader className='tripPageHeader' >
+                                    <div className="tripEditTitle">
+                                        <CardHeader
+                                            title={<b>{this.state.trip.title}</b>}
+                                            titleStyle={{fontSize: 25}}
+                                        />
 
-                                    {/*
+                                        {/*
+                                        trip edit title mode for author
+                                        */}
 
-                                    {trip && <TripHeader
-                                        trip={this.state.trip} />}
+                                        <div className="tripEditButton">
+                                            <TripEditorTitle
+                                                trip={this.state.trip}
+                                                getTrip={this.getTrip}
+                                            />
+                                        </div>
 
-                                    {trip && <SubHeader>
+                                    </div>
+                                    <SubHeader>
                                         {formatDate(trip.create_at)}
-                                    </SubHeader>}
-
-                                    */}
-
+                                    </SubHeader>
                                 </CardHeader>
-                            </Card>
-
-                            {/*
-                            there will be Google Map component
-                            */}
-
-                            <CardMedia className='tripGoogleMap'>
-                                <img src="/static/src/img/world_map.jpg" />
-                            </CardMedia>
-
-                            {/*
-                            there will be <Photo /> component
-                            */}
-
-                            <CardMedia className='tripPhotoGallery'>
-                                <h3>Trip Photo Gallery</h3>
-                            </CardMedia>
-
-                            <CardText className='tripDescription'>
-                                <h3>Description</h3>
 
                                 {/*
-
-                                {trip && <TripDescription
-                                    trip={this.state.trip}
-                                    getTrip={this.state.getTrip}
-                                    editTrip={this.state.editTrip}/>}
-
+                                there will be Google Map component
                                 */}
 
-                                {trip.description}
+                                <CardMedia className='tripGoogleMap'>
+                                    <img src="/static/src/img/world_map.jpg" />
+                                </CardMedia>
+
+                                {/*
+                                there will be <Photo /> component
+                                */}
+
+                                <CardMedia className='tripPhotoGallery'>
+                                    <h3>Trip Photo Gallery</h3>
+                                </CardMedia>
+
+                                {/*
+                                trip description
+                                */}
+
+                                <CardText className='tripDescription'>
+                                    <h3>Description</h3>
+
+                                    {/*
+                                    <TripDescription
+                                        trip={this.state.trip}
+                                        getTrip={this.state.getTrip}
+                                        editTrip={this.state.editTrip}/>
+                                    */}
+
+                                    {trip.description}
+                                </CardText>
+
+                                {/*
+                                there will be <Like /> component
+                                */}
+
+                                <div className='tripLikeIcon'>
+                                    <CardActions>
+                                        <Checkbox
+                                        checkedIcon={<ActionFavorite />}
+                                        uncheckedIcon={<ActionFavoriteBorder />} />
+                                    </CardActions>
+                                </div>
+                            </Card>
+                        };
+
+                        {/*
+                        there will be <Comments /> component
+                        */}
+
+                        <Card className='tripComments'>
+                            <CardHeader
+                                title={<h3>Comments</h3>}
+                                actAsExpander={true}
+                                showExpandableButton={true} />
+
+                            <CardText expandable={true}>
+                                {trip && <Comments tripId={this.state.trip.id} />}
                             </CardText>
-
-                            {/*
-                            there will be <Like /> component
-                            */}
-
-                            <div className='tripLikeIcon'>
-                                <CardActions>
-                                    <Checkbox
-                                    checkedIcon={<ActionFavorite />}
-                                    uncheckedIcon={<ActionFavoriteBorder />} />
-                                </CardActions>
-                            </div>
                         </Card>
-                    </div>
-                    }
 
-                    {/*
-                    there will be <Comments /> component
-                    */}
+                        {/*
+                        there will be <Checkpoint /> component
+                        */}
 
-                    <Card className='tripComments'>
-                        <CardHeader
-                            title={<h3>Comments</h3>}
-                            actAsExpander={true}
-                            showExpandableButton={true} />
+                        <Card className='tripCheckpoints'>
+                            <CardHeader
+                                title={<h3>Checkpoints</h3>}
+                                actAsExpander={true}
+                                showExpandableButton={true} />
 
-                        <CardText expandable={true}>
-                            {trip && <Comments tripId={this.state.trip.id} />}
-                        </CardText>
-                    </Card>
-
-                    {/*
-                    there will be <Checkpoint /> component
-                    */}
-
-                    <Card className='tripCheckpoints'>
-                        <CardHeader
-                            title={<h3>Checkpoints</h3>}
-                            actAsExpander={true}
-                            showExpandableButton={true} />
-
-                        <CardText expandable={true}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed
-                            pellentesque.
-                            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                        </CardText>
-                    </Card>
+                            <CardText expandable={true}>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+                                Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed
+                                pellentesque.
+                                Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis
+                                odio.
+                            </CardText>
+                        </Card>
                     </Card>
                 </main>
 
@@ -176,18 +180,16 @@ export default class TripPage extends React.Component {
                 */}
                 <div className="HolyGrail-left">
 
-                    {trip && <TripNavigation trip={this.state.trip} />}
-
+                    <TripNavigation />
                     <Divider />
-
-                    {trip && <TripMenu trip={this.state.trip} getTrip={this.state.getTrip}/>}
+                    {trip && <TripDelete tripId={this.state.trip.id} />}
 
                 </div>
 
                 <aside className="HolyGrail-right">
                 </aside>
             </div>
-            <footer></footer>
+            <footer className="footer"></footer>
         </div>
         );
     }

@@ -6,8 +6,8 @@ export function getTrip() {
     return axios.get(`tripUrl${this.tripId}/`);
 };
 
-export function editTrip(tripId, title, description, status) {
-    return axios.put(`tripUrl${this.tripId}/`, {
+export function editTrip(tripId) {
+    return axios.put(`tripUrl${tripId}/`, {
         title, description, status
     })
 };

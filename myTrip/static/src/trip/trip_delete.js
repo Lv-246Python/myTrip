@@ -2,19 +2,20 @@ import React from 'react';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
-import {List, ListItem} from 'material-ui/List';
+import { ListItem } from 'material-ui/List';
+import CancelIcon from 'material-ui/svg-icons/content/clear';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import './trip.less'
 
 
-export default class TripMenu extends React.Component {
+export default class TripDelete extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             props: props,
-            tripId: this.props.trip.id,
+            tripId: this.props.tripId,
             open: false,
         };
     };
@@ -47,19 +48,24 @@ export default class TripMenu extends React.Component {
         const trip = this.state.trip;
 
         const actionsDelete = [
-            <FlatButton
-                className='button-cancel-trip-delete'
-                label="Cancel"
-                secondary={true}
-                onTouchTap={this.handleCloseDeleteTrip}
-            />,
-            <FlatButton
-                className='button-delete-trip'
-                label="Delete"
-                disabled={this.state.disabled}
-                onTouchTap={this.deleteTrip}
-                containerElement={<Link to='/trips' />}
-            />,
+            <div className='buttonTripDialog'>
+                <RaisedButton
+                    label="Cancel"
+                    labelPosition="before"
+                    icon={<CancelIcon />}
+                    primary={true}
+                    onTouchTap={this.handleCloseDeleteTrip}
+                />
+                <RaisedButton
+                    label="Delete"
+                    labelPosition="before"
+                    icon={<DeleteIcon />}
+                    secondary={true}
+                    disabled={this.state.disabled}
+                    onTouchTap={this.deleteTrip}
+                    containerElement={<Link to='/trips' />}
+                />
+            </div>
         ];
 
 
@@ -76,7 +82,6 @@ export default class TripMenu extends React.Component {
                 <Dialog
                     title="Do you really want to delete trip?"
                     actions={actionsDelete} //add cancel and delete buttons to delete dialog
-                    modal={false}           //exit from dialog via Esc or side-click
                     open={this.state.open}  //dialog invisible, until click delete
 
                     //after click on cancel or delete, dialog will be closed
