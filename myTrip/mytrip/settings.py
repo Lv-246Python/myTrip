@@ -20,6 +20,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'triptrck.com',
+    'localhost',
 ]
 
 # Facebook credentials
@@ -44,7 +45,6 @@ INSTALLED_APPS = [
     'home',
     'utils',
     'help',
-    'activation',
 ]
 
 TEMPLATES = [

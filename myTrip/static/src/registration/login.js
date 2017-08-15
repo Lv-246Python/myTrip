@@ -5,7 +5,7 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { loginService } from './registration.service'
+import { loginService, activationService } from './registration.service'
 import { emailIsNotValid, EMAIL_REGEXP, fieldIsEmpty } from './../utils'
 
 const style = {
@@ -38,6 +38,15 @@ export default class Login extends React.Component {
         };
     }
 
+    componentDidMount = () => {
+        if (this.props.match.params) {
+            const hash = this.props.match.params.hash
+            if (hash) {
+                this.activation(hash)
+            }
+        }
+    }
+
     handleEmail = event => {
         this.setState({'email': event.target.value});
     }
@@ -66,6 +75,11 @@ export default class Login extends React.Component {
         }
         event.preventDefault();
     }
+
+    activation = (hash) => {
+        activationService(hash)
+    }
+
     render() {
         return (
             <Paper style = { style.paperStyle } zDepth={ style.PaperZDepth  } >

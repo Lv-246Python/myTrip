@@ -6,11 +6,13 @@ from json import dumps
 from django.urls import reverse
 from django.test import TestCase
 
-from registration.models import CustomUser
+from registration.models import CustomUser, HashUser
 
 
 FACEBOOK_AUTH_URL = "http://triptrck.com/api/v1/auth/facebook_auth/"
 FACEBOOK_LOGIN_URL = "http://triptrck.com/api/v1/auth/facebook_login/?code=test_code"
+ACTIVATION_HASH = 'dalkdhasldabsas123asad'
+ACTIVATION_URL = "http://triptrck.com/api/v1/auth/activation?hash=" + ACTIVATION_HASH
 
 def auth_urlopen(url):
 
@@ -41,8 +43,14 @@ class RegistrationViewsTests(TestCase):
 
         self.user = CustomUser.objects.create(id=5,
                                               email='test@gmail.com')
+        self.user.is_active = True
         self.user.set_password('password')
         self.user.save()
+        self.not_active_user = CustomUser.objects.create(id=6,
+                                              email='test2@gmail.com')
+        self.not_active_user.set_password('password')
+        self.not_active_user.save()
+        hash_user = HashUser.create(self.not_active_user, ACTIVATION_HASH)
 
     def test_login_success(self):
         """
@@ -143,7 +151,7 @@ class RegistrationViewsTests(TestCase):
         request = self.client.get(FACEBOOK_AUTH_URL)
         self.assertEqual(request.status_code, 302)
 
-    @patch('urllib.request.urlopen', side_effect=auth_urlopen)
+    @patch('registration.views.urlopen', side_effect=auth_urlopen)
     def test_facebook_login(self, mock):
         """
         Test Facebook_login view
@@ -151,3 +159,10 @@ class RegistrationViewsTests(TestCase):
 
         request = self.client.get(FACEBOOK_LOGIN_URL)
         self.assertEqual(request.status_code, 302)
+
+    def test_activation(self):
+        """
+        Test activation via email
+        """
+        request = self.client.get(ACTIVATION_URL)
+        self.assertEqual(request.status_code, 200)

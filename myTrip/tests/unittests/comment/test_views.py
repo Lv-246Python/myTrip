@@ -49,7 +49,6 @@ class ViewTest(TestCase):
             email='test.test@gmail.com',
             password='user pass'
         )
-
         self.user = CustomUser.objects.create(
             id=2,
             first_name='test_name',
@@ -59,6 +58,9 @@ class ViewTest(TestCase):
         )
 
         self.user.set_password('password')
+        user.is_active = True
+        user.save()
+        self.user.is_active = True
         self.user.save()
         self.client = Client()
         self.client.login(username="test@mail.com", password="password")
