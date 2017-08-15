@@ -4,7 +4,6 @@ from .views import SubscribeView
 
 urlpatterns = [
     url(r'^$', SubscribeView.as_view()),
-    url(r'^profile/(?P<subscribed_id>\d+)/$', SubscribeView.as_view()),
-    url(r'^(?P<subscribe_id>\d+)/$', SubscribeView.as_view()),
+    url(r'^(?P<subscribed_id>\d+)/$', SubscribeView.as_view()),
 
 ]

@@ -61,13 +61,25 @@ class Subscribe(models.Model):
             return None
 
     @staticmethod
-    def get_by_user(user):
-        subscribes = Subscribe.objects.filter(user=user)
-        return subscribes
-
-    @staticmethod
     def filter(user=None, subscribed=None, trip=None):
-        subscribes = Subscribe.objects.filter(user=user, subscribed=subscribed, trip=trip)
+        """
+        Filter Subscribe objects with given Subscribed and Trip.
+        Args:
+            user (Object<CustomUser>): Object<CustomUser>,
+            subscribed (Object<CustomUser>): Object<CustomUser>,
+            trip (Object<Trip>): Object<Trip>.
+        Returns:
+            QuerySet<Subscribe>: QuerySet of Subscribes or None.
+        """
+        find = {}
+        if user:
+            find['user'] = user
+        if subscribed:
+            find['subscribed'] = subscribed
+        if trip:
+            find['trip'] = trip
+
+        subscribes = Subscribe.objects.filter(**find)
         return subscribes
 
     def to_dict(self):
@@ -95,4 +107,4 @@ class Subscribe(models.Model):
 
     def __repr__(self):
         return "id: {}, user: {}, subscribed: {}, trip: {}, create_at: {}, update_at: {}".format(
-            self.id, self.user, self.subscribed, self.trip.id, self.create_at, self.update_at)
+            self.id, self.user, self.subscribed, self.trip, self.create_at, self.update_at)

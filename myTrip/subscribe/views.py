@@ -32,12 +32,13 @@ class SubscribeView(View):
             or
             HttpResponse: status: 404.
         """
-        if subscribed_id or trip_id:
-            subscribes = Subscribe.filter(user=request.user.id, subscribed=subscribed_id,
-                                        trip=trip_id)
-            subscribes = [subscribe.to_dict() for subscribe in subscribes]
-            return JsonResponse(subscribes, status=200, safe=False)
-        subscribes = Subscribe.get_by_user(user=request.user.id)
+        if subscribed_id:
+            subscribes = Subscribe.filter(subscribed=subscribed_id)
+        elif trip_id:
+            subscribes = Subscribe.filter(trip=trip_id)
+        else:
+            subscribes = Subscribe.filter(user=request.user.id)
+
         subscribes = [subscribe.to_dict() for subscribe in subscribes]
         return JsonResponse(subscribes, status=200, safe=False)
 
@@ -53,11 +54,11 @@ class SubscribeView(View):
             trip_id (int): id of trip,
             subscribed_id (int): id of user, on who logged user wishes to subscribe.
         Returns:
-            JsonResponse: response: <comment>
+            JsonResponse: response: <Subscribe>
             or
             HttpResponse: status: 404.
         """
-        user = CustomUser.get_by_id(request.user.id)
+        user = CustomUser.get_by_id(user_id=request.user.id)
         if user is None:
             return HttpResponse(LOGIN_REQUIRED, status=401)
 
@@ -65,7 +66,6 @@ class SubscribeView(View):
         trip = Trip.get_by_id(trip_id=trip_id)
 
         subscribe = Subscribe.filter(user=user, subscribed=subscribed, trip=trip)
-        print(subscribe)
         if subscribe:
             subscribe.delete()
             return HttpResponse(UNSUBSCRIBE, status=200)
