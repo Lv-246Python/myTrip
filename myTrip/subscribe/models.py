@@ -61,6 +61,11 @@ class Subscribe(models.Model):
             return None
 
     @staticmethod
+    def get_by_user(user):
+        subscribes = Subscribe.objects.filter(user=user)
+        return subscribes
+
+    @staticmethod
     def filter(user=None, subscribed=None, trip=None):
         subscribes = Subscribe.objects.filter(user=user, subscribed=subscribed, trip=trip)
         return subscribes
@@ -82,12 +87,12 @@ class Subscribe(models.Model):
         return {
             'id': self.id,
             'user': self.user.id,
-            'subscribed': self.subscribed,
+            'subscribed': self.subscribed.id if self.subscribed else None,
             'trip': self.trip.id if self.trip else None,
             'create_at': self.create_at,
             'update_at': self.update_at,
         }
 
-    def __rerp__(self):
+    def __repr__(self):
         return "id: {}, user: {}, subscribed: {}, trip: {}, create_at: {}, update_at: {}".format(
             self.id, self.user, self.subscribed, self.trip.id, self.create_at, self.update_at)
