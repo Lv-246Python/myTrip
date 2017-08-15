@@ -84,8 +84,14 @@ class HomeTab extends React.Component {
   }
 
   componentDidMount() {
+      if(this.refs.Slider)
       this.intervalId = setInterval(this.timer.bind(this), CHANGE_SLIDE_TIME);
   }
+
+  componentWillUnmount () {
+    this.intervalId && clearInterval(this.intervalId);
+    this.intervalId = false;
+}
 
   //Calls at children message_buttons component to receive data.
   handler = (open, responseMessage) => {
@@ -118,6 +124,7 @@ class HomeTab extends React.Component {
           onChangeIndex={this.handleChange}
           onMouseOver={this.onMouseOverSlide}
           onMouseOut={this.onMouseOutSlide}
+          ref="Slider"
         >
           <PaperPageOne/>
           <PaperPageTwo/>
