@@ -8,7 +8,13 @@ import FlatButton from 'material-ui/FlatButton'
 
 import './profile.less';
 
+const style = {
+    width: 500,
+    height: 500,
+}
+
 const profileURL = '/api/v1/profile/';
+const defaultAvatar = 'https://freeiconshop.com/wp-content/uploads/edd/person-flat.png'
 
 
 export default class ProfileByID extends React.Component {
@@ -36,27 +42,25 @@ export default class ProfileByID extends React.Component {
   render(){
     const data = this.state.profile
     return (
-          data && <Paper className='MainPaper'  zDepth={2} >
-                <Card profile={data}>
-                    <CardMedia
-                      overlay={<CardTitle title={data.first_name + ' ' + data.last_name} subtitle={data.email} />}
-                    >
-                      <img src={data.avatar} alt="" />
+        <div className="Profile">
+           <Paper  className="MainPaperOtherUser" zDepth={2} >
+            {data && <Card profile={data} className="MainPaperOtherUser" >
+                    <CardMedia>
+                      <img src={data.avatar || defaultAvatar} alt="" style={style} />
                     </CardMedia>
-                    <CardTitle title="Card title" subtitle="Card subtitle" />
-                    <CardText>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                      Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                      Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    </CardText>
-                    <CardActions>
-                      <FlatButton label="Action1" />
-                      <FlatButton label="Action2" />
+                    <CardTitle title={data.first_name + ' ' + data.last_name} subtitle={data.email} />
+                    <CardText>Gender: {data.gender}</CardText>
+                    <CardText>Age: {data.age}</CardText>
+                    <CardText>Hobbies: {data.hobbies}</CardText>
+
+                    <CardActions className='cardActions'>
+                      <FlatButton label="Add friend" primary={true} />
+                      <FlatButton label="Subscribe" primary={true} />
                     </CardActions>
-                </Card>
+                </Card>}
 
           </Paper>
+        </div>
       );
   };
 }
