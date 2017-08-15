@@ -11,8 +11,8 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trip', '0002_auto_20170720_1121'),
-        ('checkpoint', '0003_auto_20170720_1121'),
+        ('trip', '0001_initial'),
+        ('checkpoint', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('photo', '0001_initial'),
     ]

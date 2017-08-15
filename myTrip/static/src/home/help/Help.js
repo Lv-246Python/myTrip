@@ -11,7 +11,7 @@ export default class Help extends React.Component{
    render(){
        return(
        <Paper className="helpPaper" zDepth={4}>
-           <MessageButtons/>
+           <MessageButtons handler={this.props.handler}/>
            <StaticFAQ/>
        </Paper>
        )
