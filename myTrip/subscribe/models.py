@@ -106,5 +106,6 @@ class Subscribe(models.Model):
         }
 
     def __repr__(self):
-        return "id: {}, user: {}, subscribed: {}, trip: {}, create_at: {}, update_at: {}".format(
+        return """id: {}, user: {}, subscribed: {}, trip: {}, create_at: {},
+        update_at: {}""".format(
             self.id, self.user, self.subscribed, self.trip, self.create_at, self.update_at)
