@@ -7,16 +7,26 @@ import ListItem from 'material-ui/List/ListItem';
 
 import { CommentItem } from './CommentItem';
 import { CommentForm } from './CommentForm';
-import { getData, deleteComment, formatDate } from './CommentServices';
+import { CommentNotification } from './CommentNotification';
+import { getData, formatDate } from './CommentServices';
 import { styles } from './CommentStyles';
 
 export default class Comments extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            comments: []
+            comments: [],
+            open: false
         };
     }
+
+    notification = () => {
+        this.setState({open: true});
+    };
+
+    handleRequestClose = () => {
+        this.setState({open: false});
+    };
 
     renderData = () => {
         getData(this.props.tripId)
@@ -43,7 +53,13 @@ export default class Comments extends React.Component {
                                 commentId={comment.id}
                                 tripId={this.props.tripId}
                                 renderData={this.renderData}
+                                notification={this.notification}
                                 />
+
+                                <CommentNotification
+                                    message="Comment deleted"
+                                    open={this.state.open}
+                                    onRequestClose={this.handleRequestClose} />
                         </ListItem>
                     ))}
                 </List>

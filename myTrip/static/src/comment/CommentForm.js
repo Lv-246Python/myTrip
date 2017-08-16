@@ -46,14 +46,12 @@ export class CommentForm extends React.Component {
     render() {
         return (
           <div>
-              <Paper style={styles.paper}>
+              <Paper style={styles.paperForm}>
                   <TextField
                   fullWidth={true}
                   floatingLabelText="Write a comment"
                   value={this.state.newCommentText}
                   onChange={this.handleComment} />
-
-                  <br />
 
                   <RaisedButton
                     onTouchTap={this.handleTouchTap}

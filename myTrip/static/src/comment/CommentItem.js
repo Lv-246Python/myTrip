@@ -20,8 +20,7 @@ export class CommentItem extends React.Component {
             dialogDelete: false,
             disabled: true,
             open: false,
-            editCommentText: '',
-            message: ''
+            editCommentText: ''
         };
     }
 
@@ -52,7 +51,6 @@ export class CommentItem extends React.Component {
                  this.setState({editCommentText: ''});
                  this.setState({dialogEdit: false});
                  this.setState({'disabled': true});
-                 this.setState({message: 'Comment edited'});
                  this.setState({open: true});
             });
     };
@@ -69,6 +67,7 @@ export class CommentItem extends React.Component {
         deleteComment(this.props.tripId, this.props.commentId)
             .then(() => {
                 this.props.renderData();
+                this.props.notification();
             });
     };
 
@@ -134,8 +133,8 @@ export class CommentItem extends React.Component {
                       </CardActions>
 
                       <CommentNotification
-                          open={this.state.open}
-                          message={this.state.message}
+                          message="Comment edited"
+                          open={this.state.open}                          
                           onRequestClose={this.handleRequestClose} />
 
                       <EditDialog

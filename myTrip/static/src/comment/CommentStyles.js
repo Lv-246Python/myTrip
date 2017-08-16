@@ -1,14 +1,4 @@
 export const styles = {
-    paper: {
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingBottom: 15,
-
-        marginLeft: 15,
-        marginRight: 15,
-        marginBottom: 15
-    },
-
     paperForm: {
         marginLeft: 15,
         marginRight: 15,
@@ -27,7 +17,6 @@ export const styles = {
     },
 
     divider: {
-        backgroundColor: 'grey',
         marginBottom: 15
     },
 
