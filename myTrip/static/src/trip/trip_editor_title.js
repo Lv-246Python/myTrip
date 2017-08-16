@@ -16,71 +16,66 @@ export default class TripEditorTitle extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            props: props,
-            tripId: this.props.trip.id,
             open: false,
             disabled: true,
-            editTripText: this.props.trip.title
+            newText: '',
+            tripId: this.props.tripId,
         };
-        console.log(this.props.trip.id)
     };
 
-
-    // open edit trip dialog
+    // open edit trip dialog with title from props
     handleOpenEditTrip = () => {
-      this.setState({open: true});
-      this.setState({editTitleText: this.props.trip.title});
-      console.log(this.props.trip.title)
+        this.setState({open: true});
+        this.setState({newText: this.props.text});
+    };
+
+    // function for edit title text, that cannot be the same or empty
+    handleEditTripText = (event) => {
+        this.setState({newText: event.target.value});
+        if ((event.target.value === this.props.text) || (event.target.value.length === 0)) {
+            this.setState({disabled: true});
+        } else {
+            this.setState({disabled: false});
+        };
+    };
+
+    /*
+    function for submit button for edit trip title
+    create params with new title and default description and status
+    create putTrip func
+    call this func that takes that params and put them by trip id
+    call get func from props and rerender page
+    close edit dialog
+    */
+    editTrip = () => {
+        const title = this.state.newText;
+        const description = this.props.trip.description;
+        const status = this.props.trip.status;
+
+        const putTrip = (title, description, status) => {
+            return axios.put(`/api/v1/trip/${this.state.tripId}/`, {
+                title, description, status })
+        };
+        putTrip(title, description, status)
+        .then(() => {
+            this.props.getTrip();
+            this.handleCloseEditTrip()
+        })
     };
 
     // close edit trip dialog
     handleCloseEditTrip = () => {
-      this.setState({open: false});
-      this.setState({disabled: true});
-      this.setState({editTitleText: ''});
-    };
-
-
-    handleEditTripText = (event) => {
-        this.setState({'editTripText': event.target.value});
-        if (this.state.editTripText.length !== 0) {
-            this.setState({disabled: false});
-        };
-        console.log(this.state.editTripText)
-    };
-
-
-    //get trip data from backend by url with trip id
-    getTrip = () => {
-        axios.get(`/api/v1/trip/${this.state.tripId}/`).then(response => {
-            const trip = response.data;
-            this.setState({trip: trip});
-        });
-        console.log(this.state.tripId);
-    };
-
-
-    // function for submit button for edit trip
-    editTrip = () => {
-        const title = this.state.title;
-        const description = this.state.description;
-        const status = 0;
-        const putTrip = (title, description, status) => {
-            return axios.put(`/api/v1/trip/${this.props.tripId}/`, {
-                title,
-                description,
-                status
-            }).then(this.getTrip());
-        console.log('Edit');
-        }
+        this.setState({open: false});
+        this.setState({disabled: true});
+        this.setState({newText: ''});
     };
 
 
     render() {
 
-        const trip = this.state.trip;
-        const value = this.state.title;
-
+        {/*
+        create cancel and submit buttons for edit dialog
+        */}
         const actionsEdit = [
             <div className='buttonTripDialog'>
                 <RaisedButton
@@ -107,7 +102,7 @@ export default class TripEditorTitle extends React.Component {
         return (
 
             <div>
-                <IconButton
+                <IconButton // click -> open edit dialog with title text and 2 buttons
                     key='edit'
                     className='buttonEditTrip'
                     onTouchTap={this.handleOpenEditTrip}
@@ -120,18 +115,16 @@ export default class TripEditorTitle extends React.Component {
                 <Dialog
                     title="Edit trip title"
                     actions={actionsEdit} //add cancel and edit buttons to edit dialog
-                    modal={true}           //close exit from dialog via Esc or side-click
+                    modal={true}           //cancel exit from dialog via Esc or side-click
                     open={this.state.open}  //dialog invisible, until click edit
-
-                    //after click on cancel or submit, dialog will be closed
-                    onRequestClose={this.handleCloseEditTrip} >
-
-                        <TextField
-                            autoFocus
-                            name='trip title'
-                            fullWidth={true}
-                            value={this.state.editTripText}
-                            onChange={this.handleEditTripText} />
+                >
+                    <TextField
+                        autoFocus
+                        name='trip title'
+                        fullWidth={true}
+                        value={this.state.newText} //take text from handleEditTripText
+                        onChange={this.handleEditTripText}
+                    />
                 </Dialog>
 
             </div>

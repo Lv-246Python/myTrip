@@ -21,6 +21,11 @@ export default class TripDelete extends React.Component {
     };
 
 
+    //delete trip from backend by url with trip id
+    deleteTrip = (tripId) => {
+        axios.delete(`/api/v1/trip/${this.state.tripId}/`)
+    };
+
     // open delete trip dialog
     handleOpenDeleteTrip = () => {
       this.setState({open: true});
@@ -33,13 +38,7 @@ export default class TripDelete extends React.Component {
     // function for submit button for delete trip
     handleDeleteTrip = () => {
         this.deleteTrip(this.state.tripId)
-            .then(() => this.getTrip());
-    };
-
-
-    //delete trip from backend by url with trip id
-    deleteTrip = (tripId) => {
-        axios.delete(`/api/v1/trip/${this.state.tripId}/`)
+            .then(() => {this.props.history.push('/trips')});
     };
 
 

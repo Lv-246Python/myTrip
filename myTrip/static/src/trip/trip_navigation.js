@@ -36,7 +36,7 @@ export default class TripNavigation extends React.Component {
                     primaryText="Profile"
                     leftIcon={<ProfileIcon />}
                     containerElement={<Link to='/profile' />} />
-              </List>
+            </List>
         );
     }
 }

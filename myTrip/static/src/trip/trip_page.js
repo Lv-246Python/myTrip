@@ -10,15 +10,14 @@ import Checkbox from 'material-ui/Checkbox';
 import Comments from "../comment/Comments";
 import Divider from 'material-ui/Divider';
 import SubHeader from 'material-ui/Subheader';
-import TripDescription from './trip_editor_description'
-import TripEditorTitle from './trip_editor_title'
-import TripNavigation from './trip_navigation'
-import TripDelete from './trip_delete'
-import './trip.less'
+import TripEditorDescription from './trip_editor_description';
+import TripEditorTitle from './trip_editor_title';
+import TripNavigation from './trip_navigation';
+import TripDelete from './trip_delete';
+import './trip.less';
 
 /*
 import Checkpoint from 'checkpoint';
-import Comment from 'comment';
 import Like from 'like';
 import Photo from 'photo'
 */
@@ -39,7 +38,7 @@ export default class TripPage extends React.Component {
     getTrip = () => {
         axios.get(`/api/v1/trip/${this.tripId}/`).then(response => {
             const trip = response.data;
-            this.setState({trip: trip});
+            this.setState({trip});
         });
     };
 
@@ -47,6 +46,7 @@ export default class TripPage extends React.Component {
     componentDidMount() {
         this.getTrip();
     };
+
 
     render() {
 
@@ -66,7 +66,7 @@ export default class TripPage extends React.Component {
                         {trip &&
                             <Card>
                                 <CardHeader className='tripPageHeader' >
-                                    <div className="tripEditTitle">
+                                    <div className="tripEdit">
                                         <CardHeader
                                             title={<b>{this.state.trip.title}</b>}
                                             titleStyle={{fontSize: 25}}
@@ -76,9 +76,11 @@ export default class TripPage extends React.Component {
                                         trip edit title mode for author
                                         */}
 
-                                        <div className="tripEditButton">
+                                        <div className="tripEditIcon">
                                             <TripEditorTitle
                                                 trip={this.state.trip}
+                                                text={this.state.trip.title}
+                                                tripId={this.state.trip.id}
                                                 getTrip={this.getTrip}
                                             />
                                         </div>
@@ -109,18 +111,21 @@ export default class TripPage extends React.Component {
                                 trip description
                                 */}
 
-                                <CardText className='tripDescription'>
-                                    <h3>Description</h3>
-
-                                    {/*
-                                    <TripDescription
-                                        trip={this.state.trip}
-                                        getTrip={this.state.getTrip}
-                                        editTrip={this.state.editTrip}/>
-                                    */}
-
-                                    {trip.description}
-                                </CardText>
+                                <div className="tripEdit">
+                                    <CardText className='tripDescription'
+                                        style={{fontSize: 20}}
+                                    >
+                                        <h4>Description:</h4>
+                                        {trip.description}
+                                    </CardText>
+                                    <div className="tripEditIcon">
+                                        <TripEditorDescription
+                                            trip={this.state.trip}
+                                            text={this.state.trip.description}
+                                            tripId={this.state.trip.id}
+                                            getTrip={this.getTrip}/>
+                                    </div>
+                                </div>
 
                                 {/*
                                 there will be <Like /> component

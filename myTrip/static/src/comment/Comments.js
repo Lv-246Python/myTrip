@@ -50,7 +50,6 @@ export default class Comments extends React.Component {
                         ))}
                     </List>
 
-                    <Divider style={styles.divider} />
                     <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
                 </div>
 

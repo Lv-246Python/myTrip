@@ -8,7 +8,7 @@ import { GridTile } from 'material-ui/GridList';
 import Photo from 'photo'
 */
 
-let img = "http://www.apaseotravel.com/wp-apaseo/wp-content/uploads/2016/03/LateSAil-Bahamas3.jpg";
+let img = 'http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg';
 
 export default class TripTile extends React.Component {
     constructor(props){
