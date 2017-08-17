@@ -20,6 +20,7 @@ export default class Comments extends React.Component {
         };
     }
 
+// snackbar notification
     notification = () => {
         this.setState({snackbarOpen: true});
     };
@@ -28,6 +29,7 @@ export default class Comments extends React.Component {
         this.setState({snackbarOpen: false});
     };
 
+// refresh page content
     renderData = () => {
         getData(this.props.tripId)
             .then(response => {
@@ -40,32 +42,44 @@ export default class Comments extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <List>
-                    {this.state.comments.map(comment => (
-                        <ListItem key={comment.id}>
-                            <CommentItem
-                                username={comment.user_name}
-                                updated={formatDate(comment.update_at)}
-                                message={comment.message}
-                                commentId={comment.id}
-                                tripId={this.props.tripId}
-                                renderData={this.renderData}
-                                notification={this.notification}
-                                />
+        if (this.state.comments.length === 0) {
+            return (
+                <div>
+                    <h2 style={styles.noComments}>
+                        No comments yet
+                    </h2>
 
-                                <CommentNotification
-                                    message="Comment deleted"
-                                    open={this.state.snackbarOpen}
-                                    onRequestClose={this.handleRequestClose} />
-                        </ListItem>
-                    ))}
-                </List>
+                    <Divider style={styles.divider} />
+                    <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <List>
+                        {this.state.comments.map(comment => (
+                            <ListItem key={comment.id}>
+                                <CommentItem
+                                    username={comment.user_name}
+                                    updated={formatDate(comment.update_at)}
+                                    message={comment.message}
+                                    commentId={comment.id}
+                                    tripId={this.props.tripId}
+                                    renderData={this.renderData}
+                                    notification={this.notification} />
 
-                <Divider style={styles.divider} />
-                <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
-            </div>
-        );
+                                    <CommentNotification
+                                        message="Comment deleted"
+                                        open={this.state.snackbarOpen}
+                                        onRequestClose={this.handleRequestClose} />
+                            </ListItem>
+                        ))}
+                    </List>
+
+                    <Divider style={styles.divider} />
+                    <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
+                </div>
+            );
+        }
     }
 }

@@ -24,23 +24,23 @@ export class CommentItem extends React.Component {
         };
     }
 
+// snackbar notification
+    handleRequestClose = () => {
+        this.setState({snackbarOpen: false});
+    };
+
+// edit comment
     handleOpenEditDialog = () => {
       this.setState({dialogEdit: true});
       this.setState({'editCommentText': this.props.message});
     };
 
-    handleCloseEditDialog = () => {
-      this.setState({dialogEdit: false});
-      this.setState({'disabled': true});
-      this.setState({'editCommentText': ''});
-    };
-
     handleEditCommentText = (event) => {
         this.setState({'editCommentText': event.target.value});
-        if ((event.target.value === this.props.message) || (event.target.value.length === 0)) {
-             this.setState({'disabled': true});
-         } else {
+        if ((event.target.value !== this.props.message) && (event.target.value.length !== 0)) {
              this.setState({'disabled': false});
+         } else {
+             this.setState({'disabled': true});
          }
     };
 
@@ -55,12 +55,15 @@ export class CommentItem extends React.Component {
             });
     };
 
-    handleOpenDeleteDialog = () => {
-        this.setState({dialogDelete: true});
+    handleCloseEditDialog = () => {
+      this.setState({dialogEdit: false});
+      this.setState({'disabled': true});
+      this.setState({'editCommentText': ''});
     };
 
-    handleCloseDeleteDialog = () => {
-        this.setState({dialogDelete: false});
+// delete comment
+    handleOpenDeleteDialog = () => {
+        this.setState({dialogDelete: true});
     };
 
     handleDelete = () => {
@@ -71,8 +74,8 @@ export class CommentItem extends React.Component {
             });
     };
 
-    handleRequestClose = () => {
-        this.setState({snackbarOpen: false});
+    handleCloseDeleteDialog = () => {
+        this.setState({dialogDelete: false});
     };
 
     render() {
@@ -140,7 +143,6 @@ export class CommentItem extends React.Component {
                       <EditDialog
                         actions={actionsEdit}
                         title="Edit comment"
-                        floatingLabelText="Write a new comment"
                         open={this.state.dialogEdit}
                         value={this.state.editCommentText}
                         onChange={this.handleEditCommentText} />

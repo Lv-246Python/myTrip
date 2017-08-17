@@ -16,6 +16,10 @@ export const styles = {
         lineHeight: "150%"
     },
 
+    noComments: {
+        textAlign: 'center'
+    },
+
     divider: {
         marginBottom: 15
     },

@@ -19,8 +19,20 @@ export class CommentForm extends React.Component {
         };
     }
 
+// snackbar notification
     handleRequestClose = () => {
         this.setState({snackbarOpen: false});
+    };
+
+// add comment
+    handleComment = (event) => {
+        this.setState({'newCommentText': event.target.value});
+        if (event.target.value.length > 0) {
+             this.setState({disabled: false});
+         } else {
+             this.setState({disabled: true});
+         }
+
     };
 
     handleTouchTap = () => {
@@ -31,16 +43,6 @@ export class CommentForm extends React.Component {
                  this.setState({disabled: true});
                  this.setState({snackbarOpen: true});
             });
-    };
-
-    handleComment = (event) => {
-        this.setState({'newCommentText': event.target.value});
-        if (event.target.value.length > 0) {
-             this.setState({disabled: false});
-         } else {
-             this.setState({disabled: true});
-         }
-
     };
 
     render() {
