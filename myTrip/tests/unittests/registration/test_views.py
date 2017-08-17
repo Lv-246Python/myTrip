@@ -12,7 +12,10 @@ from registration.models import CustomUser, HashUser
 FACEBOOK_AUTH_URL = "http://triptrck.com/api/v1/auth/facebook_auth/"
 FACEBOOK_LOGIN_URL = "http://triptrck.com/api/v1/auth/facebook_login/?code=test_code"
 ACTIVATION_HASH = 'dalkdhasldabsas123asad'
-ACTIVATION_URL = "http://triptrck.com/api/v1/auth/activation?hash=" + ACTIVATION_HASH
+ACTIVATION_HASH_WRONG = 'ashd114heashdadasd'
+ACTIVATION_URL = "http://triptrck.com/api/v1/auth/activation?hash="
+ACTIVATION_URL_SUCCESS = ACTIVATION_URL + ACTIVATION_HASH
+ACTIVATION_URL_FAIL = ACTIVATION_URL + ACTIVATION_HASH_WRONG
 
 def auth_urlopen(url):
 
@@ -160,9 +163,16 @@ class RegistrationViewsTests(TestCase):
         request = self.client.get(FACEBOOK_LOGIN_URL)
         self.assertEqual(request.status_code, 302)
 
-    def test_activation(self):
+    def test_activation_success(self):
         """
         Test activation via email
         """
-        request = self.client.get(ACTIVATION_URL)
+        request = self.client.get(ACTIVATION_URL_SUCCESS)
         self.assertEqual(request.status_code, 200)
+
+    def test_activation_fail(self):
+        """
+        Test activation via email
+        """
+        request = self.client.get(ACTIVATION_URL_FAIL)
+        self.assertEqual(request.status_code, 404)

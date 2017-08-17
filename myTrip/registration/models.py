@@ -3,7 +3,7 @@
 import datetime
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.validators import validate_email
 from django.db import models
 
@@ -239,8 +239,9 @@ class HashUser(models.Model):
         Creates and saves a User with the given email and password.
         Args:
             user (Object<CustomUser>): new user.
+            hash (str): for appropriate user.
         Returns:
-           hash (str): for appropriate user.
+           hash_user (Object<HashUser>): new hash-user .
         """
 
         hash_user = HashUser()
@@ -255,10 +256,12 @@ class HashUser(models.Model):
         """
         Gives user by hash
         Args:
-            user (Object<CustomUser>): new user.
+            hash (str): for appropriate user.
         Returns:
-           hash (str): for appropriate user.
+           user (Object<CustomUser>): new user.
         """
-
-        hash_user = HashUser.objects.get(hash=hash)
-        return hash_user.user
+        try:
+            hash_user = HashUser.objects.get(hash=hash)
+            return hash_user.user
+        except ObjectDoesNotExist:
+            return False

@@ -6,7 +6,7 @@ from json import loads
 
 from django.shortcuts import redirect
 from django.contrib import auth
-from mytrip.settings import FACEBOOK_APP_ID as CLIENT_ID, FACEBOOK_API_SECRET as CLIENT_SECRET
+from mytrip.settings import FACEBOOK_APP_ID as CLIENT_ID, FACEBOOK_API_SECRET as CLIENT_SECRET, HOST
 
 from utils.mailer import email_sender
 from .models import CustomUser, HashUser
@@ -20,7 +20,7 @@ FACEBOOK_REDIRECT_URL = 'http://triptrck.com/api/v1/auth/facebook_login/'
 FACEBOOK_AUTH_URL = ('https://www.facebook.com/v2.10/dialog/oauth?'
                      'client_id={client_id}&redirect_uri={redirect_uri}')
 
-LOGIN_URL = 'http:triptrck.com/login/'
+LOGIN_URL = HOST + 'login/'
 MESSAGE_SUBJECT = 'tripTracker activation'
 
 MESSAGE = """
@@ -58,6 +58,8 @@ def register(request):
 
         user = CustomUser.create(email=email, password=password,
                                  first_name=first_name, last_name=last_name)
+        if not user:
+            return response_400_invalid_format
         hash = str(uuid.uuid4()).replace('-', '')
         HashUser.create(user, hash)
         link = LOGIN_URL + hash
@@ -142,7 +144,7 @@ def facebook_login(request):
         user = CustomUser.fb_create(facebook_id=facebook_id, password=token,
                                     first_name=first_name, last_name=last_name)
     auth.login(request, user)
-    return redirect('http://triptrck.com/')
+    return redirect(HOST)
 
 
 def activation(request):
@@ -152,6 +154,8 @@ def activation(request):
     if not hash:
         return HttpResponse(status=400)
     user = HashUser.get_user_by_hash(hash)
+    if not user:
+        return HttpResponse(status=404)
     user.activate()
     HashUser.objects.get(user=user).delete()
     return HttpResponse(status=200)
