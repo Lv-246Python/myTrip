@@ -15,12 +15,12 @@ export class CommentForm extends React.Component {
         this.state = {
             newCommentText: '',
             disabled: true,
-            open: false,
+            snackbarOpen: false,
         };
     }
 
     handleRequestClose = () => {
-        this.setState({open: false});
+        this.setState({snackbarOpen: false});
     };
 
     handleTouchTap = () => {
@@ -29,7 +29,7 @@ export class CommentForm extends React.Component {
                  this.props.renderData();
                  this.setState({newCommentText: ''});
                  this.setState({disabled: true});
-                 this.setState({open: true});
+                 this.setState({snackbarOpen: true});
             });
     };
 
@@ -60,7 +60,7 @@ export class CommentForm extends React.Component {
                     label="Add" />
 
                 <CommentNotification
-                    open={this.state.open}
+                    open={this.state.snackbarOpen}
                     message={'Comment added'}
                     onRequestClose={this.handleRequestClose} />
               </Paper>

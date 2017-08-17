@@ -19,7 +19,7 @@ export class CommentItem extends React.Component {
             dialogEdit: false,
             dialogDelete: false,
             disabled: true,
-            open: false,
+            snackbarOpen: false,
             editCommentText: ''
         };
     }
@@ -37,10 +37,10 @@ export class CommentItem extends React.Component {
 
     handleEditCommentText = (event) => {
         this.setState({'editCommentText': event.target.value});
-        if ((event.target.value !== this.props.message) && (event.target.value != 0)) {
-             this.setState({'disabled': false});
-         } else {
+        if ((event.target.value === this.props.message) || (event.target.value.length === 0)) {
              this.setState({'disabled': true});
+         } else {
+             this.setState({'disabled': false});
          }
     };
 
@@ -51,7 +51,7 @@ export class CommentItem extends React.Component {
                  this.setState({editCommentText: ''});
                  this.setState({dialogEdit: false});
                  this.setState({'disabled': true});
-                 this.setState({open: true});
+                 this.setState({snackbarOpen: true});
             });
     };
 
@@ -72,7 +72,7 @@ export class CommentItem extends React.Component {
     };
 
     handleRequestClose = () => {
-        this.setState({open: false});
+        this.setState({snackbarOpen: false});
     };
 
     render() {
@@ -134,7 +134,7 @@ export class CommentItem extends React.Component {
 
                       <CommentNotification
                           message="Comment edited"
-                          open={this.state.open}                          
+                          open={this.state.snackbarOpen}
                           onRequestClose={this.handleRequestClose} />
 
                       <EditDialog

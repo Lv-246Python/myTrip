@@ -16,23 +16,22 @@ export default class Comments extends React.Component {
         super(props);
         this.state = {
             comments: [],
-            open: false
+            snackbarOpen: false
         };
     }
 
     notification = () => {
-        this.setState({open: true});
+        this.setState({snackbarOpen: true});
     };
 
     handleRequestClose = () => {
-        this.setState({open: false});
+        this.setState({snackbarOpen: false});
     };
 
     renderData = () => {
         getData(this.props.tripId)
             .then(response => {
-                const comments = response.data;
-                this.setState({comments: comments});
+                this.setState({comments: response.data});
             });
     }
 
@@ -58,7 +57,7 @@ export default class Comments extends React.Component {
 
                                 <CommentNotification
                                     message="Comment deleted"
-                                    open={this.state.open}
+                                    open={this.state.snackbarOpen}
                                     onRequestClose={this.handleRequestClose} />
                         </ListItem>
                     ))}
