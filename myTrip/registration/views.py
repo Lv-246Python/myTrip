@@ -68,7 +68,9 @@ def login(request):
         user = auth.authenticate(username=email, password=password)
         if user:
             auth.login(request, user)
-            return response_200_login_successful
+            response = response_200_login_successful
+            response.set_cookie('user_id', user.id)
+            return response
         return response_403_invalid_credentials
 
 

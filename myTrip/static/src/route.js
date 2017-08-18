@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Switch } from 'react-router-dom';
 
 import Home from "./home/home";
-import Comments from "./comment/Comments";
 import Login from "./registration/login";
 import Registration from "./registration/registration";
 import TripList from "./trip/trip_list";
@@ -36,7 +35,6 @@ export default class MainRoute extends React.Component {
                     />
                     <Route exact path='/trips' component={TripList} />
                     <Route exact path='/trip/:id' component={TripPage} />
-                    <Route exact path='/comments' component={() => (<Comments tripId={1} />)}/>
                     <Route component={NotFound} />
                 </Switch>
             </main>

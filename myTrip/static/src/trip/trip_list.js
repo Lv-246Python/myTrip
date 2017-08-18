@@ -4,8 +4,9 @@ import axios from "axios";
 import { Card, CardHeader, CardMedia, CardActions } from 'material-ui/Card';
 import { GridList } from 'material-ui/GridList';
 import { getTrip, formatDate } from './trip_service';
-import Subheader from 'material-ui/Subheader';
 import FlatButton from 'material-ui/FlatButton';
+import LoadProgress from '../load_progress';
+import Subheader from 'material-ui/Subheader';
 import TripTile from './trip_tile'
 import './trip.less'
 
@@ -58,58 +59,65 @@ export default class TripList extends React.Component {
     };
 
     //if page of trip-list was changed by next/previous buttons,
-    //render trip list with new list data
+    //render trip-list with new list data
     componentDidUpdate(prevProps, prevState) {
         this.state.page !== prevState.page && this.getData();
     };
 
     render() {
-        return (
-            <main className='allTrips'>
 
-                <Card>
-                    <CardHeader
-                    title={<h2>All trips</h2>}
-                    subtitle={'Share your adventure'}
-                    />
+        const allTrips = this.state.allTrips;
 
-                    <CardMedia>
-                        <div className='gridList'>
-                            <GridList
-                                cellHeight={'auto'}
-                                cols={3}
-                                padding={20} >
+        if (allTrips === []){
+            return <LoadProgress />
+        }
+        else {
+            return (
+                <main className='allTrips'>
+                    <Card>
+                        <CardHeader
+                        title={<h2>All trips</h2>}
+                        subtitle={'Share your adventure'}
+                        />
 
-                                {/*
-                                wrap every JSON with trip data into own trip tile
-                                */}
+                        <CardMedia>
+                            <div className='gridList'>
+                                <GridList
+                                    cellHeight={'auto'}
+                                    cols={3}
+                                    padding={20}
+                                >
+                                    {/*
+                                    wrap every JSON with trip data into own trip tile
+                                    */}
 
-                                {this.state.allTrips.map(trip => (
-                                    <TripTile
-                                    key={trip.id}
-                                    tripId={trip.id}
-                                    title={trip.title}
-                                    description={trip.description}
-                                    user={trip.user}
-                                    created={formatDate(trip.create_at)} />
-                                ))}
-                            </GridList>
+                                    {this.state.allTrips.map(trip => (
+                                        <TripTile
+                                            key={trip.id}
+                                            tripId={trip.id}
+                                            title={trip.title}
+                                            description={trip.description}
+                                            user={trip.user}
+                                            created={formatDate(trip.create_at)}
+                                        />
+                                    ))}
+                                </GridList>
+                            </div>
+                        </CardMedia>
+
+                        <div className='directionButtons'>
+                            <CardActions>
+
+                                <FlatButton label="Previous" onTouchTap={this.prevPage} />
+                                <FlatButton label="Next" onTouchTap={this.nextPage} />
+
+                            </CardActions>
                         </div>
-                    </CardMedia>
 
-                    <div className='directionButtons'>
-                    <CardActions>
-
-                        <FlatButton label="Previous" onTouchTap={this.prevPage} />
-                        <FlatButton label="Next" onTouchTap={this.nextPage} />
-
-                    </CardActions>
-                    </div>
-
-                </Card>
-                <footer className='footer'>
-                </footer>
-            </main>
-        );
+                    </Card>
+                    <footer className='footer'></footer>
+                </main>
+            );
+        }
     };
 };

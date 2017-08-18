@@ -19,23 +19,26 @@ export default class TripNavigation extends React.Component {
                 <ListItem
                     key='home'
                     className='buttonHome'
-                    primaryText="Home"
+                    primaryText='Home'
                     leftIcon={<HomeIcon />}
-                    containerElement={<Link to='/' />}/>
+                    containerElement={<Link to='/' />}
+                />
 
                 <ListItem
                     key='trips'
                     className='buttonAllTrips'
-                    primaryText="All trips"
+                    primaryText='All trips'
                     leftIcon={<AllTripsIcon />}
-                    containerElement={<Link to='/trips' />}/>
+                    containerElement={<Link to='/trips' />}
+                />
 
                 <ListItem
                     key='profile'
                     className='buttonProfile'
                     primaryText="Profile"
                     leftIcon={<ProfileIcon />}
-                    containerElement={<Link to='/profile' />} />
+                    containerElement={<Link to='/profile' />}
+                />
             </List>
         );
     }

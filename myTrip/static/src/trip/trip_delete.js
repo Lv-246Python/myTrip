@@ -6,6 +6,7 @@ import { ListItem } from 'material-ui/List';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Dialog from 'material-ui/Dialog';
+import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import './trip.less'
 
@@ -14,17 +15,11 @@ export default class TripDelete extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            props: props,
             tripId: this.props.tripId,
             open: false,
         };
     };
 
-
-    //delete trip from backend by url with trip id
-    deleteTrip = (tripId) => {
-        axios.delete(`/api/v1/trip/${this.state.tripId}/`)
-    };
 
     // open delete trip dialog
     handleOpenDeleteTrip = () => {
@@ -38,7 +33,14 @@ export default class TripDelete extends React.Component {
     // function for submit button for delete trip
     handleDeleteTrip = () => {
         this.deleteTrip(this.state.tripId)
-            .then(() => {this.props.history.push('/trips')});
+    };
+
+    //delete trip from backend by url with trip id
+    deleteTrip = (tripId) => {
+        axios.delete(`/api/v1/trip/${this.state.tripId}/`)
+            .then(() => {
+                this.props.history.push('/trips');
+            });
     };
 
 
@@ -49,15 +51,15 @@ export default class TripDelete extends React.Component {
         const actionsDelete = [
             <div className='buttonTripDialog'>
                 <RaisedButton
-                    label="Cancel"
-                    labelPosition="before"
+                    label='Cancel'
+                    labelPosition='before'
                     icon={<CancelIcon />}
                     primary={true}
                     onTouchTap={this.handleCloseDeleteTrip}
                 />
                 <RaisedButton
-                    label="Delete"
-                    labelPosition="before"
+                    label='Delete'
+                    labelPosition='before'
                     icon={<DeleteIcon />}
                     secondary={true}
                     disabled={this.state.disabled}
@@ -71,20 +73,19 @@ export default class TripDelete extends React.Component {
         return (
 
             <div>
+                <Divider />
                 <ListItem
                     key='delete'
                     className='buttonDeleteTrip'
-                    primaryText="Delete trip"
+                    primaryText='Delete trip'
                     onTouchTap={this.handleOpenDeleteTrip}
                     leftIcon={<DeleteIcon />} />
 
                 <Dialog
-                    title="Do you really want to delete trip?"
+                    title='Do you really want to delete trip?'
                     actions={actionsDelete} //add cancel and delete buttons to delete dialog
                     open={this.state.open}  //dialog invisible, until click delete
-
-                    //after click on cancel or delete, dialog will be closed
-                    onRequestClose={this.handleCloseDeleteTrip} />
+                />
             </div>
         );
     }

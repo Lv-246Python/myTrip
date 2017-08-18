@@ -80,8 +80,8 @@ export default class TripEditorTitle extends React.Component {
             <div className='buttonTripDialog'>
                 <RaisedButton
                     className='button-submit-edit-trip'
-                    label="Submit"
-                    labelPosition="before"
+                    label='Submit'
+                    labelPosition='before'
                     icon={<SubmitIcon />}
                     primary={true}
                     disabled={this.state.disabled}
@@ -89,8 +89,8 @@ export default class TripEditorTitle extends React.Component {
                 />
                 <RaisedButton
                     className='button-cancel-trip-edit'
-                    label="Cancel"
-                    labelPosition="before"
+                    label='Cancel'
+                    labelPosition='before'
                     icon={<CancelIcon />}
                     secondary={true}
                     onTouchTap={this.handleCloseEditTrip}
@@ -106,17 +106,17 @@ export default class TripEditorTitle extends React.Component {
                     key='edit'
                     className='buttonEditTrip'
                     onTouchTap={this.handleOpenEditTrip}
-                    tooltip="EDIT TITLE"
-                    tooltipPosition="top-center"
+                    tooltip='EDIT TITLE'
+                    tooltipPosition='top-center'
                 >
                     <EditIcon />
                 </IconButton>
 
                 <Dialog
-                    title="Edit trip title"
+                    title='Edit trip title'
                     actions={actionsEdit} //add cancel and edit buttons to edit dialog
                     modal={true}           //cancel exit from dialog via Esc or side-click
-                    open={this.state.open}  //dialog invisible, until click edit
+                    open={this.state.open}  //dialog invisible, until click edit icon
                 >
                     <TextField
                         autoFocus
