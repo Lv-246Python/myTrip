@@ -1,7 +1,5 @@
 """Contains everything we need for Registration and Authentication."""
 
-import datetime
-
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.validators import validate_email
