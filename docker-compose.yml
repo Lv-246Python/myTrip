@@ -1,3 +1,15 @@
+postgres:
+  restart: always
+  image: postgres:9.4
+  ports:
+    - "5432:5432"
+  expose:
+    - "5432"
+  environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DATABASE=postgres
+
 web:
   build: .
   restart: always
@@ -11,14 +23,7 @@ web:
     - POSTGRES_DATABASE=postgres
   links:
     - postgres
-  command: python ./myTrip/manage.py runserver 0.0.0.0:8000
+  command: 
+    - ./db/boot.sh
   stdin_open: true
   tty: true
-
-postgres:
-  restart: always
-  build: ./db/
-  ports:
-    - "5432:5432"
-  expose:
-    - "5432"
