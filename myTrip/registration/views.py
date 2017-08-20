@@ -127,7 +127,7 @@ def facebook_login(request):
             Redirect to home page
         """
 
-    code = request.GET['code']
+    code = request.GET.get('code')
     link = FACEBOOK_TOKEN_URL.format(
         client_id=CLIENT_ID,
         redirect_uri=FACEBOOK_REDIRECT_URL,
@@ -137,10 +137,10 @@ def facebook_login(request):
     token = loads(token_request.read().decode('utf-8')).get('access_token')
     user_request = urlopen(FACEBOOK_USER_URL.format(token=token))
     user_data = loads(user_request.read().decode('utf-8'))
-    facebook_id = str(user_data['id'])
+    facebook_id = str(user_data.get('id'))
     user = CustomUser.get_by_facebook_id(facebook_id=facebook_id)
     if not user:
-        first_name, last_name = user_data['name'].split()
+        first_name, last_name = user_data.get('name').split()
         user = CustomUser.fb_create(facebook_id=facebook_id, password=token,
                                     first_name=first_name, last_name=last_name)
     auth.login(request, user)
@@ -155,7 +155,7 @@ def activation(request):
         return HttpResponse(status=400)
     user = HashUser.get_user_by_hash(hash)
     if not user:
-        return HttpResponse(status=404)
+        return HttpResponse(status=400)
     user.activate()
     HashUser.objects.get(user=user).delete()
     return HttpResponse(status=200)

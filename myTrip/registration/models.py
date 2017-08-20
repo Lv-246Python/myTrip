@@ -231,7 +231,7 @@ class HashUser(models.Model):
 
     hash = models.CharField(max_length=500, blank=False)
     user = models.OneToOneField(CustomUser, blank=False)
-    create_at = models.DateTimeField()
+    create_at = models.DateTimeField(auto_now_add=True)
 
     @staticmethod
     def create(user, hash):
@@ -247,7 +247,6 @@ class HashUser(models.Model):
         hash_user = HashUser()
         hash_user.user = user
         hash_user.hash = hash
-        hash_user.create_at = datetime.datetime.now()
         hash_user.save()
         return hash_user
 

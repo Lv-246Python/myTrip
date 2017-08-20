@@ -175,4 +175,4 @@ class RegistrationViewsTests(TestCase):
         Test activation via email
         """
         request = self.client.get(ACTIVATION_URL_FAIL)
-        self.assertEqual(request.status_code, 404)
+        self.assertEqual(request.status_code, 400)
