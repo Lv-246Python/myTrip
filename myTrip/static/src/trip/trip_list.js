@@ -5,8 +5,9 @@ import { Card, CardHeader, CardMedia, CardActions } from 'material-ui/Card';
 import { GridList } from 'material-ui/GridList';
 import { getTrip, formatDate } from './trip_service';
 import FlatButton from 'material-ui/FlatButton';
+import LeftIcon from 'material-ui/svg-icons/navigation/chevron-left';
 import LoadProgress from '../load_progress';
-import Subheader from 'material-ui/Subheader';
+import RightIcon from 'material-ui/svg-icons/navigation/chevron-right';
 import TripTile from './trip_tile'
 import './trip.less'
 
@@ -15,9 +16,9 @@ export default class TripList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        //put all trips in array
-            allTrips: [],
-            page: 0
+            allTrips: null,
+            page: 0,
+            disabled: false,
         };
     };
 
@@ -30,8 +31,15 @@ export default class TripList extends React.Component {
         axios.get(url).then(response => {
             const allTrips = response.data;
             this.setState({allTrips});
+            this.firstPage();
         });
     };
+
+    //function for disable previous button on a first page
+    firstPage = () => {
+        (this.state.page === 0)
+        ? this.setState({disabled: true}) : this.setState({disabled: false})
+    }
 
     //function for next page button
     nextPage = () => {
@@ -43,7 +51,8 @@ export default class TripList extends React.Component {
         this.setState({page: this.state.page && this.state.page - 1});
     };
 
-/* callback function, that returns JSON of a first photo of chosen trip from backend
+    /*
+    callback function, that returns JSON of a first photo of chosen trip from backend
 
     getTripPhoto = () => {
         axios.get(`/api/v1/trip/${trip.id}/photo/1/` ).then(response => {
@@ -51,15 +60,18 @@ export default class TripList extends React.Component {
             this.setState({tripPhoto});
         });
     };
-*/
+    */
+
 
     //renders only after data gotten
     componentDidMount() {
         this.getData();
     };
 
-    //if page of trip-list was changed by next/previous buttons,
-    //render trip-list with new list data
+    /*
+    if page of trip-list was changed by next/previous buttons,
+    render trip-list with new list data
+    */
     componentDidUpdate(prevProps, prevState) {
         this.state.page !== prevState.page && this.getData();
     };
@@ -68,7 +80,7 @@ export default class TripList extends React.Component {
 
         const allTrips = this.state.allTrips;
 
-        if (allTrips === []){
+        if (allTrips === null){
             return <LoadProgress />
         }
         else {
@@ -76,10 +88,9 @@ export default class TripList extends React.Component {
                 <main className='allTrips'>
                     <Card>
                         <CardHeader
-                        title={<h2>All trips</h2>}
-                        subtitle={'Share your adventure'}
+                            title={<h2>All trips</h2>}
+                            subtitle={'Share your adventure'}
                         />
-
                         <CardMedia>
                             <div className='gridList'>
                                 <GridList
@@ -104,16 +115,22 @@ export default class TripList extends React.Component {
                                 </GridList>
                             </div>
                         </CardMedia>
-
                         <div className='directionButtons'>
                             <CardActions>
-
-                                <FlatButton label="Previous" onTouchTap={this.prevPage} />
-                                <FlatButton label="Next" onTouchTap={this.nextPage} />
-
+                                <FlatButton
+                                    label='Previous'
+                                    icon={<LeftIcon />}
+                                    disabled={this.state.disabled}
+                                    onTouchTap={this.prevPage}
+                                />
+                                <FlatButton
+                                    label='Next'
+                                    labelPosition='before'
+                                    icon={<RightIcon />}
+                                    onTouchTap={this.nextPage}
+                                />
                             </CardActions>
                         </div>
-
                     </Card>
                     <footer className='footer'></footer>
                 </main>

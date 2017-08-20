@@ -4,6 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from registration.models import CustomUser
 
+TILES = 6
+
 
 class Trip(models.Model):
     """
@@ -123,7 +125,7 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def get_trips(user_id, page=0, step=6):
+    def get_trips(user_id, page=0, step=TILES):
         """
         Returns last 6 trips, also by the user.
         Args:
@@ -137,6 +139,19 @@ class Trip(models.Model):
         end = start + step
         if not user_id:
             trips = (Trip.objects.all().order_by('-create_at')[start:end])
+            print(Trip.objects.all().__len__())
             return trips
         trips = (Trip.objects.filter(user=user_id).order_by('-create_at')[start:end])
         return trips
+
+    """
+    TILES = 6
+    
+    def get_all_trips():
+        trips_quantity = Trip.objects.__len__()
+        all_pages = trips_quantity//TILES
+        if trips_quantity%TILES == 0:
+            return all_pages
+        else:
+            return (all_pages + 1)
+    """

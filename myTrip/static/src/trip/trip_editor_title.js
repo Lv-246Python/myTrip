@@ -67,7 +67,6 @@ export default class TripEditorTitle extends React.Component {
     handleCloseEditTrip = () => {
         this.setState({open: false});
         this.setState({disabled: true});
-        this.setState({newText: ''});
     };
 
 

@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { Card, CardHeader, CardMedia, CardText, CardActions } from 'material-ui/Card';
 import { getTrip, formatDate } from './trip_service';
+import { userId } from '../utils';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
@@ -31,6 +32,7 @@ export default class TripPage extends React.Component {
         this.tripId = this.props.match.params.id;
         this.state = {
             trip: null,
+            userId: userId,
         };
     };
 
@@ -40,6 +42,8 @@ export default class TripPage extends React.Component {
         axios.get(`/api/v1/trip/${this.tripId}/`).then(response => {
             const trip = response.data;
             this.setState({trip});
+            console.log(this.state.userId());
+            console.log(this.state.trip.user);
             }, error => {
                 const trip = 'Trip not found';
                 this.setState({trip});
@@ -87,6 +91,7 @@ export default class TripPage extends React.Component {
                                             trip edit title button for author
                                             */}
 
+                                            {(this.state.userId() === this.state.trip.user) ?
                                             <div className='tripEditIcon'>
                                                 <TripEditorTitle
                                                     trip={this.state.trip}
@@ -94,7 +99,8 @@ export default class TripPage extends React.Component {
                                                     tripId={this.state.trip.id}
                                                     getTrip={this.getTrip}
                                                 />
-                                            </div>
+                                            </div> : false
+                                            }
 
                                         </div>
                                         <SubHeader>
@@ -131,13 +137,15 @@ export default class TripPage extends React.Component {
                                         trip edit description button for author
                                         */}
 
+                                        {(this.state.userId() === this.state.trip.user) ?
                                         <div className='tripEditIcon'>
                                             <TripEditorDescription
                                                 trip={this.state.trip}
                                                 text={this.state.trip.description}
                                                 tripId={this.state.trip.id}
                                                 getTrip={this.getTrip}/>
-                                        </div>
+                                        </div> : false}
+
                                     </div>
 
                                     <div className='tripDescription'>
@@ -175,7 +183,7 @@ export default class TripPage extends React.Component {
                                         showExpandableButton={true} />
 
                                     <CardText expandable={true}>
-                                        {trip && <Comments tripId={this.state.trip.id} />}
+                                        <Comments tripId={this.state.trip.id} />
                                     </CardText>
                                 </Card>
 
@@ -203,12 +211,14 @@ export default class TripPage extends React.Component {
                         </main>
 
                         {/*
-                        left side navigation menu with Delete button
+                        left side navigation menu with divider and Delete button for author
                         */}
                         <div className='HolyGrail-left'>
 
                             <TripNavigation />
-                            <TripDelete tripId={this.state.trip.id} />
+
+                            {(this.state.userId() === this.state.trip.user) ?
+                            <TripDelete tripId={this.state.trip.id} /> : false}
 
                         </div>
 
