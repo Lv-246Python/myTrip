@@ -1,0 +1,24 @@
+web:
+  build: .
+  restart: always
+  ports:
+    - "8000:8000"
+  expose:
+    - "8000"
+  environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DATABASE=postgres
+  links:
+    - postgres
+  command: python ./myTrip/manage.py runserver 0.0.0.0:8000
+  stdin_open: true
+  tty: true
+
+postgres:
+  restart: always
+  build: ./db/
+  ports:
+    - "5432:5432"
+  expose:
+    - "5432"
