@@ -13,7 +13,7 @@ export function editTrip(tripId) {
 };
 
 export function deleteTrip(tripId) {
-    return axios.delete(`tripUrl${this.tripId}/`);
+    return axios.delete(`tripUrl${tripId}/`);
 };
 
 export function formatDate(date) {

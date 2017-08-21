@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import Dialog from 'material-ui/Dialog';
 import EditIcon from 'material-ui/svg-icons/image/edit';
-import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import SubmitIcon from 'material-ui/svg-icons/action/done';
 import TextField from 'material-ui/TextField';
 import './trip.less'

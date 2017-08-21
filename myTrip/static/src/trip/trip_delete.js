@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 import { ListItem } from 'material-ui/List';
+import { tripUrl } from './trip_service';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Dialog from 'material-ui/Dialog';
@@ -23,12 +24,12 @@ export default class TripDelete extends React.Component {
 
     // open delete trip dialog
     handleOpenDeleteTrip = () => {
-      this.setState({open: true});
+        this.setState({open: true});
     };
 
     // close delete trip dialog
     handleCloseDeleteTrip = () => {
-      this.setState({open: false});
+        this.setState({open: false});
     };
 
     // function for submit button for delete trip
@@ -39,6 +40,7 @@ export default class TripDelete extends React.Component {
     //delete trip from backend by url with trip id
     deleteTrip = (tripId) => {
         axios.delete(`/api/v1/trip/${this.state.tripId}/`)
+        .then(() => this.props.history.push('/trips'));
     };
 
 
@@ -62,7 +64,6 @@ export default class TripDelete extends React.Component {
                     secondary={true}
                     disabled={this.state.disabled}
                     onTouchTap={this.deleteTrip}
-                    containerElement={<Link to='/trips' />}
                 />
             </div>
         ];

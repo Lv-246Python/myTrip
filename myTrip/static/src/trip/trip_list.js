@@ -11,6 +11,9 @@ import RightIcon from 'material-ui/svg-icons/navigation/chevron-right';
 import TripTile from './trip_tile'
 import './trip.less'
 
+const tripListColumns = 3;
+const tripListPadding = 20;
+
 
 export default class TripList extends React.Component {
     constructor(props) {
@@ -18,7 +21,9 @@ export default class TripList extends React.Component {
         this.state = {
             allTrips: null,
             page: 0,
-            disabled: false,
+            lastPage: 0,
+            disabledFirst: false,
+            disabledLast: false,
         };
     };
 
@@ -27,18 +32,29 @@ export default class TripList extends React.Component {
         let url = '/api/v1/trip/';
         if (this.state.page){
             url += '?page=' + this.state.page;
-        }
+        };
         axios.get(url).then(response => {
-            const allTrips = response.data;
-            this.setState({allTrips});
-            this.firstPage();
+            const allTrips = response.data.trips;
+            const allPages = response.data.all_pages;
+            this.setState({
+                allTrips: allTrips,
+                lastPage: allPages,
+            });
+            this.firstPageFunc();
+            this.lastPageFunc();
         });
     };
 
     //function for disable previous button on a first page
-    firstPage = () => {
+    firstPageFunc = () => {
         (this.state.page === 0)
-        ? this.setState({disabled: true}) : this.setState({disabled: false})
+        ? this.setState({disabledFirst: true}) : this.setState({disabledFirst: false})
+    }
+
+    //function for disable next button on a last page
+    lastPageFunc = () => {
+        (this.state.page === this.state.lastPage)
+        ? this.setState({disabledLast: true}) : this.setState({disabledLast: false})
     }
 
     //function for next page button
@@ -61,7 +77,6 @@ export default class TripList extends React.Component {
         });
     };
     */
-
 
     //renders only after data gotten
     componentDidMount() {
@@ -95,8 +110,8 @@ export default class TripList extends React.Component {
                             <div className='gridList'>
                                 <GridList
                                     cellHeight={'auto'}
-                                    cols={3}
-                                    padding={20}
+                                    cols={tripListColumns}
+                                    padding={tripListPadding}
                                 >
                                     {/*
                                     wrap every JSON with trip data into own trip tile
@@ -106,10 +121,11 @@ export default class TripList extends React.Component {
                                         <TripTile
                                             key={trip.id}
                                             tripId={trip.id}
+                                            user={trip.user}
                                             title={trip.title}
                                             description={trip.description}
-                                            user={trip.user}
                                             created={formatDate(trip.create_at)}
+                                            updated={formatDate(trip.update_at)}
                                         />
                                     ))}
                                 </GridList>
@@ -120,13 +136,14 @@ export default class TripList extends React.Component {
                                 <FlatButton
                                     label='Previous'
                                     icon={<LeftIcon />}
-                                    disabled={this.state.disabled}
+                                    disabled={this.state.disabledFirst}
                                     onTouchTap={this.prevPage}
                                 />
                                 <FlatButton
                                     label='Next'
                                     labelPosition='before'
                                     icon={<RightIcon />}
+                                    disabled={this.state.disabledLast}
                                     onTouchTap={this.nextPage}
                                 />
                             </CardActions>

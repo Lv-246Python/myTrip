@@ -35,9 +35,9 @@ export default class TripNavigation extends React.Component {
                 <ListItem
                     key='profile'
                     className='buttonProfile'
-                    primaryText="Profile"
+                    primaryText='Author'
                     leftIcon={<ProfileIcon />}
-                    containerElement={<Link to='/profile' />}
+                    containerElement={<Link to={`/profile/${this.props.userId}`} />}
                 />
             </List>
         );

@@ -34,6 +34,7 @@ class Trip(models.Model):
                 'user': user,
                 'title': title,
                 'create_at': date,
+                'update_at': date,
                 'description': description,
                 'status': status
                 }
@@ -43,17 +44,19 @@ class Trip(models.Model):
             "user": self.user.id,
             "title": self.title,
             "create_at": self.create_at,
+            "update_at": self.update_at,
             "description": self.description,
             "status": self.status}
 
     def __repr__(self):
         return "id:{} user:{} title:{} create_at:{}" \
-               " description:{} status:{}".format(self.id,
-                                                  self.user,
-                                                  self.title,
-                                                  self.create_at,
-                                                  self.description,
-                                                  self.status)
+               "update_at:{} description:{} status:{}".format(self.id,
+                                                              self.user,
+                                                              self.title,
+                                                              self.create_at,
+                                                              self.update_at,
+                                                              self.description,
+                                                              self.status)
 
     @staticmethod
     def get_by_id(trip_id):
@@ -127,31 +130,30 @@ class Trip(models.Model):
     @staticmethod
     def get_trips(user_id, page=0, step=TILES):
         """
-        Returns last 6 trips, also by the user.
+        Returns last 6(TILES) trips, also by the user.
         Args:
             user_id (int): id of user,
             page (int): number of trip-list,
             step (int): maximum quantity of trips on one page of trip-list,
         Returns:
-            reversed trips.
+            tuple, that consist of:
+                trips (list): last 6(TILES) trips,
+                quantity (int): quantity of all trips,
+                all_pages (int): quantity of pages with all trips
         """
         start = step*page
         end = start + step
         if not user_id:
-            trips = (Trip.objects.all().order_by('-create_at')[start:end])
-            print(Trip.objects.all().__len__())
-            return trips
-        trips = (Trip.objects.filter(user=user_id).order_by('-create_at')[start:end])
-        return trips
-
-    """
-    TILES = 6
-    
-    def get_all_trips():
-        trips_quantity = Trip.objects.__len__()
-        all_pages = trips_quantity//TILES
-        if trips_quantity%TILES == 0:
-            return all_pages
+            trips = Trip.objects.all()
         else:
-            return (all_pages + 1)
-    """
+            trips = Trip.objects.filter(user=user_id)
+        quantity = trips.count()
+        trips = trips.order_by('-create_at')[start:end]
+        all_pages = quantity // TILES
+        if quantity == 0:
+            all_pages = 0
+        elif quantity % TILES == 0:
+            all_pages = all_pages - 1
+        else:
+            all_pages = all_pages
+        return trips, quantity, all_pages

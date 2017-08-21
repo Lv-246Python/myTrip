@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "axios";
 
 import { Card, CardHeader, CardMedia, CardText, CardActions } from 'material-ui/Card';
-import { getTrip, formatDate } from './trip_service';
+import { getTrip, formatDate, tripUrl } from './trip_service';
 import { userId } from '../utils';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
@@ -42,20 +42,12 @@ export default class TripPage extends React.Component {
         axios.get(`/api/v1/trip/${this.tripId}/`).then(response => {
             const trip = response.data;
             this.setState({trip});
-            console.log(this.state.userId());
-            console.log(this.state.trip.user);
             }, error => {
                 const trip = 'Trip not found';
                 this.setState({trip});
             }
         );
-
     };
-
-    componentWillMount() {
-        this.getTrip();
-    };
-
 
     //add trip data to state and rerender page
     componentDidMount() {
@@ -144,7 +136,8 @@ export default class TripPage extends React.Component {
                                                 text={this.state.trip.description}
                                                 tripId={this.state.trip.id}
                                                 getTrip={this.getTrip}/>
-                                        </div> : false}
+                                        </div> : false
+                                        }
 
                                     </div>
 
@@ -215,10 +208,13 @@ export default class TripPage extends React.Component {
                         */}
                         <div className='HolyGrail-left'>
 
-                            <TripNavigation />
+                            <TripNavigation userId={this.state.trip.user} />
 
                             {(this.state.userId() === this.state.trip.user) ?
-                            <TripDelete tripId={this.state.trip.id} /> : false}
+                            <TripDelete
+                                tripId={this.state.trip.id}
+                                history={this.props.history}
+                             /> : false}
 
                         </div>
 
