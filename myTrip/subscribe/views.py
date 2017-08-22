@@ -33,7 +33,7 @@ class SubscribeView(View):
         elif trip_id:
             subscribes = Subscribe.filter(trip=trip_id)
         else:
-            subscribes = Subscribe.filter(user=request.user)
+            subscribes = Subscribe.filter(user=request.user.id)
 
         subscribes = [subscribe.to_dict() for subscribe in subscribes]
         return JsonResponse(subscribes, status=200, safe=False)
@@ -54,7 +54,7 @@ class SubscribeView(View):
             or
             HttpResponse: status: 404.
         """
-        user = CustomUser.get_by_id(user_id=request.user)
+        user = CustomUser.get_by_id(user_id=request.user.id)
         subscribed = CustomUser.get_by_id(user_id=subscribed_id)
         trip = Trip.get_by_id(trip_id=trip_id)
 

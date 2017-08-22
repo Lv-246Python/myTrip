@@ -108,20 +108,6 @@ class TestPlugin(TestCase):
                 update_at=TEST_TIME
             )
 
-    def test_get_by_id(self):
-        """Ensure that get by id method returns specific subscribe using id."""
-
-        result = Subscribe.get_by_id(SUBSCRIBE_ID_ONE)
-        expected = Subscribe.objects.get(id=SUBSCRIBE_ID_ONE)
-
-        self.assertEqual(result, expected)
-
-    def test_get_by_id_none(self):
-        """Ensure that get_by_id method returns none if subscribe does not exist."""
-
-        result = Subscribe.get_by_id(BAD_SUBSCRIBE_ID)
-        self.assertIsNone(result)
-
     def test_filter_with_user_id(self):
         """Test for filter method returns all subscribes with corrected user id."""
 
