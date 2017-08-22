@@ -7,10 +7,6 @@ from registration.models import CustomUser
 from trip.models import Trip
 from .models import Subscribe
 
-LOGIN_REQUIRED = 'Login required.'
-UNSUBSCRIBE = 'You unsubscribed.'
-SUBSCRIBE = 'You subscribed'
-
 
 class SubscribeView(View):
     """Subscribe views, handles GET and POST requests."""
@@ -37,7 +33,7 @@ class SubscribeView(View):
         elif trip_id:
             subscribes = Subscribe.filter(trip=trip_id)
         else:
-            subscribes = Subscribe.filter(user=request.user.id)
+            subscribes = Subscribe.filter(user=request.user)
 
         subscribes = [subscribe.to_dict() for subscribe in subscribes]
         return JsonResponse(subscribes, status=200, safe=False)
@@ -58,17 +54,14 @@ class SubscribeView(View):
             or
             HttpResponse: status: 404.
         """
-        user = CustomUser.get_by_id(user_id=request.user.id)
-        if user is None:
-            return HttpResponse(LOGIN_REQUIRED, status=401)
-
+        user = CustomUser.get_by_id(user_id=request.user)
         subscribed = CustomUser.get_by_id(user_id=subscribed_id)
         trip = Trip.get_by_id(trip_id=trip_id)
 
         subscribe = Subscribe.filter(user=user, subscribed=subscribed, trip=trip)
         if subscribe:
             subscribe.delete()
-            return HttpResponse(UNSUBSCRIBE, status=200)
+            return HttpResponse(status=200)
 
         Subscribe.create(user=user, trip=trip, subscribed=subscribed)
-        return HttpResponse(SUBSCRIBE, status=201)
+        return HttpResponse(status=201)

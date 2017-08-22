@@ -46,21 +46,6 @@ class Subscribe(models.Model):
         return subscribe
 
     @staticmethod
-    def get_by_id(subscribe_id):
-        """
-        Get Subscribe with given subscribe id.
-        Args:
-            subscribe_id (int): subscribe id.
-        Returns:
-            Object<Subscribe>: Subscribe Object,
-            or None when exception works.
-        """
-        try:
-            return Subscribe.objects.get(id=subscribe_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
     def filter(user=None, subscribed=None, trip=None):
         """
         Filter Subscribe objects with given Subscribed and Trip.
