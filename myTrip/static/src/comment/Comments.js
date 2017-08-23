@@ -16,7 +16,8 @@ export default class Comments extends React.Component {
         super(props);
         this.state = {
             comments: [],
-            snackbarOpen: false
+            snackbarOpen: false,
+            replyName: ''
         };
     }
 
@@ -36,6 +37,11 @@ export default class Comments extends React.Component {
                 this.setState({comments: response.data});
             });
     }
+// reply comment
+    handleReply = (name) => {
+        this.setState({replyName: name});
+        this.renderData();
+    };
 
     componentDidMount() {
         this.renderData();
@@ -60,13 +66,15 @@ export default class Comments extends React.Component {
                         {this.state.comments.map(comment => (
                             <ListItem key={comment.id}>
                                 <CommentItem
-                                    username={comment.user_name}
+                                    userName={comment.user_name}
+                                    userId={comment.user}
                                     updated={formatDate(comment.update_at)}
                                     message={comment.message}
                                     commentId={comment.id}
                                     tripId={this.props.tripId}
                                     renderData={this.renderData}
-                                    notification={this.notification} />
+                                    notification={this.notification}
+                                    handleReply={this.handleReply}/>
 
                                     <CommentNotification
                                         message="Comment deleted"
@@ -77,7 +85,10 @@ export default class Comments extends React.Component {
                     </List>
 
                     <Divider style={styles.divider} />
-                    <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
+                    <CommentForm
+                        tripId={this.props.tripId}
+                        renderData={this.renderData}
+                        replyName={this.state.replyName} />
                 </div>
             );
         }

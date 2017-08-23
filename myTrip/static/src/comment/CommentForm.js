@@ -15,7 +15,7 @@ export class CommentForm extends React.Component {
         this.state = {
             newCommentText: '',
             disabled: true,
-            snackbarOpen: false,
+            snackbarOpen: false
         };
     }
 
@@ -45,21 +45,27 @@ export class CommentForm extends React.Component {
             });
     };
 
+// reply comment
+    componentWillReceiveProps = () => {
+        this.setState({newCommentText: this.props.replyName});
+    };
+
     render() {
         return (
           <div>
               <Paper style={styles.paperForm}>
                   <TextField
-                  fullWidth={true}
-                  floatingLabelText="Write a comment"
-                  value={this.state.newCommentText}
-                  onChange={this.handleComment} />
+                      autoFocus={this.state.autoFocus}
+                      fullWidth={true}
+                      floatingLabelText="Write a comment"
+                      value={this.state.newCommentText}
+                      onChange={this.handleComment} />
 
                   <RaisedButton
-                    onTouchTap={this.handleTouchTap}
-                    primary={true}
-                    disabled={this.state.disabled}
-                    label="Add" />
+                      onTouchTap={this.handleTouchTap}
+                      primary={true}
+                      disabled={this.state.disabled}
+                      label="Add" />
 
                 <CommentNotification
                     open={this.state.snackbarOpen}

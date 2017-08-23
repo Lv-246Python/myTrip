@@ -10,6 +10,7 @@ import { CommentAvatar } from './CommentAvatar';
 import { CommentNotification } from './CommentNotification';
 import { EditDialog, DeleteDialog } from './CommentDialogs';
 import { putData, deleteComment } from './CommentServices';
+import { userId, logged } from '../utils';
 import { styles } from './CommentStyles';
 
 export class CommentItem extends React.Component {
@@ -78,6 +79,11 @@ export class CommentItem extends React.Component {
         this.setState({dialogDelete: false});
     };
 
+// reply comment
+    handleReply = () => {
+        this.props.handleReply('@' + this.props.userName);
+    };
+
     render() {
         const actionsEdit = [
             <FlatButton
@@ -112,7 +118,7 @@ export class CommentItem extends React.Component {
               <div>
                   <Card>
                       <CardHeader
-                          title={this.props.username}
+                          title={this.props.userName}
                           subtitle={this.props.updated}
                           expandable={true} />
 
@@ -123,17 +129,28 @@ export class CommentItem extends React.Component {
                             {this.props.message}
                       </CardText>
 
-                      <CardActions
-                          expandable={true}>
-                        <FlatButton
-                            label="Edit"
-                            disableTouchRipple={true}
-                            onTouchTap={this.handleOpenEditDialog} />
-                        <FlatButton
-                            label="Delete"
-                            secondary={true}
-                            onTouchTap={this.handleOpenDeleteDialog} />
-                      </CardActions>
+                      {(logged()) ?
+                          (this.props.userId === userId()) ?
+                              <CardActions
+                                  expandable={true}>
+                                <FlatButton
+                                    label="Edit"
+                                    disableTouchRipple={true}
+                                    onTouchTap={this.handleOpenEditDialog} />
+                                <FlatButton
+                                    label="Delete"
+                                    secondary={true}
+                                    onTouchTap={this.handleOpenDeleteDialog} />
+                              </CardActions>
+                              :
+                              <CardActions
+                                  expandable={true}>
+                                <FlatButton
+                                    label="Reply"
+                                    onTouchTap={this.handleReply} />
+                              </CardActions>
+
+                       :false}
 
                       <CommentNotification
                           message="Comment edited"
