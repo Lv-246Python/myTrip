@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import {List, ListItem} from 'material-ui/List';
+import AuthorIcon from 'material-ui/svg-icons/social/person';
 import AllTripsIcon from 'material-ui/svg-icons/maps/map';
+import FollowersIcon from 'material-ui/svg-icons/action/visibility';
 import HomeIcon from 'material-ui/svg-icons/action/home';
-import ProfileIcon from 'material-ui/svg-icons/social/person';
 import './trip.less'
 
 
@@ -36,8 +37,15 @@ export default class TripNavigation extends React.Component {
                     key='profile'
                     className='buttonProfile'
                     primaryText='Author'
-                    leftIcon={<ProfileIcon />}
+                    leftIcon={<AuthorIcon />}
                     containerElement={<Link to={`/profile/${this.props.userId}`} />}
+                />
+
+                <ListItem
+                    key='followers'
+                    className='buttonFollowers'
+                    primaryText='Followers'
+                    leftIcon={<FollowersIcon />}
                 />
             </List>
         );

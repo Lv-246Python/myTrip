@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
+import { editTrip } from './trip_service';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import Dialog from 'material-ui/Dialog';
 import EditIcon from 'material-ui/svg-icons/image/edit';
@@ -51,7 +52,6 @@ export default class TripEditorDescription extends React.Component {
         const title = this.props.trip.title;
         const description = this.state.newText;
         const status = this.props.trip.status;
-
         const putTrip = (title, description, status) => {
             return axios.put(`/api/v1/trip/${this.state.tripId}/`, {
                 title, description, status })
@@ -113,7 +113,6 @@ export default class TripEditorDescription extends React.Component {
                 <Dialog
                     title='Edit trip description'
                     actions={actionsEdit} //add cancel and edit buttons to edit dialog
-                    modal={true}           //cancel exit from dialog via Esc or side-click
                     open={this.state.open}  //dialog invisible, until click edit icon
                 >
                     <TextField

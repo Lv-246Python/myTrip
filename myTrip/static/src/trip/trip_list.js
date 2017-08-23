@@ -1,13 +1,17 @@
 import React from 'react';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 import { Card, CardHeader, CardMedia, CardActions } from 'material-ui/Card';
 import { GridList } from 'material-ui/GridList';
 import { getTrip, formatDate } from './trip_service';
+import { logged } from '../utils';
+import AddIcon from 'material-ui/svg-icons/content/add';
 import FlatButton from 'material-ui/FlatButton';
 import LeftIcon from 'material-ui/svg-icons/navigation/chevron-left';
 import LoadProgress from '../load_progress';
 import RightIcon from 'material-ui/svg-icons/navigation/chevron-right';
+import RaisedButton from 'material-ui/RaisedButton';
 import TripTile from './trip_tile'
 import './trip.less'
 
@@ -24,6 +28,7 @@ export default class TripList extends React.Component {
             lastPage: 0,
             disabledFirst: false,
             disabledLast: false,
+            logged: logged,
         };
     };
 
@@ -102,10 +107,26 @@ export default class TripList extends React.Component {
             return (
                 <main className='allTrips'>
                     <Card>
-                        <CardHeader
-                            title={<h2>All trips</h2>}
-                            subtitle={'Share your adventure'}
-                        />
+                        <div className='tripListHeader'>
+                            <CardHeader
+                                title={<h2>All trips</h2>}
+                                subtitle={'Share your adventure'}
+                            />
+
+                            {/*
+                            create trip button for logged user
+                            */}
+                            {(this.state.logged())?
+                            <RaisedButton
+                                primary={true}
+                                label='Create trip'
+                                labelPosition='before'
+                                icon={<AddIcon />}
+                                containerElement={<Link to='/create_trip' />}
+
+                            /> : false}
+
+                        </div>
                         <CardMedia>
                             <div className='gridList'>
                                 <GridList
@@ -124,6 +145,7 @@ export default class TripList extends React.Component {
                                             user={trip.user}
                                             title={trip.title}
                                             description={trip.description}
+                                            status={trip.status}
                                             created={formatDate(trip.create_at)}
                                             updated={formatDate(trip.update_at)}
                                         />

@@ -1,7 +1,23 @@
 
+
+
+/* Trip-list */
+
 .allTrips {
     margin: auto;
     max-width: 1450px;
+}
+
+.tripListHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 16px;
+}
+
+.directionButtons {
+    display: flex;
+    justify-content: center;
 }
 
 .footer {
@@ -15,10 +31,9 @@
     align-items: center;
 }
 
-.directionButtons {
-    display: flex;
-    justify-content: center;
-}
+
+
+/* Trip-page */
 
 .HolyGrail,
 .HolyGrail-body {
@@ -56,7 +71,6 @@
 .tripEdit {
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
 .tripEditIcon {
@@ -74,4 +88,38 @@
     display: flex;
     justify-content: flex-start;
     padding-left: 16px;
+}
+
+
+
+/* Create trip */
+
+.createTrip {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    width: 100%;
+    maxW-width: 2000;
+    max-height: 1000;
+}
+
+.createTripNavigation {
+    flex: 0 0 10%;
+}
+
+.announcedTrip {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    max-width: 2000px;
+}
+
+.announcedTripContent {
+    order: 1;
+    width: 600px;
+}
+
+.announcedTripMap {
+    order: 1;
+    width: 100%;
 }

@@ -24,7 +24,6 @@ class TripView(View):
         data["trips"] = [trip.to_dict() for trip in trips[0]]
         data["quantity"] = trips[1]
         data["all_pages"] = trips[2]
-        # trips = [trip.to_dict() for trip in trips]
         return JsonResponse(data, status=200, safe=False)
 
     def post(self, request):

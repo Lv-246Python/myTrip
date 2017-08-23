@@ -114,7 +114,6 @@ export default class TripEditorTitle extends React.Component {
                 <Dialog
                     title='Edit trip title'
                     actions={actionsEdit} //add cancel and edit buttons to edit dialog
-                    modal={true}           //cancel exit from dialog via Esc or side-click
                     open={this.state.open}  //dialog invisible, until click edit icon
                 >
                     <TextField

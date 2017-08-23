@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 
 import { ListItem } from 'material-ui/List';
-import { tripUrl } from './trip_service';
+import { deleteTrip } from './trip_service';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Dialog from 'material-ui/Dialog';
@@ -39,7 +39,7 @@ export default class TripDelete extends React.Component {
 
     //delete trip from backend by url with trip id
     deleteTrip = (tripId) => {
-        axios.delete(`/api/v1/trip/${this.state.tripId}/`)
+        deleteTrip(this.props.tripId)
         .then(() => this.props.history.push('/trips'));
     };
 
@@ -83,6 +83,9 @@ export default class TripDelete extends React.Component {
                     title='Do you really want to delete trip?'
                     actions={actionsDelete} //add cancel and delete buttons to delete dialog
                     open={this.state.open}  //dialog invisible, until click delete
+
+                    //exit from dialog via Esc or side-click
+                    onRequestClose={this.handleCloseDeleteTrip}
                 />
             </div>
         );

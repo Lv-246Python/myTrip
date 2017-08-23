@@ -2,18 +2,18 @@ import axios from 'axios';
 
 const tripUrl = '/api/v1/trip/';
 
-export function getTrip() {
-    return axios.get(`tripUrl${this.tripId}/`);
+export function getTrip(tripId) {
+    return axios.get(tripUrl + tripId + '/');
 };
 
-export function editTrip(tripId) {
-    return axios.put(`tripUrl${tripId}/`, {
+export function editTrip(tripId, title, description, status) {
+    return axios.put(tripUrl + tripId + '/', {
         title, description, status
     })
 };
 
 export function deleteTrip(tripId) {
-    return axios.delete(`tripUrl${tripId}/`);
+    return axios.delete(tripUrl + tripId + '/');
 };
 
 export function formatDate(date) {

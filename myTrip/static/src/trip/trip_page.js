@@ -1,13 +1,15 @@
 import React from 'react';
 import axios from "axios";
 
-import { Card, CardHeader, CardMedia, CardText, CardActions } from 'material-ui/Card';
-import { getTrip, formatDate, tripUrl } from './trip_service';
+import { Card, CardHeader, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card';
+import { getTrip, formatDate } from './trip_service';
 import { userId } from '../utils';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
 import Comments from "../comment/Comments";
+import CommentIcon from 'material-ui/svg-icons/communication/chat';
+import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
 import NotFound from '../notFound';
 import LoadProgress from '../load_progress';
 import SubHeader from 'material-ui/Subheader';
@@ -19,9 +21,9 @@ import TripDelete from './trip_delete';
 import './trip.less';
 
 /*
-import Checkpoint from 'checkpoint';
-import Like from 'like';
-import Photo from 'photo'
+import Checkpoint from '../checkpoint';
+import Like from '../like';
+import Photo from '../photo';
 */
 
 
@@ -32,14 +34,13 @@ export default class TripPage extends React.Component {
         this.tripId = this.props.match.params.id;
         this.state = {
             trip: null,
-            userId: userId,
         };
     };
 
 
     //get trip data from backend by url with trip id
     getTrip = () => {
-        axios.get(`/api/v1/trip/${this.tripId}/`).then(response => {
+        getTrip(this.tripId).then(response => {
             const trip = response.data;
             this.setState({trip});
             }, error => {
@@ -74,16 +75,28 @@ export default class TripPage extends React.Component {
                                 <Card>
                                     <CardHeader className='tripPageHeader' >
                                         <div className='tripEdit'>
-                                            <CardHeader
+                                            {/*
+                                            trip title
+                                            */}
+                                            <CardTitle
                                                 title={<b>{this.state.trip.title}</b>}
                                                 titleStyle={{fontSize: 25}}
-                                            />
+                                            >
+                                            {/*
+                                            trip status and created date
+                                            */}
+                                                <CardTitle
+                                                    title={this.state.trip.status}
+                                                    subtitle={formatDate(trip.create_at)}
+                                                />
+                                            </CardTitle>
+
 
                                             {/*
                                             trip edit title button for author
                                             */}
 
-                                            {(this.state.userId() === this.state.trip.user) ?
+                                            {(userId() === this.state.trip.user) ?
                                             <div className='tripEditIcon'>
                                                 <TripEditorTitle
                                                     trip={this.state.trip}
@@ -91,13 +104,8 @@ export default class TripPage extends React.Component {
                                                     tripId={this.state.trip.id}
                                                     getTrip={this.getTrip}
                                                 />
-                                            </div> : false
-                                            }
-
+                                            </div> : false}
                                         </div>
-                                        <SubHeader>
-                                            {formatDate(trip.create_at)}
-                                        </SubHeader>
                                     </CardHeader>
 
                                     {/*
@@ -129,13 +137,14 @@ export default class TripPage extends React.Component {
                                         trip edit description button for author
                                         */}
 
-                                        {(this.state.userId() === this.state.trip.user) ?
+                                        {(userId() === this.state.trip.user) ?
                                         <div className='tripEditIcon'>
                                             <TripEditorDescription
                                                 trip={this.state.trip}
                                                 text={this.state.trip.description}
                                                 tripId={this.state.trip.id}
-                                                getTrip={this.getTrip}/>
+                                                getTrip={this.getTrip}
+                                            />
                                         </div> : false
                                         }
 
@@ -160,7 +169,8 @@ export default class TripPage extends React.Component {
                                             <Checkbox
                                                 labelPosition={'left'}
                                                 checkedIcon={<ActionFavorite />}
-                                                uncheckedIcon={<ActionFavoriteBorder />} />
+                                                uncheckedIcon={<ActionFavoriteBorder />}
+                                            />
                                         </CardActions>
                                     </div>
                                 </Card>
@@ -173,7 +183,9 @@ export default class TripPage extends React.Component {
                                     <CardHeader
                                         title={<h3>Comments</h3>}
                                         actAsExpander={true}
-                                        showExpandableButton={true} />
+                                        showExpandableButton={true}
+                                        closeIcon={<CommentIcon />}
+                                    />
 
                                     <CardText expandable={true}>
                                         <Comments tripId={this.state.trip.id} />
@@ -188,7 +200,9 @@ export default class TripPage extends React.Component {
                                     <CardHeader
                                         title={<h3>Checkpoints</h3>}
                                         actAsExpander={true}
-                                        showExpandableButton={true} />
+                                        showExpandableButton={true}
+                                        closeIcon={<CheckpointIcon />}
+                                    />
 
                                     <CardText expandable={true}>
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -210,11 +224,11 @@ export default class TripPage extends React.Component {
 
                             <TripNavigation userId={this.state.trip.user} />
 
-                            {(this.state.userId() === this.state.trip.user) ?
+                            {(userId() === this.state.trip.user) ?
                             <TripDelete
                                 tripId={this.state.trip.id}
                                 history={this.props.history}
-                             /> : false}
+                            /> : false}
 
                         </div>
 
