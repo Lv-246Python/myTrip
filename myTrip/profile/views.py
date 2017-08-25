@@ -20,7 +20,7 @@ class ProfileView(View):
             return JsonResponse(profile.to_dict(), status=200)
         profile = Profile.get_by_id(request.user.id)
         if not profile:
-            return HttpResponse(status=204)
+            return HttpResponse(status=404)
         return JsonResponse(profile.to_dict(), status=200)
 
     def put(self, request):

@@ -14,7 +14,6 @@ const style = {
 }
 
 const profileURL = '/api/v1/profile/';
-const defaultAvatar = 'https://freeiconshop.com/wp-content/uploads/edd/person-flat.png'
 
 
 export default class ProfileByID extends React.Component {
@@ -46,7 +45,7 @@ export default class ProfileByID extends React.Component {
            <Paper  className="MainPaperOtherUser" zDepth={2} >
             {data && <Card profile={data} className="MainPaperOtherUser" >
                     <CardMedia>
-                      <img src={data.avatar || defaultAvatar} alt="" style={style} />
+                      <img src={data.avatar} alt="" style={style} />
                     </CardMedia>
                     <CardTitle title={data.first_name + ' ' + data.last_name} subtitle={data.email} />
                     <CardText>Gender: {data.gender}</CardText>

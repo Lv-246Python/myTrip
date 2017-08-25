@@ -11,32 +11,22 @@ import './profile.less';
 const profileURL = '/api/v1/profile/';
 
 
-
 export default class Profile extends React.Component {
     constructor(props) {
         super(props);
-        this.profileID = this.props.match.params.id;
+        this.profileID = this.props.match.params.id || '';
         this.state = {
             profile: null
         };
     }
 
     getProfile = () => {
-        const profileID = this.profileID;
-        if (profileID) {
-        return axios.get(profileURL+profileID)
-        .then(response => {
-        const profile = response.data;
-        this.setState({profile: profile});
-    });
-    } else {
-        return axios.get(profileURL)
+        axios.get(profileURL)
         .then(response => {
         const profile = response.data;
         this.setState({profile: profile});
     });
     };
-    }
     
     componentDidMount(){
         this.getProfile();
