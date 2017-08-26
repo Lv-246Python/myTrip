@@ -21,6 +21,11 @@ BAD_USER_ID = 90
 SUBSCRIBED_ID_GOOD = 1
 LOGGED_USER_ID = 3
 TRIP_ID_GOOD = 10
+TEST_NAME = 'test_name_user_owner'
+TEST_NAME_CHECK = 'test_name_user_owner test_name_user_owner'
+TEST_NAME_SUBSCRIBED_ON = 'test_name_subscribed_on'
+TEST_NAME_SUBSCRIBED_ON_CHECK = 'test_name_subscribed_on test_name_subscribed_on'
+
 
 
 class TestPlugin(TestCase):
@@ -35,8 +40,8 @@ class TestPlugin(TestCase):
             mock_test.return_value = TEST_TIME
             user_one = CustomUser.objects.create(
                 id=1,
-                first_name='test',
-                last_name='test',
+                first_name=TEST_NAME_SUBSCRIBED_ON,
+                last_name=TEST_NAME_SUBSCRIBED_ON,
                 email='test1.test@gmail.com',
                 password='user pass'
             )
@@ -51,8 +56,8 @@ class TestPlugin(TestCase):
 
             user_three = CustomUser.objects.create(
                 id=LOGGED_USER_ID,
-                first_name='test_name',
-                last_name='test_name',
+                first_name=TEST_NAME,
+                last_name=TEST_NAME,
                 email='test3@mail.com',
                 password='password'
             )
@@ -75,8 +80,8 @@ class TestPlugin(TestCase):
 
             Subscribe.objects.create(
                 id=SUBSCRIBE_ID_ONE,
-                user=user_three,
-                subscribed=user_one,
+                user_owner=user_three,
+                subscribed_on=user_one,
                 trip=NONE_OBJECT,
                 create_at=TEST_TIME,
                 update_at=TEST_TIME
@@ -84,8 +89,8 @@ class TestPlugin(TestCase):
 
             Subscribe.objects.create(
                 id=SUBSCRIBE_ID_TWO,
-                user=user_three,
-                subscribed=NONE_OBJECT,
+                user_owner=user_three,
+                subscribed_on=NONE_OBJECT,
                 trip=trip_one,
                 create_at=TEST_TIME,
                 update_at=TEST_TIME
@@ -93,16 +98,16 @@ class TestPlugin(TestCase):
 
             Subscribe.objects.create(
                 id=SUBSCRIBE_ID_THREE,
-                user=user_three,
-                subscribed=NONE_OBJECT,
+                user_owner=user_three,
+                subscribed_on=NONE_OBJECT,
                 trip=trip_two,
                 create_at=TEST_TIME,
                 update_at=TEST_TIME
             )
             Subscribe.objects.create(
                 id=SUBSCRIBE_ID_FOUR,
-                user=user_three,
-                subscribed=user_two,
+                user_owner=user_three,
+                subscribed_on=user_two,
                 trip=NONE_OBJECT,
                 create_at=TEST_TIME,
                 update_at=TEST_TIME
@@ -112,8 +117,8 @@ class TestPlugin(TestCase):
         """Test for filter method returns all subscribes with corrected user id."""
 
         user = CustomUser.objects.get(id=LOGGED_USER_ID)
-        result = Subscribe.filter(user=user.id)
-        expected = Subscribe.objects.filter(user=user.id)
+        result = Subscribe.filter(user_owner=user.id)
+        expected = Subscribe.objects.filter(user_owner=user.id)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
@@ -121,8 +126,8 @@ class TestPlugin(TestCase):
         """Test for filter method returns all subscribes with corrected subscribed id."""
 
         subscribed = CustomUser.objects.get(id=SUBSCRIBED_ID_GOOD)
-        result = Subscribe.filter(subscribed=subscribed.id)
-        expected = Subscribe.objects.filter(subscribed=subscribed.id)
+        result = Subscribe.filter(subscribed_on=subscribed.id)
+        expected = Subscribe.objects.filter(subscribed_on=subscribed.id)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
@@ -139,8 +144,8 @@ class TestPlugin(TestCase):
         """Ensure that filter() method returns None when wrong id were given."""
 
         user = CustomUser.get_by_id(user_id=BAD_USER_ID)
-        result = Subscribe.filter(user=BAD_USER_ID)
-        expected = Subscribe.objects.filter(user=BAD_USER_ID)
+        result = Subscribe.filter(user_owner=BAD_USER_ID)
+        expected = Subscribe.objects.filter(user_owner=BAD_USER_ID)
 
         self.assertQuerysetEqual(result, map(repr, expected), ordered=False)
 
@@ -151,9 +156,9 @@ class TestPlugin(TestCase):
         trip = Trip.objects.get(id=TRIP_ID_GOOD)
 
         data = {
-            'user': user,
+            'user_owner': user,
             'trip': trip,
-            'subscribed': NONE_OBJECT
+            'subscribed_on': NONE_OBJECT
         }
 
         result = Subscribe.create(**data)
@@ -168,11 +173,14 @@ class TestPlugin(TestCase):
         result = comment.to_dict()
         expected = {
             'id': SUBSCRIBE_ID_ONE,
-            'user': LOGGED_USER_ID,
-            'subscribed': SUBSCRIBED_ID_GOOD,
+            'user_owner': LOGGED_USER_ID,
+            'subscribed_on': SUBSCRIBED_ID_GOOD,
             'trip': NONE_OBJECT,
             'create_at': TEST_TIME,
-            'update_at': TEST_TIME
+            'update_at': TEST_TIME,
+            'user_name': TEST_NAME_CHECK,
+            'trip_name': None,
+            'subscribed_on_name': TEST_NAME_SUBSCRIBED_ON_CHECK
         }
 
         self.assertEqual(expected, result)
@@ -183,8 +191,11 @@ class TestPlugin(TestCase):
         subscribe = Subscribe.objects.get(id=SUBSCRIBE_ID_ONE)
         result = repr(subscribe)
         expected = """id: {}, user: {}, subscribed: {}, trip: {}, create_at: {},
-        update_at: {}""".format(
-            subscribe.id, subscribe.user, subscribe.subscribed, subscribe.trip, subscribe.create_at,
-            subscribe.update_at)
+        update_at: {}, user_name:{}, trip_name: {}, subscribed_on_name: {}""".format(
+            subscribe.id, subscribe.user_owner, subscribe.subscribed_on, subscribe.trip,
+            subscribe.create_at, subscribe.update_at,
+            CustomUser.get_full_name(CustomUser.get_by_id(subscribe.user_owner.id)),
+            None,
+            CustomUser.get_full_name(CustomUser.get_by_id(subscribe.subscribed_on.id)))
 
         self.assertEqual(result, expected)

@@ -79,15 +79,15 @@ class ViewTest(TestCase):
 
         Subscribe.objects.create(
             id=10,
-            user=self.user,
-            subscribed=user,
+            user_owner=self.user,
+            subscribed_on=user,
             trip=NONE_OBJECT
         )
 
         Subscribe.objects.create(
             id=11,
-            user=self.user,
-            subscribed=NONE_OBJECT,
+            user_owner=self.user,
+            subscribed_on=NONE_OBJECT,
             trip=trip
         )
 

@@ -28,12 +28,12 @@ class SubscribeView(View):
             or
             HttpResponse: status: 404.
         """
-        if subscribed_id:
-            subscribes = Subscribe.filter(subscribed=subscribed_id)
-        elif trip_id:
+        if trip_id:
             subscribes = Subscribe.filter(trip=trip_id)
+        elif subscribed_id:
+            subscribes = Subscribe.filter(subscribed_on=subscribed_id)
         else:
-            subscribes = Subscribe.filter(user=request.user.id)
+            subscribes = Subscribe.filter(user_owner=request.user)
 
         subscribes = [subscribe.to_dict() for subscribe in subscribes]
         return JsonResponse(subscribes, status=200, safe=False)
@@ -58,10 +58,10 @@ class SubscribeView(View):
         subscribed = CustomUser.get_by_id(user_id=subscribed_id)
         trip = Trip.get_by_id(trip_id=trip_id)
 
-        subscribe = Subscribe.filter(user=user, subscribed=subscribed, trip=trip)
+        subscribe = Subscribe.filter(user_owner=user, subscribed_on=subscribed, trip=trip)
         if subscribe:
             subscribe.delete()
             return HttpResponse(status=200)
 
-        Subscribe.create(user=user, trip=trip, subscribed=subscribed)
+        Subscribe.create(user_owner=user, trip=trip, subscribed_on=subscribed)
         return HttpResponse(status=201)
