@@ -11,7 +11,7 @@ export class CommentAvatar extends React.Component {
 
     render() {
         return (
-            <Avatar src="/static/src/img/avatar.jpg" size={30} style={styles.avatar} />
+            <Avatar src="/static/src/img/avatar.png" size={30} style={styles.avatar} />
     );
   }
 }

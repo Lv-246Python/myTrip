@@ -81,7 +81,8 @@ export class CommentItem extends React.Component {
 
 // reply comment
     handleReply = () => {
-        this.props.handleReply('@' + this.props.userName);
+        let replyName = '@' + (this.props.userName.split(' ').join('_')).toLowerCase() + ' ';
+        this.props.handleReply(replyName);
     };
 
     render() {

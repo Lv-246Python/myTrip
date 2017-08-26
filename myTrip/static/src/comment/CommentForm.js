@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import { CommentNotification } from './CommentNotification';
 import { postData } from './CommentServices';
+import { moveCaretAtEnd } from '../utils';
 import { styles } from './CommentStyles';
 import { userId } from '../utils';
 
@@ -14,6 +15,7 @@ export class CommentForm extends React.Component {
         super(props);
         this.state = {
             newCommentText: '',
+            replyName: '',
             disabled: true,
             snackbarOpen: false
         };
@@ -31,7 +33,7 @@ export class CommentForm extends React.Component {
              this.setState({disabled: false});
          } else {
              this.setState({disabled: true});
-         }
+         };
 
     };
 
@@ -46,16 +48,20 @@ export class CommentForm extends React.Component {
     };
 
 // reply comment
-    componentWillReceiveProps = () => {
-        this.setState({newCommentText: this.props.replyName});
-    };
+    componentWillReceiveProps(nextProps) {
+      if (nextProps.replyName !== this.state.replyName) {
+        this.setState({newCommentText: nextProps.replyName});
+        this.setState({replyName: nextProps.replyName});
+      };
+    }
+
 
     render() {
         return (
           <div>
               <Paper style={styles.paperForm}>
                   <TextField
-                      autoFocus={this.state.autoFocus}
+                      onFocus={moveCaretAtEnd}
                       fullWidth={true}
                       floatingLabelText="Write a comment"
                       value={this.state.newCommentText}

@@ -40,7 +40,6 @@ export default class Comments extends React.Component {
 // reply comment
     handleReply = (name) => {
         this.setState({replyName: name});
-        this.renderData();
     };
 
     componentDidMount() {
