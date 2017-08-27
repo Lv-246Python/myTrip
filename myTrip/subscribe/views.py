@@ -36,7 +36,7 @@ class SubscribeView(View):
         #     subscribes = Subscribe.filter(user_owner=request.user)
 
         data = {}
-        data['user_owner'] = request.user
+        data['user_owner'] = request.user.id
         data['subscribed_on'] = subscribed_id
         data['trip'] = trip_id
 
@@ -61,7 +61,7 @@ class SubscribeView(View):
             or
             HttpResponse: status: 404.
         """
-        user = CustomUser.get_by_id(user_id=request.user)
+        user = CustomUser.get_by_id(user_id=request.user.id)
         subscribed = CustomUser.get_by_id(user_id=subscribed_id)
         trip = Trip.get_by_id(trip_id=trip_id)
 
