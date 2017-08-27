@@ -70,25 +70,27 @@ export default class Subscribes extends React.Component {
         >
           <List>
            {this.state.subscribes.map(subscribe => (
-               subscribe.trip ?
-               (<ListItem key={subscribe.id}
-                    primaryText="Trip"
-                    secondaryText={
-                        <span>{subscribe.trip_name}</span>
-                    }
-                    leftAvatar={<Avatar
-                        //ToDo: add links to avatar from user's profile by id.
-                        src="http://icons.veryicon.com/ico/Avatar/Halloween%20Avatars/slasher.ico"
-                    />}>
-                </ListItem>):
+                   subscribe.trip ?
                    (<ListItem key={subscribe.id}
-                    primaryText={subscribe.subscribed_on_name}
-                    leftAvatar={<Avatar
-                        //ToDo: add links to avatar from user's profile by id.
-                        src="http://icons.veryicon.com/ico/Avatar/Halloween%20Avatars/slasher.ico"
-                    />}>
-                </ListItem>)
-            ))}
+                        primaryText="Trip"
+                        secondaryText={
+                            <span>{subscribe.trip_name}</span>
+                        }
+                        leftAvatar={<Avatar
+                            //ToDo: add links to avatar from user's profile by id.
+                            src="http://icons.veryicon.com/ico/Avatar/Halloween%20Avatars/slasher.ico"
+                        />}>
+                    </ListItem>):
+                       (<ListItem key={subscribe.id}
+                        primaryText={subscribe.subscribed_on_name}
+                        leftAvatar={<Avatar
+                            //ToDo: add links to avatar from user's profile by id.
+                            src="http://icons.veryicon.com/ico/Avatar/Halloween%20Avatars/slasher.ico"
+                        />}>
+                    </ListItem>)
+                    )
+                )
+           }
           </List>
         </Dialog>
       </div>

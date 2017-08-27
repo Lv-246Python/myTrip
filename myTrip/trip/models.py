@@ -140,14 +140,3 @@ class Trip(models.Model):
             return trips
         trips = reversed(Trip.objects.filter(user=user_id).order_by('-create_at')[start:end])
         return trips
-
-    def get_trip_name(self):
-        """
-        Returns title of trip.
-        Args:
-            self: current object.
-        Returns:
-            'title': self.title.
-        """
-        trip_name = '{}'.format(self.title)
-        return trip_name

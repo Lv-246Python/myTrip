@@ -28,12 +28,19 @@ class SubscribeView(View):
             or
             HttpResponse: status: 404.
         """
-        if trip_id:
-            subscribes = Subscribe.filter(trip=trip_id)
-        elif subscribed_id:
-            subscribes = Subscribe.filter(subscribed_on=subscribed_id)
-        else:
-            subscribes = Subscribe.filter(user_owner=request.user)
+        # if trip_id:
+        #     subscribes = Subscribe.filter(trip=trip_id)
+        # elif subscribed_id:
+        #     subscribes = Subscribe.filter(subscribed_on=subscribed_id)
+        # else:
+        #     subscribes = Subscribe.filter(user_owner=request.user)
+
+        data = {}
+        data['user_owner'] = request.user
+        data['subscribed_on'] = subscribed_id
+        data['trip'] = trip_id
+
+        subscribes = Subscribe.filter(**data)
 
         subscribes = [subscribe.to_dict() for subscribe in subscribes]
         return JsonResponse(subscribes, status=200, safe=False)
@@ -54,7 +61,7 @@ class SubscribeView(View):
             or
             HttpResponse: status: 404.
         """
-        user = CustomUser.get_by_id(user_id=request.user.id)
+        user = CustomUser.get_by_id(user_id=request.user)
         subscribed = CustomUser.get_by_id(user_id=subscribed_id)
         trip = Trip.get_by_id(trip_id=trip_id)
 

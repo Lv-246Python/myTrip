@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const userUrl = 'api/v1/subscribe/';
+const userUrl = '/api/v1/subscribe/';
 
 export function getData(url, id) {
     return axios.get(url + id + '/subscribe/');

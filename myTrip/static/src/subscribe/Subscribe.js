@@ -111,7 +111,7 @@ export default class Subscribe extends React.Component {
                             src="http://icons.veryicon.com/ico/Avatar/Halloween%20Avatars/slasher.ico"
                         />}>
                     </ListItem>)
-                )):(<span>No subscribes</span>)
+                )):(<span>No subscribes.</span>)
                }
           </List>
         </Dialog>
