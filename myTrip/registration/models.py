@@ -116,19 +116,13 @@ class CustomUser(AbstractBaseUser):
             str object.
         """
 
-        if first_name and not last_name:
+        if first_name:
             self.first_name = first_name
-            return first_name
-
-        elif not first_name and last_name:
+        if last_name:
             self.last_name = last_name
-            return last_name
-
-        elif first_name and last_name:
+        if first_name and last_name:
             self.first_name = first_name
             self.last_name = last_name
-            return self.get_full_name()
-
         self.save()
 
     def to_dict(self):

@@ -71,8 +71,10 @@ class CustomUserModelTests(TestCase):
         Test CustomUser.update() method, with 'first_name' only.
         """
 
-        request = CustomUser.update(CustomUser, 'John')
-        result = CustomUser.first_name
+        user = CustomUser.objects.get(id=10)
+        request = 'John'
+        user.update(request)
+        result = user.first_name
         self.assertEqual(request, result)
 
     def test_update_last_name(self):
@@ -80,8 +82,10 @@ class CustomUserModelTests(TestCase):
         Test CustomUser.update() method, with 'last_name' only.
         """
 
-        request = CustomUser.update(CustomUser, None, 'Travolta')
-        result = CustomUser.last_name
+        user = CustomUser.objects.get(id=10)
+        request = 'Travolta'
+        user.update(None, request)
+        result = user.last_name
         self.assertEqual(request, result)
 
     def test_update_both(self):
@@ -89,15 +93,10 @@ class CustomUserModelTests(TestCase):
         Test CustomUser.update() method, with both 'first_name' & 'last_name'.
         """
 
-        self.user = CustomUser.objects.create(id=20,
-                                              first_name='Roman',
-                                              last_name='Hrytskiv',
-                                              email='test_2@gmail.com',
-                                              password='password')
-
-        request = self.user.update('John', 'Travolta')
-        result = self.user.first_name + ' ' + self.user.last_name
-        self.assertEqual(request, result)
+        user = CustomUser.objects.get(id=10)
+        user.update('John', 'Travolta')
+        self.assertEqual(user.first_name, 'John')
+        self.assertEqual(user.last_name, 'Travolta')
 
     def test_to_dict(self):
         """
@@ -106,7 +105,7 @@ class CustomUserModelTests(TestCase):
 
         with patch('django.utils.timezone.now') as mock_test:
             mock_test.return_value = TEST_TIME
-            self.user = CustomUser.objects.create(
+            user = CustomUser.objects.create(
                 id=20,
                 first_name='valid',
                 last_name='valid',
@@ -114,12 +113,12 @@ class CustomUserModelTests(TestCase):
                 password='password'
             )
 
-        request = self.user.to_dict()
+        request = user.to_dict()
         result = {
-            'id': self.user.id,
-            'first_name': self.user.first_name,
-            'last_name': self.user.last_name,
-            'email': self.user.email,
+            'id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
             'create_at': TEST_TIME,
             'update_at': TEST_TIME
         }
