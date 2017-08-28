@@ -14,6 +14,7 @@ import Photo from 'photo'
 
 let img = 'http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg';
 
+
 export default class TripTile extends React.Component {
     constructor(props){
         super(props);

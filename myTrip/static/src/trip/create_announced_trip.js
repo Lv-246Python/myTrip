@@ -1,6 +1,10 @@
 import React from 'react';
+import axios from "axios";
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import AnnounceIcon from 'material-ui/svg-icons/action/today';
+import DatePicker from 'material-ui/DatePicker';
+import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -9,57 +13,137 @@ export default class CreateAnnouncedTrip extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            value: '',
+            disabled: true,
+            title: '',
+            description: '',
             status: this.props.status
         }
     };
 
+    // function for edit title text, that cannot be empty
+    handleTitleField = (event) => {
+        this.setState({title: event.target.value});
+        if ((this.state.title.length !== 0)&&(this.state.description.length !== 0)){
+            this.setState({disabled: false});
+        } else {
+            this.setState({disabled: true});
+        };
+    };
+
+    // function for edit description text, that cannot be empty
+    handleDescriptionField = (event) => {
+        this.setState({description: event.target.value});
+        if ((this.state.title.length !== 0)&&(this.state.description.length !== 0)){
+            this.setState({disabled: false});
+        } else {
+            this.setState({disabled: true});
+        };
+    };
+
+    // function for create trip with title, description and status
+    handleCreateTrip = () => {
+        const title = this.state.title;
+        const description = this.state.description;
+        const status = this.state.status;
+        const createTrip = (title, description, status) => {
+            return axios.post(`/api/v1/trip/`, {
+                title, description, status })
+        };
+        createTrip(title, description, status)
+        .then(response => {
+            const tripId = response.data.id;
+            this.props.history.push(`/trip/${tripId}`)
+        })
+    };
 
     render() {
         return (
-            <div className='announcedTrip'>
-                <div className='announcedTripContent'>
-                    <Card>
-                        <CardTitle
-                            title='Add name of your trip'
-                            style={{
-                                fontSize: 20,
-                                width: '70%',
-                                marginBottom: 20,
-                            }}
-                        />
-                        <TextField name='trip title' autoFocus>
-                        </TextField>
+            <Card>
+                <div className='newTrip'>
+                    <div className='newTripContent'>
+                        {/*Title*/}
+                            <CardTitle
+                                title='Add name of your trip'
+                                style={{
+                                    fontSize: 12,
+                                    width:'95%'
+                                }}
+                            />
+                            <TextField
+                                name='trip title'
+                                autoFocus
+                                value={this.state.title}
+                                onChange={this.handleTitleField}
+                            />
+                        {/*Description*/}
+                            <CardTitle
+                                title='Add description of your trip'
+                                style={{
+                                    fontSize: 12,
+                                }}
+                            />
+                            <TextField
+                                name='trip description'
+                                fullWidth={true}
+                                multiLine={true}
+                                rowsMax={10}
+                                style={{
+                                    width:'95%'
+                                }}
+                                value={this.state.description}
+                                onChange={this.handleDescriptionField}
+                            />
+                        {/*Start*/}
+                            <CardTitle
+                                title='Indicate the start date of your trip'
+                                style={{
+                                    fontSize: 12,
+                                    width:'95%'
+                                }}
+                            />
+                            <DatePicker
+                                hintText="Start trip date"
+                                mode="landscape"
+                            />
+                        {/*Finish*/}
+                            <CardTitle
+                                title='Indicate the finish date of your trip'
+                                style={{
+                                    fontSize: 12,
+                                }}
+                            />
+                            <DatePicker
+                                hintText="Finish trip date"
+                                mode="landscape"
+                                style={{
+                                    marginBottom: 50,
+                                }}
+                            />
+                    </div>
 
+                    <div className='newTripMap'>
+                        <Card>
+                            {/*
+                            there will be Google Map component
+                            */}
 
-                        <CardTitle
-                            title='Add description of your trip'
-                            style={{
-                                backgroundColor: '#E0F7FA',
-                                fontSize: 20,
-                                width: '70%',
-                                marginBottom: 20,
-                                marginTop: 50,
-                            }}
-                        />
-                            <TextField name='trip description'>
-                            </TextField>
-                    </Card>
+                            <CardMedia className='tripGoogleMap'>
+                                <img src='/static/src/img/world_map.jpg' />
+                            </CardMedia>
+                        </Card>
+                    </div>
                 </div>
-
-                <div className='announcedTripMap'>
-                    <Card>
-                        {/*
-                        there will be Google Map component
-                        */}
-
-                        <CardMedia className='tripGoogleMap'>
-                            <img src='/static/src/img/world_map.jpg' />
-                        </CardMedia>
-                    </Card>
-                </div>
-
-            </div>
+                <RaisedButton
+                    label={'To announce trip'}
+                    labelPosition='before'
+                    icon={<AnnounceIcon />}
+                    backgroundColor='#CDDC39'
+                    primary={true}
+                    onClick={this.handleCreateTrip}
+                    style={{marginBottom: 16}}
+                    disabled={this.state.disabled}
+                />
+            </Card>
         );
     }
 }

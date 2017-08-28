@@ -14,8 +14,11 @@ class Trip(models.Model):
     :argument user_id: int - foreign key to User model,
     :argument title: str - title,
     :argument description: str - description,
-    :argument create_at: datetime - date,
-    :argument status: int - 0-in progress, 1-announced, 2-finished.
+    :argument status: int - 0-in progress, 1-announced, 2-finished,
+    :argument create_at: datetime - date of trip creation,
+    :argument update_at: datetime - date of trip update,
+    :argument start: datetime - date of trip start,
+    :argument finish: datetime - date of trip finish
     """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
@@ -23,6 +26,8 @@ class Trip(models.Model):
     status = models.IntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, editable=True)
+    # start = models.DateTimeField(editable=True, default=datetime.now())
+    # finish = models.DateTimeField(editable=True, null=True, blank=True)
 
     def to_dict(self):
         """
@@ -36,7 +41,9 @@ class Trip(models.Model):
                 'create_at': date,
                 'update_at': date,
                 'description': description,
-                'status': status
+                'status': status,
+                'start': start,
+                'finish': finish
                 }
         """
         return {
@@ -46,7 +53,10 @@ class Trip(models.Model):
             "create_at": self.create_at,
             "update_at": self.update_at,
             "description": self.description,
-            "status": self.status}
+            "status": self.status,
+            # "start": self.start,
+            # "finish": self.finish
+        }
 
     def __repr__(self):
         return "id:{} user:{} title:{} create_at:{}" \
@@ -83,6 +93,8 @@ class Trip(models.Model):
                 title (str): title of trip.
                 description (str): description.
                 status (int): trip status.
+                start (obj): date of trip start.
+                finish (obj): date of trip finish.
         Returns:
             trip Object.
         """
@@ -91,6 +103,8 @@ class Trip(models.Model):
         trip.title = data['title']
         trip.description = data['description']
         trip.status = data['status']
+        # trip.start = data['start']
+        # trip.finish = data['finish']
         trip.save()
         return trip
 
@@ -102,6 +116,8 @@ class Trip(models.Model):
                 title (str): title of trip.
                 description (str): description.
                 status (int): trip status.
+                start (obj): date of trip start.
+                finish (obj): date of trip finish.
         Returns:
             trip Object.
         """

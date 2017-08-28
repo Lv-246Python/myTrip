@@ -33,8 +33,8 @@ class TripView(View):
         if not user:
             return HttpResponse(status=401)
         data["user"] = user
-        Trip.create(data)
-        return HttpResponse(status=201)
+        trip = Trip.create(data)
+        return JsonResponse(trip.to_dict(), status=201)
 
     def put(self, request, trip_id):
         """Handles PUT request."""

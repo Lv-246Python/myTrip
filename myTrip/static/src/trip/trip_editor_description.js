@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from "axios";
-import { Link } from 'react-router-dom';
 
 import { editTrip } from './trip_service';
 import CancelIcon from 'material-ui/svg-icons/content/clear';

@@ -2,14 +2,14 @@ import React from 'react';
 import axios from "axios";
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
+import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
 import DatePicker from 'material-ui/DatePicker';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 
-export default class CreateNewTrip extends React.Component {
+export default class CreateFinishedTrip extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -93,6 +93,32 @@ export default class CreateNewTrip extends React.Component {
                                 value={this.state.description}
                                 onChange={this.handleDescriptionField}
                             />
+                        {/*Start*/}
+                            <CardTitle
+                                title='Indicate the start date of your trip'
+                                style={{
+                                    fontSize: 12,
+                                    width:'95%'
+                                }}
+                            />
+                            <DatePicker
+                                hintText="Start trip date"
+                                mode="landscape"
+                            />
+                        {/*Finish*/}
+                            <CardTitle
+                                title='Indicate the finish date of your trip'
+                                style={{
+                                    fontSize: 12,
+                                }}
+                            />
+                            <DatePicker
+                                hintText="Finish trip date"
+                                mode="landscape"
+                                style={{
+                                    marginBottom: 50,
+                                }}
+                            />
                     </div>
 
                     <div className='newTripMap'>
@@ -108,10 +134,10 @@ export default class CreateNewTrip extends React.Component {
                     </div>
                 </div>
                 <RaisedButton
-                    label={'Start new trip'}
+                    label={'Download finished trip'}
                     labelPosition='before'
-                    icon={<ProgressIcon />}
-                    backgroundColor='#00BCD4'
+                    icon={<DoneIcon />}
+                    backgroundColor='#FFC107'
                     primary={true}
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
