@@ -36,7 +36,7 @@ export default class MainRoute extends React.Component {
                     />
                     <Route exact path='/trips' component={TripList} />
                     <Route exact path='/trip/:id' component={TripPage} />
-                    <Route exact path='/comments' component={() => (<Comments tripId={1} />)}/>
+                    <Route exact path='/comments' component={() => (<Comments tripId={1} checkpointId="/checkpoint/1" />)}/>
                     <Route component={NotFound} />
                 </Switch>
             </main>

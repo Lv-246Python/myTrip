@@ -29,7 +29,7 @@ export class CommentForm extends React.Component {
 // add comment
     handleComment = (event) => {
         this.setState({'newCommentText': event.target.value});
-        if (event.target.value.length > 0) {
+        if (event.target.value.trim().length > 0) {
              this.setState({disabled: false});
          } else {
              this.setState({disabled: true});
@@ -38,7 +38,7 @@ export class CommentForm extends React.Component {
     };
 
     handleTouchTap = () => {
-        postData(this.props.tripId, this.state.newCommentText)
+        postData(this.props.tripId, this.props.checkpointId, this.state.newCommentText)
             .then(() => {
                  this.props.renderData();
                  this.setState({newCommentText: ''});
@@ -54,7 +54,6 @@ export class CommentForm extends React.Component {
         this.setState({replyName: nextProps.replyName});
       };
     }
-
 
     render() {
         return (

@@ -32,7 +32,7 @@ export default class Comments extends React.Component {
 
 // refresh page content
     renderData = () => {
-        getData(this.props.tripId)
+        getData(this.props.tripId, this.props.checkpointId)
             .then(response => {
                 this.setState({comments: response.data});
             });
@@ -55,7 +55,11 @@ export default class Comments extends React.Component {
                     </h2>
 
                     <Divider style={styles.divider} />
-                    <CommentForm tripId={this.props.tripId} renderData={this.renderData} />
+                    <CommentForm
+                        tripId={this.props.tripId}
+                        checkpointId={this.props.checkpointId}
+                        renderData={this.renderData}
+                        replyName={this.state.replyName} />
                 </div>
             );
         } else {
@@ -71,6 +75,7 @@ export default class Comments extends React.Component {
                                     message={comment.message}
                                     commentId={comment.id}
                                     tripId={this.props.tripId}
+                                    checkpointId={this.props.checkpointId}
                                     renderData={this.renderData}
                                     notification={this.notification}
                                     handleReply={this.handleReply}/>
@@ -86,6 +91,7 @@ export default class Comments extends React.Component {
                     <Divider style={styles.divider} />
                     <CommentForm
                         tripId={this.props.tripId}
+                        checkpointId={this.props.checkpointId}
                         renderData={this.renderData}
                         replyName={this.state.replyName} />
                 </div>
