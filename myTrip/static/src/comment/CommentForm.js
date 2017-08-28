@@ -38,7 +38,8 @@ export class CommentForm extends React.Component {
     };
 
     handleTouchTap = () => {
-        postData(this.props.tripId, this.props.checkpointId, this.state.newCommentText)
+        postData(this.props.tripId, this.props.tripPhotoId,
+                 this.props.checkpointId, this.props.checkpointPhotoId, this.state.newCommentText)
             .then(() => {
                  this.props.renderData();
                  this.setState({newCommentText: ''});

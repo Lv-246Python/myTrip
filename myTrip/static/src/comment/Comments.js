@@ -32,7 +32,8 @@ export default class Comments extends React.Component {
 
 // refresh page content
     renderData = () => {
-        getData(this.props.tripId, this.props.checkpointId)
+        getData(this.props.tripId, this.props.tripPhotoId,
+                this.props.checkpointId, this.props.checkpointPhotoId)
             .then(response => {
                 this.setState({comments: response.data});
             });
@@ -57,7 +58,9 @@ export default class Comments extends React.Component {
                     <Divider style={styles.divider} />
                     <CommentForm
                         tripId={this.props.tripId}
+                        tripPhotoId={this.props.tripPhotoId}
                         checkpointId={this.props.checkpointId}
+                        checkpointPhotoId={this.props.checkpointPhotoId}
                         renderData={this.renderData}
                         replyName={this.state.replyName} />
                 </div>
@@ -75,7 +78,9 @@ export default class Comments extends React.Component {
                                     message={comment.message}
                                     commentId={comment.id}
                                     tripId={this.props.tripId}
+                                    tripPhotoId={this.props.tripPhotoId}
                                     checkpointId={this.props.checkpointId}
+                                    checkpointPhotoId={this.props.checkpointPhotoId}
                                     renderData={this.renderData}
                                     notification={this.notification}
                                     handleReply={this.handleReply}/>
@@ -91,7 +96,9 @@ export default class Comments extends React.Component {
                     <Divider style={styles.divider} />
                     <CommentForm
                         tripId={this.props.tripId}
+                        tripPhotoId={this.props.tripPhotoId}
                         checkpointId={this.props.checkpointId}
+                        checkpointPhotoId={this.props.checkpointPhotoId}
                         renderData={this.renderData}
                         replyName={this.state.replyName} />
                 </div>
