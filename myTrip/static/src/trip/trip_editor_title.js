@@ -31,7 +31,7 @@ export default class TripEditorTitle extends React.Component {
     // function for edit title text, that cannot be the same or empty
     handleEditTripText = (event) => {
         this.setState({newText: event.target.value});
-        if ((event.target.value === this.props.text) || (event.target.value.length === 0)) {
+        if ((event.target.value === this.props.text) || (event.target.value.trim().length === 0)){
             this.setState({disabled: true});
         } else {
             this.setState({disabled: false});

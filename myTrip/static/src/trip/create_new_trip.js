@@ -13,7 +13,8 @@ export default class CreateNewTrip extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            disabled: true,
+            titleIsEmpty: true,
+            descriptionIsEmpty: true,
             title: '',
             description: '',
             status: this.props.status
@@ -23,22 +24,23 @@ export default class CreateNewTrip extends React.Component {
     // function for edit title text, that cannot be empty
     handleTitleField = (event) => {
         this.setState({title: event.target.value});
-        if ((this.state.title.length !== 0)&&(this.state.description.length !== 0)){
-            this.setState({disabled: false});
+        if (event.target.value.trim().length === 0){
+            this.setState({titleIsEmpty: true});
         } else {
-            this.setState({disabled: true});
+            this.setState({titleIsEmpty: false});
         };
     };
 
     // function for edit description text, that cannot be empty
     handleDescriptionField = (event) => {
         this.setState({description: event.target.value});
-        if ((this.state.title.length !== 0)&&(this.state.description.length !== 0)){
-            this.setState({disabled: false});
+        if (event.target.value.trim().length === 0){
+            this.setState({descriptionIsEmpty: true});
         } else {
-            this.setState({disabled: true});
+            this.setState({descriptionIsEmpty: false});
         };
     };
+
 
     // function for create trip with title, description and status
     handleCreateTrip = () => {
@@ -111,11 +113,10 @@ export default class CreateNewTrip extends React.Component {
                     label={'Start new trip'}
                     labelPosition='before'
                     icon={<ProgressIcon />}
-                    backgroundColor='#00BCD4'
                     primary={true}
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.disabled}
+                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty}
                 />
             </Card>
         );

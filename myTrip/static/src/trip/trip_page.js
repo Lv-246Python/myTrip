@@ -18,6 +18,7 @@ import TripEditorDescription from './trip_editor_description';
 import TripEditorTitle from './trip_editor_title';
 import TripNavigation from './trip_navigation';
 import TripDelete from './trip_delete';
+import TripStatus from './trip_status';
 import './trip.less';
 
 /*
@@ -53,6 +54,7 @@ export default class TripPage extends React.Component {
     //add trip data to state and rerender page
     componentDidMount() {
         this.getTrip();
+        console.log(this.state.trip);
     };
 
 
@@ -75,22 +77,14 @@ export default class TripPage extends React.Component {
                                 <Card>
                                     <CardHeader className='tripPageHeader' >
                                         <div className='tripEdit'>
+
                                             {/*
                                             trip title
                                             */}
                                             <CardTitle
                                                 title={<b>{this.state.trip.title}</b>}
                                                 titleStyle={{fontSize: 25}}
-                                            >
-                                            {/*
-                                            trip status and created date
-                                            */}
-                                                <CardTitle
-                                                    title={this.state.trip.status}
-                                                    subtitle={formatDate(trip.create_at)}
-                                                />
-                                            </CardTitle>
-
+                                            />
 
                                             {/*
                                             trip edit title button for author
@@ -106,6 +100,15 @@ export default class TripPage extends React.Component {
                                                 />
                                             </div> : false}
                                         </div>
+
+                                        {/*
+                                        trip status
+                                        */}
+                                        {<TripStatus
+                                            status={this.state.trip.status}
+                                            trip={this.state.trip}
+                                            getTrip={this.getTrip}
+                                        />}
                                     </CardHeader>
 
                                     {/*
