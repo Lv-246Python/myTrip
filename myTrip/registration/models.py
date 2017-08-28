@@ -90,20 +90,23 @@ class CustomUser(AbstractBaseUser):
             str object.
         """
 
-        short_name = self.first_name
-        return short_name
+        if self.first_name:
+            return self.first_name
+        if self.last_name:
+            return self.last_name
 
     def get_full_name(self):
         """
-        Returns the first name + last name with a space in between.
+        Returns the first name + last name with a space in between if exists,
+        else returns user's email.
         Args:
             self: current object.
         Returns:
             str object.
         """
-
-        full_name = '{} {}'.format(self.first_name, self.last_name)
-        return full_name
+        if self.first_name and self.last_name:
+            full_name = '{} {}'.format(self.first_name, self.last_name)
+            return full_name
 
     def update(self, first_name=None, last_name=None):
         """
