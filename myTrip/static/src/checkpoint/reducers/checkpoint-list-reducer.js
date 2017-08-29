@@ -11,7 +11,9 @@ export default function (state = null, action) {
 
         case 'DELETE-CHECKPOINT-UPDATE_LIST':
             return action.payload;
-            
+
+        case 'UPDATE-CHECKPOINT-UPDATE_LIST':
+            return action.payload;    
     }
     return state;
 }

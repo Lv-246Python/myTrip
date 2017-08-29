@@ -2,20 +2,55 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {closeDetails} from './actions/index.js'
+import {closeDetails, updateCheckpointUpdateList} from './actions/index.js'
 
 import {store} from './testing-page-for-checkpoints.js'
 class CheckpoinDetails extends React.Component {
+
+    constructor(props) {
+      super(props);
+        this.state = {
+            title:'',
+            description:''
+        }
+      this.updateState = this.updateState.bind(this);
+
+   };
+   componentWillReceiveProps(nextProps) {
+    if (nextProps.active != null) {
+        console.log('recived props',nextProps)
+    this.setState({ title: nextProps.active.title,
+        description:nextProps.active.description});
+  }
+}
+
+    updateState(event){
+        this.setState({[event.target.name]: event.target.value})
+    }
+
+    updatePoint(){
+        console.log(this.state)
+        this.props.updateCheckpointUpdateList(
+            this.props.active.longitude,
+            this.props.active.latitude,
+            this.state.title,
+            this.state.description,
+            this.props.active.position_number,
+            this.props.active.source_url,
+            this.props.active.id
+            )
+    }
 
     render(){
         if(this.props.active != null){
             var  self = this;
             return(
                 <div>
-                    <span className='info'><strong>Checkpoint: {this.props.active.id}; 
-                        Title - {this.props.active.title}; 
-                        Description - {this.props.active.description};</strong>
-                    </span>
+                    <span className='info'><strong>Title: </strong></span>
+                    <input type="text" name="title" value={this.state.title} onChange={this.updateState}/>
+                    <span className='info'><strong>Description: </strong></span>
+                    <input type="text" name="description" value={this.state.description} onChange={this.updateState}/>
+                    <button onClick={() => this.updatePoint()}>Update</button>
                     <span onClick={() => this.props.closeDetails()} className="glyphicon glyphicon-remove">Close</span>
                 </div>
                 );
@@ -37,7 +72,8 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch){
     return bindActionCreators(
-        {closeDetails: closeDetails},
+        {closeDetails: closeDetails,
+        updateCheckpointUpdateList:updateCheckpointUpdateList},
         dispatch);
 }
 

@@ -13,6 +13,16 @@ function createCheckpoint(longitude, latitude, title, description, position_numb
             source_url})
 }
 
+function updateCheckpoint(longitude, latitude, title, description, position_number, source_url, checkpoint_id) {
+    return axios.put(url+checkpoint_id+'/', {
+            longitude,
+            latitude,
+            title,
+            description,
+            position_number,
+            source_url})
+}
+
 function deleteCheckpoint(id) {
     return axios.delete(url+id+'/')
 }
@@ -24,5 +34,6 @@ function getAllCheckpoints() {
 module.exports = {
     createCheckpoint: createCheckpoint,
     deleteCheckpoint: deleteCheckpoint,
-    getAllCheckpoints: getAllCheckpoints
+    getAllCheckpoints: getAllCheckpoints,
+    updateCheckpoint: updateCheckpoint
 }

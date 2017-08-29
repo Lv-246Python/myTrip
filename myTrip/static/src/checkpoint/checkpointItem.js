@@ -17,13 +17,14 @@ class CheckpoinItem extends React.Component {
     render() {
         return (
             <div>
-                <button className='checkpoint' onClick={() => this.props.checkpointDetails(this.props.checkpoint)}>
-                    id:{this.props.checkpoint.id} - 
-                    title: {this.props.checkpoint.title}
-                </button>
-                <span onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id)}
-                    className="glyphicon glyphicon-remove">
-                </span>
+                <li>
+                    <button className='checkpoint' onClick={() => this.props.checkpointDetails(this.props.checkpoint)}>
+                        {this.props.checkpoint.title}
+                    </button>
+                    <span onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id)}
+                        className="glyphicon glyphicon-remove">
+                    </span>
+                </li>
             </div>
         );
     }

@@ -14,7 +14,7 @@ class CheckpointList extends React.Component{
 
     render(){
         if(this.props.checkpoints != null && this.props.checkpoints.length > 0){
-            var list = this.props.checkpoints.reverse();
+            var list = this.props.checkpoints;
                 list = list.map(item =>{
                      return (
                         <CheckpoinItem key={item.id} checkpoint={item}/>
@@ -23,14 +23,16 @@ class CheckpointList extends React.Component{
                 return(
                     <div>
                     <span><strong>Trip checkpoints</strong></span>
-                        {list}
+                        <ol>
+                            {list}
+                        </ol>
                     </div>
                 );
         }
         else{
             return(
                 <div>
-                    <span><strong>No checkpoints yet</strong></span>
+                    
                 </div>
             );
         }

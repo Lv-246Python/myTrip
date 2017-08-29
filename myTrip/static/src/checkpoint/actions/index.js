@@ -43,6 +43,25 @@ export const createCheckpointUpdateList =  (longitude,latitude,title,description
     }
 };
 
+export const updateCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url,checkpoint_id) =>{
+    return {
+        type: 'UPDATE-CHECKPOINT-UPDATE_LIST',
+        payload: service.updateCheckpoint(longitude,
+            latitude,
+            title,
+            description,
+            position_number,
+            source_url,
+            checkpoint_id)
+        .then(function(response){
+            return service.getAllCheckpoints()
+                .then(function(response){
+                    return response.data
+                });
+        })
+    }
+};
+
 export const deleteUpadateList = id =>{
     var active =  store.getState().activeCheckpoint;
     var status = active;

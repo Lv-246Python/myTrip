@@ -4,26 +4,53 @@ import {bindActionCreators} from 'redux';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-import {createCheckpointUpdateList} from './actions/index.js'
+import {createCheckpointUpdateList, testpidor} from './actions/index.js'
 
 class AddCheckpoint extends React.Component{
 
-    render(){
-        const longitude = 1;
-        const latitude = 2;
-        const title = 'test6';
+    addPoint(){
+        var self = this
+        const longitude = 24.017239;
+        const latitude = 49.834529;
+        const title = 'test4';
         const description = 'test';
         const position_number = 1;
         const source_url = '';
+
+        navigator.geolocation.getCurrentPosition(function(data){
+        self.props.createCheckpointUpdateList(
+            data.coords.longitude,
+            data.coords.latitude,
+            title,
+            description,
+            position_number,
+            source_url)},
+            function(err){console.log(err.message);self.props.createCheckpointUpdateList(
+            longitude,
+            latitude,
+            title,
+            description,
+            position_number,
+            source_url)}, { enableHighAccuracy:true })
+
+// //////////////////////////////////////////
+
+        // navigator.geolocation.getCurrentPosition(function(data){
+        //     console.log(data.coords.longitude, data.coords.latitude)
+        // },
+        //     function(err){console.log(err.message)})
+    }
+
+    render(){
+        // const longitude = 1;
+        // const latitude = 2;
+        // const title = 'test6';
+        // const description = 'test';
+        // const position_number = 1;
+        // const source_url = '';
         return(
             <div>
-                <RaisedButton label="Add Checkpoint" onClick={() => this.props.createCheckpointUpdateList(
-                    longitude,
-                    latitude,
-                    title,
-                    description,
-                    position_number,
-                    source_url)}/>
+                <RaisedButton label="Add Checkpoint" onClick={() => this.addPoint()}/>
             </div>
         );
     }
@@ -31,7 +58,8 @@ class AddCheckpoint extends React.Component{
 
 function matchDispatchToProps(dispatch){
     return bindActionCreators(
-        {createCheckpointUpdateList: createCheckpointUpdateList},
+        {createCheckpointUpdateList: createCheckpointUpdateList,
+            testpidor: testpidor},
         dispatch);
 }
 
