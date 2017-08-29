@@ -3,13 +3,18 @@ import { Link } from 'react-router-dom';
 
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import { logged } from './utils';
 import { logoutService } from './registration/registration.service';
 
 const style = {
     LabelSize : {
-        fontSize:"1.3em"
+        fontSize:"1em"
+    },
+
+    myTrips : {
+        fontSize:"1.4em"
     },
 
     iconLeftStyle : {
@@ -59,6 +64,13 @@ export default class Header extends React.Component {
         } else {
             elementRight =  (
                 <div className='title'>
+                    <RaisedButton
+                        label='MY TRIPS'
+                        secondary={true}
+                        labelStyle = { style.myTrips }
+                        containerElement={<Link to="/trips"/>}
+                    />
+
                     <FlatButton
                         label='LOGOUT'
                         className='header_btn'
