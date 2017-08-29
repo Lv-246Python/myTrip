@@ -10,6 +10,7 @@ source =
     photo
     like
     help
+    subscribe
 
 omit =
     *migrations*

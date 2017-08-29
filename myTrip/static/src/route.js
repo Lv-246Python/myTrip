@@ -7,6 +7,7 @@ import Registration from "./registration/registration";
 import CreateTrip from "./trip/create_trip";
 import TripList from "./trip/trip_list";
 import TripPage from "./trip/trip_page";
+import Subscribes from "./subscribe/Subscribes";
 import NotFound from './notFound';
 
 
@@ -37,6 +38,7 @@ export default class MainRoute extends React.Component {
                     <Route exact path='/create_trip' component={CreateTrip} />
                     <Route exact path='/trips' component={TripList} />
                     <Route exact path='/trip/:id' component={TripPage} />
+                    <Route exact path='/subscribes' component={Subscribes} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
