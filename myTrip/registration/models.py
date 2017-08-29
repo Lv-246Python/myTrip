@@ -83,27 +83,31 @@ class CustomUser(AbstractBaseUser):
 
     def get_short_name(self):
         """
-        Returns the first name.
+        Returns the first name or the last name if exists, else returns user's email.
         Args:
             self: current object.
         Returns:
             str object.
         """
 
-        short_name = self.first_name
-        return short_name
+        if self.first_name:
+            return self.first_name
+        if self.last_name:
+            return self.last_name
+        return self.email
 
     def get_full_name(self):
         """
-        Returns the first name + last name with a space in between.
+        Returns the first name + last name with a space in between if exists,
+        else returns user's email.
         Args:
             self: current object.
         Returns:
             str object.
         """
-
-        full_name = '{} {}'.format(self.first_name, self.last_name)
-        return full_name
+        if self.first_name and self.last_name:
+            full_name = '{} {}'.format(self.first_name, self.last_name)
+            return full_name
 
     def update(self, first_name=None, last_name=None):
         """
@@ -116,19 +120,10 @@ class CustomUser(AbstractBaseUser):
             str object.
         """
 
-        if first_name and not last_name:
+        if first_name:
             self.first_name = first_name
-            return first_name
-
-        elif not first_name and last_name:
+        if last_name:
             self.last_name = last_name
-            return last_name
-
-        elif first_name and last_name:
-            self.first_name = first_name
-            self.last_name = last_name
-            return self.get_full_name()
-
         self.save()
 
     def to_dict(self):
