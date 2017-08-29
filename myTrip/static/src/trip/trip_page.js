@@ -10,6 +10,7 @@ import Checkbox from 'material-ui/Checkbox';
 import TripMenu from './trip_menu'
 import './trip.less'
 
+import Comments from '../comment/Comments';
 /*
 import Checkpoint from 'checkpoint';
 import Comment from 'comment';
@@ -144,11 +145,7 @@ export default class TripPage extends React.Component {
                       showExpandableButton={true} />
 
                     <CardText expandable={true}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                        Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed
-                        pellentesque.
-                        Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+                        {trip &&<Comments tripId={this.state.trip.id} />}
                     </CardText>
                 </Card>
 

@@ -37,6 +37,7 @@ class ViewTest(TestCase):
                 email='test.test@gmail.com',
             )
             user.set_password('userpass')
+            user.is_active = True
             user.save()
             trip = Trip.objects.create(id=2, user=user, title="my_title",
                                            description="some_cool_trip", status=0)

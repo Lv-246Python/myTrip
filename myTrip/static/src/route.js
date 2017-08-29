@@ -29,7 +29,7 @@ export default class MainRoute extends React.Component {
                             {...props}
                         /> }
                     />
-                    <Route exact path='/login'
+                    <Route exact path='/login/:hash?'
                         render={(props) => <Login
                             loginHandler={this.props.loginHandler}
                             {...props}
@@ -37,8 +37,11 @@ export default class MainRoute extends React.Component {
                     />
                     <Route exact path='/trips' component={TripList} />
                     <Route exact path='/trip/:id' component={TripPage} />
-                    <Route exact path='/comments' component={() => (<Comments tripId={1} />)}/>
                     <Route exact path='/subscribes' component={Subscribes} />
+                    <Route exact path='/comments'
+                        component={() => (<Comments
+                                                tripId={1}
+                                                tripPhotoId="/photo/1" />)}/>
                     <Route component={NotFound} />
                 </Switch>
             </main>
