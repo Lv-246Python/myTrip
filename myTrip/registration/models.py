@@ -234,7 +234,7 @@ class HashUser(models.Model):
             user (Object<CustomUser>): new user.
             hash (str): for appropriate user.
         Returns:
-           hash_user (Object<HashUser>): new hash-user .
+            hash_user (Object<HashUser>): new hash-user .
         """
 
         hash_user = HashUser()
@@ -256,4 +256,4 @@ class HashUser(models.Model):
             hash_user = HashUser.objects.get(hash=hash)
             return hash_user.user
         except ObjectDoesNotExist:
-            return False
+            return None
