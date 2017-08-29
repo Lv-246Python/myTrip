@@ -1,12 +1,16 @@
 import React from 'react';
 
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import Avatar from 'material-ui/Avatar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import { putData } from './CommentServices';
+import { CommentAvatar } from './CommentAvatar';
+import { CommentNotification } from './CommentNotification';
+import { EditDialog, DeleteDialog } from './CommentDialogs';
+import { putData, deleteComment } from './CommentServices';
+import { userId, logged } from '../utils';
 import { styles } from './CommentStyles';
 
 export class CommentItem extends React.Component {
@@ -14,14 +18,45 @@ export class CommentItem extends React.Component {
         super(props);
         this.state = {
             dialogEdit: false,
+            dialogDelete: false,
             disabled: true,
+            snackbarOpen: false,
             editCommentText: ''
         };
     }
 
+// snackbar notification
+    handleRequestClose = () => {
+        this.setState({snackbarOpen: false});
+    };
+
+// edit comment
     handleOpenEditDialog = () => {
       this.setState({dialogEdit: true});
       this.setState({'editCommentText': this.props.message});
+    };
+
+    handleEditCommentText = (event) => {
+        this.setState({'editCommentText': event.target.value});
+        if ((event.target.value !== this.props.message) &&
+            (event.target.value.trim().length !== 0)) {
+             this.setState({'disabled': false});
+         } else {
+             this.setState({'disabled': true});
+         }
+    };
+
+    handleSubmit = () => {
+        putData(this.props.tripId, this.props.tripPhotoId,
+                this.props.checkpointId, this.props.checkpointPhotoId,
+                this.props.commentId, this.state.editCommentText)
+            .then(() => {
+                 this.props.renderData();
+                 this.setState({editCommentText: ''});
+                 this.setState({dialogEdit: false});
+                 this.setState({'disabled': true});
+                 this.setState({snackbarOpen: true});
+            });
     };
 
     handleCloseEditDialog = () => {
@@ -30,82 +65,115 @@ export class CommentItem extends React.Component {
       this.setState({'editCommentText': ''});
     };
 
-    handleEditCommentText = (event) => {
-        this.setState({'editCommentText': event.target.value});
-        if (this.state.editCommentText.length !== 0) {
-            this.setState({'disabled': false});
-        };
-    };
-
-    handleSubmit = () => {
-        putData(this.props.tripId, this.props.commentId, this.state.editCommentText)
-            .then(() => {
-                 this.props.renderData();
-                 this.setState({editCommentText: ''});
-                 this.setState({dialogEdit: false});
-                 this.setState({'disabled': true});
-            });
+// delete comment
+    handleOpenDeleteDialog = () => {
+        this.setState({dialogDelete: true});
     };
 
     handleDelete = () => {
-        this.props.deleteComment(this.props.tripId, this.props.commentId)
-            .then(() => this.props.renderData());
+        deleteComment(this.props.tripId, this.props.tripPhotoId,
+                      this.props.checkpointId, this.props.checkpointPhotoId,
+                      this.props.commentId)
+            .then(() => {
+                this.props.renderData();
+                this.props.notification();
+            });
+    };
+
+    handleCloseDeleteDialog = () => {
+        this.setState({dialogDelete: false});
+    };
+
+// reply comment
+    handleReply = () => {
+        let replyName = '@' + (this.props.userName.split(' ').join('_')).toLowerCase() + ' ';
+        this.props.handleReply(replyName);
     };
 
     render() {
         const actionsEdit = [
-          <FlatButton
+            <FlatButton
             label="Cancel"
-            secondary={true}
+            disableTouchRipple={true}
             onTouchTap={this.handleCloseEditDialog}
-          />,
+            />,
 
-          <FlatButton
+            <RaisedButton
             label="Submit"
+            primary={true}
             disabled={this.state.disabled}
             onTouchTap={this.handleSubmit}
-          />,
+            />,
+        ];
+
+        const actionsDelete = [
+            <FlatButton
+            label="Cancel"
+            disableTouchRipple={true}
+            onTouchTap={this.handleCloseDeleteDialog}
+            />,
+
+            <RaisedButton
+            label="Delete"
+            secondary={true}
+            onTouchTap={this.handleDelete}
+            />,
         ];
 
         return (
               <div>
                   <Card>
                       <CardHeader
-                          title={this.props.username}
+                          title={this.props.userName}
                           subtitle={this.props.updated}
                           expandable={true} />
 
                       <CardText
                           actAsExpander={true}
                           style={styles.commentText}>
-                          <Avatar src="static/src/img/avatar.jpg" size={40} style={styles.avatar} />
-                          {this.props.message}
+                          <CommentAvatar />
+                            {this.props.message}
                       </CardText>
 
-                      <CardActions
-                          expandable={true}>
-                        <FlatButton
-                            onTouchTap={this.handleOpenEditDialog}
-                            label="Edit" />
-                        <FlatButton
-                            onTouchTap={this.handleDelete}
-                            label="Delete"
-                            secondary={true} />
-                      </CardActions>
+                      {(logged()) ?
+                          (this.props.userId === userId()) ?
+                              <CardActions
+                                  expandable={true}>
+                                <FlatButton
+                                    label="Edit"
+                                    disableTouchRipple={true}
+                                    onTouchTap={this.handleOpenEditDialog} />
+                                <FlatButton
+                                    label="Delete"
+                                    secondary={true}
+                                    onTouchTap={this.handleOpenDeleteDialog} />
+                              </CardActions>
+                              :
+                              <CardActions
+                                  expandable={true}>
+                                <FlatButton
+                                    label="Reply"
+                                    onTouchTap={this.handleReply} />
+                              </CardActions>
 
-                      <Dialog
-                        title="Edit comment"
+                       :false}
+
+                      <CommentNotification
+                          message="Comment edited"
+                          open={this.state.snackbarOpen}
+                          onRequestClose={this.handleRequestClose} />
+
+                      <EditDialog
                         actions={actionsEdit}
-                        modal={true}
-                        open={this.state.dialogEdit}>
+                        title="Edit comment"
+                        open={this.state.dialogEdit}
+                        value={this.state.editCommentText}
+                        onChange={this.handleEditCommentText} />
 
-                            <TextField
-                            autoFocus
-                            fullWidth={true}
-                            floatingLabelText="Write a new comment"
-                            value={this.state.editCommentText}
-                            onChange={this.handleEditCommentText} />
-                      </Dialog>
+                      <DeleteDialog
+                        actions={actionsDelete}
+                        title="Delete comment"
+                        open={this.state.dialogDelete} />
                   </Card>
               </div>
             );
