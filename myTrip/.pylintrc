@@ -77,7 +77,7 @@ disable=raw_input-builtin,indexing-exception,unpacking-in-except,range-builtin-n
     old-ne-operator,setslice-method,file-builtin,using-cmp-argument,logging-format-interpolation,
     no-member, too-few-public-methods, too-many-instance-attributes, unused-argument, no-self-use,
     attribute-defined-outside-init, no-self-argument, duplicate-code, invalid-name, import-error,
-    wildcard-import, unused-wildcard-import
+    wildcard-import, unused-wildcard-import, redefined-builtin
 
 
 [REPORTS]

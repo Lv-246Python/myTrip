@@ -13,6 +13,7 @@ class ViewTest(TestCase):
     def setUp(self):
         self.client = Client()
         user = CustomUser.objects.create(id=10, email='ln@gmail.com')
+        user.is_active = True
         user.set_password('root')
         user.save()
 

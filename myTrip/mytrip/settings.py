@@ -20,6 +20,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'triptrck.com',
+    'localhost'
 ]
 
 # Facebook credentials
@@ -42,11 +43,8 @@ INSTALLED_APPS = [
     'registration',
     'photo',
     'home',
-    'subscribe',
-    #'corsheaders',
     'utils',
     'help',
-
 ]
 
 TEMPLATES = [
@@ -111,6 +109,8 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'),]
+
+HOST = 'triptrck.com/'
 
 try:
     from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import

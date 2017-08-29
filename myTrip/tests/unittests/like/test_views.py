@@ -43,6 +43,8 @@ class ViewTest(TestCase):
             email='email.test@gmail.com',
             password='password'
         )
+        user.is_active = True
+        user.save()
         user.set_password('password')
         user.save()
 
@@ -54,6 +56,7 @@ class ViewTest(TestCase):
             password='password'
         )
         self.user.set_password('password')
+        self.user.is_active = True
         self.user.save()
 
         self.client.login(username="email.test@gmail.com", password="password")

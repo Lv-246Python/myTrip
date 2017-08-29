@@ -1,14 +1,4 @@
 export const styles = {
-    paper: {
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingBottom: 15,
-
-        marginLeft: 15,
-        marginRight: 15,
-        marginBottom: 15
-    },
-
     paperForm: {
         marginLeft: 15,
         marginRight: 15,
@@ -18,16 +8,25 @@ export const styles = {
 
     avatar: {
         marginRight: 10,
-        marginBottom: 0
+        marginBottom: -7
     },
 
     commentText: {
-        fontSize: 20,
+        fontSize: 17,
         lineHeight: "150%"
     },
 
+    noComments: {
+        textAlign: 'center'
+    },
+
     divider: {
-        backgroundColor: 'grey'
+        marginBottom: 15
+    },
+
+    snackbarBody: {
+        textAlign: 'center',
+        marginBottom: 5
     }
 
 };
