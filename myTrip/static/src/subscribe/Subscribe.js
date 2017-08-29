@@ -22,11 +22,11 @@ export default class Subscribe extends React.Component {
     // open={this.state.open}/>
 
     constructor(props) {
-    super(props);
-    this.state = {
-        subscribes: [],
-        open: false,
-    };
+        super(props);
+        this.state = {
+            subscribes: [],
+            open: this.props.open,
+        };
     }
 
   renderData = () => {
@@ -69,8 +69,6 @@ export default class Subscribe extends React.Component {
 
   componentDidMount() {
       this.renderData();
-      console.log(this.props);
-      console.log(this.state.subscribes)
   }
 
   render() {

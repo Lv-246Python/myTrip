@@ -7,9 +7,9 @@ import AnnounceIcon from 'material-ui/svg-icons/action/today';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import Dialog from 'material-ui/Dialog';
 import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
+import FlatButton from 'material-ui/FlatButton';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 
 
 export default class TripStatus extends React.Component {

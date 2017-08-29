@@ -54,7 +54,6 @@ export default class TripPage extends React.Component {
     //add trip data to state and rerender page
     componentDidMount() {
         this.getTrip();
-        console.log(this.state.trip);
     };
 
 
@@ -225,7 +224,10 @@ export default class TripPage extends React.Component {
                         */}
                         <div className='HolyGrail-left'>
 
-                            <TripNavigation userId={this.state.trip.user} />
+                            <TripNavigation
+                                userId={this.state.trip.user}
+                                tripId={this.state.trip.id}
+                            />
 
                             {(userId() === this.state.trip.user) ?
                             <TripDelete
