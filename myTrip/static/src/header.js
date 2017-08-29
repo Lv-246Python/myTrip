@@ -47,10 +47,10 @@ export default class Header extends React.Component {
         if (!logged()) {
             elementRight = (
                 <div className='title'>
-                    <FlatButton
-                        className='header_btn'
+                    <RaisedButton
                         label='REGISTRATION'
-                        labelStyle={ style.LabelSize }
+                        secondary={true}
+                        labelStyle = { style.myTrips }
                         containerElement={<Link to="/registration"/>}
                     />
                     <FlatButton
