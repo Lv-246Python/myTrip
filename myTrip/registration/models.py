@@ -83,7 +83,7 @@ class CustomUser(AbstractBaseUser):
 
     def get_short_name(self):
         """
-        Returns the first name.
+        Returns the first name or the last name if exists, else returns user's email.
         Args:
             self: current object.
         Returns:
@@ -94,6 +94,7 @@ class CustomUser(AbstractBaseUser):
             return self.first_name
         if self.last_name:
             return self.last_name
+        return self.email
 
     def get_full_name(self):
         """
@@ -122,9 +123,6 @@ class CustomUser(AbstractBaseUser):
         if first_name:
             self.first_name = first_name
         if last_name:
-            self.last_name = last_name
-        if first_name and last_name:
-            self.first_name = first_name
             self.last_name = last_name
         self.save()
 
