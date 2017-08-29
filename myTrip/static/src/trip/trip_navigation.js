@@ -22,11 +22,8 @@ export default class TripNavigation extends React.Component {
         this.setState({open: true});
     };
 
-    handleClose = () => {
-        this.setState({open: false});
-    };
-
     render() {
+    console.log(this.state.open);
         return (
             <div>
                 <List>

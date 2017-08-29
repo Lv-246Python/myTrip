@@ -29,6 +29,11 @@ export default class Subscribe extends React.Component {
         };
     }
 
+    //this function update children state, it father props was changed
+    componentWillReceiveProps = (nextProps, nextState) => {
+        this.setState({open:nextProps.open});
+    }
+
   renderData = () => {
     if (this.props.tripId){
     getData(tripUrl, this.props.tripId)
@@ -72,6 +77,8 @@ export default class Subscribe extends React.Component {
   }
 
   render() {
+  console.log(this.state.open);
+
     const actions = [
       <FlatButton
         label="Close"
