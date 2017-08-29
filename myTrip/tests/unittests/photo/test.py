@@ -30,7 +30,7 @@ class TestPlugin(TestCase):
             email='test@gmail.com',
             password='password'
         )
-
+        user.is_active = True
         self.user = CustomUser.objects.create(
             id=5,
             first_name="qwer",
@@ -39,6 +39,7 @@ class TestPlugin(TestCase):
             password="password"
         )
         self.user.set_password('password')
+        self.user.is_active = True
         self.user.save()
         self.client = Client()
         self.client.login(username="qwer@gmail.com", password="password")

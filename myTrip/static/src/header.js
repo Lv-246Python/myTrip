@@ -29,9 +29,12 @@ export default class Header extends React.Component {
     }
 
     logout = () => {
-        logoutService().then((response) => {
-            this.props.loginHandler(false);
-        })
+        logoutService()
+            .then((response) => {
+                this.props.loginHandler(false);
+            })
+            .catch((error) => console.dir(error));
+
     }
 
     render() {

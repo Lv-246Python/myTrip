@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'registration',
     'photo',
     'home',
-    #'corsheaders',
     'utils',
     'help',
 ]
@@ -110,6 +109,8 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'),]
+
+HOST = 'triptrck.com/'
 
 try:
     from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import

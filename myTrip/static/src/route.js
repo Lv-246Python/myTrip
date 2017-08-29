@@ -28,7 +28,7 @@ export default class MainRoute extends React.Component {
                             {...props}
                         /> }
                     />
-                    <Route exact path='/login'
+                    <Route exact path='/login/:hash?'
                         render={(props) => <Login
                             loginHandler={this.props.loginHandler}
                             {...props}
