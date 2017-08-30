@@ -38,6 +38,7 @@ export default class TripTile extends React.Component {
 
     componentDidMount() {
         this.statusIcon();
+        img = this.state.cover;
     };
 
     render() {
