@@ -24,15 +24,12 @@ export default class TripTile extends React.Component {
     statusIcon = () => {
         if (this.state.status === 0){
             return <IconButton><ProgressIcon color="white" /></IconButton>;
-            console.log('progress');
         };
         if (this.state.status === 1){
             return <IconButton><AnnounceIcon color="white" /></IconButton>;
-            console.log('announce');
         };
         if (this.state.status === 2){
             return <IconButton><DoneIcon color="white" /></IconButton>;
-            console.log('done');
         };
     };
 

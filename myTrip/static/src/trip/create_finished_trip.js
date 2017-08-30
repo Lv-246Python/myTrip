@@ -17,7 +17,9 @@ export default class CreateFinishedTrip extends React.Component {
             descriptionIsEmpty: true,
             title: '',
             description: '',
-            status: this.props.status
+            status: this.props.status,
+            startDate: null,
+            finishDate: null
         }
     };
 
@@ -58,6 +60,14 @@ export default class CreateFinishedTrip extends React.Component {
         })
     };
 
+    handleStartDate = (event, date) => {
+        this.setState({startDate: date})
+    };
+
+    handleFinishDate = (event, date) => {
+        this.setState({finishDate: date})
+    };
+
     render() {
         return (
             <Card>
@@ -80,18 +90,14 @@ export default class CreateFinishedTrip extends React.Component {
                         {/*Description*/}
                             <CardTitle
                                 title='Add description of your trip'
-                                style={{
-                                    fontSize: 12,
-                                }}
+                                style={{fontSize: 12, }}
                             />
                             <TextField
                                 name='trip description'
                                 fullWidth={true}
                                 multiLine={true}
                                 rowsMax={10}
-                                style={{
-                                    width:'95%'
-                                }}
+                                style={{width:'95%' }}
                                 value={this.state.description}
                                 onChange={this.handleDescriptionField}
                             />
@@ -106,20 +112,23 @@ export default class CreateFinishedTrip extends React.Component {
                             <DatePicker
                                 hintText="Start trip date"
                                 mode="landscape"
+                                maxDate={new Date()}
+                                openToYearSelection={true}
+                                value={this.state.startDate}
+                                onChange={this.handleStartDate}
                             />
                         {/*Finish*/}
                             <CardTitle
                                 title='Indicate the finish date of your trip'
-                                style={{
-                                    fontSize: 12,
-                                }}
+                                style={{fontSize: 12, }}
                             />
                             <DatePicker
                                 hintText="Finish trip date"
                                 mode="landscape"
-                                style={{
-                                    marginBottom: 50,
-                                }}
+                                minDate={this.state.startDate}
+                                maxDate={new Date()}
+                                onChange={this.handleFinishDate}
+                                style={{marginBottom: 50, }}
                             />
                     </div>
 
@@ -142,7 +151,7 @@ export default class CreateFinishedTrip extends React.Component {
                     backgroundColor='#FFC107'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty}
+                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty&&this.state.startDate&&this.state.finishDate}
                 />
             </Card>
         );
