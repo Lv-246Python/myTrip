@@ -15,11 +15,13 @@ export default class CreateFinishedTrip extends React.Component {
         this.state = {
             titleIsEmpty: true,
             descriptionIsEmpty: true,
+            startDateIsEmpty: true,
+            finishDateIsEmpty: true,
             title: '',
             description: '',
             status: this.props.status,
             startDate: null,
-            finishDate: null
+            finishDate: null,
         }
     };
 
@@ -43,6 +45,26 @@ export default class CreateFinishedTrip extends React.Component {
         };
     };
 
+    // function for edit title text, that cannot be empty
+    handleStartField = () => {
+        if (this.state.startDate === 0){
+            this.setState({startDateIsEmpty: true});
+        } else {
+            this.setState({startDateIsEmpty: false});
+        };
+    };
+
+    handleStartDate = (event, date) => {
+        this.setState({startDate: date});
+        this.setState({finishDate: date})
+        this.setState({startDateIsEmpty: false});
+    };
+
+    handleFinishDate = (event, date) => {
+        this.setState({finishDate: date})
+        this.setState({finishDateIsEmpty: false});
+    };
+
 
     // function for create trip with title, description and status
     handleCreateTrip = () => {
@@ -60,13 +82,6 @@ export default class CreateFinishedTrip extends React.Component {
         })
     };
 
-    handleStartDate = (event, date) => {
-        this.setState({startDate: date})
-    };
-
-    handleFinishDate = (event, date) => {
-        this.setState({finishDate: date})
-    };
 
     render() {
         return (
@@ -127,6 +142,7 @@ export default class CreateFinishedTrip extends React.Component {
                                 mode="landscape"
                                 minDate={this.state.startDate}
                                 maxDate={new Date()}
+                                value={this.state.finishDate}
                                 onChange={this.handleFinishDate}
                                 style={{marginBottom: 50, }}
                             />
@@ -151,7 +167,7 @@ export default class CreateFinishedTrip extends React.Component {
                     backgroundColor='#FFC107'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty&&this.state.startDate&&this.state.finishDate}
+                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
                 />
             </Card>
         );

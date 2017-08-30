@@ -15,10 +15,13 @@ export default class CreateAnnouncedTrip extends React.Component {
         this.state = {
             titleIsEmpty: true,
             descriptionIsEmpty: true,
+            startDateIsEmpty: true,
+            finishDateIsEmpty: true,
             title: '',
             description: '',
             status: this.props.status,
             startDate: null,
+            finishDate: null,
         }
     };
 
@@ -42,6 +45,16 @@ export default class CreateAnnouncedTrip extends React.Component {
         };
     };
 
+    handleStartDate = (event, date) => {
+        this.setState({startDate: date});
+        this.setState({finishDate: date});
+        this.setState({startDateIsEmpty: false});
+    };
+
+    handleFinishDate = (event, date) => {
+        this.setState({finishDate: date})
+        this.setState({finishDateIsEmpty: false});
+    };
 
     // function for create trip with title, description and status, and redirect to trip page
     handleCreateTrip = () => {
@@ -59,9 +72,6 @@ export default class CreateAnnouncedTrip extends React.Component {
         })
     };
 
-    handleStartDate = (event, date) => {
-        this.setState({startDate: date})
-    };
 
     render() {
         return (
@@ -121,7 +131,8 @@ export default class CreateAnnouncedTrip extends React.Component {
                                 hintText="Finish trip date"
                                 mode="landscape"
                                 minDate={this.state.startDate}
-                                openToYearSelection={true}
+                                value={this.state.finishDate}
+                                onChange={this.handleFinishDate}
                                 style={{marginBottom: 50, }}
                             />
                     </div>
@@ -145,7 +156,7 @@ export default class CreateAnnouncedTrip extends React.Component {
                     backgroundColor='#CDDC39'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty}
+                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
                 />
             </Card>
         );
