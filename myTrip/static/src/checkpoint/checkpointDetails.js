@@ -16,13 +16,12 @@ class CheckpoinDetails extends React.Component {
       // this.updateState = this.updateState.bind(this);
 
    };
-   componentWillReceiveProps(nextProps) {
-    if (nextProps.active != null) {
-        console.log('recived props',nextProps)
-    this.setState({ title: nextProps.active.title,
-        description:nextProps.active.description});
-  }
-}
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.active != null) {
+            this.setState({ title: nextProps.active.title,
+                            description:nextProps.active.description});
+        }
+    }      
 
     updateState = event => {
         this.setState({[event.target.name]: event.target.value})
@@ -31,13 +30,13 @@ class CheckpoinDetails extends React.Component {
     updatePoint = () => {
         console.log(this.state)
         this.props.updateCheckpointUpdateList(
-            this.props.active.longitude,
-            this.props.active.latitude,
-            this.state.title,
-            this.state.description,
-            this.props.active.position_number,
-            this.props.active.source_url,
-            this.props.active.id
+        this.props.active.longitude,
+        this.props.active.latitude,
+        this.state.title,
+        this.state.description,
+        this.props.active.position_number,
+        this.props.active.source_url,
+        this.props.active.id
             )
     }
 

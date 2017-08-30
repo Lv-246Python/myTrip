@@ -19,8 +19,6 @@ class Mapp extends React.Component{
     }
 
     render(){
-        console.log(this.props.checkpoints)
-        console.log('props center',this.props.center)
         const mapContainer = <div style={{height: '100%', width:'100%'}}></div>
         // if(this.props.checkpoints != null && this.props.checkpoints[0]){
         const center = {
@@ -56,9 +54,9 @@ class Mapp extends React.Component{
                     containerElement = { mapContainer }
                     googleMapElement = {
                         <GoogleMap
-                            defaultZoom = {14}
+                            defaultZoom = {17}
                             center = {center}
-                            options = {{streetViewControl: false, mapControl: false}}>
+                            options = {{streetViewControl: false, mapControl: false, mapTypeId: 'satellite'}}>
                             {markers}
                         </GoogleMap>
                     }/>
@@ -73,7 +71,6 @@ class Mapp extends React.Component{
 }
 
 function mapStateToProps(state) {
-    console.log('This is State!!!',state)
     return {
         checkpoints: state.checkpoints,
         active:state.activeCheckpoint

@@ -44,22 +44,9 @@ class AddCheckpoint extends React.Component{
             }, 
             { enableHighAccuracy:true }
         )
-
-// //////////////////////////////////////////
-
-        // navigator.geolocation.getCurrentPosition(function(data){
-        //     console.log(data.coords.longitude, data.coords.latitude)
-        // },
-        //     function(err){console.log(err.message)})
     }
 
     render(){
-        // const longitude = 1;
-        // const latitude = 2;
-        // const title = 'test6';
-        // const description = 'test';
-        // const position_number = 1;
-        // const source_url = '';
         return(
             <div>
                 <RaisedButton label="Add Checkpoint" onClick={() => this.addPoint()}/>

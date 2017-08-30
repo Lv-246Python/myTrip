@@ -24,10 +24,6 @@ export const store = createStore(allReducers, composeWithDevTools(middleware));
 
 class TripMap extends React.Component {
     render() {
-        const location = {
-            lat:40.7141667,
-            lng:-74.0063889
-        }
         return (
             <div >
                 <Provider store={store}>
