@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch } from 'react-router-dom';
 
 import Home from "./home/home";
+import Help from './help/Help'
 import Comments from "./comment/Comments";
 import Login from "./registration/login";
 import Registration from "./registration/registration";
@@ -36,6 +37,7 @@ export default class MainRoute extends React.Component {
                             {...props}
                         />}
                     />
+                    <Route exact path='/help' component={Help} />
                     <Route exact path='/create_trip' component={CreateTrip} />
                     <Route exact path='/trips' component={TripList} />
                     <Route exact path='/trip/:id' component={TripPage} />

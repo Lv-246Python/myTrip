@@ -5,6 +5,7 @@ import {List, ListItem} from 'material-ui/List';
 import AuthorIcon from 'material-ui/svg-icons/social/person';
 import AllTripsIcon from 'material-ui/svg-icons/maps/map';
 import FollowersIcon from 'material-ui/svg-icons/action/visibility';
+import HelpIcon from 'material-ui/svg-icons/action/help-outline';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import Subscribe from "../subscribe/Subscribe";
 import './trip.less'
@@ -23,7 +24,6 @@ export default class TripNavigation extends React.Component {
     };
 
     render() {
-    console.log(this.state.open);
         return (
             <div>
                 <List>
@@ -54,9 +54,16 @@ export default class TripNavigation extends React.Component {
                     <ListItem
                         key='followers'
                         className='buttonFollowers'
-                        primaryText='Followers'
+                        primaryText='Subscribers'
                         leftIcon={<FollowersIcon />}
                         onTouchTap={this.handleOpen}
+                    />
+                    <ListItem
+                        key='help'
+                        className='buttonHelp'
+                        primaryText='Help'
+                        leftIcon={<HelpIcon />}
+                        containerElement={<Link to='/help' />}
                     />
                 </List>
                 <Subscribe

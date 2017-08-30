@@ -10,6 +10,7 @@ import AllTripsIcon from 'material-ui/svg-icons/maps/map';
 import CreateAnnouncedTrip from './create_announced_trip.js';
 import CreateFinishedTrip from './create_finished_trip.js';
 import CreateNewTrip from './create_new_trip.js';
+import HelpIcon from 'material-ui/svg-icons/action/help-outline';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import AnnounceIcon from 'material-ui/svg-icons/action/today';
 import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
@@ -82,6 +83,13 @@ export default class CreateTrip extends React.Component {
                                 primaryText='All trips'
                                 leftIcon={<AllTripsIcon />}
                                 containerElement={<Link to='/trips' />}
+                            />
+                            <ListItem
+                                key='help'
+                                className='buttonHelp'
+                                primaryText='Help'
+                                leftIcon={<HelpIcon />}
+                                containerElement={<Link to='/help' />}
                             />
                         </List>
                     </div>

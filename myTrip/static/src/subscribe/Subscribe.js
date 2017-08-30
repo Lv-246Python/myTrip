@@ -1,6 +1,7 @@
 import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
@@ -77,29 +78,28 @@ export default class Subscribe extends React.Component {
   }
 
   render() {
-  console.log(this.state.open);
-
     const actions = [
-      <FlatButton
-        label="Close"
-        primary={true}
-        onClick={this.handleClose}
-      />,
-      <span>{ (logged()) ?
-      <FlatButton
-        label="Subscribe"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.postSubscribeData}
-      />
-        : false}</span>
+        <div className='buttonTripDialog'>
+          <span>{ (logged()) ?
+          <RaisedButton
+            label="Subscribe"
+            primary={true}
+            onClick={this.postSubscribeData}
+          />
+            : false}</span>
+          <RaisedButton
+            label="Close"
+            secondary={true}
+            onClick={this.handleClose}
+          />
+        </div>
     ];
 
 
     return (
       <div>
         <Dialog
-          title="Subscribes"
+          title="Subscribers"
           actions={actions}
           modal={false}
           open={this.state.open}

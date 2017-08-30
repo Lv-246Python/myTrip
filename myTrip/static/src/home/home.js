@@ -1,15 +1,20 @@
 import React from 'react';
 
-import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
-import Snackbar from 'material-ui/Snackbar';
+import { List, ListItem } from 'material-ui/List';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import SwipeableViews from 'react-swipeable-views';
+import AllTripsIcon from 'material-ui/svg-icons/maps/map';
+import AnnounceIcon from 'material-ui/svg-icons/action/today';
+import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
+import HelpIcon from 'material-ui/svg-icons/action/help-outline';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Paper from 'material-ui/Paper';
+import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
+import Snackbar from 'material-ui/Snackbar';
+import SwipeableViews from 'react-swipeable-views';
 
 
 import './home.less';
-import Help from './help/Help'
 
 const FIRST_SLIDE_INDEX = 0;
 const LAST_SLIDE_INDEX = 3;
@@ -19,9 +24,10 @@ class PaperPageOne extends React.Component{
 
     render(){
         return(
-            <Paper className="paperPageOne" zDepth={2}>
-               <img src="static/src/img/trip.jpg" className="imgPaperOne"/>
-            </Paper>
+            <div className='paperPage'>
+                <img src="/static/src/img/1_page.jpg" className="imgPaperOne"/>
+
+            </div>
         )
     };
 }
@@ -30,11 +36,9 @@ class PaperPageTwo extends React.Component{
 
     render(){
         return(
-            <Paper className="paperPageOne" zDepth={2}>
-
-                <img src="static/src/img/trip_social.jpg" className="imgPaperOne"/>
-
-            </Paper>
+            <div className='paperPage'>
+                <img src="/static/src/img/2_page.jpg" className="imgPaperOne"/>
+            </div>
         )
     }
 }
@@ -42,7 +46,9 @@ class PaperPageTwo extends React.Component{
 class PaperPageThree extends React.Component{
     render(){
         return(
-            <Help handler={this.props.handler}/>
+            <div className='paperPage'>
+                <img src="/static/src/img/3_page.jpg" className="imgPaperOne"/>
+            </div>
         )
     }
 }
@@ -108,38 +114,63 @@ class HomeTab extends React.Component {
     });
   };
 
-  render() {
+    render() {
         return (
-        <div>
-        <Tabs
-          onChange={this.handleChange}
-          value={this.state.slideIndex}
-        >
-          <Tab label="Share your journey" value={0} />
-          <Tab label="Add content" value={1} />
-          <Tab label="Help" value={2} />
-        </Tabs>
-        <SwipeableViews
-          index={this.state.slideIndex}
-          onChangeIndex={this.handleChange}
-          onMouseOver={this.onMouseOverSlide}
-          onMouseOut={this.onMouseOutSlide}
-          ref="Slider"
-        >
-          <PaperPageOne/>
-          <PaperPageTwo/>
-          <PaperPageThree handler={this.handler}/>
-        </SwipeableViews>
+            <div className='HolyGrail'>
+                 <div className='homePage'>
+                    <div className='homeContent'>
+                        <Tabs
+                            onChange={this.handleChange}
+                            value={this.state.slideIndex}
+                        >
+                            <Tab label="Start trip" value={0} />
+                            <Tab label="Add content" value={1} />
+                            <Tab label="Share your adventure" value={2} />
+                        </Tabs>
 
-        <Snackbar
-          open={this.state.open}
-          message={this.state.responseMessage}
-          autoHideDuration={3000}
-          onRequestClose={this.handleRequestClose}
-        />
-      </div>
-    )
-  }
+                        <SwipeableViews
+                          index={this.state.slideIndex}
+                          onChangeIndex={this.handleChange}
+                          onMouseOver={this.onMouseOverSlide}
+                          onMouseOut={this.onMouseOutSlide}
+                          ref="Slider"
+                        >
+                          <PaperPageOne/>
+                          <PaperPageTwo/>
+                          <PaperPageThree handler={this.handler}/>
+                        </SwipeableViews>
+
+                        <Snackbar
+                          open={this.state.open}
+                          message={this.state.responseMessage}
+                          autoHideDuration={3000}
+                          onRequestClose={this.handleRequestClose}
+                        />
+                    </div>
+                    <div className='homeNavigation'>
+                        <List>
+                            <ListItem
+                                key='trips'
+                                className='buttonAllTrips'
+                                primaryText='All trips'
+                                leftIcon={<AllTripsIcon />}
+                                containerElement={<Link to='/trips' />}
+                            />
+                            <ListItem
+                                key='help'
+                                className='buttonHelp'
+                                primaryText='Help'
+                                leftIcon={<HelpIcon />}
+                                containerElement={<Link to='/help' />}
+                            />
+                        </List>
+                    </div>
+                    <aside className='HolyGrail-right'>
+                    </aside>
+                </div>
+            </div>
+        )
+    }
 }
 const Home = () => (
   <MuiThemeProvider>
