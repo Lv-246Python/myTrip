@@ -20,8 +20,11 @@ class TripView(View):
                 return JsonResponse(trip, status=200, safe=False)
             return HttpResponse(status=404)
         trips = Trip.get_trips(user_id=user_id, page=page)
-        trips = [trip.to_dict() for trip in trips]
-        return JsonResponse(trips[::-1], status=200, safe=False)
+        data = dict()
+        data["trips"] = [trip.to_dict() for trip in trips[0]]
+        data["quantity"] = trips[1]
+        data["all_pages"] = trips[2]
+        return JsonResponse(data, status=200, safe=False)
 
     def post(self, request):
         """Handles POST request."""
@@ -30,8 +33,8 @@ class TripView(View):
         if not user:
             return HttpResponse(status=401)
         data["user"] = user
-        Trip.create(data)
-        return HttpResponse(status=201)
+        trip = Trip.create(data)
+        return JsonResponse(trip.to_dict(), status=201)
 
     def put(self, request, trip_id):
         """Handles PUT request."""

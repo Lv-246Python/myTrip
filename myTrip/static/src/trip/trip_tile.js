@@ -1,20 +1,43 @@
 import React from 'react';
-import axios from "axios";
 import { Link } from 'react-router-dom';
 
 import { CardMedia } from 'material-ui/Card';
 import { GridTile } from 'material-ui/GridList';
+import AnnounceIcon from 'material-ui/svg-icons/action/today';
+import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
+import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
+import IconButton from 'material-ui/IconButton';
 
 /*
 import Photo from 'photo'
 */
 
-let img = "http://www.apaseotravel.com/wp-apaseo/wp-content/uploads/2016/03/LateSAil-Bahamas3.jpg";
+let img = 'http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg';
+
 
 export default class TripTile extends React.Component {
     constructor(props){
         super(props);
         this.state = props;
+    };
+
+    statusIcon = () => {
+        if (this.state.status === 0){
+            return <IconButton><ProgressIcon color="white" /></IconButton>;
+            console.log('progress');
+        };
+        if (this.state.status === 1){
+            return <IconButton><AnnounceIcon color="white" /></IconButton>;
+            console.log('announce');
+        };
+        if (this.state.status === 2){
+            return <IconButton><DoneIcon color="white" /></IconButton>;
+            console.log('done');
+        };
+    };
+
+    componentDidMount() {
+        this.statusIcon();
     };
 
     render() {
@@ -25,7 +48,11 @@ export default class TripTile extends React.Component {
                     // link to own trip page
                     containerElement={<Link to={`/trip/${this.state.tripId}`} />}
                     title={this.state.title}
-                    subtitle={this.state.created} >
+                    subtitle={this.state.created}
+                    actionIcon={this.statusIcon()}
+                    //actionPosition={'left'}
+
+                >
 
                 <CardMedia>
                     {/*

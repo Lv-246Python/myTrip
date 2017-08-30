@@ -16,8 +16,8 @@ export function fieldIsEmpty(field) {
     return field == '' ? 'This field is required':'';
 }
 
-const getCookie = (cname) => {
-    var name = cname + "=";
+const getCookie = (cookieName) => {
+    var name = cookieName + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
     for(var i = 0; i <ca.length; i++) {
@@ -32,14 +32,8 @@ const getCookie = (cname) => {
     return "";
 }
 
-export function userId(){
+export let userId = () => {
     let id = getCookie('user_id');
     id = id === "" ? null : +id;
     return id;
-}
-
-export function moveCaretAtEnd(e) {
-  let temp_value = e.target.value;
-  e.target.value = '';
-  e.target.value = temp_value;
 }

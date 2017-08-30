@@ -4,6 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from registration.models import CustomUser
 
+TILES = 6
+
 
 class Trip(models.Model):
     """
@@ -12,8 +14,11 @@ class Trip(models.Model):
     :argument user_id: int - foreign key to User model,
     :argument title: str - title,
     :argument description: str - description,
-    :argument create_at: datetime - date,
-    :argument status: int - 0-in progress, 1-announced, 2-finished.
+    :argument status: int - 0-in progress, 1-announced, 2-finished,
+    :argument create_at: datetime - date of trip creation,
+    :argument update_at: datetime - date of trip update,
+    :argument start: datetime - date of trip start,
+    :argument finish: datetime - date of trip finish
     """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
@@ -21,6 +26,8 @@ class Trip(models.Model):
     status = models.IntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, editable=True)
+    # start = models.DateTimeField(editable=True, default=datetime.now())
+    # finish = models.DateTimeField(editable=True, null=True, blank=True)
 
     def to_dict(self):
         """
@@ -32,8 +39,11 @@ class Trip(models.Model):
                 'user': user,
                 'title': title,
                 'create_at': date,
+                'update_at': date,
                 'description': description,
-                'status': status
+                'status': status,
+                'start': start,
+                'finish': finish
                 }
         """
         return {
@@ -41,17 +51,22 @@ class Trip(models.Model):
             "user": self.user.id,
             "title": self.title,
             "create_at": self.create_at,
+            "update_at": self.update_at,
             "description": self.description,
-            "status": self.status}
+            "status": self.status,
+            # "start": self.start,
+            # "finish": self.finish
+        }
 
     def __repr__(self):
         return "id:{} user:{} title:{} create_at:{}" \
-               " description:{} status:{}".format(self.id,
-                                                  self.user,
-                                                  self.title,
-                                                  self.create_at,
-                                                  self.description,
-                                                  self.status)
+               "update_at:{} description:{} status:{}".format(self.id,
+                                                              self.user,
+                                                              self.title,
+                                                              self.create_at,
+                                                              self.update_at,
+                                                              self.description,
+                                                              self.status)
 
     @staticmethod
     def get_by_id(trip_id):
@@ -78,6 +93,8 @@ class Trip(models.Model):
                 title (str): title of trip.
                 description (str): description.
                 status (int): trip status.
+                start (obj): date of trip start.
+                finish (obj): date of trip finish.
         Returns:
             trip Object.
         """
@@ -86,6 +103,8 @@ class Trip(models.Model):
         trip.title = data['title']
         trip.description = data['description']
         trip.status = data['status']
+        # trip.start = data['start']
+        # trip.finish = data['finish']
         trip.save()
         return trip
 
@@ -97,6 +116,8 @@ class Trip(models.Model):
                 title (str): title of trip.
                 description (str): description.
                 status (int): trip status.
+                start (obj): date of trip start.
+                finish (obj): date of trip finish.
         Returns:
             trip Object.
         """
@@ -123,20 +144,32 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def get_trips(user_id, page=0, step=6):
+    def get_trips(user_id, page=0, step=TILES):
         """
-        Returns last 6 trips, also by the user.
+        Returns last 6(TILES) trips, also by the user.
         Args:
             user_id (int): id of user,
             page (int): number of trip-list,
             step (int): maximum quantity of trips on one page of trip-list,
         Returns:
-            reversed trips.
+            tuple, that consist of:
+                trips (list): last 6(TILES) trips,
+                quantity (int): quantity of all trips,
+                all_pages (int): quantity of pages with all trips
         """
         start = step*page
         end = start + step
         if not user_id:
-            trips = reversed(Trip.objects.all().order_by('-create_at')[start:end])
-            return trips
-        trips = reversed(Trip.objects.filter(user=user_id).order_by('-create_at')[start:end])
-        return trips
+            trips = Trip.objects.all()
+        else:
+            trips = Trip.objects.filter(user=user_id)
+        quantity = trips.count()
+        trips = trips.order_by('-create_at')[start:end]
+        all_pages = quantity // TILES
+        if quantity == 0:
+            all_pages = 0
+        elif quantity % TILES == 0:
+            all_pages = all_pages - 1
+        else:
+            all_pages = all_pages
+        return trips, quantity, all_pages
