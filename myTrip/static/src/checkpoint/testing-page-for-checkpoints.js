@@ -33,7 +33,7 @@ class CheckpointTestPage extends React.Component {
                 <Provider store={store}>
                     <div className='trip-test-page'>
                         <AddCheckpoint/>
-                        <div style={{width:700, height:400}}>
+                        <div style={{width:600, height:300}}>
                             <Mapp/>
                         </div>
                         <CheckpointList/>
