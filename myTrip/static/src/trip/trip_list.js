@@ -146,6 +146,7 @@ export default class TripList extends React.Component {
                                             title={trip.title}
                                             description={trip.description}
                                             status={trip.status}
+                                            cover={trip.src}
                                             created={formatDate(trip.create_at)}
                                             updated={formatDate(trip.update_at)}
                                         />

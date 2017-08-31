@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from registration.models import CustomUser
 
 TILES = 6
-
+DEFAULT_IMAGE = "http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg"
 
 class Trip(models.Model):
     """
@@ -13,6 +13,7 @@ class Trip(models.Model):
     :argument id: int - auto generated primary key,
     :argument user_id: int - foreign key to User model,
     :argument title: str - title,
+    :argument src: str - cover photo,
     :argument description: str - description,
     :argument status: int - 0-in progress, 1-announced, 2-finished,
     :argument create_at: datetime - date of trip creation,
@@ -22,8 +23,9 @@ class Trip(models.Model):
     """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
-    description = models.TextField()
-    status = models.IntegerField(default=0)
+    status = models.IntegerField()
+    src = models.URLField(default=DEFAULT_IMAGE)
+    description = models.TextField(null=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, editable=True)
     # start = models.DateTimeField(editable=True, default=datetime.now())
@@ -38,6 +40,7 @@ class Trip(models.Model):
                 'id': id,
                 'user': user,
                 'title': title,
+                'scr': src,
                 'create_at': date,
                 'update_at': date,
                 'description': description,
@@ -50,6 +53,7 @@ class Trip(models.Model):
             "id": self.id,
             "user": self.user.id,
             "title": self.title,
+            "src": self.src,
             "create_at": self.create_at,
             "update_at": self.update_at,
             "description": self.description,
@@ -59,10 +63,11 @@ class Trip(models.Model):
         }
 
     def __repr__(self):
-        return "id:{} user:{} title:{} create_at:{}" \
+        return "id:{} user:{} title:{} src:{} create_at:{}" \
                "update_at:{} description:{} status:{}".format(self.id,
                                                               self.user,
                                                               self.title,
+                                                              self.src,
                                                               self.create_at,
                                                               self.update_at,
                                                               self.description,
@@ -84,36 +89,41 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def create(data):
+    def create(user, title, status, src=None, description=None):
         """
         Creates Trip
         Args:
             data (dict):
                 user (int): fk to user.
                 title (str): title of trip.
-                description (str): description.
+                src (str): cover photo of trip.
                 status (int): trip status.
+                description (str): description.
                 start (obj): date of trip start.
                 finish (obj): date of trip finish.
         Returns:
             trip Object.
         """
         trip = Trip()
-        trip.user = data['user']
-        trip.title = data['title']
-        trip.description = data['description']
-        trip.status = data['status']
-        # trip.start = data['start']
-        # trip.finish = data['finish']
+        trip.user = user
+        trip.title = title
+        trip.status = status
+        if src:
+            trip.src = src
+        if description:
+            trip.description = description
+        # trip.start = data['start']start
+        # trip.finish = finish
         trip.save()
         return trip
 
     def edit(self, data):
         """
-        Updates Trip with new title, description and status.
+        Updates Trip with new title, src, description and status.
         Args:
             data (dict):
                 title (str): title of trip.
+                src (str): cover photo of trip.
                 description (str): description.
                 status (int): trip status.
                 start (obj): date of trip start.
@@ -122,6 +132,7 @@ class Trip(models.Model):
             trip Object.
         """
         self.title = data['title']
+        self.src = data['src']
         self.description = data['description']
         self.status = data['status']
         self.save()
