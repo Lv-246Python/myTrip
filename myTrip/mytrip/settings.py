@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'home',
     'subscribe',
     'utils',
-    'help'
+    'help',
+    'profile',
 ]
 
 TEMPLATES = [

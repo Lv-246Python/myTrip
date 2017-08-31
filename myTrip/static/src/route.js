@@ -6,6 +6,8 @@ import Help from './help/Help'
 import Comments from "./comment/Comments";
 import Login from "./registration/login";
 import Registration from "./registration/registration";
+import Profile from "./profile/profile";
+import ProfileByID from "./profile/profileByID";
 import CreateTrip from "./trip/create_trip";
 import TripList from "./trip/trip_list";
 import TripPage from "./trip/trip_page";
@@ -49,6 +51,8 @@ export default class MainRoute extends React.Component {
                                                 tripId={1}
                                                 tripPhotoId="/photo/1" />)}/>
                     <Route exact path='/trip-map' component={TripMap} />
+                    <Route exact path="/profile/" component={Profile} />
+                    <Route exact path="/profile/:id" component={ProfileByID} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
