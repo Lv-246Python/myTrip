@@ -11,7 +11,7 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
-  elements: {
+  element: {
     display: 'flex',
     flexWrap: 'nowrap',
     overflow: 'auto',
@@ -41,7 +41,7 @@ export default class Photos extends React.Component {
     render() {
         return (
             <div style={styles.container}>
-                <GridList style={styles.elements} cols={2.2}>
+                <GridList style={styles.element} cols={2.2}>
                   {this.state.photos.map((photo) => (
                     <PhotoItem
                         key={photo.id}

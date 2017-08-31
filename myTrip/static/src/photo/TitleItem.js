@@ -4,7 +4,7 @@ import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import { styles } from './PhotoStyles';
 
-export class TitlePhotoItem extends React.Component {
+export class TitleItem extends React.Component {
     constructor(props) {
         super(props);
     }

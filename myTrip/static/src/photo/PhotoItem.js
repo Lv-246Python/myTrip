@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { GridTile } from 'material-ui/GridList';
+import { CardMedia } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
 
 import { ExpandPhoto } from './ExpandPhoto';
+import { styles } from './PhotoStyles';
 
 export class PhotoItem extends React.Component {
     constructor(props) {
@@ -29,7 +31,7 @@ export class PhotoItem extends React.Component {
                                 <Fullscreen color="white" />
                           </IconButton>}>
 
-                <img src={this.props.src} />
+                <img src={this.props.src} style={styles.image} />
 
                 <ExpandPhoto
                   open={this.state.open}

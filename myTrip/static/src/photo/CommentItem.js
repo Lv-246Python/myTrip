@@ -6,7 +6,7 @@ import CommentIcon from 'material-ui/svg-icons/communication/chat';
 import Comments from '../comment/Comments';
 import { styles } from './PhotoStyles';
 
-export class CommentPhotoItem extends React.Component {
+export class CommentItem extends React.Component {
     constructor(props) {
         super(props);
     }
