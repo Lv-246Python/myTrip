@@ -5,6 +5,8 @@ import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
 import { blue500 } from 'material-ui/styles/colors';
 import { putProfile } from './profile.service';
 
@@ -16,7 +18,7 @@ const styles = {
   },
 };
 
-export class TextBlock extends React.Component {
+export class ProfileEdit extends React.Component {
     constructor(props){
         super(props);
         this.state = props.profile;
@@ -30,7 +32,7 @@ export class TextBlock extends React.Component {
           }
       } else {
         this.setState({[event.target.name]: newValue});
-      }    
+      }
     };
 
     handleChangeGender = (event, index, value) => this.setState({gender: value});
@@ -40,6 +42,13 @@ export class TextBlock extends React.Component {
         this.setState({age: value});
       }
     }
+
+    handleDrop = files => {
+      var file = new FormData();
+      file.append('name', files[0])
+      axios.post('/api/v1/profile/', file)
+    }
+
     profileEdit = () => {
         const first_name = this.state.first_name;
         const last_name = this.state.last_name;
@@ -109,13 +118,17 @@ export class TextBlock extends React.Component {
           floatingLabelStyle={styles.LabelStyle}
         />
 
-        <TextField
-          floatingLabelText="Change avatar:"
-          fullWidth={true}
-          name='avatar'
-          onChange={this.onChange}
-          floatingLabelStyle={styles.LabelStyle}
-        />
+        <FlatButton
+          label="Choose an Image"
+          labelPosition="before"
+          containerElement="label"> 
+                <Dropzone 
+                  onDrop={this.handleDrop} 
+                  multiple 
+                  accept="image/*" >
+                </Dropzone>
+          </FlatButton>
+
 
         <FlatButton onTouchTap={this.profileEdit} 
         label="Edit profile" primary={true} fullWidth={true} 

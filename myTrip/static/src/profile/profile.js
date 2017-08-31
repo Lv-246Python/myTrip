@@ -4,12 +4,11 @@ import axios from "axios";
 import Paper from 'material-ui/Paper';
 import { Avatars } from './profileAvatar';
 import { Buttons } from './profileButtons';
-import { TextBlock } from './profileEdit';
+import { ProfileEdit } from './profileEdit';
 
 import './profile.less';
 
 const profileURL = '/api/v1/profile/';
-
 
 export default class Profile extends React.Component {
     constructor(props) {
@@ -37,7 +36,7 @@ export default class Profile extends React.Component {
     return (
           <Paper className='MainPaper'  zDepth={2} >
             {data && <Avatars profile={data} />}
-            {data && <TextBlock profile={data} getProfile={this.getProfile} />}
+            {data && <ProfileEdit profile={data} getProfile={this.getProfile} />}
             <Buttons />
           </Paper>
       );

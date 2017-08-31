@@ -25,7 +25,7 @@ class Profile(models.Model):
         CustomUser, on_delete=models.CASCADE,
         primary_key=True,
     )
-    avatar = models.URLField(null=True)
+    avatar = models.ImageField(upload_to='static/media/', null=True)
     age = models.PositiveIntegerField(null=True)
     gender = models.TextField(null=True)
     hobbies = models.TextField(null=True)
@@ -128,7 +128,7 @@ class Profile(models.Model):
             "user": self.user.id,
             "first_name": self.user.first_name,
             "last_name": self.user.last_name,
-            "avatar": self.avatar,
+            "avatar": self.avatar.url if self.avatar else None,
             "age": self.age,
             "gender": self.gender,
             "hobbies": self.hobbies,

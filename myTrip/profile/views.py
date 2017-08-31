@@ -5,6 +5,7 @@ import json
 from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
 
+from mytrip.uploadFile import upload
 from registration.models import CustomUser
 from .models import Profile
 
@@ -22,6 +23,12 @@ class ProfileView(View):
         if not profile:
             return HttpResponse(status=404)
         return JsonResponse(profile.to_dict(), status=200)
+
+    def post(self, request):
+        imageToUpload = request.FILES.get('name')
+        key = 'avatar=' + str(request.user.id) + imageToUpload.name
+        url = upload(key, imageToUpload)
+        return HttpResponse(status=200)
 
     def put(self, request):
         """PUT request handler. Select logged
