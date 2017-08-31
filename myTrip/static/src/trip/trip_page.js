@@ -19,6 +19,7 @@ import TripEditorTitle from './trip_editor_title';
 import TripNavigation from './trip_navigation';
 import TripDelete from './trip_delete';
 import TripStatus from './trip_status';
+import TripMap from '../checkpoint/trip-map.js'
 import './trip.less';
 
 /*
@@ -115,7 +116,7 @@ export default class TripPage extends React.Component {
                                     */}
 
                                     <CardMedia className='tripGoogleMap'>
-                                        <img src='/static/src/img/world_map.jpg' />
+                                        <TripMap trip={this.state.trip}/>
                                     </CardMedia>
 
                                     {/*

@@ -36,6 +36,7 @@ class CheckpoinDetails extends React.Component {
         this.state.description,
         this.props.active.position_number,
         this.props.active.source_url,
+        this.props.trip.id,
         this.props.active.id
             )
     }

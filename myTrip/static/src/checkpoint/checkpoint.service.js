@@ -1,10 +1,10 @@
 import axios from "axios"
 
-const trip_id = 1
-const url = '/api/v1/trip/'+trip_id+'/checkpoint/'
+// const trip_id = 1
+const url = '/api/v1/trip/'
 
-function createCheckpoint(longitude, latitude, title, description, position_number, source_url) {
-    return axios.post(url, {
+function createCheckpoint(longitude, latitude, title, description, position_number, source_url, trip_id) {
+    return axios.post(url+trip_id+'/checkpoint/', {
             longitude,
             latitude,
             title,
@@ -13,8 +13,8 @@ function createCheckpoint(longitude, latitude, title, description, position_numb
             source_url})
 }
 
-function updateCheckpoint(longitude, latitude, title, description, position_number, source_url, checkpoint_id) {
-    return axios.put(url+checkpoint_id+'/', {
+function updateCheckpoint(longitude, latitude, title, description, position_number, source_url, trip_id, checkpoint_id) {
+    return axios.put(url+trip_id+'/checkpoint/'+checkpoint_id+'/', {
             longitude,
             latitude,
             title,
@@ -23,12 +23,12 @@ function updateCheckpoint(longitude, latitude, title, description, position_numb
             source_url})
 }
 
-function deleteCheckpoint(id) {
-    return axios.delete(url+id+'/')
+function deleteCheckpoint(id, trip_id) {
+    return axios.delete(url+trip_id+'/checkpoint/'+id+'/')
 }
 
-function getAllCheckpoints() {
-    return axios.get(url);
+function getAllCheckpoints(trip_id) {
+    return axios.get(url+trip_id+'/checkpoint/');
 }
 
 module.exports = {

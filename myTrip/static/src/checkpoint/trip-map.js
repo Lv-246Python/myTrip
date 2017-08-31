@@ -12,7 +12,7 @@ import {deleteCheckpoint, getAllCheckpoints} from './checkpoint.service.js'
 import AddCheckpoint from './addCheckpoint.js'
 import CheckpointList from './checkpointList.js'
 import CheckpoinDetails from './checkpointDetails.js'
-import Mapp from './map.js'
+import Map from './map.js'
 
 import allReducers from './reducers/combine-reducer.js';
 
@@ -24,16 +24,17 @@ export const store = createStore(allReducers, composeWithDevTools(middleware));
 
 class TripMap extends React.Component {
     render() {
+        console.log(this.props.trip)
         return (
             <div >
                 <Provider store={store}>
                     <div className='trip-test-page'>
-                        <AddCheckpoint/>
-                        <div style={{width:600, height:300}}>
-                            <Mapp/>
+                        <AddCheckpoint trip={this.props.trip}/>
+                        <div style={{width:300, height:300}}>
+                            <Map trip={this.props.trip}/>
                         </div>
-                        <CheckpointList/>
-                        <CheckpoinDetails/>
+                        <CheckpointList trip={this.props.trip}/>
+                        <CheckpoinDetails trip={this.props.trip}/>
                     </div>
                 </Provider>
             </div>

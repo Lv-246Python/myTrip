@@ -9,7 +9,7 @@ import {getAllCheckpoints} from './actions/index.js'
 class CheckpointList extends React.Component{
 
     componentDidMount() {
-        this.props.getAllCheckpoints();
+        this.props.getAllCheckpoints(this.props.trip.id);
     }
 
     render(){
@@ -17,7 +17,7 @@ class CheckpointList extends React.Component{
             var list = this.props.checkpoints;
                 list = list.map(item =>{
                      return (
-                        <CheckpoinItem key={item.id} checkpoint={item}/>
+                        <CheckpoinItem key={item.id} checkpoint={item} tripId={this.props.trip.id}/>
                     );
                 })
                 return(

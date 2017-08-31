@@ -5,7 +5,7 @@ import {getAllCheckpoints} from './actions/index.js'
 
 import { GoogleMapLoader, GoogleMap, Marker } from 'react-google-maps'
 
-class Mapp extends React.Component{
+class Map extends React.Component{
 
     constructor(){
         super()
@@ -15,7 +15,7 @@ class Mapp extends React.Component{
     }
 
     componentDidMount() {
-        this.props.getAllCheckpoints();
+        this.props.getAllCheckpoints(this.props.trip.id);
     }
 
     render(){
@@ -30,9 +30,7 @@ class Mapp extends React.Component{
             if (this.props.active != null) {
                 center.lat = this.props.active.latitude,
                 center.lng = this.props.active.longitude
-                
             } else {
-                
                 let len = this.props.checkpoints.length;
                 center.lat = list[len-1].latitude
                 center.lng = list[len-1].longitude
@@ -56,7 +54,7 @@ class Mapp extends React.Component{
                         <GoogleMap
                             defaultZoom = {17}
                             center = {center}
-                            options = {{streetViewControl: false, mapControl: false, mapTypeId: 'satellite'}}>
+                            options = {{streetViewControl: false, mapControl: false}}>
                             {markers}
                         </GoogleMap>
                     }/>
@@ -83,4 +81,4 @@ function matchDispatchToProps(dispatch){
         dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Mapp);
+export default connect(mapStateToProps, matchDispatchToProps)(Map);

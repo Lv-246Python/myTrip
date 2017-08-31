@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-import {createCheckpointUpdateList, testpidor} from './actions/index.js'
+import {createCheckpointUpdateList} from './actions/index.js'
 
 class AddCheckpoint extends React.Component{
     constructor(props) {
@@ -19,6 +19,7 @@ class AddCheckpoint extends React.Component{
         const description = 'test';
         const position_number = 1;
         const source_url = '';
+        const tripId = this.props.trip.id
 
         navigator.geolocation.getCurrentPosition( 
             data => {
@@ -28,7 +29,8 @@ class AddCheckpoint extends React.Component{
                     title,
                     description,
                     position_number,
-                    source_url
+                    source_url,
+                    tripId
                 )
             },
             err => {
@@ -39,7 +41,8 @@ class AddCheckpoint extends React.Component{
                     title,
                     description,
                     position_number,
-                    source_url
+                    source_url,
+                    tripId
                 )
             }, 
             { enableHighAccuracy:true }
@@ -57,8 +60,7 @@ class AddCheckpoint extends React.Component{
 
 function matchDispatchToProps(dispatch){
     return bindActionCreators(
-        {createCheckpointUpdateList: createCheckpointUpdateList,
-            testpidor: testpidor},
+        {createCheckpointUpdateList: createCheckpointUpdateList},
         dispatch);
 }
 

@@ -11,7 +11,7 @@ class CheckpoinItem extends React.Component {
     }
 
     delete (event) {
-        this.props.deleteCheckpoint(this.props.list.id)
+        this.props.deleteCheckpoint(this.props.list.id,this.props.tripId)
     }
 
     render() {
@@ -21,7 +21,7 @@ class CheckpoinItem extends React.Component {
                     <button className='checkpoint' onClick={() => this.props.checkpointDetails(this.props.checkpoint)}>
                         {this.props.checkpoint.title}
                     </button>
-                    <span onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id)}
+                    <span onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.tripId)}
                         className="glyphicon glyphicon-remove">
                     </span>
                 </li>

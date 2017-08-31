@@ -1,10 +1,10 @@
 import service from '../checkpoint.service.js'
 import {store} from '../trip-map.js'
 
-export function getAllCheckpoints() {
+export function getAllCheckpoints(trip_id) {
     return {
         type: 'GET-CHECKPOINTS',
-        payload: service.getAllCheckpoints()
+        payload: service.getAllCheckpoints(trip_id)
             .then(function(response){
                 return response.data
             })
@@ -25,7 +25,7 @@ export const closeDetails = () => {
     }
 };
 
-export const createCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url) =>{
+export const createCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url, trip_id) =>{
     return {
         type: 'CREATE-CHECKPOINT-UPDATE_LIST',
         payload: service.createCheckpoint(longitude,
@@ -33,9 +33,10 @@ export const createCheckpointUpdateList =  (longitude,latitude,title,description
             title,
             description,
             position_number,
-            source_url)
+            source_url,
+            trip_id)
         .then(function(response){
-            return service.getAllCheckpoints()
+            return service.getAllCheckpoints(trip_id)
                 .then(function(response){
                     return response.data
                 });
@@ -43,7 +44,7 @@ export const createCheckpointUpdateList =  (longitude,latitude,title,description
     }
 };
 
-export const updateCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url,checkpoint_id) =>{
+export const updateCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url,trip_id,checkpoint_id) =>{
     return {
         type: 'UPDATE-CHECKPOINT-UPDATE_LIST',
         payload: service.updateCheckpoint(longitude,
@@ -52,9 +53,10 @@ export const updateCheckpointUpdateList =  (longitude,latitude,title,description
             description,
             position_number,
             source_url,
+            trip_id,
             checkpoint_id)
         .then(function(response){
-            return service.getAllCheckpoints()
+            return service.getAllCheckpoints(trip_id)
                 .then(function(response){
                     return response.data
                 });
@@ -62,16 +64,16 @@ export const updateCheckpointUpdateList =  (longitude,latitude,title,description
     }
 };
 
-export const deleteUpadateList = id =>{
+export const deleteUpadateList = (id, trip_id) =>{
     var active =  store.getState().activeCheckpoint;
     var status = active;
     if(active != null && active.id == id){
         status = null
     }
     return function(dispatch){
-        service.deleteCheckpoint(id)
+        service.deleteCheckpoint(id, trip_id)
         .then(function(response){
-            return service.getAllCheckpoints()
+            return service.getAllCheckpoints(trip_id)
             .then(function(response){
                 dispatch({type:'DELETE-CHECKPOINT-UPDATE_LIST',
                     payload:response.data,
