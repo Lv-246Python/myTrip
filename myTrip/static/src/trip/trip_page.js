@@ -7,10 +7,11 @@ import { userId } from '../utils';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
+import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
+import Comments from "../comment/Comments";
 import Photos from '../photo/Photos';
 import Comments from '../comment/Comments';
 import CommentIcon from 'material-ui/svg-icons/communication/chat';
-import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
 import NotFound from '../notFound';
 import LoadProgress from '../load_progress';
 import SubHeader from 'material-ui/Subheader';
@@ -20,6 +21,7 @@ import TripEditorTitle from './trip_editor_title';
 import TripNavigation from './trip_navigation';
 import TripDelete from './trip_delete';
 import TripStatus from './trip_status';
+import TripMap from '../checkpoint/trip-map.js'
 import './trip.less';
 
 /*
@@ -116,14 +118,13 @@ export default class TripPage extends React.Component {
                                     */}
 
                                     <CardMedia className='tripGoogleMap'>
-                                        <img src='/static/src/img/world_map.jpg' />
+                                        <TripMap trip={this.state.trip}/>
                                     </CardMedia>
 
                                     {/*
                                     there will be <Photo /> component
-
-
                                     */}
+
                                     <CardMedia className='tripPhotoGallery'>
                                         <Photos tripId={this.state.trip.id} />
                                     </CardMedia>
@@ -193,29 +194,6 @@ export default class TripPage extends React.Component {
 
                                     <CardText expandable={true}>
                                         <Comments tripId={this.state.trip.id} />
-                                    </CardText>
-                                </Card>
-
-                                {/*
-                                there will be <Checkpoint /> component
-                                */}
-
-                                <Card className='tripCheckpoints'>
-                                    <CardHeader
-                                        title={<h3>Checkpoints</h3>}
-                                        actAsExpander={true}
-                                        showExpandableButton={true}
-                                        closeIcon={<CheckpointIcon />}
-                                    />
-
-                                    <CardText expandable={true}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Donec mattis pretium massa. Aliquam erat volutpat.
-                                        Nulla facilisi.
-                                        Donec vulputate interdum sollicitudin.
-                                        Nunc lacinia auctor quam sed pellentesque.
-                                        Aliquam dui mauris, mattis quis lacus id, pellentesque
-                                        lobortis odio.
                                     </CardText>
                                 </Card>
                             </Card>

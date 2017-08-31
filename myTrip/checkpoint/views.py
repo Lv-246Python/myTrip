@@ -57,7 +57,7 @@ class CheckpointView(View):
         Return status 404 if checkpoint with such checkpoint_id wasn't found
         """
         trip = Trip.objects.get(id=trip_id)
-        if not trip.id == request.user.id:
+        if not trip.user.id == request.user.id:
             return HttpResponse(status=403)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         if not checkpoint:
@@ -79,7 +79,7 @@ class CheckpointView(View):
         Returns 403 if user didn't create this trip
         """
         trip = Trip.objects.get(id=trip_id)
-        if not trip.id == request.user.id:
+        if not trip.user.id == request.user.id:
             return HttpResponse(status=403)
         result = Checkpoint.delete_by_id(checkpoint_id)
         if not result:
