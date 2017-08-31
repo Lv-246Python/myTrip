@@ -23,7 +23,7 @@ class Trip(models.Model):
     """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
-    src = models.URLField()
+    src = models.URLField(null=True)
     description = models.TextField()
     status = models.IntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
