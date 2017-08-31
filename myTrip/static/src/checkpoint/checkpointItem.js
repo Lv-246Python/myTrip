@@ -21,23 +21,13 @@ class CheckpoinItem extends React.Component {
     render() {
         return (
             <div>
-                <div className='checkpoinItem'>
-                    <ListItem
-                        className='checkpoint'
-                        primaryText={this.props.checkpoint.title}
-                        onClick={() => this.props.checkpointDetails(this.props.checkpoint)}
-                        style={{maxWidth: 200}}
-                    />
-                    <IconButton 
-                        onTouchTap={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.tripId)} 
-                    >
-                        <DeleteIcon />
-                    </IconButton>
-                </div>
-
-
-                    <Divider />
-
+                <ListItem
+                    className='checkpoint'
+                    primaryText={this.props.checkpoint.title}
+                    onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
+                    rightIconButton={<DeleteIcon onTouchTap={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.tripId)}/>}
+                    style={{maxWidth: 300}}/>
+                    <Divider style={{maxWidth: 300}}/>
             </div>
         );
     }
