@@ -9,6 +9,9 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 import {deleteCheckpoint, getAllCheckpoints} from './checkpoint.service.js'
 
+import { Card, CardHeader, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card';
+import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
+
 import AddCheckpoint from './addCheckpoint.js'
 import CheckpointList from './checkpointList.js'
 import CheckpoinDetails from './checkpointDetails.js'
@@ -30,11 +33,22 @@ class TripMap extends React.Component {
                 <Provider store={store}>
                     <div className='trip-test-page'>
                         <AddCheckpoint trip={this.props.trip}/>
-                        <div style={{width:300, height:300}}>
+                        <div style={{width:900, height:500}}>
                             <Map trip={this.props.trip}/>
                         </div>
-                        <CheckpointList trip={this.props.trip}/>
-                        <CheckpoinDetails trip={this.props.trip}/>
+                            <Card className='tripDescription'>
+                                <CardHeader
+                                    title={<h3>Checkpoints</h3>}
+                                    actAsExpander={true}
+                                    showExpandableButton={true}
+                                    closeIcon={<CheckpointIcon style={{paddingRight:16}}/>}
+                                    style={{width:884}}
+                                />
+                                    <CardMedia expandable={true}>
+                                        <CheckpointList trip={this.props.trip}/>
+                                        <CheckpoinDetails trip={this.props.trip}/>
+                                    </CardMedia>
+                            </Card>
                     </div>
                 </Provider>
             </div>

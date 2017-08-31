@@ -13,8 +13,8 @@ class AddCheckpoint extends React.Component{
     }
 
     addPoint(){
-        const longitude = 24.017239;
-        const latitude = 49.834529;
+        const longitude = 23.999003;
+        const latitude = 49.832721;
         const title = 'test4';
         const description = 'test';
         const position_number = 1;

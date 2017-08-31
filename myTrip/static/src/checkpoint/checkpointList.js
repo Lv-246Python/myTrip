@@ -3,6 +3,7 @@ import React from "react";
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
+import {List, ListItem} from 'material-ui/List';
 import CheckpoinItem from './checkpointItem.js';
 import {getAllCheckpoints} from './actions/index.js'
 
@@ -22,10 +23,9 @@ class CheckpointList extends React.Component{
                 })
                 return(
                     <div>
-                    <span><strong>Trip checkpoints</strong></span>
-                        <ol>
+                        <List>
                             {list}
-                        </ol>
+                        </List>
                     </div>
                 );
         }

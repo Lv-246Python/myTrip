@@ -15,6 +15,7 @@ class Map extends React.Component{
     }
 
     componentDidMount() {
+        navigator
         this.props.getAllCheckpoints(this.props.trip.id);
     }
 
@@ -22,9 +23,10 @@ class Map extends React.Component{
         const mapContainer = <div style={{height: '100%', width:'100%'}}></div>
         // if(this.props.checkpoints != null && this.props.checkpoints[0]){
         const center = {
-            lat : 10,
-            lng : 10
+            lat : 49.832721,
+            lng : 23.999003
         }
+
         if(this.props.checkpoints && this.props.checkpoints.length){
             let list = this.props.checkpoints
             if (this.props.active != null) {
@@ -61,8 +63,15 @@ class Map extends React.Component{
             )
         } else {
             return(
-                <div>
-                </div>
+                    <GoogleMapLoader
+                    containerElement = { mapContainer }
+                    googleMapElement = {
+                        <GoogleMap
+                            defaultZoom = {17}
+                            center = {center}
+                            options = {{streetViewControl: false, mapControl: false}}>
+                        </GoogleMap>
+                    }/>
                 );
         }
     }

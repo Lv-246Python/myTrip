@@ -2,6 +2,8 @@ import React from "react";
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
+import {List, ListItem} from 'material-ui/List';
+import Divider from 'material-ui/Divider';
 import {checkpointDetails, deleteUpadateList} from './actions/index.js'
 
 class CheckpoinItem extends React.Component {
@@ -17,18 +19,20 @@ class CheckpoinItem extends React.Component {
     render() {
         return (
             <div>
-                <li>
-                    <button className='checkpoint' onClick={() => this.props.checkpointDetails(this.props.checkpoint)}>
+                    <ListItem
+                        className='checkpoint'
+                        onClick={() => this.props.checkpointDetails(this.props.checkpoint)}
+                    >
                         {this.props.checkpoint.title}
-                    </button>
-                    <span onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.tripId)}
-                        className="glyphicon glyphicon-remove">
-                    </span>
-                </li>
+                    </ListItem>
+                    <Divider />
+
             </div>
         );
     }
 }
+
+//{() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.tripId)}
 
 function matchDispatchToProps(dispatch){
     return bindActionCreators(
