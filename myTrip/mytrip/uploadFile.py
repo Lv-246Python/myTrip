@@ -11,11 +11,11 @@ def upload(key, imageToUpload):
         :argument imageToUpload: <file> - file to upload
     """
     session = boto3.session.Session(
-        aws_access_key_id=AWS_ACCESS_KEY,
-        aws_secret_access_key=AWS_SECRET_KEY,
-        region_name=AWS_DEFAULT_REGION,
+        aws_access_key_id=AWS_ACCESS_KEY, #pylint: disable=undefined-variable
+        aws_secret_access_key=AWS_SECRET_KEY, #pylint: disable=undefined-variable
+        region_name=AWS_DEFAULT_REGION, #pylint: disable=undefined-variable
         )
     s3 = session.resource('s3')
-    s3.Bucket(AWS_BUCKET_NAME).put_object(Key=key, Body=imageToUpload, ACL='public-read')
-    url = 'https://{}.s3.amazonaws.com/{}'.format(AWS_BUCKET_NAME, key)
+    s3.Bucket(AWS_BUCKET_NAME).put_object(Key=key, Body=imageToUpload, ACL='public-read') #pylint: disable=undefined-variable
+    url = 'https://{}.s3.amazonaws.com/{}'.format(AWS_BUCKET_NAME, key) #pylint: disable=undefined-variable
     return url
