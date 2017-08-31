@@ -28,7 +28,6 @@ class CheckpointDetails extends React.Component {
     }
 
     updatePoint = () => {
-        console.log(this.state)
         this.props.updateCheckpointUpdateList(
         this.props.active.longitude,
         this.props.active.latitude,

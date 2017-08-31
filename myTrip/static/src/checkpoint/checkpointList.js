@@ -22,17 +22,14 @@ class CheckpointList extends React.Component{
                     );
                 })
                 return(
-                    <div>
-                        <List>
-                            {list}
-                        </List>
-                    </div>
+                    <List>
+                        {list}
+                    </List>
                 );
         }
         else{
             return(
                 <div>
-                    
                 </div>
             );
         }
