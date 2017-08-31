@@ -16,5 +16,9 @@ export const styles = {
     overflow: {
         maxHeight: 800,
         overflow: 'auto'
+    },
+
+    image: {
+        
     }
 };
