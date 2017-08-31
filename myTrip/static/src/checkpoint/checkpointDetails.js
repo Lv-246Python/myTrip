@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {closeDetails, updateCheckpointUpdateList} from './actions/index.js'
 
 // import {store} from './testing-page-for-checkpoints.js'
-class CheckpoinDetails extends React.Component {
+class CheckpointDetails extends React.Component {
 
     constructor(props) {
       super(props);
@@ -77,4 +77,4 @@ function matchDispatchToProps(dispatch){
         dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(CheckpoinDetails);
+export default connect(mapStateToProps, matchDispatchToProps)(CheckpointDetails);

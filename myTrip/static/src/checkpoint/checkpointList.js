@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'material-ui/List';
-import CheckpoinItem from './checkpointItem.js';
+import CheckpointItem from './checkpointItem.js';
 import {getAllCheckpoints} from './actions/index.js'
 
 class CheckpointList extends React.Component{
@@ -18,7 +18,7 @@ class CheckpointList extends React.Component{
             var list = this.props.checkpoints;
                 list = list.map(item =>{
                      return (
-                        <CheckpoinItem key={item.id} checkpoint={item} tripId={this.props.trip.id}/>
+                        <CheckpointItem key={item.id} checkpoint={item} tripId={this.props.trip.id}/>
                     );
                 })
                 return(
