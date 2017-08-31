@@ -25,7 +25,7 @@ class ViewTest(TestCase):
     def test_get_by_id_success(self):
         response = self.client.get('/api/v1/trip/10/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.json()), 7)
+        self.assertEqual(len(response.json()), 8)
 
     def test_get_by_id_error(self):
         response = self.client.get('/api/v1/trip/2/')
@@ -50,7 +50,7 @@ class ViewTest(TestCase):
                     "description": "some text",
                     "status": 0}),
                     content_type="application/json")
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_put_success(self):
         data = {
