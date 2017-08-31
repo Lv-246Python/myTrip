@@ -27,7 +27,6 @@ export const store = createStore(allReducers, composeWithDevTools(middleware));
 
 class TripMap extends React.Component {
     render() {
-        console.log(this.props.trip)
         return (
             <div >
                 <Provider store={store}>

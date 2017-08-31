@@ -10,7 +10,6 @@ export default function (state = null, action) {
             return action.payload;
 
         case 'DELETE-CHECKPOINT-UPDATE_LIST':
-        console.log('deleteUpadateList clicked')
             return action.payload;
 
         case 'UPDATE-CHECKPOINT-UPDATE_LIST':
