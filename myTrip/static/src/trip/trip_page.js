@@ -8,7 +8,6 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
 import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
-import Comments from "../comment/Comments";
 import Photos from '../photo/Photos';
 import Comments from '../comment/Comments';
 import CommentIcon from 'material-ui/svg-icons/communication/chat';

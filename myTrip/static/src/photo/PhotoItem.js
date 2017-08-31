@@ -26,6 +26,7 @@ export class PhotoItem extends React.Component {
         return (
             <GridTile
               title={this.props.title}
+              onClick={this.toggleFullscreen}
               actionIcon={<IconButton
                             onClick={this.toggleFullscreen}>
                                 <Fullscreen color="white" />

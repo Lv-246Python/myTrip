@@ -35,6 +35,7 @@ class TripView(View):
         data = {
             'user': user,
             'title': post_data.get("title"),
+            'description': post_data.get("description"),
             'status': post_data.get("status"),
         }
 

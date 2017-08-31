@@ -19,6 +19,6 @@ export const styles = {
     },
 
     image: {
-        
+        height: '100%'
     }
 };
