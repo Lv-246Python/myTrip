@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from registration.models import CustomUser
 
 TILES = 6
-
+DEFAULT_IMAGE = "http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg"
 
 class Trip(models.Model):
     """
@@ -23,9 +23,9 @@ class Trip(models.Model):
     """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
-    src = models.URLField(null=True)
-    description = models.TextField()
-    status = models.IntegerField(default=0)
+    status = models.IntegerField()
+    src = models.URLField(default=DEFAULT_IMAGE)
+    description = models.TextField(null=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, editable=True)
     # start = models.DateTimeField(editable=True, default=datetime.now())
@@ -89,7 +89,7 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def create(data):
+    def create(user, title, status, src=None, description=None):
         """
         Creates Trip
         Args:
@@ -97,21 +97,23 @@ class Trip(models.Model):
                 user (int): fk to user.
                 title (str): title of trip.
                 src (str): cover photo of trip.
-                description (str): description.
                 status (int): trip status.
+                description (str): description.
                 start (obj): date of trip start.
                 finish (obj): date of trip finish.
         Returns:
             trip Object.
         """
         trip = Trip()
-        trip.user = data['user']
-        trip.title = data['title']
-        trip.src = data['src']
-        trip.description = data['description']
-        trip.status = data['status']
-        # trip.start = data['start']
-        # trip.finish = data['finish']
+        trip.user = user
+        trip.title = title
+        trip.status = status
+        if src:
+            trip.src = src
+        if description:
+            trip.description = description
+        # trip.start = data['start']start
+        # trip.finish = finish
         trip.save()
         return trip
 

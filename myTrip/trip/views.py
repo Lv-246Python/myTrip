@@ -28,13 +28,23 @@ class TripView(View):
 
     def post(self, request):
         """Handles POST request."""
-        data = json.loads(request.body.decode('utf-8'))
+        post_data = json.loads(request.body.decode('utf-8'))
         user = CustomUser.get_by_id(request.user.id)
         if not user:
-            return HttpResponse(status=401)
-        data["user"] = user
-        trip = Trip.create(data)
-        return JsonResponse(trip.to_dict(), status=201)
+            return HttpResponse(status=403)
+        data = {
+            'user': user,
+            'title': post_data.get("title"),
+            'status': post_data.get("status"),
+        }
+        if post_data.get("src"):
+            data['src'] = post_data.get("src")
+        if post_data.get("description"):
+            data['description'] = post_data.get("description")
+
+        trip = Trip.create(**data)
+        data = trip.to_dict()
+        return JsonResponse(data, status=201)
 
     def put(self, request, trip_id):
         """Handles PUT request."""

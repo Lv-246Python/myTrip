@@ -61,7 +61,7 @@ export default class TripTile extends React.Component {
                     <img src={this.state.tripPhoto.src} />
                     */}
 
-                    <img src={img} />
+                    <img src={this.state.cover} />
                 </CardMedia>
 
                 </GridTile>

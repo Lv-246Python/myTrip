@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { GridTile } from 'material-ui/GridList';
+import { CardMedia } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import Fullscreen from 'material-ui/svg-icons/navigation/fullscreen';
@@ -28,7 +29,7 @@ export class PhotoItem extends React.Component {
                             onClick={this.toggleFullscreen}>
                                 <Fullscreen color="white" />
                           </IconButton>}>
-
+                        
                 <img src={this.props.src} />
 
                 <ExpandPhoto
