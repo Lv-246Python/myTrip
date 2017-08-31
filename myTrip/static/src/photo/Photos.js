@@ -22,7 +22,7 @@ export default class Photos extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            photos: []
+            photos: null
         }
     }
 
@@ -39,21 +39,25 @@ export default class Photos extends React.Component {
     }
 
     render() {
-        return (
-            <div style={styles.container}>
-                <GridList style={styles.element} cols={2.2}>
-                  {this.state.photos.map((photo) => (
-                    <PhotoItem
-                        key={photo.id}
-                        src={photo.src}
-                        title={photo.title}
-                        author={photo.user_name}
-                        description={photo.description}
-                        tripId={this.props.tripId}
-                        photoId={photo.id} />
-                  ))}
-                </GridList>
-              </div>
-        )
+        if (this.state.photos) {
+            return (
+                <div style={styles.container}>
+                    <GridList style={styles.element} cols={2.2}>
+                      {this.state.photos.map((photo) => (
+                        <PhotoItem
+                            key={photo.id}
+                            src={photo.src}
+                            title={photo.title}
+                            author={photo.user_name}
+                            description={photo.description}
+                            tripId={this.props.tripId}
+                            photoId={photo.id} />
+                      ))}
+                    </GridList>
+                  </div>
+            );
+        } else {
+            return (<div></div>);
+        }
     }
 }

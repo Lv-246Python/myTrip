@@ -37,10 +37,6 @@ class TripView(View):
             'title': post_data.get("title"),
             'status': post_data.get("status"),
         }
-        if post_data.get("src"):
-            data['src'] = post_data.get("src")
-        if post_data.get("description"):
-            data['description'] = post_data.get("description")
 
         trip = Trip.create(**data)
         data = trip.to_dict()

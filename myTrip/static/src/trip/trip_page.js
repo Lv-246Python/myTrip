@@ -121,8 +121,9 @@ export default class TripPage extends React.Component {
 
                                     {/*
                                     there will be <Photo /> component
-                                    */}
 
+
+                                    */}
                                     <CardMedia className='tripPhotoGallery'>
                                         <Photos tripId={this.state.trip.id} />
                                     </CardMedia>

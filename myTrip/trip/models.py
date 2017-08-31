@@ -7,6 +7,7 @@ from registration.models import CustomUser
 TILES = 6
 DEFAULT_IMAGE = "http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg"
 
+
 class Trip(models.Model):
     """
     Trip
@@ -93,14 +94,13 @@ class Trip(models.Model):
         """
         Creates Trip
         Args:
-            data (dict):
-                user (int): fk to user.
-                title (str): title of trip.
-                src (str): cover photo of trip.
-                status (int): trip status.
-                description (str): description.
-                start (obj): date of trip start.
-                finish (obj): date of trip finish.
+            user (int): fk to user.
+            title (str): title of trip.
+            src (str): cover photo of trip.
+            status (int): trip status.
+            description (str): description.
+            start (obj): date of trip start.
+            finish (obj): date of trip finish.
         Returns:
             trip Object.
         """
@@ -123,7 +123,6 @@ class Trip(models.Model):
         Args:
             data (dict):
                 title (str): title of trip.
-                src (str): cover photo of trip.
                 description (str): description.
                 status (int): trip status.
                 start (obj): date of trip start.
@@ -132,7 +131,6 @@ class Trip(models.Model):
             trip Object.
         """
         self.title = data['title']
-        self.src = data['src']
         self.description = data['description']
         self.status = data['status']
         self.save()
