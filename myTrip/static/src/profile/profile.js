@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import Paper from 'material-ui/Paper';
-import { Avatars } from './profileAvatar';
+import Avatar from 'material-ui/Avatar';
 import { Buttons } from './profileButtons';
 import { ProfileEdit } from './profileEdit';
 
@@ -30,13 +30,16 @@ export default class Profile extends React.Component {
     componentDidMount(){
         this.getProfile();
     }
+    changeImg = img => {
+      this.forceUpdate()
+    }
 
   render(){
     const data = this.state.profile
     return (
           <Paper className='MainPaper'  zDepth={2} >
-            {data && <Avatars profile={data} />}
-            {data && <ProfileEdit profile={data} getProfile={this.getProfile} />}
+            {data && <Avatar src={this.state.profile.avatar} className='avatar' size={200} />}
+            {data && <ProfileEdit profile={data} getProfile={this.getProfile} changeImg={this.changeImg} />}
             <Buttons />
           </Paper>
       );

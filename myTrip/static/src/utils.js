@@ -1,8 +1,8 @@
 export let logged = () => document.cookie.indexOf('sessionid') != -1;
 
 export const EMAIL_REGEXP = /.+@.+\..+/;
-export const ALPHA_REGEXP = /^[a-z]+$/i;
-export const DIGIT_REGEXP = /^[0-9]+$/;
+export const ALPHA_REGEXP = /^[a-z]{0,20}$/i;
+export const DIGIT_REGEXP = /^[1-9]{0,2}$/;
 
 export function emailIsNotValid(email) {
     if (email == '') {
@@ -39,7 +39,6 @@ export let userId = () => {
     id = id === "" ? null : +id;
     return id;
 }
-
 
 export function onlyAlpha(text) {
     if (ALPHA_REGEXP.test(text) == false) {

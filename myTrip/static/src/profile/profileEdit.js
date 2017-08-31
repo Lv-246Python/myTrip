@@ -5,10 +5,11 @@ import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Snackbar from 'material-ui/Snackbar';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { blue500 } from 'material-ui/styles/colors';
-import { putProfile } from './profile.service';
+import { putProfile, profileURL } from './profile.service';
 
 import './profile.less';
 
@@ -16,19 +17,23 @@ const styles = {
   LabelStyle: {
     color: blue500,
   },
+  buttonStyle: {
+    margin: 18,
+  },
 };
 
 export class ProfileEdit extends React.Component {
     constructor(props){
         super(props);
         this.state = props.profile;
+        this.state.open = false;
     };
 
     onChange = (event, newValue) => {
-      if (event.target.name === "first_name" || event.target.name === "last_name"){
+      if (event.target.name === "first_name" || event.target.name === "last_name") {
           if (onlyAlpha(newValue)) 
           {  
-            this.setState({[event.target.name]: newValue}); 
+            this.setState({[event.target.name]: newValue }); 
           }
       } else {
         this.setState({[event.target.name]: newValue});
@@ -46,8 +51,18 @@ export class ProfileEdit extends React.Component {
     handleDrop = files => {
       var file = new FormData();
       file.append('name', files[0])
-      axios.post('/api/v1/profile/', file)
+      axios.post(profileURL, file)
+        .then(setTimeout(function () { this.props.getProfile() }.bind(this), 700));
     }
+    onDropRejected = () => {
+        this.setState({open: true});
+    }
+
+    handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
 
     profileEdit = () => {
         const first_name = this.state.first_name;
@@ -55,12 +70,11 @@ export class ProfileEdit extends React.Component {
         const age = this.state.age;
         const gender = this.state.gender;
         const hobbies = this.state.hobbies;
-        const avatar = this.state.avatar;
-        putProfile(first_name, last_name, age, gender, hobbies, avatar)
-        .then(this.props.getProfile())
+        putProfile(first_name, last_name, age, gender, hobbies)
+        .then(this.props.getProfile());
     }
 
-    render(){
+    render() {
         return(
       <div className='textBlock'>
         <TextField className='floatingLabelText'
@@ -121,18 +135,29 @@ export class ProfileEdit extends React.Component {
         <FlatButton
           label="Choose an Image"
           labelPosition="before"
+          style={styles.buttonStyle}
+          primary={true}
+          fullWidth={true}
           containerElement="label"> 
-                <Dropzone 
-                  onDrop={this.handleDrop} 
-                  multiple 
-                  accept="image/*" >
-                </Dropzone>
+              <Dropzone 
+                onDrop={this.handleDrop}
+                onDropRejected={this.onDropRejected} 
+                maxSize={2097152}
+                multiple={false}
+                accept="image/*" >
+              </Dropzone>
           </FlatButton>
-
 
         <FlatButton onTouchTap={this.profileEdit} 
         label="Edit profile" primary={true} fullWidth={true} 
         rippleColor={blue500} />
+
+        <Snackbar
+          open={this.state.open}
+          message='Accept only images with maximum size 2MB'
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+        />
       </div>
     );
 };

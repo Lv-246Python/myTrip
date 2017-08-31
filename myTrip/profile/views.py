@@ -25,9 +25,14 @@ class ProfileView(View):
         return JsonResponse(profile.to_dict(), status=200)
 
     def post(self, request):
+        """POST request handler. Return"""
+        profile = Profile.get_by_id(request.user.id)
+        if not profile:
+            return HttpResponse(status=403)
         imageToUpload = request.FILES.get('name')
-        key = 'avatar=' + str(request.user.id) + imageToUpload.name
+        key = 'avatar=' + imageToUpload.name
         url = upload(key, imageToUpload)
+        profile.update(avatar=url)
         return HttpResponse(status=200)
 
     def put(self, request):
@@ -41,7 +46,6 @@ class ProfileView(View):
         user.update(first_name=update_data.get('first_name'),
                     last_name=update_data.get('last_name'))
         profile.update(
-            avatar=update_data.get('avatar'),
             age=update_data.get('age'),
             gender=update_data.get('gender'),
             hobbies=update_data.get('hobbies'),
