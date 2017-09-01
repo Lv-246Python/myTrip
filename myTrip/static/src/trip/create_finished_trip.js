@@ -15,9 +15,13 @@ export default class CreateFinishedTrip extends React.Component {
         this.state = {
             titleIsEmpty: true,
             descriptionIsEmpty: true,
+            startDateIsEmpty: true,
+            finishDateIsEmpty: true,
             title: '',
             description: '',
-            status: this.props.status
+            status: this.props.status,
+            startDate: null,
+            finishDate: null,
         }
     };
 
@@ -41,6 +45,26 @@ export default class CreateFinishedTrip extends React.Component {
         };
     };
 
+    // function for edit title text, that cannot be empty
+    handleStartField = () => {
+        if (this.state.startDate === 0){
+            this.setState({startDateIsEmpty: true});
+        } else {
+            this.setState({startDateIsEmpty: false});
+        };
+    };
+
+    handleStartDate = (event, date) => {
+        this.setState({startDate: date});
+        this.setState({finishDate: date})
+        this.setState({startDateIsEmpty: false});
+    };
+
+    handleFinishDate = (event, date) => {
+        this.setState({finishDate: date})
+        this.setState({finishDateIsEmpty: false});
+    };
+
 
     // function for create trip with title, description and status
     handleCreateTrip = () => {
@@ -57,6 +81,7 @@ export default class CreateFinishedTrip extends React.Component {
             this.props.history.push(`/trip/${tripId}`)
         })
     };
+
 
     render() {
         return (
@@ -80,18 +105,14 @@ export default class CreateFinishedTrip extends React.Component {
                         {/*Description*/}
                             <CardTitle
                                 title='Add description of your trip'
-                                style={{
-                                    fontSize: 12,
-                                }}
+                                style={{fontSize: 12, }}
                             />
                             <TextField
                                 name='trip description'
                                 fullWidth={true}
                                 multiLine={true}
                                 rowsMax={10}
-                                style={{
-                                    width:'95%'
-                                }}
+                                style={{width:'95%' }}
                                 value={this.state.description}
                                 onChange={this.handleDescriptionField}
                             />
@@ -106,20 +127,24 @@ export default class CreateFinishedTrip extends React.Component {
                             <DatePicker
                                 hintText="Start trip date"
                                 mode="landscape"
+                                maxDate={new Date()}
+                                openToYearSelection={true}
+                                value={this.state.startDate}
+                                onChange={this.handleStartDate}
                             />
                         {/*Finish*/}
                             <CardTitle
                                 title='Indicate the finish date of your trip'
-                                style={{
-                                    fontSize: 12,
-                                }}
+                                style={{fontSize: 12, }}
                             />
                             <DatePicker
                                 hintText="Finish trip date"
                                 mode="landscape"
-                                style={{
-                                    marginBottom: 50,
-                                }}
+                                minDate={this.state.startDate}
+                                maxDate={new Date()}
+                                value={this.state.finishDate}
+                                onChange={this.handleFinishDate}
+                                style={{marginBottom: 50, }}
                             />
                     </div>
 
@@ -130,7 +155,7 @@ export default class CreateFinishedTrip extends React.Component {
                             */}
 
                             <CardMedia className='tripGoogleMap'>
-                                <img src='/static/src/img/world_map.jpg' />
+                                <img src='/static/src/img/nice_pic_finished.jpg' />
                             </CardMedia>
                         </Card>
                     </div>
@@ -142,7 +167,7 @@ export default class CreateFinishedTrip extends React.Component {
                     backgroundColor='#FFC107'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty}
+                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
                 />
             </Card>
         );

@@ -113,7 +113,7 @@ export default class Subscribe extends React.Component {
                         primaryText={subscribe.user_name}
                         leftAvatar={<Avatar
                             //ToDo: add links to avatar from user's profile by id.
-                            src="http://icons.veryicon.com/ico/Avatar/Halloween%20Avatars/slasher.ico"
+                            src="/static/src/img/avatar.png"
                         />}>
                     </ListItem>)
                 )):(<span>No subscribes.</span>)

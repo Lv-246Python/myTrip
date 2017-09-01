@@ -12,6 +12,7 @@ import CreateTrip from "./trip/create_trip";
 import TripList from "./trip/trip_list";
 import TripPage from "./trip/trip_page";
 import Subscribes from "./subscribe/Subscribes";
+import Photos from "./photo/Photos";
 import TripMap from "./checkpoint/trip-map.js";
 import NotFound from './notFound';
 

@@ -20,10 +20,6 @@ export const styles = {
         textAlign: 'center'
     },
 
-    divider: {
-        marginBottom: 15
-    },
-
     snackbarBody: {
         textAlign: 'center',
         marginBottom: 5

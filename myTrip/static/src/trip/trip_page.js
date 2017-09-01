@@ -8,7 +8,8 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
 import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
-import Comments from "../comment/Comments";
+import Photos from '../photo/Photos';
+import Comments from '../comment/Comments';
 import CommentIcon from 'material-ui/svg-icons/communication/chat';
 import NotFound from '../notFound';
 import LoadProgress from '../load_progress';
@@ -124,7 +125,7 @@ export default class TripPage extends React.Component {
                                     */}
 
                                     <CardMedia className='tripPhotoGallery'>
-                                        <h3>Trip Photo Gallery</h3>
+                                        <Photos tripId={this.state.trip.id} />
                                     </CardMedia>
 
                                     {/*

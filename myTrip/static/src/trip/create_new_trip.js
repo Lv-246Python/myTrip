@@ -104,7 +104,7 @@ export default class CreateNewTrip extends React.Component {
                             */}
 
                             <CardMedia className='tripGoogleMap'>
-                                <img src='/static/src/img/world_map.jpg' />
+                                <img src='/static/src/img/nice_pic_progr.jpg' />
                             </CardMedia>
                         </Card>
                     </div>

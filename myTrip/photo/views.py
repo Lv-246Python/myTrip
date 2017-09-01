@@ -38,6 +38,7 @@ class PhotoView(View):
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
         photo = Photo.create(trip=trip, checkpoint=checkpoint,
                              user=user, src=post_data.get("src"),
+                             title=post_data.get("title"),
                              description=post_data.get("description"))
         data = photo.to_dict()
         return JsonResponse(data, status=201)

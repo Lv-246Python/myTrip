@@ -6,9 +6,9 @@ export function getTrip(tripId) {
     return axios.get(tripUrl + tripId + '/');
 };
 
-export function editTrip(tripId, title, description, status) {
+export function editTrip(tripId, title, src, description, status) {
     return axios.put(tripUrl + tripId + '/', {
-        title, description, status
+        title, src, description, status
     })
 };
 

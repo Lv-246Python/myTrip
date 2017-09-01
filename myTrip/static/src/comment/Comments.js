@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
@@ -55,7 +54,6 @@ export default class Comments extends React.Component {
                         No comments yet
                     </h2>
 
-                    <Divider style={styles.divider} />
                     <CommentForm
                         tripId={this.props.tripId}
                         tripPhotoId={this.props.tripPhotoId}
@@ -93,7 +91,6 @@ export default class Comments extends React.Component {
                         ))}
                     </List>
 
-                    <Divider style={styles.divider} />
                     <CommentForm
                         tripId={this.props.tripId}
                         tripPhotoId={this.props.tripPhotoId}
