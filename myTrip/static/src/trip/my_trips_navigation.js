@@ -18,11 +18,11 @@ export default class CreateTripNavigation extends React.Component {
             <div className='createTripNavigation' >
                 <List>
                     <ListItem
-                        key='home'
-                        className='buttonHome'
-                        primaryText='Home'
-                        leftIcon={<HomeIcon />}
-                        containerElement={<Link to='/' />}
+                        key='profile'
+                        className='buttonProfile'
+                        primaryText='My profile'
+                        leftIcon={<ProfileIcon />}
+                        containerElement={<Link to='/profile' />}
                     />
                     <ListItem
                         key='trips'
@@ -32,11 +32,11 @@ export default class CreateTripNavigation extends React.Component {
                         containerElement={<Link to='/trips' />}
                     />
                     <ListItem
-                        key='profile'
-                        className='buttonProfile'
-                        primaryText='My profile'
-                        leftIcon={<ProfileIcon />}
-                        containerElement={<Link to='/profile' />}
+                        key='home'
+                        className='buttonHome'
+                        primaryText='Home'
+                        leftIcon={<HomeIcon />}
+                        containerElement={<Link to='/' />}
                     />
                     <ListItem
                         key='help'

@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 
 import {List, ListItem} from 'material-ui/List';
 import { logged } from '../utils';
-import AuthorIcon from 'material-ui/svg-icons/social/person';
+import AuthorIcon from 'material-ui/svg-icons/maps/person-pin';
 import AllTripsIcon from 'material-ui/svg-icons/maps/map';
 import MyTripsIcon from 'material-ui/svg-icons/maps/terrain';
 import FollowersIcon from 'material-ui/svg-icons/maps/local-library';
 import HelpIcon from 'material-ui/svg-icons/action/help-outline';
 import HomeIcon from 'material-ui/svg-icons/action/home';
+import ProfileIcon from 'material-ui/svg-icons/social/person';
 import Subscribe from "../subscribe/Subscribe";
 import './trip.less'
 
@@ -29,13 +30,24 @@ export default class TripNavigation extends React.Component {
         return (
             <div>
                 <List>
-                    <ListItem
-                        key='home'
-                        className='buttonHome'
-                        primaryText='Home'
-                        leftIcon={<HomeIcon />}
-                        containerElement={<Link to='/' />}
-                    />
+                    {(logged()) ?
+                    <div>
+                        <ListItem
+                            key='profile'
+                            className='buttonProfile'
+                            primaryText='My profile'
+                            leftIcon={<ProfileIcon />}
+                            containerElement={<Link to='/profile' />}
+                        />
+                        <ListItem
+                            key='my_trips'
+                            className='buttonMyTrips'
+                            primaryText='My trips'
+                            leftIcon={<MyTripsIcon />}
+                            containerElement={<Link to='/my_trips' />}
+                        />
+                    </div>
+                    : false}
 
                     <ListItem
                         key='trips'
@@ -44,19 +56,9 @@ export default class TripNavigation extends React.Component {
                         leftIcon={<AllTripsIcon />}
                         containerElement={<Link to='/trips' />}
                     />
-
-                    {(logged()) ?
                     <ListItem
-                        key='my_trips'
-                        className='buttonMyTrips'
-                        primaryText='My trips'
-                        leftIcon={<MyTripsIcon />}
-                        containerElement={<Link to='/my_trips' />}
-                    /> : false}
-
-                    <ListItem
-                        key='profile'
-                        className='buttonProfile'
+                        key='author'
+                        className='buttonAuthor'
                         primaryText='Author'
                         leftIcon={<AuthorIcon />}
                         containerElement={<Link to={`/profile/${this.props.userId}`} />}
@@ -68,6 +70,13 @@ export default class TripNavigation extends React.Component {
                         primaryText='Subscribers'
                         leftIcon={<FollowersIcon />}
                         onTouchTap={this.handleOpen}
+                    />
+                    <ListItem
+                        key='home'
+                        className='buttonHome'
+                        primaryText='Home'
+                        leftIcon={<HomeIcon />}
+                        containerElement={<Link to='/' />}
                     />
                     <ListItem
                         key='help'

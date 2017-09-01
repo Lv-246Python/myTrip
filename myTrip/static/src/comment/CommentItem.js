@@ -124,15 +124,22 @@ export class CommentItem extends React.Component {
               <div>
                   <Card>
                       <CardHeader
+                          avatar={<CommentAvatar />}
                           title={this.props.userName}
                           subtitle={this.props.updated}
-                          expandable={true} />
+                      />
 
                       <CardText
                           actAsExpander={true}
-                          style={styles.commentText}>
-                          <CommentAvatar />
-                            {this.props.message}
+                          style={styles.commentText}
+                      >
+                          <TextField
+                              id={(this.props.commentId).toString()}
+                              underlineShow={false}
+                              multiLine={true}
+                              fullWidth={true}
+                              value={this.props.message}
+                          />
                       </CardText>
 
                       {(logged()) ?

@@ -8,6 +8,7 @@ import AllTripsIcon from 'material-ui/svg-icons/maps/map';
 import AnnounceIcon from 'material-ui/svg-icons/action/today';
 import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
 import HelpIcon from 'material-ui/svg-icons/action/help-outline';
+import HomeNavigation from './home_navigation';
 import MyTripsIcon from 'material-ui/svg-icons/maps/terrain';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
@@ -15,7 +16,6 @@ import ProfileIcon from 'material-ui/svg-icons/social/person';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
 import Snackbar from 'material-ui/Snackbar';
 import SwipeableViews from 'react-swipeable-views';
-
 
 import './home.less';
 
@@ -151,42 +151,7 @@ class HomeTab extends React.Component {
                         />
                     </div>
                     <div className='homeNavigation'>
-                        <List>
-                            <ListItem
-                                key='trips'
-                                className='buttonAllTrips'
-                                primaryText='All trips'
-                                leftIcon={<AllTripsIcon />}
-                                containerElement={<Link to='/trips' />}
-                            />
-
-                            {(logged()) ?
-                            <div>
-                                <ListItem
-                                    key='my_trips'
-                                    className='buttonMyTrips'
-                                    primaryText='My trips'
-                                    leftIcon={<MyTripsIcon />}
-                                    containerElement={<Link to='/my_trips' />}
-                                />
-                                <ListItem
-                                    key='profile'
-                                    className='buttonProfile'
-                                    primaryText='My profile'
-                                    leftIcon={<ProfileIcon />}
-                                    containerElement={<Link to='/profile' />}
-                                />
-                            </div>
-                            : false}
-
-                            <ListItem
-                                key='help'
-                                className='buttonHelp'
-                                primaryText='Help'
-                                leftIcon={<HelpIcon />}
-                                containerElement={<Link to='/help' />}
-                            />
-                        </List>
+                        <HomeNavigation />
                     </div>
                     <aside className='HolyGrail-right'>
                     </aside>
@@ -195,6 +160,7 @@ class HomeTab extends React.Component {
         )
     }
 }
+
 const Home = () => (
   <MuiThemeProvider>
     <HomeTab/>

@@ -11,6 +11,8 @@ import FlatButton from 'material-ui/FlatButton';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import './trip.less';
+
 
 export default class TripStatus extends React.Component {
     constructor(props){
@@ -115,8 +117,8 @@ export default class TripStatus extends React.Component {
             return(
                 <div className='tripStatusLine'>
                     <div className='tripStatus'>
-                        <ProgressIcon style={{paddingRight: '8px'}} />
-                        In progress
+                        <ProgressIcon />
+                        <div className='statusType'>In progress</div>
                     </div>
 
                     {/*
@@ -146,8 +148,8 @@ export default class TripStatus extends React.Component {
             return(
                 <div className='tripStatusLine'>
                     <div className='tripStatus'>
-                        <AnnounceIcon style={{paddingRight: '8px'}} />
-                        Announced trip
+                        <AnnounceIcon />
+                        <div className='statusType'>Announced trip</div>
                     </div>
 
                     {/*
@@ -177,8 +179,8 @@ export default class TripStatus extends React.Component {
             return(
                 <div className='tripStatusLine'>
                     <div className='tripStatus'>
-                        <DoneIcon style={{paddingRight: '8px', paddingBottom: '8px'}} />
-                        Finished trip
+                        <DoneIcon/>
+                        <div className='statusType'>Finished trip</div>
                     </div>
                 </div>
             )

@@ -18,23 +18,8 @@ export default class CreateTripNavigation extends React.Component {
         return (
             <div className='createTripNavigation' >
                 <List>
-                    <ListItem
-                        key='home'
-                        className='buttonHome'
-                        primaryText='Home'
-                        leftIcon={<HomeIcon />}
-                        containerElement={<Link to='/' />}
-                    />
-
                     {(logged()) ?
                     <div>
-                        <ListItem
-                            key='my_trips'
-                            className='buttonMyTrips'
-                            primaryText='My trips'
-                            leftIcon={<MyTripsIcon />}
-                            containerElement={<Link to='/my_trips' />}
-                        />
                         <ListItem
                             key='profile'
                             className='buttonProfile'
@@ -42,8 +27,22 @@ export default class CreateTripNavigation extends React.Component {
                             leftIcon={<ProfileIcon />}
                             containerElement={<Link to='/profile' />}
                         />
+                        <ListItem
+                            key='my_trips'
+                            className='buttonMyTrips'
+                            primaryText='My trips'
+                            leftIcon={<MyTripsIcon />}
+                            containerElement={<Link to='/my_trips' />}
+                        />
                     </div> : false}
 
+                    <ListItem
+                        key='home'
+                        className='buttonHome'
+                        primaryText='Home'
+                        leftIcon={<HomeIcon />}
+                        containerElement={<Link to='/' />}
+                    />
                     <ListItem
                         key='help'
                         className='buttonHelp'

@@ -8,6 +8,7 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
 import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
+import Divider from 'material-ui/Divider';
 import Photos from '../photo/Photos';
 import Comments from '../comment/Comments';
 import CommentIcon from 'material-ui/svg-icons/communication/chat';
@@ -114,9 +115,9 @@ export default class TripPage extends React.Component {
                                     trip description
                                     */}
 
-                                    <div className='tripEdit'>
+                                    <div className='tripStatusLine'>
                                         <CardText>
-                                            <h2>Description:</h2>
+                                            <h3>Description:</h3>
                                         </CardText>
 
                                         {/*
@@ -141,8 +142,9 @@ export default class TripPage extends React.Component {
                                             name='tripDescription'
                                             underlineShow={false}
                                             multiLine={true}
+                                            fullWidth={true}
                                             value={trip.description}
-                                            style={{fontSize: 20}}
+                                            style={{fontSize: 18}}
                                         />
                                     </div>
 

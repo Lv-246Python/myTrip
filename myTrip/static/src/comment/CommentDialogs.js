@@ -37,6 +37,7 @@ export class EditDialog extends React.Component {
                       autoFocus
                       onFocus={moveCaretAtEnd}
                       fullWidth={true}
+                      multiLine={true}
                       floatingLabelText={this.props.floatingLabelText}
                       value={this.props.value}
                       onChange={this.props.onChange} />
