@@ -12,6 +12,7 @@ class TripView(View):
 
     def get(self, request, trip_id=None, user_id=None):
         """Handles GET request with ability to surf trip-list, by logged and not logged users."""
+        print(trip_id, user_id)
         page = int(request.GET.get('page', 0))
         if trip_id:
             trip = Trip.get_by_id(trip_id)

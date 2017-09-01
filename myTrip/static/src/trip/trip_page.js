@@ -76,57 +76,39 @@ export default class TripPage extends React.Component {
                         <main className='HolyGrail-content'>
                             <Card>
                                 <Card>
-                                    <CardHeader className='tripPageHeader' >
-                                        <div className='tripEdit'>
-
-                                            {/*
-                                            trip title
-                                            */}
-                                            <CardTitle
-                                                title={<b>{this.state.trip.title}</b>}
-                                                titleStyle={{fontSize: 25}}
-                                            />
-
-                                            {/*
-                                            trip edit title button for author
-                                            */}
-
-                                            {(userId() === this.state.trip.user) ?
-                                            <div className='tripEditIcon'>
-                                                <TripEditorTitle
-                                                    trip={this.state.trip}
-                                                    text={this.state.trip.title}
-                                                    tripId={this.state.trip.id}
-                                                    getTrip={this.getTrip}
-                                                />
-                                            </div> : false}
-                                        </div>
+                                    <div className='tripEdit'>
 
                                         {/*
-                                        trip status
+                                        trip title
                                         */}
-                                        {<TripStatus
-                                            status={this.state.trip.status}
-                                            trip={this.state.trip}
-                                            getTrip={this.getTrip}
-                                        />}
-                                    </CardHeader>
+                                        <CardTitle>
+                                            {<h2>{this.state.trip.title}</h2>}
+                                        </CardTitle>
+
+                                        {/*
+                                        trip edit title button for author
+                                        */}
+
+                                        {(userId() === this.state.trip.user) ?
+                                        <div className='tripEditIcon'>
+                                            <TripEditorTitle
+                                                trip={this.state.trip}
+                                                text={this.state.trip.title}
+                                                tripId={this.state.trip.id}
+                                                getTrip={this.getTrip}
+                                            />
+                                        </div> : false}
+                                    </div>
 
                                     {/*
-                                    there will be Google Map component
+                                    trip status
                                     */}
 
-                                    <CardMedia className='tripGoogleMap'>
-                                        <TripMap trip={this.state.trip}/>
-                                    </CardMedia>
-
-                                    {/*
-                                    there will be <Photo /> component
-                                    */}
-
-                                    <CardMedia className='tripPhotoGallery'>
-                                        <Photos tripId={this.state.trip.id} />
-                                    </CardMedia>
+                                    {<TripStatus
+                                        status={this.state.trip.status}
+                                        trip={this.state.trip}
+                                        getTrip={this.getTrip}
+                                    />}
 
                                     {/*
                                     trip description
@@ -178,6 +160,22 @@ export default class TripPage extends React.Component {
                                         </CardActions>
                                     </div>
                                 </Card>
+
+                                {/*
+                                there will be <Photo /> component
+                                */}
+
+                                <CardMedia className='tripPhotoGallery'>
+                                    <Photos tripId={this.state.trip.id} />
+                                </CardMedia>
+
+                                {/*
+                                there will be Google Map component
+                                */}
+
+                                <CardMedia className='tripGoogleMap'>
+                                    <TripMap trip={this.state.trip}/>
+                                </CardMedia>
 
                                 {/*
                                 there will be <Comments /> component

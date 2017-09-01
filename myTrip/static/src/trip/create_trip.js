@@ -6,12 +6,10 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import {List, ListItem} from 'material-ui/List';
 import { logged } from '../utils';
 import { Step, Stepper, StepButton, StepLabel, StepContent } from 'material-ui/Stepper';
-import AllTripsIcon from 'material-ui/svg-icons/maps/map';
-import CreateAnnouncedTrip from './create_announced_trip.js';
-import CreateFinishedTrip from './create_finished_trip.js';
-import CreateNewTrip from './create_new_trip.js';
-import HelpIcon from 'material-ui/svg-icons/action/help-outline';
-import HomeIcon from 'material-ui/svg-icons/action/home';
+import CreateAnnouncedTrip from './create_announced_trip';
+import CreateFinishedTrip from './create_finished_trip';
+import CreateNewTrip from './create_new_trip';
+import CreateTripNavigation from './create_trip_navigation';
 import AnnounceIcon from 'material-ui/svg-icons/action/today';
 import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
@@ -68,31 +66,9 @@ export default class CreateTrip extends React.Component {
         else{
             return (
                 <div className='createTrip' >
-                    <div className='createTripNavigation' >
-                        <List>
-                            <ListItem
-                                key='home'
-                                className='buttonHome'
-                                primaryText='Home'
-                                leftIcon={<HomeIcon />}
-                                containerElement={<Link to='/' />}
-                            />
-                            <ListItem
-                                key='trips'
-                                className='buttonAllTrips'
-                                primaryText='All trips'
-                                leftIcon={<AllTripsIcon />}
-                                containerElement={<Link to='/trips' />}
-                            />
-                            <ListItem
-                                key='help'
-                                className='buttonHelp'
-                                primaryText='Help'
-                                leftIcon={<HelpIcon />}
-                                containerElement={<Link to='/help' />}
-                            />
-                        </List>
-                    </div>
+
+                    <CreateTripNavigation />
+
                     <div className='stepperCreateTrip' >
                         <Stepper activeStep={stepIndex} orientation='vertical'>
                             <Step>

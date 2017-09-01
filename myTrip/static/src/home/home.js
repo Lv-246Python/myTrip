@@ -2,13 +2,16 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import { List, ListItem } from 'material-ui/List';
+import { logged } from '../utils';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import AllTripsIcon from 'material-ui/svg-icons/maps/map';
 import AnnounceIcon from 'material-ui/svg-icons/action/today';
 import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
 import HelpIcon from 'material-ui/svg-icons/action/help-outline';
+import MyTripsIcon from 'material-ui/svg-icons/maps/terrain';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
+import ProfileIcon from 'material-ui/svg-icons/social/person';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
 import Snackbar from 'material-ui/Snackbar';
 import SwipeableViews from 'react-swipeable-views';
@@ -156,6 +159,26 @@ class HomeTab extends React.Component {
                                 leftIcon={<AllTripsIcon />}
                                 containerElement={<Link to='/trips' />}
                             />
+
+                            {(logged()) ?
+                            <div>
+                                <ListItem
+                                    key='my_trips'
+                                    className='buttonMyTrips'
+                                    primaryText='My trips'
+                                    leftIcon={<MyTripsIcon />}
+                                    containerElement={<Link to='/my_trips' />}
+                                />
+                                <ListItem
+                                    key='profile'
+                                    className='buttonProfile'
+                                    primaryText='My profile'
+                                    leftIcon={<ProfileIcon />}
+                                    containerElement={<Link to='/profile' />}
+                                />
+                            </div>
+                            : false}
+
                             <ListItem
                                 key='help'
                                 className='buttonHelp'
