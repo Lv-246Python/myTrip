@@ -9,7 +9,7 @@ import MyTripsIcon from 'material-ui/svg-icons/maps/terrain';
 import ProfileIcon from 'material-ui/svg-icons/social/person';
 
 
-export default class CreateTripNavigation extends React.Component {
+export default class TripListNavigation extends React.Component {
     constructor(props){
         super(props);
     };

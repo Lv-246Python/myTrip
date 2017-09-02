@@ -61,6 +61,7 @@ export class CommentForm extends React.Component {
           <div>
               <Paper style={styles.paperForm}>
                   <TextField
+                      name='add text form'
                       onFocus={moveCaretAtEnd}
                       fullWidth={true}
                       multiLine={true}

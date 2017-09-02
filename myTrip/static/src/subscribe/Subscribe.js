@@ -11,7 +11,7 @@ import { getData, postData } from'./subscribe.services';
 
 
 const tripUrl = '/api/v1/trip/';
-const profileUrl = 'api/v1/profile/';
+const profileUrl = '/api/v1/profile/';
 
 
 export default class Subscribe extends React.Component {

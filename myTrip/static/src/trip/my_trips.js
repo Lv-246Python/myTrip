@@ -10,10 +10,11 @@ import AddIcon from 'material-ui/svg-icons/content/add';
 import FlatButton from 'material-ui/FlatButton';
 import LeftIcon from 'material-ui/svg-icons/navigation/chevron-left';
 import LoadProgress from '../load_progress';
+import MyTripsNavigation from './my_trips_navigation';
 import RightIcon from 'material-ui/svg-icons/navigation/chevron-right';
 import RaisedButton from 'material-ui/RaisedButton';
-import TripTile from './trip_tile'
-import './trip.less'
+import TripTile from './trip_tile';
+import './trip.less';
 
 const tripListColumns = 3;
 const tripListPadding = 20;
@@ -108,75 +109,84 @@ export default class MyTrips extends React.Component {
         }
         else {
             return (
-                <main className='allTrips'>
-                    <Card>
-                        <div className='tripListHeader'>
-                            <CardHeader
-                                title={<h2>My trips</h2>}
-                                subtitle={'Share your adventure'}
-                            />
-
-                            {/*
-                            create trip button for logged user
-                            */}
-                            {(this.state.logged())?
-                            <RaisedButton
-                                primary={true}
-                                label='Create trip'
-                                labelPosition='before'
-                                icon={<AddIcon />}
-                                containerElement={<Link to='/create_trip' />}
-
-                            /> : false}
-
+                <div>
+                    <div className='tripList'>
+                        <div className='side'>
+                            <MyTripsNavigation />
                         </div>
-                        <CardMedia>
-                            <div className='gridList'>
-                                <GridList
-                                    cellHeight={'auto'}
-                                    cols={tripListColumns}
-                                    padding={tripListPadding}
-                                >
+                        <div className='allTrips'>
+                            <Card>
+                                <div className='tripListHeader'>
+                                    <CardHeader
+                                        title={<h2>My trips</h2>}
+                                        subtitle={'Share your adventure'}
+                                    />
+
                                     {/*
-                                    wrap every JSON with trip data into own trip tile
+                                    create trip button for logged user
                                     */}
+                                    {(this.state.logged())?
+                                    <RaisedButton
+                                        primary={true}
+                                        label='Create trip'
+                                        labelPosition='before'
+                                        icon={<AddIcon />}
+                                        containerElement={<Link to='/create_trip' />}
 
-                                    {this.state.myTrips.map(trip => (
-                                        <TripTile
-                                            key={trip.id}
-                                            tripId={trip.id}
-                                            user={trip.user}
-                                            title={trip.title}
-                                            description={trip.description}
-                                            status={trip.status}
-                                            cover={trip.src}
-                                            created={formatDate(trip.create_at)}
-                                            updated={formatDate(trip.update_at)}
+                                    /> : false}
+
+                                </div>
+                                <CardMedia>
+                                    <div className='gridList'>
+                                        <GridList
+                                            cellHeight={'auto'}
+                                            cols={tripListColumns}
+                                            padding={tripListPadding}
+                                        >
+                                            {/*
+                                            wrap every JSON with trip data into own trip tile
+                                            */}
+
+                                            {this.state.myTrips.map(trip => (
+                                                <TripTile
+                                                    key={trip.id}
+                                                    tripId={trip.id}
+                                                    user={trip.user}
+                                                    title={trip.title}
+                                                    description={trip.description}
+                                                    status={trip.status}
+                                                    cover={trip.src}
+                                                    created={formatDate(trip.create_at)}
+                                                    updated={formatDate(trip.update_at)}
+                                                />
+                                            ))}
+                                        </GridList>
+                                    </div>
+                                </CardMedia>
+                                <div className='directionButtons'>
+                                    <CardActions>
+                                        <FlatButton
+                                            label='Previous'
+                                            icon={<LeftIcon />}
+                                            disabled={this.state.disabledFirst}
+                                            onTouchTap={this.prevPage}
                                         />
-                                    ))}
-                                </GridList>
-                            </div>
-                        </CardMedia>
-                        <div className='directionButtons'>
-                            <CardActions>
-                                <FlatButton
-                                    label='Previous'
-                                    icon={<LeftIcon />}
-                                    disabled={this.state.disabledFirst}
-                                    onTouchTap={this.prevPage}
-                                />
-                                <FlatButton
-                                    label='Next'
-                                    labelPosition='before'
-                                    icon={<RightIcon />}
-                                    disabled={this.state.disabledLast}
-                                    onTouchTap={this.nextPage}
-                                />
-                            </CardActions>
+                                        <FlatButton
+                                            label='Next'
+                                            labelPosition='before'
+                                            icon={<RightIcon />}
+                                            disabled={this.state.disabledLast}
+                                            onTouchTap={this.nextPage}
+                                        />
+                                    </CardActions>
+                                </div>
+                            </Card>
                         </div>
-                    </Card>
+                        <div className='side'>
+                        </div>
+                    </div>
                     <footer className='footer'></footer>
-                </main>
+                </div>
             );
         }
     };

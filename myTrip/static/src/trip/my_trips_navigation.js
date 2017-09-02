@@ -8,7 +8,7 @@ import HomeIcon from 'material-ui/svg-icons/action/home';
 import ProfileIcon from 'material-ui/svg-icons/social/person';
 
 
-export default class CreateTripNavigation extends React.Component {
+export default class MyTripsNavigation extends React.Component {
     constructor(props){
         super(props);
     };
