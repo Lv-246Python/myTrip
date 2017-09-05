@@ -69,6 +69,7 @@ class Comment(models.Model):
                     'id': id,
                     'message': message,
                     'user_id': user_id,
+                    'userAvatar': user avatar,
                     'trip': self.trip.id,
                     'checkpoint': checkpoint.id,
                     'photo': photo.id,
