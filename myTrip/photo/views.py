@@ -5,6 +5,7 @@ import json
 from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
 
+from mytrip.uploadFile import upload
 from checkpoint.models import Checkpoint
 from registration.models import CustomUser
 from trip.models import Trip
@@ -36,8 +37,11 @@ class PhotoView(View):
         if not trip:
             return HttpResponse(status=404)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
+        imageToUpload = request.FILES.get('name')
+        key = imageToUpload.name
+        url = upload(key, imageToUpload)
         photo = Photo.create(trip=trip, checkpoint=checkpoint,
-                             user=user, src=post_data.get("src"),
+                             user=user, src=url,
                              title=post_data.get("title"),
                              description=post_data.get("description"))
         data = photo.to_dict()
