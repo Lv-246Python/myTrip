@@ -4,7 +4,6 @@ import axios from "axios";
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
 import DatePicker from 'material-ui/DatePicker';
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -14,7 +13,6 @@ export default class CreateFinishedTrip extends React.Component {
         super(props);
         this.state = {
             titleIsEmpty: true,
-            descriptionIsEmpty: true,
             startDateIsEmpty: true,
             finishDateIsEmpty: true,
             title: '',
@@ -35,14 +33,9 @@ export default class CreateFinishedTrip extends React.Component {
         };
     };
 
-    // function for edit description text, that cannot be empty
+    // function for edit description text, that can be empty
     handleDescriptionField = (event) => {
-        this.setState({description: event.target.value});
-        if (event.target.value.trim().length === 0){
-            this.setState({descriptionIsEmpty: true});
-        } else {
-            this.setState({descriptionIsEmpty: false});
-        };
+        this.setState({description: event.target.value.trim()});
     };
 
     // function for edit title text, that cannot be empty
@@ -71,11 +64,13 @@ export default class CreateFinishedTrip extends React.Component {
         const title = this.state.title;
         const description = this.state.description;
         const status = this.state.status;
-        const createTrip = (title, description, status) => {
+        const start = this.state.startDate;
+        const finish = this.state.finishDate;
+        const createTrip = (title, description, status, start, finish) => {
             return axios.post(`/api/v1/trip/`, {
-                title, description, status })
+                title, description, status, start, finish })
         };
-        createTrip(title, description, status)
+        createTrip(title, description, status, start, finish)
         .then(response => {
             const tripId = response.data.id;
             this.props.history.push(`/trip/${tripId}`)
@@ -167,7 +162,7 @@ export default class CreateFinishedTrip extends React.Component {
                     backgroundColor='#FFC107'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
+                    disabled={this.state.titleIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
                 />
             </Card>
         );

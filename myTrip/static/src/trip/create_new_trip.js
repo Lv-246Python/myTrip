@@ -4,7 +4,6 @@ import axios from "axios";
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
 import DatePicker from 'material-ui/DatePicker';
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -47,14 +46,15 @@ export default class CreateNewTrip extends React.Component {
         const title = this.state.title;
         const description = this.state.description;
         const status = this.state.status;
-        const createTrip = (title, description, status) => {
+        const start = new Date();
+        const createTrip = (title, description, status, start) => {
             return axios.post(`/api/v1/trip/`, {
-                title, description, status })
+                title, description, status, start })
         };
-        createTrip(title, description, status)
+        createTrip(title, description, status, start)
         .then(response => {
             const tripId = response.data.id;
-            this.props.history.push(`/trip/${tripId}`)
+            this.props.history.push(`/trip/${tripId}`);
         })
     };
 
@@ -104,7 +104,7 @@ export default class CreateNewTrip extends React.Component {
                             */}
 
                             <CardMedia className='tripGoogleMap'>
-                                <img src='/static/src/img/nice_pic_progr.jpg' />
+                                <img src='/static/src/img/nice_pic.jpg' />
                             </CardMedia>
                         </Card>
                     </div>
@@ -113,10 +113,10 @@ export default class CreateNewTrip extends React.Component {
                     label={'Start new trip'}
                     labelPosition='before'
                     icon={<ProgressIcon />}
-                    primary={true}
+                    backgroundColor='#CDDC39'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty}
+                    disabled={this.state.titleIsEmpty}
                 />
             </Card>
         );

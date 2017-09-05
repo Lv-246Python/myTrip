@@ -33,7 +33,7 @@ export default class MyTrips extends React.Component {
         };
     };
 
-    //callback function, that returns last 6 trips JSONs from backend
+    //callback function, that returns last 6 trips JSONs from backend by user id
     getData = () => {
         let url = `/api/v1/profile/${userId()}/trip/`;
         if (this.state.page){
@@ -72,17 +72,6 @@ export default class MyTrips extends React.Component {
     prevPage = () => {
         this.setState({page: this.state.page && this.state.page - 1});
     };
-
-    /*
-    callback function, that returns JSON of a first photo of chosen trip from backend
-
-    getTripPhoto = () => {
-        axios.get(`/api/v1/trip/${trip.id}/photo/1/` ).then(response => {
-            const tripPhoto = response.data;
-            this.setState({tripPhoto});
-        });
-    };
-    */
 
     //renders only after data gotten
     componentDidMount() {

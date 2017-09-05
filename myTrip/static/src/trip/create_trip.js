@@ -78,27 +78,13 @@ export default class CreateTrip extends React.Component {
                                 <StepContent>
                                     <List>
                                         <ListItem
-                                            onClick={() => this.handleNext(0)}
+                                            onClick={() => this.handleNext(3)}
                                             hoverColor='#E0F7FA'
-                                        >
-                                            <ListItem
-                                                primaryText='Start a new trip'
-                                                leftIcon={<ProgressIcon color='black'/>}
-                                                style={{backgroundColor: '#00BCD4', fontSize: 20}}
-                                            />
-                                            <CardText style={{fontSize: 16}}>
-                                                {newTripDescription}
-                                            </CardText>
-                                        </ListItem>
-
-                                        <ListItem
-                                            onClick={() => this.handleNext(1)}
-                                            hoverColor='#F9FBE7'
                                         >
                                             <ListItem
                                                 primaryText='To announce a future trip'
                                                 leftIcon={<AnnounceIcon color='black'/>}
-                                                style={{backgroundColor: '#CDDC39', fontSize: 20}}
+                                                style={{backgroundColor: '#00BCD4', fontSize: 20}}
                                             />
                                             <CardText style={{fontSize: 16}}>
                                                 {announceTripDescription}
@@ -107,6 +93,20 @@ export default class CreateTrip extends React.Component {
 
                                         <ListItem
                                             onClick={() => this.handleNext(2)}
+                                            hoverColor='#F9FBE7'
+                                        >
+                                            <ListItem
+                                                primaryText='Start a new trip'
+                                                leftIcon={<ProgressIcon color='black'/>}
+                                                style={{backgroundColor: '#CDDC39', fontSize: 20}}
+                                            />
+                                            <CardText style={{fontSize: 16}}>
+                                                {newTripDescription}
+                                            </CardText>
+                                        </ListItem>
+
+                                        <ListItem
+                                            onClick={() => this.handleNext(1)}
                                             hoverColor='#FFF8E1'
                                         >
                                             <ListItem
@@ -127,19 +127,19 @@ export default class CreateTrip extends React.Component {
                                 </StepButton>
                                 <StepContent style={{width: '100%', paddingTop: 20}}>
 
-                                    {(this.state.status === 0) ?
-                                    <CreateNewTrip
-                                            status={this.state.status}
-                                            history={this.props.history}
-                                        /> : false}
-
-                                    {(this.state.status === 1) ?
+                                    {(this.state.status === 3) ?
                                     <CreateAnnouncedTrip
                                             status={this.state.status}
                                             history={this.props.history}
                                         /> : false}
 
                                     {(this.state.status === 2) ?
+                                    <CreateNewTrip
+                                            status={this.state.status}
+                                            history={this.props.history}
+                                        /> : false}
+
+                                    {(this.state.status === 1) ?
                                     <CreateFinishedTrip
                                             status={this.state.status}
                                             history={this.props.history}

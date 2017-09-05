@@ -4,7 +4,6 @@ import axios from "axios";
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import AnnounceIcon from 'material-ui/svg-icons/action/today';
 import DatePicker from 'material-ui/DatePicker';
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -14,7 +13,6 @@ export default class CreateAnnouncedTrip extends React.Component {
         super(props);
         this.state = {
             titleIsEmpty: true,
-            descriptionIsEmpty: true,
             startDateIsEmpty: true,
             finishDateIsEmpty: true,
             title: '',
@@ -35,14 +33,9 @@ export default class CreateAnnouncedTrip extends React.Component {
         };
     };
 
-    // function for edit description text, that cannot be empty
+    // function for edit description text, that can be empty
     handleDescriptionField = (event) => {
-        this.setState({description: event.target.value});
-        if (event.target.value.trim().length === 0){
-            this.setState({descriptionIsEmpty: true});
-        } else {
-            this.setState({descriptionIsEmpty: false});
-        };
+        this.setState({description: event.target.value.trim()});
     };
 
     handleStartDate = (event, date) => {
@@ -61,11 +54,13 @@ export default class CreateAnnouncedTrip extends React.Component {
         const title = this.state.title;
         const description = this.state.description;
         const status = this.state.status;
-        const createTrip = (title, description, status) => {
+        const start = this.state.startDate;
+        const finish = this.state.finishDate;
+        const createTrip = (title, description, status, start, finish) => {
             return axios.post(`/api/v1/trip/`, {
-                title, description, status })
+                title, description, status, start, finish })
         };
-        createTrip(title, description, status)
+        createTrip(title, description, status, start, finish)
         .then(response => {
             const tripId = response.data.id;
             this.props.history.push(`/trip/${tripId}`)
@@ -144,7 +139,7 @@ export default class CreateAnnouncedTrip extends React.Component {
                             */}
 
                             <CardMedia className='tripGoogleMap'>
-                                <img src='/static/src/img/nice_pic.jpg' />
+                                <img src='/static/src/img/nice_pic_progr.jpg' />
                             </CardMedia>
                         </Card>
                     </div>
@@ -153,10 +148,10 @@ export default class CreateAnnouncedTrip extends React.Component {
                     label={'Create announced trip'}
                     labelPosition='before'
                     icon={<AnnounceIcon />}
-                    backgroundColor='#CDDC39'
+                    primary={true}
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
+                    disabled={this.state.titleIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
                 />
             </Card>
         );

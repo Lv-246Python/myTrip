@@ -12,7 +12,6 @@ class TripView(View):
 
     def get(self, request, trip_id=None, user_id=None):
         """Handles GET request with ability to surf trip-list, by logged and not logged users."""
-        print(trip_id, user_id)
         page = int(request.GET.get('page', 0))
         if trip_id:
             trip = Trip.get_by_id(trip_id)
@@ -38,6 +37,8 @@ class TripView(View):
             'title': post_data.get("title"),
             'description': post_data.get("description"),
             'status': post_data.get("status"),
+            'start': post_data.get("start"),
+            'finish': post_data.get("finish")
         }
 
         trip = Trip.create(**data)
@@ -51,7 +52,11 @@ class TripView(View):
             return HttpResponse(status=404)
         if request.user.id == trip.user.id:
             data = json.loads(request.body.decode('utf-8'))
-            trip.edit(data)
+            trip.edit(title=data.get('title'),
+                      description=data.get('description'),
+                      status=data.get('status'),
+                      start=data.get('start'),
+                      finish=data.get('finish'))
             return HttpResponse(status=200)
         return HttpResponse(status=403)
 

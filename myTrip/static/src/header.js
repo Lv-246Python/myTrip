@@ -82,6 +82,7 @@ export default class Header extends React.Component {
         }
         return (
             <AppBar
+                //style={{position: 'fixed'}}
                 className='header'
                 iconStyleLeft = { style.iconLeftStyle }
                 iconElementLeft = {

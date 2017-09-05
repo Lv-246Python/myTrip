@@ -48,15 +48,11 @@ export default class TripEditorDescription extends React.Component {
     close edit dialog
     */
     editTrip = () => {
-        const title = this.props.trip.title;
         const description = this.state.newText;
-        const status = this.props.trip.status;
-        const putTrip = (title, description, status) => {
-            return axios.put(`/api/v1/trip/${this.state.tripId}/`, {
-                title, description, status })
+        const putTrip = (description) => {
+            return axios.put(`/api/v1/trip/${this.state.tripId}/`, {description})
         };
-        putTrip(title, description, status)
-        .then(() => {
+        putTrip(description).then(() => {
             this.props.getTrip();
             this.handleCloseEditTrip()
         })

@@ -30,7 +30,7 @@ export default class Subscribe extends React.Component {
         };
     }
 
-    //this function update children state, it father props was changed
+    //this function update children state, if father props was changed
     componentWillReceiveProps = (nextProps, nextState) => {
         this.setState({open:nextProps.open});
     }
