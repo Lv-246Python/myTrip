@@ -7,6 +7,9 @@ from django.db import models
 
 from registration.models import CustomUser
 
+defaultAvatar = "/static/src/img/avatar.png"
+
+
 class Profile(models.Model):
     """
     Profile
@@ -25,7 +28,7 @@ class Profile(models.Model):
         CustomUser, on_delete=models.CASCADE,
         primary_key=True,
     )
-    avatar = models.URLField(null=True)
+    avatar = models.URLField(default=defaultAvatar, null=True)
     age = models.PositiveIntegerField(null=True)
     gender = models.TextField(null=True)
     hobbies = models.TextField(null=True)
