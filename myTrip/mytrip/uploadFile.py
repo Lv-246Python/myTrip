@@ -2,8 +2,10 @@
 
 import boto3 #pylint: disable=unused-import
 
-# from .local_settings import AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME, AWS_DEFAULT_REGION
-
+try:
+    from .local_settings import AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME, AWS_DEFAULT_REGION  # pylint: disable=wildcard-import,unused-wildcard-import
+except ImportError:
+    pass
 
 def upload(key, imageToUpload):
     """Upload
