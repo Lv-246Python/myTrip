@@ -3,9 +3,19 @@
 
 /* Trip-list */
 
+.tripList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.side {
+    flex: 12%;
+}
+
 .allTrips {
     margin: auto;
-    max-width: 1450px;
+    width: 76%;
 }
 
 .tripListHeader {
@@ -21,7 +31,7 @@
 }
 
 .footer {
-    height: 100 px;
+    height: 60px;
     padding-top: 60px;
 }
 
@@ -74,25 +84,37 @@
     align-items: center;
 }
 
+.statusType {
+    padding-left: 16px;
+    padding-right: 8px;
+    font-size: 18px;
+}
+
 .statusButton {
     display: flex;
     justify-content: flex-end;
 }
 
-.tripLikeIcon {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 16px;
-}
-
 .tripEdit {
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
 .tripEditIcon {
     display: flex;
     justify-content: flex-end;
+}
+
+.tripPhotoGallery {
+    padding-top: 8px;
+}
+
+.iconLine {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-bottom: 8px;
 }
 
 .buttonTripDialog {
@@ -106,7 +128,6 @@
     justify-content: flex-start;
     padding-left: 16px;
 }
-
 
 
 /* Create trip */
@@ -126,6 +147,12 @@
     flex-direction: row;
 }
 
+.required {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+}
+
 .newTripContent {
     order: 1;
     min-width: 600px;
@@ -133,5 +160,5 @@
 
 .newTripMap {
     order: 1;
-    justify-content: space-between;
+    justify-content: center;
 }

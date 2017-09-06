@@ -31,23 +31,23 @@ class TripMap extends React.Component {
             <div >
                 <Provider store={store}>
                     <div className='trip-test-page'>
-                        <AddCheckpoint trip={this.props.trip}/>
                         <div style={{width:900, height:500}}>
                             <Map trip={this.props.trip}/>
                         </div>
-                            <Card className='tripDescription'>
-                                <CardHeader
-                                    title={<h3>Checkpoints</h3>}
-                                    actAsExpander={true}
-                                    showExpandableButton={true}
-                                    closeIcon={<CheckpointIcon style={{paddingRight:16}}/>}
-                                    style={{width:884}}
-                                />
-                                    <CardMedia expandable={true}>
-                                        <CheckpointList trip={this.props.trip}/>
-                                        <CheckpointDetails trip={this.props.trip}/>
-                                    </CardMedia>
-                            </Card>
+                        <AddCheckpoint trip={this.props.trip}/>
+                        <Card className='checkpointDescription'>
+                            <CardHeader
+                                title={<h3>Checkpoints</h3>}
+                                actAsExpander={true}
+                                showExpandableButton={true}
+                                closeIcon={<CheckpointIcon/>}
+                                style={{width:900}}
+                            />
+                                <CardMedia expandable={true}>
+                                    <CheckpointList trip={this.props.trip}/>
+                                    <CheckpointDetails trip={this.props.trip}/>
+                                </CardMedia>
+                        </Card>
                     </div>
                 </Provider>
             </div>

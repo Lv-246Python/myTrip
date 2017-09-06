@@ -4,7 +4,6 @@ import axios from "axios";
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
 import DatePicker from 'material-ui/DatePicker';
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -14,7 +13,6 @@ export default class CreateFinishedTrip extends React.Component {
         super(props);
         this.state = {
             titleIsEmpty: true,
-            descriptionIsEmpty: true,
             startDateIsEmpty: true,
             finishDateIsEmpty: true,
             title: '',
@@ -35,14 +33,9 @@ export default class CreateFinishedTrip extends React.Component {
         };
     };
 
-    // function for edit description text, that cannot be empty
+    // function for edit description text, that can be empty
     handleDescriptionField = (event) => {
-        this.setState({description: event.target.value});
-        if (event.target.value.trim().length === 0){
-            this.setState({descriptionIsEmpty: true});
-        } else {
-            this.setState({descriptionIsEmpty: false});
-        };
+        this.setState({description: event.target.value.trim()});
     };
 
     // function for edit title text, that cannot be empty
@@ -71,11 +64,13 @@ export default class CreateFinishedTrip extends React.Component {
         const title = this.state.title;
         const description = this.state.description;
         const status = this.state.status;
-        const createTrip = (title, description, status) => {
+        const start = this.state.startDate;
+        const finish = this.state.finishDate;
+        const createTrip = (title, description, status, start, finish) => {
             return axios.post(`/api/v1/trip/`, {
-                title, description, status })
+                title, description, status, start, finish })
         };
-        createTrip(title, description, status)
+        createTrip(title, description, status, start, finish)
         .then(response => {
             const tripId = response.data.id;
             this.props.history.push(`/trip/${tripId}`)
@@ -89,54 +84,59 @@ export default class CreateFinishedTrip extends React.Component {
                 <div className='newTrip'>
                     <div className='newTripContent'>
                         {/*Title*/}
-                            <CardTitle
-                                title='Add name of your trip'
-                                style={{
-                                    fontSize: 12,
-                                    width:'95%'
-                                }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Add name of your trip</div>
+                                    <p>*</p>
+                                </div>
+                            </CardText>
                             <TextField
                                 name='trip title'
+                                hintText='Trip title'
                                 autoFocus
+                                style={{paddingLeft: 16}}
                                 value={this.state.title}
                                 onChange={this.handleTitleField}
                             />
                         {/*Description*/}
-                            <CardTitle
-                                title='Add description of your trip'
-                                style={{fontSize: 12, }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Add description of your trip</div>
+                                </div>
+                            </CardText>
                             <TextField
                                 name='trip description'
+                                hintText='You can add it later'
                                 fullWidth={true}
                                 multiLine={true}
                                 rowsMax={10}
-                                style={{width:'95%' }}
+                                style={{paddingLeft: 16, width:'90%'}}
                                 value={this.state.description}
                                 onChange={this.handleDescriptionField}
                             />
                         {/*Start*/}
-                            <CardTitle
-                                title='Indicate the start date of your trip'
-                                style={{
-                                    fontSize: 12,
-                                    width:'95%'
-                                }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Indicate the start date of your trip</div>
+                                    <p>*</p>
+                                </div>
+                            </CardText>
                             <DatePicker
                                 hintText="Start trip date"
                                 mode="landscape"
                                 maxDate={new Date()}
                                 openToYearSelection={true}
+                                style={{paddingLeft: 16}}
                                 value={this.state.startDate}
                                 onChange={this.handleStartDate}
                             />
                         {/*Finish*/}
-                            <CardTitle
-                                title='Indicate the finish date of your trip'
-                                style={{fontSize: 12, }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Indicate the finish date of your trip</div>
+                                    <p>*</p>
+                                </div>
+                            </CardText>
                             <DatePicker
                                 hintText="Finish trip date"
                                 mode="landscape"
@@ -144,7 +144,7 @@ export default class CreateFinishedTrip extends React.Component {
                                 maxDate={new Date()}
                                 value={this.state.finishDate}
                                 onChange={this.handleFinishDate}
-                                style={{marginBottom: 50, }}
+                                style={{marginBottom: 50, paddingLeft: 16}}
                             />
                     </div>
 
@@ -167,7 +167,7 @@ export default class CreateFinishedTrip extends React.Component {
                     backgroundColor='#FFC107'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
+                    disabled={this.state.titleIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
                 />
             </Card>
         );

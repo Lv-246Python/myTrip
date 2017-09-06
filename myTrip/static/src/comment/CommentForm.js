@@ -61,8 +61,10 @@ export class CommentForm extends React.Component {
           <div>
               <Paper style={styles.paperForm}>
                   <TextField
+                      name='add text form'
                       onFocus={moveCaretAtEnd}
                       fullWidth={true}
+                      multiLine={true}
                       floatingLabelText="Write a comment"
                       value={this.state.newCommentText}
                       onChange={this.handleComment} />

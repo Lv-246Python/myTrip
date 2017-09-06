@@ -39,7 +39,7 @@ export default class TripDelete extends React.Component {
     //delete trip from backend by url with trip id
     deleteTrip = (tripId) => {
         deleteTrip(this.props.tripId)
-        .then(() => this.props.history.push('/trips'));
+        .then(() => this.props.history.push('/my_trips'));
     };
 
 

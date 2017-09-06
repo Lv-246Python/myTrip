@@ -10,6 +10,7 @@ import Profile from "./profile/profile";
 import ProfileByID from "./profile/profileByID";
 import CreateTrip from "./trip/create_trip";
 import TripList from "./trip/trip_list";
+import MyTrips from "./trip/my_trips";
 import TripPage from "./trip/trip_page";
 import Subscribes from "./subscribe/Subscribes";
 import Photos from "./photo/Photos";
@@ -44,6 +45,7 @@ export default class MainRoute extends React.Component {
                     <Route exact path='/help' component={Help} />
                     <Route exact path='/create_trip' component={CreateTrip} />
                     <Route exact path='/trips' component={TripList} />
+                    <Route exact path='/my_trips' component={MyTrips} />
                     <Route exact path='/trip/:id' component={TripPage} />
                     <Route exact path='/subscribes' component={Subscribes} />
                     <Route exact path='/comments'

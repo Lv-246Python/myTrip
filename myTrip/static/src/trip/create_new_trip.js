@@ -4,7 +4,6 @@ import axios from "axios";
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
 import DatePicker from 'material-ui/DatePicker';
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -14,7 +13,6 @@ export default class CreateNewTrip extends React.Component {
         super(props);
         this.state = {
             titleIsEmpty: true,
-            descriptionIsEmpty: true,
             title: '',
             description: '',
             status: this.props.status
@@ -33,12 +31,7 @@ export default class CreateNewTrip extends React.Component {
 
     // function for edit description text, that cannot be empty
     handleDescriptionField = (event) => {
-        this.setState({description: event.target.value});
-        if (event.target.value.trim().length === 0){
-            this.setState({descriptionIsEmpty: true});
-        } else {
-            this.setState({descriptionIsEmpty: false});
-        };
+        this.setState({description: event.target.value.trim()});
     };
 
 
@@ -47,14 +40,15 @@ export default class CreateNewTrip extends React.Component {
         const title = this.state.title;
         const description = this.state.description;
         const status = this.state.status;
-        const createTrip = (title, description, status) => {
+        const start = new Date();
+        const createTrip = (title, description, status, start) => {
             return axios.post(`/api/v1/trip/`, {
-                title, description, status })
+                title, description, status, start })
         };
-        createTrip(title, description, status)
+        createTrip(title, description, status, start)
         .then(response => {
             const tripId = response.data.id;
-            this.props.history.push(`/trip/${tripId}`)
+            this.props.history.push(`/trip/${tripId}`);
         })
     };
 
@@ -64,34 +58,33 @@ export default class CreateNewTrip extends React.Component {
                 <div className='newTrip'>
                     <div className='newTripContent'>
                         {/*Title*/}
-                            <CardTitle
-                                title='Add name of your trip'
-                                style={{
-                                    fontSize: 12,
-                                    width:'95%'
-                                }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Add name of your trip</div>
+                                    <p>*</p>
+                                </div>
+                            </CardText>
                             <TextField
                                 name='trip title'
+                                hintText='Trip title'
                                 autoFocus
+                                style={{paddingLeft: 16}}
                                 value={this.state.title}
                                 onChange={this.handleTitleField}
                             />
                         {/*Description*/}
-                            <CardTitle
-                                title='Add description of your trip'
-                                style={{
-                                    fontSize: 12,
-                                }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Add description of your trip</div>
+                                </div>
+                            </CardText>
                             <TextField
                                 name='trip description'
+                                hintText='You can add it later'
                                 fullWidth={true}
                                 multiLine={true}
                                 rowsMax={10}
-                                style={{
-                                    width:'95%'
-                                }}
+                                style={{paddingLeft: 16, width:'90%'}}
                                 value={this.state.description}
                                 onChange={this.handleDescriptionField}
                             />
@@ -104,7 +97,7 @@ export default class CreateNewTrip extends React.Component {
                             */}
 
                             <CardMedia className='tripGoogleMap'>
-                                <img src='/static/src/img/nice_pic_progr.jpg' />
+                                <img src='/static/src/img/nice_pic.jpg' />
                             </CardMedia>
                         </Card>
                     </div>
@@ -113,10 +106,10 @@ export default class CreateNewTrip extends React.Component {
                     label={'Start new trip'}
                     labelPosition='before'
                     icon={<ProgressIcon />}
-                    primary={true}
+                    backgroundColor='#CDDC39'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.descriptionIsEmpty}
+                    disabled={this.state.titleIsEmpty}
                 />
             </Card>
         );

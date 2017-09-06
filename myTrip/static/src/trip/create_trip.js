@@ -6,12 +6,10 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import {List, ListItem} from 'material-ui/List';
 import { logged } from '../utils';
 import { Step, Stepper, StepButton, StepLabel, StepContent } from 'material-ui/Stepper';
-import AllTripsIcon from 'material-ui/svg-icons/maps/map';
-import CreateAnnouncedTrip from './create_announced_trip.js';
-import CreateFinishedTrip from './create_finished_trip.js';
-import CreateNewTrip from './create_new_trip.js';
-import HelpIcon from 'material-ui/svg-icons/action/help-outline';
-import HomeIcon from 'material-ui/svg-icons/action/home';
+import CreateAnnouncedTrip from './create_announced_trip';
+import CreateFinishedTrip from './create_finished_trip';
+import CreateNewTrip from './create_new_trip';
+import CreateTripNavigation from './create_trip_navigation';
 import AnnounceIcon from 'material-ui/svg-icons/action/today';
 import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
@@ -68,31 +66,9 @@ export default class CreateTrip extends React.Component {
         else{
             return (
                 <div className='createTrip' >
-                    <div className='createTripNavigation' >
-                        <List>
-                            <ListItem
-                                key='home'
-                                className='buttonHome'
-                                primaryText='Home'
-                                leftIcon={<HomeIcon />}
-                                containerElement={<Link to='/' />}
-                            />
-                            <ListItem
-                                key='trips'
-                                className='buttonAllTrips'
-                                primaryText='All trips'
-                                leftIcon={<AllTripsIcon />}
-                                containerElement={<Link to='/trips' />}
-                            />
-                            <ListItem
-                                key='help'
-                                className='buttonHelp'
-                                primaryText='Help'
-                                leftIcon={<HelpIcon />}
-                                containerElement={<Link to='/help' />}
-                            />
-                        </List>
-                    </div>
+
+                    <CreateTripNavigation />
+
                     <div className='stepperCreateTrip' >
                         <Stepper activeStep={stepIndex} orientation='vertical'>
                             <Step>
@@ -102,27 +78,13 @@ export default class CreateTrip extends React.Component {
                                 <StepContent>
                                     <List>
                                         <ListItem
-                                            onClick={() => this.handleNext(0)}
+                                            onClick={() => this.handleNext(3)}
                                             hoverColor='#E0F7FA'
-                                        >
-                                            <ListItem
-                                                primaryText='Start a new trip'
-                                                leftIcon={<ProgressIcon color='black'/>}
-                                                style={{backgroundColor: '#00BCD4', fontSize: 20}}
-                                            />
-                                            <CardText style={{fontSize: 16}}>
-                                                {newTripDescription}
-                                            </CardText>
-                                        </ListItem>
-
-                                        <ListItem
-                                            onClick={() => this.handleNext(1)}
-                                            hoverColor='#F9FBE7'
                                         >
                                             <ListItem
                                                 primaryText='To announce a future trip'
                                                 leftIcon={<AnnounceIcon color='black'/>}
-                                                style={{backgroundColor: '#CDDC39', fontSize: 20}}
+                                                style={{backgroundColor: '#00BCD4', fontSize: 20}}
                                             />
                                             <CardText style={{fontSize: 16}}>
                                                 {announceTripDescription}
@@ -131,6 +93,20 @@ export default class CreateTrip extends React.Component {
 
                                         <ListItem
                                             onClick={() => this.handleNext(2)}
+                                            hoverColor='#F9FBE7'
+                                        >
+                                            <ListItem
+                                                primaryText='Start a new trip'
+                                                leftIcon={<ProgressIcon color='black'/>}
+                                                style={{backgroundColor: '#CDDC39', fontSize: 20}}
+                                            />
+                                            <CardText style={{fontSize: 16}}>
+                                                {newTripDescription}
+                                            </CardText>
+                                        </ListItem>
+
+                                        <ListItem
+                                            onClick={() => this.handleNext(1)}
                                             hoverColor='#FFF8E1'
                                         >
                                             <ListItem
@@ -151,19 +127,19 @@ export default class CreateTrip extends React.Component {
                                 </StepButton>
                                 <StepContent style={{width: '100%', paddingTop: 20}}>
 
-                                    {(this.state.status === 0) ?
-                                    <CreateNewTrip
-                                            status={this.state.status}
-                                            history={this.props.history}
-                                        /> : false}
-
-                                    {(this.state.status === 1) ?
+                                    {(this.state.status === 3) ?
                                     <CreateAnnouncedTrip
                                             status={this.state.status}
                                             history={this.props.history}
                                         /> : false}
 
                                     {(this.state.status === 2) ?
+                                    <CreateNewTrip
+                                            status={this.state.status}
+                                            history={this.props.history}
+                                        /> : false}
+
+                                    {(this.state.status === 1) ?
                                     <CreateFinishedTrip
                                             status={this.state.status}
                                             history={this.props.history}

@@ -48,15 +48,11 @@ export default class TripEditorTitle extends React.Component {
     */
     editTrip = () => {
         const title = this.state.newText;
-        const description = this.props.trip.description;
-        const status = this.props.trip.status;
 
-        const putTrip = (title, description, status) => {
-            return axios.put(`/api/v1/trip/${this.state.tripId}/`, {
-                title, description, status })
+        const putTrip = (title) => {
+            return axios.put(`/api/v1/trip/${this.state.tripId}/`, {title})
         };
-        putTrip(title, description, status)
-        .then(() => {
+        putTrip(title).then(() => {
             this.props.getTrip();
             this.handleCloseEditTrip()
         })

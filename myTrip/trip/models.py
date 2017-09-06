@@ -1,6 +1,7 @@
 """This module contains Trip model class and basic functions."""
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
 from registration.models import CustomUser
 
@@ -16,7 +17,7 @@ class Trip(models.Model):
     :argument title: str - title,
     :argument src: str - cover photo,
     :argument description: str - description,
-    :argument status: int - 0-in progress, 1-announced, 2-finished,
+    :argument status: int - 1-finished, 2-in progress, 3-announced,
     :argument create_at: datetime - date of trip creation,
     :argument update_at: datetime - date of trip update,
     :argument start: datetime - date of trip start,
@@ -24,13 +25,13 @@ class Trip(models.Model):
     """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
-    status = models.IntegerField()
+    status = models.IntegerField(null=True)
     src = models.URLField(default=DEFAULT_IMAGE)
-    description = models.TextField(null=True)
+    description = models.TextField(default='', null=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, editable=True)
-    # start = models.DateTimeField(editable=True, default=datetime.now())
-    # finish = models.DateTimeField(editable=True, null=True, blank=True)
+    start = models.DateTimeField(editable=True, default=timezone.now, null=True)
+    finish = models.DateTimeField(editable=True, null=True, blank=True)
 
     def to_dict(self):
         """
@@ -59,8 +60,8 @@ class Trip(models.Model):
             "update_at": self.update_at,
             "description": self.description,
             "status": self.status,
-            # "start": self.start,
-            # "finish": self.finish
+            "start": self.start,
+            "finish": self.finish
         }
 
     def __repr__(self):
@@ -90,7 +91,7 @@ class Trip(models.Model):
             return None
 
     @staticmethod
-    def create(user, title, status, src=None, description=None):
+    def create(user, title, status, start, src=None, description=None, finish=None):
         """
         Creates Trip
         Args:
@@ -108,33 +109,44 @@ class Trip(models.Model):
         trip.user = user
         trip.title = title
         trip.status = status
+        trip.start = start
         if src:
             trip.src = src
         if description:
             trip.description = description
-        # trip.start = data['start']start
-        # trip.finish = finish
+        if finish:
+            trip.finish = finish
         trip.save()
         return trip
 
-    def edit(self, data):
+    def edit(self,
+             title=None,
+             description=None,
+             status=None,
+             start=None,
+             finish=None):
         """
         Updates Trip with new title, src, description and status.
         Args:
-            data (dict):
-                title (str): title of trip.
-                description (str): description.
-                status (int): trip status.
-                start (obj): date of trip start.
-                finish (obj): date of trip finish.
+            title (str): title of trip.
+            description (str): description.
+            status (int): trip status.
+            start (obj): date of trip start.
+            finish (obj): date of trip finish.
         Returns:
             trip Object.
         """
-        self.title = data['title']
-        self.description = data['description']
-        self.status = data['status']
+        if title:
+            self.title = title
+        if description:
+            self.description = description
+        if status is not None:
+            self.status = status
+        if start:
+            self.start = start
+        if finish:
+            self.finish = finish
         self.save()
-        return True
 
     @staticmethod
     def delete_by_id(trip_id):

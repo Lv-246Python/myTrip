@@ -1,4 +1,4 @@
-""" Deletes all not activa"""
+""" Deletes all not active"""
 
 import datetime
 import time

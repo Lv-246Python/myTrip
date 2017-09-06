@@ -68,7 +68,7 @@ export default class Header extends React.Component {
                         label='MY TRIPS'
                         secondary={true}
                         labelStyle = { style.myTrips }
-                        containerElement={<Link to="/trips"/>}
+                        containerElement={<Link to="/my_trips"/>}
                     />
 
                     <FlatButton
@@ -82,6 +82,7 @@ export default class Header extends React.Component {
         }
         return (
             <AppBar
+                //style={{position: 'fixed'}}
                 className='header'
                 iconStyleLeft = { style.iconLeftStyle }
                 iconElementLeft = {

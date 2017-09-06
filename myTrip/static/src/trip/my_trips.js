@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardMedia, CardActions } from 'material-ui/Card';
 import { GridList } from 'material-ui/GridList';
 import { getTrip, formatDate } from './trip_service';
-import { logged } from '../utils';
+import { logged, userId } from '../utils';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import FlatButton from 'material-ui/FlatButton';
 import LeftIcon from 'material-ui/svg-icons/navigation/chevron-left';
 import LoadProgress from '../load_progress';
+import MyTripsNavigation from './my_trips_navigation';
 import RightIcon from 'material-ui/svg-icons/navigation/chevron-right';
 import RaisedButton from 'material-ui/RaisedButton';
-import TripListNavigation from './trip_list_navigation';
 import TripTile from './trip_tile';
 import './trip.less';
 import moment from 'moment';
@@ -21,11 +21,11 @@ const tripListColumns = 3;
 const tripListPadding = 20;
 
 
-export default class TripList extends React.Component {
+export default class MyTrips extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allTrips: null,
+            myTrips: null,
             page: 0,
             lastPage: 0,
             disabledFirst: false,
@@ -33,17 +33,17 @@ export default class TripList extends React.Component {
         };
     };
 
-    //callback function, that returns last 6 trips JSONs from backend
+    //callback function, that returns last 6 trips JSONs from backend by user id
     getData = () => {
-        let url = '/api/v1/trip/';
+        let url = `/api/v1/profile/${userId()}/trip/`;
         if (this.state.page){
             url += '?page=' + this.state.page;
         };
         axios.get(url).then(response => {
-            const allTrips = response.data.trips;
+            const myTrips = response.data.trips;
             const allPages = response.data.all_pages;
             this.setState({
-                allTrips: allTrips,
+                myTrips: myTrips,
                 lastPage: allPages,
             });
             this.firstPageFunc();
@@ -73,17 +73,6 @@ export default class TripList extends React.Component {
         this.setState({page: this.state.page && this.state.page - 1});
     };
 
-    /*
-    callback function, that returns JSON of a first photo of chosen trip from backend
-
-    getTripPhoto = () => {
-        axios.get(`/api/v1/trip/${trip.id}/photo/1/` ).then(response => {
-            const tripPhoto = response.data;
-            this.setState({tripPhoto});
-        });
-    };
-    */
-
     //renders only after data gotten
     componentDidMount() {
         this.getData();
@@ -99,9 +88,12 @@ export default class TripList extends React.Component {
 
     render() {
 
-        const allTrips = this.state.allTrips;
+        const myTrips = this.state.myTrips;
 
-        if (allTrips === null){
+        if (!logged()){
+            this.props.history.push('/login')
+        }
+        if (myTrips === null){
             return <LoadProgress />
         }
         else {
@@ -109,13 +101,13 @@ export default class TripList extends React.Component {
                 <div>
                     <div className='tripList'>
                         <div className='side'>
-                            <TripListNavigation />
+                            <MyTripsNavigation />
                         </div>
                         <div className='allTrips'>
                             <Card>
                                 <div className='tripListHeader'>
                                     <CardHeader
-                                        title={<h2>All trips</h2>}
+                                        title={<h2>My trips</h2>}
                                         subtitle={'Share your adventure'}
                                     />
 
@@ -144,7 +136,7 @@ export default class TripList extends React.Component {
                                             wrap every JSON with trip data into own trip tile
                                             */}
 
-                                            {this.state.allTrips.map(trip => (
+                                            {this.state.myTrips.map(trip => (
                                                 <TripTile
                                                     key={trip.id}
                                                     tripId={trip.id}

@@ -37,6 +37,8 @@ class TripView(View):
             'title': post_data.get("title"),
             'description': post_data.get("description"),
             'status': post_data.get("status"),
+            'start': post_data.get("start"),
+            'finish': post_data.get("finish")
         }
 
         trip = Trip.create(**data)
@@ -50,7 +52,11 @@ class TripView(View):
             return HttpResponse(status=404)
         if request.user.id == trip.user.id:
             data = json.loads(request.body.decode('utf-8'))
-            trip.edit(data)
+            trip.edit(title=data.get('title'),
+                      description=data.get('description'),
+                      status=data.get('status'),
+                      start=data.get('start'),
+                      finish=data.get('finish'))
             return HttpResponse(status=200)
         return HttpResponse(status=403)
 

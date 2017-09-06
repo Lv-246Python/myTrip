@@ -11,7 +11,7 @@ import { getData, postData } from'./subscribe.services';
 
 
 const tripUrl = '/api/v1/trip/';
-const profileUrl = 'api/v1/profile/';
+const profileUrl = '/api/v1/profile/';
 
 
 export default class Subscribe extends React.Component {
@@ -30,7 +30,7 @@ export default class Subscribe extends React.Component {
         };
     }
 
-    //this function update children state, it father props was changed
+    //this function update children state, if father props was changed
     componentWillReceiveProps = (nextProps, nextState) => {
         this.setState({open:nextProps.open});
     }

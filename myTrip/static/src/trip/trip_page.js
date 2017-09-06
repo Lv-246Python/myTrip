@@ -8,25 +8,29 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import Checkbox from 'material-ui/Checkbox';
 import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
-import Photos from '../photo/Photos';
 import Comments from '../comment/Comments';
 import CommentIcon from 'material-ui/svg-icons/communication/chat';
-import NotFound from '../notFound';
+import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
 import LoadProgress from '../load_progress';
+import NotFound from '../notFound';
+import Photos from '../photo/Photos';
 import SubHeader from 'material-ui/Subheader';
+import SubOFFIcon from 'material-ui/svg-icons/action/bookmark-border';
+import SubOnIcon from 'material-ui/svg-icons/action/bookmark';
+import ShareIcon from 'material-ui/svg-icons/social/share';
 import TextField from 'material-ui/TextField';
+import TripDate from './trip_date';
+import TripDelete from './trip_delete';
 import TripEditorDescription from './trip_editor_description';
 import TripEditorTitle from './trip_editor_title';
+import TripMap from '../checkpoint/trip-map.js';
 import TripNavigation from './trip_navigation';
-import TripDelete from './trip_delete';
 import TripStatus from './trip_status';
-import TripMap from '../checkpoint/trip-map.js'
 import './trip.less';
 
 /*
-import Checkpoint from '../checkpoint';
 import Like from '../like';
-import Photo from '../photo';
 */
 
 
@@ -45,6 +49,9 @@ export default class TripPage extends React.Component {
     getTrip = () => {
         getTrip(this.tripId).then(response => {
             const trip = response.data;
+            trip['start'] = new Date(trip['start'])
+            trip['finish'] = new Date(trip['finish'])
+
             this.setState({trip});
             }, error => {
                 const trip = 'Trip not found';
@@ -75,109 +82,129 @@ export default class TripPage extends React.Component {
                     <div className='HolyGrail-body'>
                         <main className='HolyGrail-content'>
                             <Card>
-                                <Card>
-                                    <CardHeader className='tripPageHeader' >
-                                        <div className='tripEdit'>
+                                <div className='tripEdit'>
 
-                                            {/*
-                                            trip title
-                                            */}
-                                            <CardTitle
-                                                title={<b>{this.state.trip.title}</b>}
-                                                titleStyle={{fontSize: 25}}
-                                            />
+                                    {/*
+                                    trip title
+                                    */}
+                                    <CardTitle>
+                                        {<h2>{this.state.trip.title}</h2>}
+                                    </CardTitle>
 
-                                            {/*
-                                            trip edit title button for author
-                                            */}
+                                    {/*
+                                    trip edit title button for author
+                                    */}
 
-                                            {(userId() === this.state.trip.user) ?
-                                            <div className='tripEditIcon'>
-                                                <TripEditorTitle
-                                                    trip={this.state.trip}
-                                                    text={this.state.trip.title}
-                                                    tripId={this.state.trip.id}
-                                                    getTrip={this.getTrip}
-                                                />
-                                            </div> : false}
-                                        </div>
-
-                                        {/*
-                                        trip status
-                                        */}
-                                        {<TripStatus
-                                            status={this.state.trip.status}
+                                    {(userId() === this.state.trip.user) ?
+                                    <div className='tripEditIcon'>
+                                        <TripEditorTitle
                                             trip={this.state.trip}
+                                            text={this.state.trip.title}
+                                            tripId={this.state.trip.id}
                                             getTrip={this.getTrip}
-                                        />}
-                                    </CardHeader>
+                                        />
+                                    </div> : false}
+                                </div>
 
-                                    {/*
-                                    there will be Google Map component
-                                    */}
+                                {/*
+                                trip status
+                                */}
 
-                                    <CardMedia className='tripGoogleMap'>
-                                        <TripMap trip={this.state.trip}/>
-                                    </CardMedia>
+                                <TripStatus
+                                    status={this.state.trip.status}
+                                    trip={this.state.trip}
+                                    getTrip={this.getTrip}
+                                />
 
-                                    {/*
-                                    there will be <Photo /> component
-                                    */}
+                                {/*
+                                trip date
+                                */}
 
+                                <TripDate
+                                    trip={this.state.trip}
+                                    status={this.state.trip.status}
+                                    getTrip={this.getTrip}
+                                />
+
+                                {/*
+                                there will be <Photo /> component
+                                */}
+
+                                <div className='tripPhotoGallery'>
                                     <CardMedia className='tripPhotoGallery'>
                                         <Photos tripId={this.state.trip.id} />
                                     </CardMedia>
+                                </div>
+
+                                {/*
+                                trip description
+                                */}
+
+                                <div className='tripStatusLine'>
+                                    <CardText>
+                                        <h3>Description:</h3>
+                                    </CardText>
 
                                     {/*
-                                    trip description
+                                    trip edit description button for author
                                     */}
 
-                                    <div className='tripEdit'>
-                                        <CardText>
-                                            <h2>Description:</h2>
-                                        </CardText>
+                                    {(userId() === this.state.trip.user) ?
+                                    <div className='tripEditIcon'>
+                                        <TripEditorDescription
+                                            trip={this.state.trip}
+                                            text={this.state.trip.description}
+                                            tripId={this.state.trip.id}
+                                            getTrip={this.getTrip}
+                                        />
+                                    </div> : false
+                                    }
+                                </div>
 
-                                        {/*
-                                        trip edit description button for author
-                                        */}
+                                <div className='tripDescription'>
+                                    <TextField
+                                        name='tripDescription'
+                                        underlineShow={false}
+                                        multiLine={true}
+                                        fullWidth={true}
+                                        value={trip.description}
+                                        style={{fontSize: 18}}
+                                    />
+                                </div>
 
-                                        {(userId() === this.state.trip.user) ?
-                                        <div className='tripEditIcon'>
-                                            <TripEditorDescription
-                                                trip={this.state.trip}
-                                                text={this.state.trip.description}
-                                                tripId={this.state.trip.id}
-                                                getTrip={this.getTrip}
-                                            />
-                                        </div> : false
-                                        }
+                                {/*
+                                there will be <Like /> component
+                                */}
 
-                                    </div>
-
-                                    <div className='tripDescription'>
-                                        <TextField
-                                            name='tripDescription'
-                                            underlineShow={false}
-                                            multiLine={true}
-                                            value={trip.description}
-                                            style={{fontSize: 20}}
+                                <div className='iconLine'>
+                                    <div>
+                                        <Checkbox
+                                            labelPosition={'left'}
+                                            checkedIcon={<SubOnIcon />}
+                                            uncheckedIcon={<SubOFFIcon />}
                                         />
                                     </div>
-
-                                    {/*
-                                    there will be <Like /> component
-                                    */}
-
-                                    <div className='tripLikeIcon'>
-                                        <CardActions>
-                                            <Checkbox
-                                                labelPosition={'left'}
-                                                checkedIcon={<ActionFavorite />}
-                                                uncheckedIcon={<ActionFavoriteBorder />}
-                                            />
-                                        </CardActions>
+                                    <div>
+                                        <IconButton>
+                                            <ShareIcon />
+                                        </IconButton>
                                     </div>
-                                </Card>
+                                    <div>
+                                        <Checkbox
+                                            labelPosition={'left'}
+                                            checkedIcon={<ActionFavorite />}
+                                            uncheckedIcon={<ActionFavoriteBorder />}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/*
+                                there will be Google Map component
+                                */}
+
+                                <CardMedia className='tripGoogleMap'>
+                                    <TripMap trip={this.state.trip}/>
+                                </CardMedia>
 
                                 {/*
                                 there will be <Comments /> component
@@ -213,7 +240,6 @@ export default class TripPage extends React.Component {
                                 tripId={this.state.trip.id}
                                 history={this.props.history}
                             /> : false}
-
                         </div>
 
                         <aside className='HolyGrail-right'>

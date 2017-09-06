@@ -11,6 +11,17 @@ import FlatButton from 'material-ui/FlatButton';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import './trip.less';
+
+let startDateText = `
+Do you really want to start this trip?
+It will change Start date to current date.
+`
+
+let finishDateText = `
+Do you really want to finish this trip?
+It will add Finish date with current date.
+`
 
 export default class TripStatus extends React.Component {
     constructor(props){
@@ -32,28 +43,46 @@ export default class TripStatus extends React.Component {
     }
 
     /*
-    function for submit button for change trip status
-    add new status to state
-    create params with new status and default title and description
+    function for submit button for change trip status and start date
+    add new status and start date to state
+    create params with new status and start date
     create putTrip func
     call this func that takes that params and put them by trip id
     call get func from props and rerender page
     close edit dialog
     */
-    editStatus = (x) => {
-        this.setState({status: x});
-        const title = this.props.trip.title;
-        const description = this.props.trip.description;
-        const status = this.state.status;
+    editAnnouncedStatus = () => {
+        this.setState({status: 2});
+        const status = 2;
+        const start = new Date()
 
-        const putTrip = (title, description, status) => {
-            return axios.put(`/api/v1/trip/${this.props.trip.id}/`, {
-                title, description, status })
-        };
-        putTrip(title, description, status)
-        .then(() => {
+        const putTrip = (status, start) => {
+            return axios.put(`/api/v1/trip/${this.props.trip.id}/`, {status, start})};
+        putTrip(status, start).then(() => {
             this.props.getTrip();
-            this.handleCloseEditStatus()
+            this.handleCloseEditStatus();
+        })
+    };
+
+    /*
+    function for submit button for change trip status and finish date
+    add new status and finish date to state
+    create params with new status and finish date
+    create putTrip func
+    call this func that takes that params and put them by trip id
+    call get func from props and rerender page
+    close edit dialog
+    */
+    editInProgressStatus = () => {
+        this.setState({status: 1});
+        const status = 1;
+        const finish = new Date();
+
+        const putTrip = (status, finish) => {
+            return axios.put(`/api/v1/trip/${this.props.trip.id}/`, {status, finish})};
+        putTrip(status, finish).then(() => {
+            this.props.getTrip();
+            this.handleCloseEditStatus();
         })
     };
 
@@ -62,9 +91,8 @@ export default class TripStatus extends React.Component {
 
         const tripStatus = this.state.status;
 
-
         {/*
-        create cancel and submit buttons for status change dialog
+        create cancel and submit buttons for status change dialog from announced to in progress
         */}
         const actionsEditAnnounced = [
             <div className='buttonTripDialog'>
@@ -74,7 +102,7 @@ export default class TripStatus extends React.Component {
                     labelPosition='before'
                     icon={<ProgressIcon />}
                     primary={true}
-                    onTouchTap={() => this.editStatus(0)}
+                    onTouchTap={this.editAnnouncedStatus}
                 />
                 <RaisedButton
                     className='button-cancel-change-status'
@@ -88,7 +116,7 @@ export default class TripStatus extends React.Component {
         ];
 
         {/*
-        create cancel and submit buttons for status change dialog
+        create cancel and submit buttons for status change dialog from in progress to finished
         */}
         const actionsEditProgress = [
             <div className='buttonTripDialog'>
@@ -98,7 +126,7 @@ export default class TripStatus extends React.Component {
                     labelPosition='before'
                     icon={<DoneIcon />}
                     primary={true}
-                    onTouchTap={() => this.editStatus(2)}
+                    onTouchTap={this.editInProgressStatus}
                 />
                 <RaisedButton
                     className='button-cancel-change-status'
@@ -111,43 +139,12 @@ export default class TripStatus extends React.Component {
             </div>
         ];
 
-        if (tripStatus === 0){
+        if (tripStatus === 3){
             return(
                 <div className='tripStatusLine'>
                     <div className='tripStatus'>
-                        <ProgressIcon style={{paddingRight: '8px'}} />
-                        In progress
-                    </div>
-
-                    {/*
-                    If user is author of trip, render Finish button
-                    */}
-                    {(userId() === this.props.trip.user) ?
-                    <div className='statusButton'>
-
-                        <FlatButton
-                            label='Finish trip'
-                            primary={true}
-                            onTouchTap={this.handleOpenEditStatus}
-                        />
-
-                    </div> : false}
-
-                    <Dialog
-                        title='Do you really want to finish this trip?'
-                        actions={actionsEditProgress} //add cancel and edit buttons to edit dialog
-                        open={this.state.open}  //dialog invisible, until click edit button
-                    >
-
-                    </Dialog>
-                </div>
-            )
-        } else if (tripStatus === 1){
-            return(
-                <div className='tripStatusLine'>
-                    <div className='tripStatus'>
-                        <AnnounceIcon style={{paddingRight: '8px'}} />
-                        Announced trip
+                        <div className='statusType'>Announced trip</div>
+                        <AnnounceIcon />
                     </div>
 
                     {/*
@@ -165,9 +162,9 @@ export default class TripStatus extends React.Component {
                     </div> : false}
 
                     <Dialog
-                        title='Do you really want to start this trip?'
+                        title={startDateText}
                         actions={actionsEditAnnounced} //add cancel and edit buttons to edit dialog
-                        open={this.state.open}  //dialog invisible, until click edit button
+                        open={this.state.open}  //dialog invisible, until click start trip button
                     >
 
                     </Dialog>
@@ -177,8 +174,39 @@ export default class TripStatus extends React.Component {
             return(
                 <div className='tripStatusLine'>
                     <div className='tripStatus'>
-                        <DoneIcon style={{paddingRight: '8px', paddingBottom: '8px'}} />
-                        Finished trip
+                        <div className='statusType'>In progress</div>
+                        <ProgressIcon />
+                    </div>
+
+                    {/*
+                    If user is author of trip, render Finish button
+                    */}
+                    {(userId() === this.props.trip.user) ?
+                    <div className='statusButton'>
+
+                        <FlatButton
+                            label='Finish trip'
+                            primary={true}
+                            onTouchTap={this.handleOpenEditStatus}
+                        />
+
+                    </div> : false}
+
+                    <Dialog
+                        title={finishDateText}
+                        actions={actionsEditProgress} //add cancel and edit buttons to edit dialog
+                        open={this.state.open}  //dialog invisible, until click finish trip button
+                    >
+
+                    </Dialog>
+                </div>
+            )
+        } else if (tripStatus === 1){
+            return(
+                <div className='tripStatusLine'>
+                    <div className='tripStatus'>
+                        <div className='statusType'>Finished trip</div>
+                        <DoneIcon/>
                     </div>
                 </div>
             )

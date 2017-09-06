@@ -13,7 +13,7 @@ const styles = {
 const buttonLabels = {
     "My Subscribers":'/subscribes',
     "My Friends":'/myfriends',
-    "My Trips": '/trips',
+    "My Trips": '/my_trips',
     "Settings": '/settings'  
 }
 

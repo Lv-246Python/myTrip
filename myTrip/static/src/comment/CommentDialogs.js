@@ -35,8 +35,10 @@ export class EditDialog extends React.Component {
 
                   <TextField
                       autoFocus
+                      name='edit message'
                       onFocus={moveCaretAtEnd}
                       fullWidth={true}
+                      multiLine={true}
                       floatingLabelText={this.props.floatingLabelText}
                       value={this.props.value}
                       onChange={this.props.onChange} />

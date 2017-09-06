@@ -1,6 +1,5 @@
 from django.conf.urls import url, include
 from . import views
-import checkpoint.urls as checkpoint_urls
 
 urlpatterns = [
     url(r'^$', views.TripView.as_view()),
