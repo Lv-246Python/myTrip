@@ -15,6 +15,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TripListNavigation from './trip_list_navigation';
 import TripTile from './trip_tile';
 import './trip.less';
+import moment from 'moment';
 
 const tripListColumns = 3;
 const tripListPadding = 20;
@@ -29,7 +30,6 @@ export default class TripList extends React.Component {
             lastPage: 0,
             disabledFirst: false,
             disabledLast: false,
-            logged: logged,
         };
     };
 
@@ -122,7 +122,7 @@ export default class TripList extends React.Component {
                                     {/*
                                     create trip button for logged user
                                     */}
-                                    {(this.state.logged())?
+                                    {(logged())?
                                     <RaisedButton
                                         primary={true}
                                         label='Create trip'
@@ -153,7 +153,8 @@ export default class TripList extends React.Component {
                                                     description={trip.description}
                                                     status={trip.status}
                                                     cover={trip.src}
-                                                    created={formatDate(trip.create_at)}
+                                                    created={moment(trip.create_at)
+                                                             .format('h:mm a, Do MMMM YYYY')}
                                                     updated={formatDate(trip.update_at)}
                                                 />
                                             ))}

@@ -70,6 +70,7 @@ export default class TripDate extends React.Component {
                             openToYearSelection={true}
                             onChange={this.handleStartDate}
                             value={this.state.startDate}
+                            textFieldStyle={{maxWidth: 80}}
                         /> :
                         <TextField
                             name='Start'
@@ -87,6 +88,7 @@ export default class TripDate extends React.Component {
                             minDate={this.state.startDate}
                             onChange={this.handleFinishDate}
                             value={this.state.finishDate}
+                            textFieldStyle={{maxWidth: 80}}
                         /> :
                         <TextField
                             name='Finish'
@@ -110,6 +112,7 @@ export default class TripDate extends React.Component {
                         openToYearSelection={true}
                         onChange={this.handleStartDate}
                         value={this.state.startDate}
+                        textFieldStyle={{maxWidth: 80}}
                     /> :
                     <TextField
                         name='Start'
@@ -133,6 +136,7 @@ export default class TripDate extends React.Component {
                             maxDate={new Date()}
                             onChange={this.handleStartDate}
                             value={this.state.startDate}
+                            textFieldStyle={{maxWidth: 80}}
                         /> :
                         <TextField
                             name='Start'
@@ -151,6 +155,7 @@ export default class TripDate extends React.Component {
                             maxDate={new Date()}
                             onChange={this.handleFinishDate}
                             value={this.state.finishDate}
+                            textFieldStyle={{maxWidth: 80}}
                         /> :
                         <TextField
                             name='Finish'

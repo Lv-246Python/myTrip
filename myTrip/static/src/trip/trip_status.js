@@ -13,6 +13,15 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import './trip.less';
 
+let startDateText = `
+Do you really want to start this trip?
+It will change Start date to current date.
+`
+
+let finishDateText = `
+Do you really want to finish this trip?
+It will add Finish date with current date.
+`
 
 export default class TripStatus extends React.Component {
     constructor(props){
@@ -153,7 +162,7 @@ export default class TripStatus extends React.Component {
                     </div> : false}
 
                     <Dialog
-                        title='Do you really want to start this trip?'
+                        title={startDateText}
                         actions={actionsEditAnnounced} //add cancel and edit buttons to edit dialog
                         open={this.state.open}  //dialog invisible, until click start trip button
                     >
@@ -184,7 +193,7 @@ export default class TripStatus extends React.Component {
                     </div> : false}
 
                     <Dialog
-                        title='Do you really want to finish this trip?'
+                        title={finishDateText}
                         actions={actionsEditProgress} //add cancel and edit buttons to edit dialog
                         open={this.state.open}  //dialog invisible, until click finish trip button
                     >

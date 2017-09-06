@@ -84,54 +84,59 @@ export default class CreateFinishedTrip extends React.Component {
                 <div className='newTrip'>
                     <div className='newTripContent'>
                         {/*Title*/}
-                            <CardTitle
-                                title='Add name of your trip'
-                                style={{
-                                    fontSize: 12,
-                                    width:'95%'
-                                }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Add name of your trip</div>
+                                    <p>*</p>
+                                </div>
+                            </CardText>
                             <TextField
                                 name='trip title'
+                                hintText='Trip title'
                                 autoFocus
+                                style={{paddingLeft: 16}}
                                 value={this.state.title}
                                 onChange={this.handleTitleField}
                             />
                         {/*Description*/}
-                            <CardTitle
-                                title='Add description of your trip'
-                                style={{fontSize: 12, }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Add description of your trip</div>
+                                </div>
+                            </CardText>
                             <TextField
                                 name='trip description'
+                                hintText='You can add it later'
                                 fullWidth={true}
                                 multiLine={true}
                                 rowsMax={10}
-                                style={{width:'95%' }}
+                                style={{paddingLeft: 16, width:'90%'}}
                                 value={this.state.description}
                                 onChange={this.handleDescriptionField}
                             />
                         {/*Start*/}
-                            <CardTitle
-                                title='Indicate the start date of your trip'
-                                style={{
-                                    fontSize: 12,
-                                    width:'95%'
-                                }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Indicate the start date of your trip</div>
+                                    <p>*</p>
+                                </div>
+                            </CardText>
                             <DatePicker
                                 hintText="Start trip date"
                                 mode="landscape"
                                 maxDate={new Date()}
                                 openToYearSelection={true}
+                                style={{paddingLeft: 16}}
                                 value={this.state.startDate}
                                 onChange={this.handleStartDate}
                             />
                         {/*Finish*/}
-                            <CardTitle
-                                title='Indicate the finish date of your trip'
-                                style={{fontSize: 12, }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Indicate the finish date of your trip</div>
+                                    <p>*</p>
+                                </div>
+                            </CardText>
                             <DatePicker
                                 hintText="Finish trip date"
                                 mode="landscape"
@@ -139,7 +144,7 @@ export default class CreateFinishedTrip extends React.Component {
                                 maxDate={new Date()}
                                 value={this.state.finishDate}
                                 onChange={this.handleFinishDate}
-                                style={{marginBottom: 50, }}
+                                style={{marginBottom: 50, paddingLeft: 16}}
                             />
                     </div>
 

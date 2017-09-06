@@ -110,21 +110,21 @@ export default class TripPage extends React.Component {
                                 trip status
                                 */}
 
-                                {<TripStatus
+                                <TripStatus
                                     status={this.state.trip.status}
                                     trip={this.state.trip}
                                     getTrip={this.getTrip}
-                                />}
+                                />
 
                                 {/*
                                 trip date
                                 */}
 
-                                {<TripDate
+                                <TripDate
                                     trip={this.state.trip}
                                     status={this.state.trip.status}
                                     getTrip={this.getTrip}
-                                />}
+                                />
 
                                 {/*
                                 there will be <Photo /> component

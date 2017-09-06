@@ -13,7 +13,6 @@ export default class CreateNewTrip extends React.Component {
         super(props);
         this.state = {
             titleIsEmpty: true,
-            descriptionIsEmpty: true,
             title: '',
             description: '',
             status: this.props.status
@@ -32,12 +31,7 @@ export default class CreateNewTrip extends React.Component {
 
     // function for edit description text, that cannot be empty
     handleDescriptionField = (event) => {
-        this.setState({description: event.target.value});
-        if (event.target.value.trim().length === 0){
-            this.setState({descriptionIsEmpty: true});
-        } else {
-            this.setState({descriptionIsEmpty: false});
-        };
+        this.setState({description: event.target.value.trim()});
     };
 
 
@@ -64,34 +58,33 @@ export default class CreateNewTrip extends React.Component {
                 <div className='newTrip'>
                     <div className='newTripContent'>
                         {/*Title*/}
-                            <CardTitle
-                                title='Add name of your trip'
-                                style={{
-                                    fontSize: 12,
-                                    width:'95%'
-                                }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Add name of your trip</div>
+                                    <p>*</p>
+                                </div>
+                            </CardText>
                             <TextField
                                 name='trip title'
+                                hintText='Trip title'
                                 autoFocus
+                                style={{paddingLeft: 16}}
                                 value={this.state.title}
                                 onChange={this.handleTitleField}
                             />
                         {/*Description*/}
-                            <CardTitle
-                                title='Add description of your trip'
-                                style={{
-                                    fontSize: 12,
-                                }}
-                            />
+                            <CardText>
+                                <div className='required'>
+                                    <div>Add description of your trip</div>
+                                </div>
+                            </CardText>
                             <TextField
                                 name='trip description'
+                                hintText='You can add it later'
                                 fullWidth={true}
                                 multiLine={true}
                                 rowsMax={10}
-                                style={{
-                                    width:'95%'
-                                }}
+                                style={{paddingLeft: 16, width:'90%'}}
                                 value={this.state.description}
                                 onChange={this.handleDescriptionField}
                             />

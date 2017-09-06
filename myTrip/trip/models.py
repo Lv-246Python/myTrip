@@ -25,7 +25,7 @@ class Trip(models.Model):
     """
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
-    status = models.IntegerField()
+    status = models.IntegerField(null=True)
     src = models.URLField(default=DEFAULT_IMAGE)
     description = models.TextField(default='', null=True)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -140,7 +140,7 @@ class Trip(models.Model):
             self.title = title
         if description:
             self.description = description
-        if status:
+        if status is not None:
             self.status = status
         if start:
             self.start = start
