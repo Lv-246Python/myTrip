@@ -6,11 +6,14 @@ from json import loads
 
 from django.shortcuts import redirect
 from django.contrib import auth
-from mytrip.settings import FACEBOOK_APP_ID as CLIENT_ID, FACEBOOK_API_SECRET as CLIENT_SECRET, HOST
+from mytrip.settings import FACEBOOK_APP_ID as CLIENT_ID, FACEBOOK_API_SECRET as CLIENT_SECRET, HOST, SECRET_KEY, JWT_ALGORITHM
 
 from utils.mailer import email_sender
 from .models import CustomUser, HashUser
 from .helper import *
+
+import jwt
+import time
 
 FACEBOOK_TOKEN_URL = ("https://graph.facebook.com/v2.10/oauth/access_token?"
                       "client_id={client_id}&redirect_uri={redirect_uri}&"
@@ -28,6 +31,8 @@ MESSAGE = """
     you need to click on this url:
         {url}
 """
+
+RESTORE_PASS_URL = ("http://localhost:8000/restore-password/{token}/")
 
 
 def register(request):
@@ -162,4 +167,44 @@ def activation(request):
         return HttpResponse(status=400)
     user.activate()
     HashUser.objects.get(user=user).delete()
+    return HttpResponse(status=200)
+
+
+def restore(request, token=None):
+    """Restore password"""
+
+    if request.method == 'POST':
+
+        if token:
+            try:
+                user_email = jwt.decode(token, SECRET_KEY, algorithms=[JWT_ALGORITHM])["email"]
+            except jwt.ExpiredSignatureError as e:
+                return HttpResponse('token lifetime expired', status=400)
+            except jwt.InvalidTokenError as e:
+                return HttpResponse('invalid token', status=400)
+            
+            user = CustomUser.get_by_email(user_email)
+            data = loads(request.body.decode('utf-8'))
+            password = data.get("password")
+            
+            if user:
+                user.change_password(password)
+                return HttpResponse(status=200)
+            return HttpResponse(status=400)
+
+        data = loads(request.body.decode('utf-8'))
+        email = data.get("email").lower()
+        user = CustomUser.get_by_email(email)
+        if user:
+            token_exp = time.time() + 900
+            token = jwt.encode({'email': user.email,
+                                'exp' : token_exp},
+                               SECRET_KEY,
+                               algorithm = JWT_ALGORITHM)
+            email_sender(subject='restore password',
+                     message=RESTORE_PASS_URL.format(token = token.decode("utf-8")),
+                     to=email)
+            return HttpResponse(status=200)
+        else:
+            return response_403_no_such_user
     return HttpResponse(status=200)
