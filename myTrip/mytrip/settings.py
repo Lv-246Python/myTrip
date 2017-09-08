@@ -58,6 +58,7 @@ TEMPLATES = [
 ]
 
 SECRET_KEY = 'not_so_secret'
+JWT_ALGORITHM = 'HS256'
 
 DATABASES = {
     'default': {
