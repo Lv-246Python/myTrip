@@ -123,6 +123,7 @@ class Trip(models.Model):
              title=None,
              description=None,
              status=None,
+             src=None,
              start=None,
              finish=None):
         """
@@ -131,6 +132,7 @@ class Trip(models.Model):
             title (str): title of trip.
             description (str): description.
             status (int): trip status.
+            src (str): link to trip image.
             start (obj): date of trip start.
             finish (obj): date of trip finish.
         Returns:
@@ -142,6 +144,8 @@ class Trip(models.Model):
             self.description = description
         if status is not None:
             self.status = status
+        if src:
+            self.src = src
         if start:
             self.start = start
         if finish:

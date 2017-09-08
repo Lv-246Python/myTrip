@@ -18,21 +18,25 @@ class LikeView(View):
             photo_id=None, comment_id=None, like_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
-        if exception: HTTP status 404.
+        if exception: HTTP status 204.
         """
         if not like_id:
             likes = Like.filter(trip_id, checkpoint_id, photo_id, comment_id)
             if not likes:
-                return HttpResponse(status=404)
-
+                return HttpResponse(status=204)
             likes = [like.to_dict() for like in likes]
-            return JsonResponse(likes, status=200, safe=False)
+            liked = False
+            if Like.filter_by_user(request.user.id, trip_id, checkpoint_id, photo_id, comment_id):
+                liked = True
+            data = dict()
+            data['likes'] = likes
+            data['count'] = len(likes)
+            data['liked'] = liked
+            return JsonResponse(data, status=200, safe=False)
 
         like = Like.get_by_id(like_id)
-        if not like:
-            return HttpResponse(status=404)
-        like = like.to_dict()
-        return JsonResponse(like, status=200, safe=False)
+        data = like.to_dict()
+        return JsonResponse(data, status=200, safe=False)
 
     def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None):
         """
@@ -49,10 +53,12 @@ class LikeView(View):
         photo = Photo.get_by_id(photo_id)
         comment = Comment.get_by_id(comment_id)
 
-        like = Like.filter(trip=trip, checkpoint=checkpoint, photo=photo, comment=comment)
+        like = Like.filter_by_user(user, trip, checkpoint, photo, comment)
         if like:
             like.delete()
-            return HttpResponse('Meh...', status=200)
+            return HttpResponse(status=200)
 
-        Like.create(user=user, trip=trip, checkpoint=checkpoint, photo=photo, comment=comment)
-        return HttpResponse('Like it!', status=201)
+        like = Like.create(user=user, trip=trip, checkpoint=checkpoint,
+                           photo=photo, comment=comment)
+        data = like.to_dict()
+        return JsonResponse(data, status=201)

@@ -12,6 +12,7 @@ import Comments from '../comment/Comments';
 import CommentIcon from 'material-ui/svg-icons/communication/chat';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import Like from '../like/like';
 import LoadProgress from '../load_progress';
 import NotFound from '../notFound';
 import Photos from '../photo/Photos';
@@ -190,11 +191,7 @@ export default class TripPage extends React.Component {
                                         </IconButton>
                                     </div>
                                     <div>
-                                        <Checkbox
-                                            labelPosition={'left'}
-                                            checkedIcon={<ActionFavorite />}
-                                            uncheckedIcon={<ActionFavoriteBorder />}
-                                        />
+                                        <Like tripId={this.state.trip.id} />
                                     </div>
                                 </div>
 

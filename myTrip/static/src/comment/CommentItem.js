@@ -3,6 +3,7 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Like from '../like/like';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -141,6 +142,14 @@ export class CommentItem extends React.Component {
                               value={this.props.message}
                           />
                       </CardText>
+                      <CardActions>
+                        <Like
+                            tripId={this.props.tripId}
+                            checkpointId={this.props.checkpointId}
+                            photoId={this.props.photoId}
+                            commentId={this.props.commentId}
+                        />
+                      </CardActions>
 
                       {(logged()) ?
                           (this.props.userId === userId()) ?
@@ -184,5 +193,5 @@ export class CommentItem extends React.Component {
                   </Card>
               </div>
             );
-      }
+        }
     }
