@@ -12,6 +12,6 @@ urlpatterns = [
     url(r'^facebook_login/$', views.facebook_login, name='facebook_login_view'),
     url(r'^facebook_auth/$', views.facebook_auth, name='facebook_auth_view'),
     url(r'^activation$', views.activation, name='activation_view'),
-    url(r'^restore-password/$', views.restore, name='restore-password'),
+    url(r'^restore-password/$', views.receive_email, name='receive-email'),
     url(r'^restore-password/(?P<token>[\w\.-]+)/$', views.restore, name='restore-password')
 ]

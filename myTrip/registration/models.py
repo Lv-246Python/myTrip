@@ -78,12 +78,9 @@ class CustomUser(AbstractBaseUser):
         Change and save new password.
         Args:
             password (str): new user's password.
-            
         """
-       
         self.set_password(password)
         self.save()
-
 
     @staticmethod
     def get_by_id(user_id):
