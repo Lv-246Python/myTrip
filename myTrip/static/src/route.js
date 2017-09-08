@@ -15,6 +15,7 @@ import TripPage from "./trip/trip_page";
 import Subscribes from "./subscribe/Subscribes";
 import Photos from "./photo/Photos";
 import TripMap from "./checkpoint/trip-map.js";
+import RestorePass from "./restore-password/restore-password.js"
 import NotFound from './notFound';
 
 
@@ -55,6 +56,8 @@ export default class MainRoute extends React.Component {
                     <Route exact path='/trip-map' component={TripMap} />
                     <Route exact path="/profile/" component={Profile} />
                     <Route exact path="/profile/:id" component={ProfileByID} />
+                    <Route exact path="/restore-password/" component={RestorePass} />
+                    <Route exact path="/restore-password/:token" component={RestorePass} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
