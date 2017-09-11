@@ -6,7 +6,7 @@ from django.utils import timezone
 from registration.models import CustomUser
 
 TILES = 6
-DEFAULT_IMAGE = "http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg"
+DEFAULT_IMAGE = "/static/src/img/default_trip_image.jpg"
 
 
 class Trip(models.Model):

@@ -2,7 +2,6 @@
 This module contains Like model class and basic methods for Trip, Checkpoint, Photo and Comment.
 """
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 from checkpoint.models import Checkpoint
@@ -76,45 +75,6 @@ class Like(models.Model):
         return Like.objects.filter(user=user, trip=trip, checkpoint=checkpoint,
                                    photo=photo, comment=comment)
 
-    @staticmethod
-    def get_by_id(id):
-        """
-        Get Like with given id.
-        Args:
-            id (int): like id.
-        Returns:
-            Object<Like>: Like Object,
-            or None when exception works.
-        """
-        try:
-            return Like.objects.get(id=id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_user_id(user):
-        """
-        Get all likes by given user.
-        Args:
-            user (int): user id.
-        Returns:
-            QuerySet<Like>: QuerySet of Like.
-        """
-        like = Like.objects.filter(user=user)
-        return like
-
-    @staticmethod
-    def get_all():
-        """
-        Get Like with given user id.
-        Args:
-            user (int): user id.
-        Returns:
-            QuerySet<Like>: QuerySet of Like.
-        """
-        like = Like.objects.all()
-        return like
-
     def to_dict(self):
         """
         Convert model object to dictionary.
@@ -125,7 +85,9 @@ class Like(models.Model):
                 'trip': trip id,
                 'checkpoint': checkpoint id,
                 'photo': photo id,
-                'comment': comment id
+                'comment': comment id,
+                'user_name': user name or email,
+                'avatar': user avatar,
             }
         """
         return {
@@ -134,7 +96,10 @@ class Like(models.Model):
             'trip': self.trip.id if self.trip else None,
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
-            'comment': self.comment.id if self.comment else None
+            'comment': self.comment.id if self.comment else None,
+            'user_name': self.user.get_full_name() if self.user.get_full_name()
+            else self.user.email,
+            'avatar': self.user.profile.avatar,
         }
 
     def __repr__(self):

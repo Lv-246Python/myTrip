@@ -7,6 +7,7 @@ from django.db import models
 
 from registration.models import CustomUser
 
+
 class Profile(models.Model):
     """
     Profile
@@ -41,7 +42,6 @@ class Profile(models.Model):
         if created:
             Profile.objects.create(user=instance)
 
-
     @staticmethod
     def get_by_id(user_id):
         """
@@ -55,7 +55,6 @@ class Profile(models.Model):
             return Profile.objects.get(user=user_id)
         except ObjectDoesNotExist:
             return None
-
 
     def update(self,
                first_name=None,
@@ -104,7 +103,6 @@ class Profile(models.Model):
             self.google = google
         self.save()
         return self
-
 
     def to_dict(self):
         """Convert model object to dictionary.

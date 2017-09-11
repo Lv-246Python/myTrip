@@ -14,28 +14,26 @@ from .models import Like
 class LikeView(View):
     """LikeView view handles GET and POST requests for LikeView model."""
 
-    def get(self, request, trip_id, checkpoint_id=None,
-            photo_id=None, comment_id=None, like_id=None):
+    def get(self, request, trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 204.
         """
-        if not like_id:
-            likes = Like.filter(trip_id, checkpoint_id, photo_id, comment_id)
-            if not likes:
-                return HttpResponse(status=204)
-            likes = [like.to_dict() for like in likes]
-            liked = False
-            if Like.filter_by_user(request.user.id, trip_id, checkpoint_id, photo_id, comment_id):
-                liked = True
-            data = dict()
-            data['likes'] = likes
-            data['count'] = len(likes)
-            data['liked'] = liked
-            return JsonResponse(data, status=200, safe=False)
+        likes = Like.filter(trip_id, checkpoint_id, photo_id, comment_id)
+        if not likes:
+            return HttpResponse(status=204)
 
-        like = Like.get_by_id(like_id)
-        data = like.to_dict()
+        all_likes = [like.to_dict() for like in likes][::-1]
+        last_5_users = [{'user_id': i['user'], 'user_name': i['user_name'], 'avatar': i['avatar']}
+                        for i in all_likes[:5]]
+        liked = False
+        if Like.filter_by_user(request.user.id, trip_id, checkpoint_id, photo_id, comment_id):
+            liked = True
+
+        data = dict()
+        data['last_5_users'] = last_5_users
+        data['count'] = len(all_likes)
+        data['liked'] = liked
         return JsonResponse(data, status=200, safe=False)
 
     def post(self, request, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None):

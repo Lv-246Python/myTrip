@@ -13,12 +13,6 @@ from registration.models import CustomUser
 from trip.models import Trip
 
 FAKE_ID = 999
-JSON_LENGTH = 6
-
-
-def make_like_id_url(like_id=50, trip_id=10):
-    """Create url with like id."""
-    return '/api/v1/trip/{}/like/{}/'.format(trip_id, like_id)
 
 
 def make_long_url(trip_id=10, checkpoint_id=20, photo_id=30, comment_id=40):
@@ -116,18 +110,6 @@ class ViewTest(TestCase):
             comment=comment
         )
 
-    def test_get_by_id_success_200(self):
-        """Test for GET operation with passed like id."""
-
-        response = self.client.get(make_like_id_url())
-        self.assertEqual(response.status_code, 200)
-
-    def test_get_by_id_status_not_found_404(self):
-        """Ensure that GET method returns status 404 with non-existed object id."""
-
-        response = self.client.get(make_like_id_url(FAKE_ID))
-        self.assertEqual(response.status_code, 404)
-
     def test_get_all_likes_by_url_200(self):
         """
         Ensure that GET method returns status 200 with given Object<Trip> id,
@@ -137,24 +119,18 @@ class ViewTest(TestCase):
         response = self.client.get(make_long_url())
         self.assertEqual(response.status_code, 200)
 
-    def test_get_all_likes_by_url_status_not_found_404(self):
-        """Ensure that GET method returns status 404 when some wrong id was send."""
+    def test_get_all_likes_by_url_status_no_content_204(self):
+        """Ensure that GET method returns status 204 when some wrong id was send."""
 
         response = self.client.get(make_long_url(FAKE_ID))
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 204)
 
     def test_get_number_of_likes_by_url(self):
         """Ensure that get method returns correct number of Like objects."""
 
         response = self.client.get(make_long_url())
         data = response.json()
-        self.assertEqual(len(data), 2)
-
-    def test_get_response_length(self):
-        """Ensure that GET method returns all required like fields."""
-
-        response = self.client.get(make_like_id_url())
-        self.assertEqual(len(response.json()), JSON_LENGTH)
+        self.assertEqual(len(data), 3)
 
     def test_post_status_success_201(self):
         """Ensure that POST method creates new object with it relations and status 201."""
