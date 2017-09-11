@@ -59,7 +59,7 @@ class Photo(models.Model):
         return Photo.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
 
     @staticmethod
-    def create(src, user, title, description, trip=None, checkpoint=None):
+    def create(src, user, title=None, description=None, trip=None, checkpoint=None):
         """ Creating photo model, and returns created object"""
         photo = Photo()
         photo.src = src

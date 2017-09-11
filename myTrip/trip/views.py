@@ -56,7 +56,8 @@ class TripView(View):
                       description=data.get('description'),
                       status=data.get('status'),
                       start=data.get('start'),
-                      finish=data.get('finish'))
+                      finish=data.get('finish'),
+                      src=data.get('src'))
             return HttpResponse(status=200)
         return HttpResponse(status=403)
 

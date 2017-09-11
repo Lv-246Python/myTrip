@@ -146,6 +146,8 @@ class Trip(models.Model):
             self.start = start
         if finish:
             self.finish = finish
+        if src:
+            self.src = src
         self.save()
 
     @staticmethod

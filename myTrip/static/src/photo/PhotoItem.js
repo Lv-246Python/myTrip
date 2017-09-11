@@ -35,6 +35,8 @@ export class PhotoItem extends React.Component {
                 <img src={this.props.src} style={styles.image} />
 
                 <ExpandPhoto
+                  removeImage={this.props.removeImage}
+                  updatePhotoInfo={this.props.updatePhotoInfo}
                   open={this.state.open}
                   close={this.toggleFullscreen}
                   src={this.props.src}
@@ -42,6 +44,7 @@ export class PhotoItem extends React.Component {
                   subtitle={this.props.author}
                   description={this.props.description}
                   tripId={this.props.tripId}
+                  user={this.props.user}
                   photoId={this.props.photoId} />
             </GridTile>
         )

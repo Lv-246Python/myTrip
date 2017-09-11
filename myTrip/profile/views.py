@@ -33,7 +33,7 @@ class ProfileView(View):
         key = 'avatar=' + imageToUpload.name
         url = upload(key, imageToUpload)
         profile.update(avatar=url)
-        return HttpResponse(status=200)
+        return JsonResponse(profile.to_dict(), status=200)
 
     def put(self, request):
         """PUT request handler. Select logged

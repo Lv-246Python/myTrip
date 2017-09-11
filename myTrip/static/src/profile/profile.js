@@ -18,28 +18,31 @@ export default class Profile extends React.Component {
             profile: null
         };
     }
+    componentDidMount(){
+        this.getProfile();
+    }
 
     getProfile = () => {
         axios.get(profileURL)
         .then(response => {
         const profile = response.data;
         this.setState({profile: profile});
-    });
+        });
     };
+
+    updateProfile = (data) => {
+        this.setState({profile: data});
+    }
     
-    componentDidMount(){
-        this.getProfile();
-    }
-    changeImg = img => {
-      this.forceUpdate()
-    }
+
+
 
   render(){
     const data = this.state.profile
     return (
           <Paper className='MainPaper'  zDepth={2} >
             {data && <Avatar src={this.state.profile.avatar} className='avatar' size={200} />}
-            {data && <ProfileEdit profile={data} getProfile={this.getProfile} changeImg={this.changeImg} />}
+            {data && <ProfileEdit profile={data} getProfile={this.getProfile} updateProfile={this.updateProfile} />}
             <Buttons />
           </Paper>
       );
