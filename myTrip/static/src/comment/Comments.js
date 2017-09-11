@@ -72,6 +72,7 @@ export default class Comments extends React.Component {
                                 <CommentItem
                                     userName={comment.user_name}
                                     userId={comment.user}
+                                    userAvatar={comment.userAvatar}
                                     updated={formatDate(comment.update_at)}
                                     message={comment.message}
                                     commentId={comment.id}

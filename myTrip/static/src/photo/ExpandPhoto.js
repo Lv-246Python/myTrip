@@ -16,11 +16,15 @@ export class ExpandPhoto extends React.Component {
               onRequestClose={this.props.close}>
 
                 <ExpandedPhotoItems
+                  removeImage={this.props.removeImage}
+                  updatePhotoInfo={this.props.updatePhotoInfo}
+                  close={this.props.close}
                   src={this.props.src}
                   title={this.props.title}
                   subtitle={this.props.subtitle}
                   description={this.props.description}
                   tripId={this.props.tripId}
+                  user={this.props.user}
                   photoId={this.props.photoId} />
 
             </Dialog>

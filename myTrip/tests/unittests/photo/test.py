@@ -106,16 +106,6 @@ class TestPlugin(TestCase):
         response = self.client.get(url_switcher(20, 4, 3))
         self.assertEqual(response.status_code, 204)
 
-    def test_post_status_success(self):
-        """Test for post operation which will create new instance of photo."""
-
-        request = self.client.post(url_switcher(20, 20), json.dumps({
-            "src": "url_of_image",
-            "user": 20,
-            "description": "random thing"}),
-                                   content_type="application/json")
-        self.assertEqual(request.status_code, 201)
-
     def test_post_status_404(self):
         """Test for post operation which will not create new instance of photo."""
 

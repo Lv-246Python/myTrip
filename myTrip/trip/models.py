@@ -120,6 +120,7 @@ class Trip(models.Model):
         return trip
 
     def edit(self,
+             src=None,
              title=None,
              description=None,
              status=None,
@@ -146,6 +147,8 @@ class Trip(models.Model):
             self.start = start
         if finish:
             self.finish = finish
+        if src:
+            self.src = src
         self.save()
 
     @staticmethod

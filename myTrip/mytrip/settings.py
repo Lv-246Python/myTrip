@@ -20,7 +20,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'triptrck.com',
-    'localhost'
+    'localhost',
+    '*'
 ]
 
 # Facebook credentials
