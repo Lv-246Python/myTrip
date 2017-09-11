@@ -7,7 +7,7 @@ try:
 except ImportError:
     pass
 
-MAX_IMAGE_SIZE = 2097152
+MAX_IMAGE_SIZE = 2*1024*1024
 ACCEPTED_IMAGE_TYPE = ['image/png', 'image/jpeg', 'image/svg+xml']
 
 def upload(key, imageToUpload):
@@ -32,5 +32,6 @@ def imageValidator(image):
         If valid: returns image."""
     if image:
         if image.size < MAX_IMAGE_SIZE and image.content_type in ACCEPTED_IMAGE_TYPE:
-            return image
+            return True
+    return False
 

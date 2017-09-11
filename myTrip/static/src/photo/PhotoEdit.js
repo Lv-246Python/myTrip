@@ -14,9 +14,7 @@ import TextField from 'material-ui/TextField';
 export class PhotoEdit extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        expanded: false,
-    };
+        this.state = {expanded: false,};
     };
 
     onChange = (event, newValue) => {
@@ -34,14 +32,9 @@ export class PhotoEdit extends React.Component {
                     })
     }
 
-
-
-
     handleExpandChange = () => {
     this.setState({expanded: !this.state.expanded});
     };
-
-
 
     render() {
         return (

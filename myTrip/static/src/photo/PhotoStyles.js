@@ -20,10 +20,5 @@ export const styles = {
 
     image: {
         height: '100%'
-    },
-    dropzone: {
-    width  : "100%",
-    height : "20%",
-    border : "1px solid black"
-}
+    }
 };

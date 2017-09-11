@@ -36,9 +36,11 @@ class PhotoView(View):
         if not trip:
             return HttpResponse(status=404)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
-        imageToUpload = imageValidator(request.FILES.get('name'))
-        if not imageToUpload:
+
+        if not imageValidator(request.FILES.get('name')):
             return HttpResponse(status=400)
+
+        imageToUpload = request.FILES.get('name')
         url = upload(imageToUpload.name, imageToUpload)
         photo = Photo.create(trip=trip, checkpoint=checkpoint,
                              user=user, src=url)

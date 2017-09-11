@@ -43,8 +43,6 @@ export class ExpandedPhotoItems extends React.Component {
         this.setState({open: false});
     };
 
-
-
     render(){
             const actionsDelete = [
             <div className='buttonTripDialog'>
@@ -63,7 +61,6 @@ export class ExpandedPhotoItems extends React.Component {
             </div>
         ];
 
-    
         return (
             <Paper style={styles.overflow}>
                 <TitleItem
