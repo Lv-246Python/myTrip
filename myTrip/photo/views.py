@@ -5,6 +5,7 @@ import json
 from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
 
+from mytrip.uploadFile import upload, imageValidator
 from checkpoint.models import Checkpoint
 from registration.models import CustomUser
 from trip.models import Trip
@@ -30,16 +31,19 @@ class PhotoView(View):
 
     def post(self, request, trip_id, checkpoint_id=None, photo_id=None):
         """POST request handler. Creating a new photo object and return status 201("created")."""
-        post_data = json.loads(request.body.decode('utf-8'))
         user = CustomUser.get_by_id(request.user.id)
         trip = Trip.get_by_id(trip_id)
         if not trip:
             return HttpResponse(status=404)
         checkpoint = Checkpoint.get_by_id(checkpoint_id)
+
+        if not imageValidator(request.FILES.get('name')):
+            return HttpResponse(status=400)
+
+        imageToUpload = request.FILES.get('name')
+        url = upload(imageToUpload.name, imageToUpload)
         photo = Photo.create(trip=trip, checkpoint=checkpoint,
-                             user=user, src=post_data.get("src"),
-                             title=post_data.get("title"),
-                             description=post_data.get("description"))
+                             user=user, src=url)
         data = photo.to_dict()
         return JsonResponse(data, status=201)
 

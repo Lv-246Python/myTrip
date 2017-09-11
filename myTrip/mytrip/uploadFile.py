@@ -3,9 +3,13 @@
 import boto3 #pylint: disable=unused-import
 
 try:
-    from .local_settings import AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME, AWS_DEFAULT_REGION  # pylint: disable=wildcard-import,unused-wildcard-import
+    from .local_settings import AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME, AWS_DEFAULT_REGION
 except ImportError:
     pass
+
+MAX_IMAGE_SIZE = 2*1024*1024
+ACCEPTED_IMAGE_TYPE = ['image/png', 'image/jpeg', 'image/svg+xml']
+
 
 def upload(key, imageToUpload):
     """Upload
@@ -21,3 +25,12 @@ def upload(key, imageToUpload):
     s3.Bucket(AWS_BUCKET_NAME).put_object(Key=key, Body=imageToUpload, ACL='public-read') #pylint: disable=undefined-variable
     url = 'https://{}.s3.amazonaws.com/{}'.format(AWS_BUCKET_NAME, key) #pylint: disable=undefined-variable
     return url
+
+
+def imageValidator(image):
+    """Check image size and type
+        If valid: returns image."""
+    if image:
+        if image.size < MAX_IMAGE_SIZE and image.content_type in ACCEPTED_IMAGE_TYPE:
+            return True
+    return False

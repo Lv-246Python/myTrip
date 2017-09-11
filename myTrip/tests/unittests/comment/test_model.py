@@ -143,6 +143,7 @@ class TestPlugin(TestCase):
             'trip': 10,
             'checkpoint': 20,
             'photo': 30,
+            'userAvatar': '/static/src/img/avatar.png',
             'create_at': TEST_TIME,
             'update_at': TEST_TIME,
             'user_name': CustomUser.get_full_name(CustomUser.get_by_id(comment.user.id))

@@ -52,8 +52,12 @@ export class ProfileEdit extends React.Component {
       var file = new FormData();
       file.append('name', files[0])
       axios.post(profileURL, file)
-        .then(setTimeout(function () { this.props.getProfile() }.bind(this), 1000));
+      .then(response => {
+          const data = response.data;
+          this.props.updateProfile(data);
+      })
     }
+
     onDropRejected = () => {
         this.setState({open: true});
     }

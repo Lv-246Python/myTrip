@@ -7,8 +7,23 @@ export function getTripPhotos(tripId) {
 }
 
 export function updatePhoto(tripId, photoId, title='', description='') {
-    return axios.get(tripUrl + tripId + '/photo/' + photoId + '/', {
+    return axios.put(tripUrl + tripId + '/photo/' + photoId + '/', {
         title,
         description
     });
 }
+
+export function uploadPhoto(tripId, file, title='', description='') {
+    return axios.post(tripUrl + tripId + '/photo/', file) 
+}
+
+export function deletePhoto(tripId, photoId) {
+    return axios.delete(tripUrl + tripId + '/photo/' + photoId + '/')
+}
+
+export function setForTripPage(tripId, src) {
+    return axios.put(tripUrl + tripId + '/', {
+        src
+    });
+}
+

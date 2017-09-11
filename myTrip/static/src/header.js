@@ -72,6 +72,13 @@ export default class Header extends React.Component {
                     />
 
                     <FlatButton
+                        label='PROFILE'
+                        className='header_btn'
+                        labelStyle = { style.LabelSize }
+                        containerElement={<Link to="/profile/"/>}
+                    />
+
+                    <FlatButton
                         label='LOGOUT'
                         className='header_btn'
                         onTouchTap = {this.logout}
