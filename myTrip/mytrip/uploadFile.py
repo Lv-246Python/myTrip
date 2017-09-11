@@ -25,8 +25,6 @@ def upload(key, imageToUpload):
     url = 'https://{}.s3.amazonaws.com/{}'.format(AWS_BUCKET_NAME, key) #pylint: disable=undefined-variable
     return url
 
-
-
 def imageValidator(image):
     """Check image size and type
         If valid: returns image."""
@@ -34,4 +32,3 @@ def imageValidator(image):
         if image.size < MAX_IMAGE_SIZE and image.content_type in ACCEPTED_IMAGE_TYPE:
             return True
     return False
-

@@ -10,7 +10,7 @@ from photo.models import Photo
 from registration.models import CustomUser
 from trip.models import Trip
 
-JSON_LENGTH = 9
+JSON_LENGTH = 10
 BAD_TRIP_ID = 99
 BAD_COMMENT_ID = 99
 COMMENT_ID_UNLOGGED_USER = 66
