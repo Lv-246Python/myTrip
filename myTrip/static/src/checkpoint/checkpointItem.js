@@ -23,7 +23,7 @@ class CheckpointItem extends React.Component {
             <div>
                 <ListItem
                     className='checkpoint'
-                    primaryText={this.props.checkpoint.title}
+                    primaryText={this.props.checkpoint.title + this.props.checkpoint.position_number}
                     onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
                     rightIconButton={<DeleteIcon onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.tripId)}/>}
                     style={{maxWidth: 300}}/>

@@ -25,7 +25,7 @@ export const closeDetails = () => {
     }
 };
 
-export const createCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url, trip_id) =>{
+export const createCheckpointUpdateList = (longitude,latitude,title,description,position_number,source_url, trip_id) =>{
     return {
         type: 'CREATE-CHECKPOINT-UPDATE_LIST',
         payload: service.createCheckpoint(longitude,
