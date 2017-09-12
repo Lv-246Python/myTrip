@@ -73,17 +73,6 @@ export default class TripList extends React.Component {
         this.setState({page: this.state.page && this.state.page - 1});
     };
 
-    /*
-    callback function, that returns JSON of a first photo of chosen trip from backend
-
-    getTripPhoto = () => {
-        axios.get(`/api/v1/trip/${trip.id}/photo/1/` ).then(response => {
-            const tripPhoto = response.data;
-            this.setState({tripPhoto});
-        });
-    };
-    */
-
     //renders only after data gotten
     componentDidMount() {
         this.getData();
@@ -136,7 +125,7 @@ export default class TripList extends React.Component {
                                 <CardMedia>
                                     <div className='gridList'>
                                         <GridList
-                                            cellHeight={'auto'}
+                                            cellHeight={255}
                                             cols={tripListColumns}
                                             padding={tripListPadding}
                                         >

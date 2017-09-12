@@ -12,17 +12,16 @@ import LoadProgress from '../load_progress';
 import Popover from 'material-ui/Popover';
 import './like.less';
 
-const defaultAvatar = '/static/src/img/avatar.png'
 const style = {
     likeAvatars: {
         display: 'flex',
         flexDirection: 'row',
+        justifyContent: 'space-around',
         marginRight: 16,
         paddingBottom: 16,
     },
     notLogged: {
-        marginRight: 12,
-        marginLeft: 12,
+        margin: 12,
     }
 }
 
@@ -108,8 +107,7 @@ export default class Like extends React.Component {
 
     render(){
 
-        const last5Likes = (
-            (this.state.last5 === null) ? <LoadProgress /> :
+        let last5Likes = (
             <div>
                 <Popover
                     open={this.state.open}
@@ -122,7 +120,9 @@ export default class Like extends React.Component {
                             The last 5 users liked
                         </div>
                         <CardActions style={style.likeAvatars}>
-                            {this.state.last5.map((likes) => (
+
+                            {(this.state.last5) ?
+                            this.state.last5.map((likes) => (
                                 <div key={likes.user_id}>
                                     <IconButton
                                         containerElement={
@@ -131,11 +131,10 @@ export default class Like extends React.Component {
                                         tooltip={likes.user_name}
                                         tooltipPosition='top-center'
                                     >
-                                        <Avatar src={likes.avatar||defaultAvatar} />
+                                        <Avatar src={likes.avatar} />
                                     </IconButton>
-
                                 </div>
-                            ))}
+                            )) : false}
                         </CardActions>
                     </div>
                 </Popover>
@@ -159,7 +158,7 @@ export default class Like extends React.Component {
                         {this.state.likeCount}
                     </div>
                     <IconButton onClick={this.postLike}>
-                        {(!this.state.liked) ? <LikeNoIcon /> : <LikeYesIcon color='#FF4081'/>}
+                        {(!this.state.liked) ? <LikeNoIcon/> : <LikeYesIcon color='#FF4081'/>}
                     </IconButton>
                     {last5Likes}
                 </div>

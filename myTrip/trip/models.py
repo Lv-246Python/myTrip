@@ -120,7 +120,6 @@ class Trip(models.Model):
         return trip
 
     def edit(self,
-             src=None,
              title=None,
              description=None,
              status=None,

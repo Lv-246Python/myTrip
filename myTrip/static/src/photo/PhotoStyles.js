@@ -20,5 +20,9 @@ export const styles = {
 
     image: {
         height: '100%'
-    }
+    },
+
+    footer: {
+        height: 30,
+    },
 };

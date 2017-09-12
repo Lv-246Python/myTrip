@@ -67,7 +67,9 @@ export class ExpandedPhotoItems extends React.Component {
                     src={this.props.src}
                     title={this.props.title}
                     subtitle={this.props.subtitle}
-                    description={this.props.description} />
+                    description={this.props.description}
+                    tripId={this.props.tripId}
+                    photoId={this.props.photoId}/>
 
                     {(userId() === this.props.user) ?
                     <FlatButton 
@@ -99,6 +101,7 @@ export class ExpandedPhotoItems extends React.Component {
                 <CommentItem
                     tripId={this.props.tripId}
                     photoId={this.props.photoId} />
+                <footer style={styles.footer}></footer>
             </Paper>
     );
   }

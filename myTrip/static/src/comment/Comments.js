@@ -9,6 +9,7 @@ import { CommentForm } from './CommentForm';
 import { CommentNotification } from './CommentNotification';
 import { getData, formatDate } from './CommentServices';
 import { styles } from './CommentStyles';
+import { logged } from '../utils';
 
 export default class Comments extends React.Component {
     constructor(props) {
@@ -54,13 +55,14 @@ export default class Comments extends React.Component {
                         No comments yet
                     </h2>
 
+                    {(logged()) ?
                     <CommentForm
                         tripId={this.props.tripId}
                         tripPhotoId={this.props.tripPhotoId}
                         checkpointId={this.props.checkpointId}
                         checkpointPhotoId={this.props.checkpointPhotoId}
                         renderData={this.renderData}
-                        replyName={this.state.replyName} />
+                        replyName={this.state.replyName} /> : false}
                 </div>
             );
         } else {
@@ -92,13 +94,14 @@ export default class Comments extends React.Component {
                         ))}
                     </List>
 
+                    {(logged()) ?
                     <CommentForm
                         tripId={this.props.tripId}
                         tripPhotoId={this.props.tripPhotoId}
                         checkpointId={this.props.checkpointId}
                         checkpointPhotoId={this.props.checkpointPhotoId}
                         renderData={this.renderData}
-                        replyName={this.state.replyName} />
+                        replyName={this.state.replyName} /> : false}
                 </div>
             );
         }

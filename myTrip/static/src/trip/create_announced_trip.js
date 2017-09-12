@@ -77,7 +77,7 @@ export default class CreateAnnouncedTrip extends React.Component {
                             <CardText>
                                 <div className='required'>
                                     <div>Add name of your trip</div>
-                                    <p>*</p>
+                                    <div className='redStar'>*</div>
                                 </div>
                             </CardText>
                             <TextField
@@ -108,7 +108,7 @@ export default class CreateAnnouncedTrip extends React.Component {
                             <CardText>
                                 <div className='required'>
                                     <div>Indicate the start date of your trip</div>
-                                    <p>*</p>
+                                    <div className='redStar'>*</div>
                                 </div>
                             </CardText>
                             <DatePicker
@@ -124,7 +124,7 @@ export default class CreateAnnouncedTrip extends React.Component {
                             <CardText>
                                 <div className='required'>
                                     <div>Indicate the finish date of your trip</div>
-                                    <p>*</p>
+                                    <div className='redStar'>*</div>
                                 </div>
                             </CardText>
                             <DatePicker

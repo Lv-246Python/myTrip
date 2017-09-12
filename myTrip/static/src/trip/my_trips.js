@@ -128,7 +128,7 @@ export default class MyTrips extends React.Component {
                                 <CardMedia>
                                     <div className='gridList'>
                                         <GridList
-                                            cellHeight={'auto'}
+                                            cellHeight={255}
                                             cols={tripListColumns}
                                             padding={tripListPadding}
                                         >
