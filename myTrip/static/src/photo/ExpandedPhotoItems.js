@@ -65,7 +65,7 @@ export class ExpandedPhotoItems extends React.Component {
         ];
 
         return (
-            <Card style={styles.overflow}>
+            <Card>
                 <TitleItem
                 src={this.props.src}
                 title={this.props.title}

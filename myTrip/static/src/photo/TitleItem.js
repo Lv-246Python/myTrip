@@ -14,7 +14,7 @@ export class TitleItem extends React.Component {
         return (
             <div>
                 <CardMedia>
-                    <img src={this.props.src} style={{maxHeight: '750px', minWidth: 'auto', width:'auto'}}/>
+                    <img src={this.props.src} />
                 </CardMedia>
                 <div style={styles.row}>
                     <CardTitle
