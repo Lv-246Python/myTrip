@@ -3,7 +3,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'material-ui/List';
-import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import {checkpointDetails, deleteUpadateList} from './actions/index.js'
@@ -23,9 +22,8 @@ class CheckpointItem extends React.Component {
             <div>
                 <ListItem
                     className='checkpoint'
-                    primaryText={this.props.checkpoint.title + this.props.checkpoint.position_number}
+                    primaryText={this.props.checkpoint.position_number + '. ' + this.props.checkpoint.title }
                     onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
-                    rightIconButton={<DeleteIcon onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.tripId)}/>}
                     style={{maxWidth: 300}}/>
             </div>
         );

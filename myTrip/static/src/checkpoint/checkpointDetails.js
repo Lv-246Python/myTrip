@@ -79,29 +79,40 @@ class CheckpointDetails extends React.Component {
                     <button onClick={this.updatePoint}>Update</button>
                     <span onClick={() => this.props.closeDetails()} className="glyphicon glyphicon-remove">Close</span>
                 </div>*/}
-                <div className='checkpointDetails'>
-                        <div className='checkpointTextDetails'>
-                            <TextField
-                                floatingLabelText="Title:"
-                                value={this.state.title}
-                                hintText="Edit title"
-                                name='title'
-                                fullWidth={true}
-                                onChange={this.updateState}/>
+                <div className='checkpointCard'>
+                        <div className='checkpointDetails'>
+                            <div className='checkpointTextDetails'>
+                                <TextField
+                                    floatingLabelText="Title:"
+                                    value={this.state.title}
+                                    hintText="Edit title"
+                                    name='title'
+                                    underlineShow={false}
+                                    fullWidth={true}
+                                    onChange={this.updateState}/>
 
-                            <TextField
-                                floatingLabelText="Description:"
-                                hintText="Edit description"
-                                value={this.state.description}
-                                name='description'
-                                fullWidth={true}
-                                onChange={this.updateState}/>
-
-                        <FlatButton  onTouchTap={this.updatePoint}
-                        label="Save" primary={true} fullWidth={true} />
+                                <TextField
+                                    floatingLabelText="Description:"
+                                    hintText="Edit description"
+                                    value={this.state.description}
+                                    name='description'
+                                    underlineShow={false}
+                                    fullWidth={true}
+                                    multiLine={true}
+                                    rowsMax={4}
+                                    onChange={this.updateState}/>
+                            </div>
 
                             <CardActions>
                                 <div className='checkpointButtons'>
+
+                                    <div className='button'>
+                                        <FlatButton
+                                            onTouchTap={this.updatePoint}
+                                            label="Save"
+                                            primary={true}
+                                        />
+                                    </div>
 
                                     <div className='button'>
                                         <FlatButton
@@ -125,7 +136,7 @@ class CheckpointDetails extends React.Component {
                             </CardActions>
                         </div>
 
-                        <div className='root'>
+                        <div className='gridList'>
                             <GridList
                                 cellHeight={180}
                                 cols={1}
