@@ -124,11 +124,20 @@ export class CommentItem extends React.Component {
         return (
               <div>
                   <Card>
-                      <CardHeader
-                          avatar={<CommentAvatar userAvatar={this.props.userAvatar}/>}
-                          title={this.props.userName}
-                          subtitle={this.props.updated}
-                      />
+                      <div style={styles.row}>
+                          <CardHeader
+                              avatar={<CommentAvatar userAvatar={this.props.userAvatar}/>}
+                              title={this.props.userName}
+                              subtitle={this.props.updated}
+                          />
+
+                          <Like
+                              tripId={this.props.tripId}
+                              checkpointId={this.props.checkpointId}
+                              photoId={this.props.photoId}
+                              commentId={this.props.commentId}
+                          />
+                      </div>
 
                       <CardText
                           actAsExpander={true}
@@ -142,14 +151,6 @@ export class CommentItem extends React.Component {
                               value={this.props.message}
                           />
                       </CardText>
-                      <CardActions>
-                        <Like
-                            tripId={this.props.tripId}
-                            checkpointId={this.props.checkpointId}
-                            photoId={this.props.photoId}
-                            commentId={this.props.commentId}
-                        />
-                      </CardActions>
 
                       {(logged()) ?
                           (this.props.userId === userId()) ?

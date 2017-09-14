@@ -41,6 +41,7 @@ class Trip(models.Model):
                 {
                 'id': id,
                 'user': user,
+                'user_name': user name or email,
                 'title': title,
                 'scr': src,
                 'create_at': date,
@@ -54,6 +55,8 @@ class Trip(models.Model):
         return {
             "id": self.id,
             "user": self.user.id,
+            "user_name": self.user.get_full_name() if self.user.get_full_name()
+            else self.user.email,
             "title": self.title,
             "src": self.src,
             "create_at": self.create_at,

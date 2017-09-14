@@ -80,6 +80,7 @@ export default class Comments extends React.Component {
                                     commentId={comment.id}
                                     tripId={this.props.tripId}
                                     tripPhotoId={this.props.tripPhotoId}
+                                    photoId={this.props.photoId}
                                     checkpointId={this.props.checkpointId}
                                     checkpointPhotoId={this.props.checkpointPhotoId}
                                     renderData={this.renderData}
@@ -98,6 +99,7 @@ export default class Comments extends React.Component {
                     <CommentForm
                         tripId={this.props.tripId}
                         tripPhotoId={this.props.tripPhotoId}
+                        photoId={this.props.photoId}
                         checkpointId={this.props.checkpointId}
                         checkpointPhotoId={this.props.checkpointPhotoId}
                         renderData={this.renderData}

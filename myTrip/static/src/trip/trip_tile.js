@@ -38,7 +38,7 @@ export default class TripTile extends React.Component {
                     // link to own trip page
                     containerElement={<Link to={`/trip/${this.state.tripId}`} />}
                     title={this.state.title}
-                    subtitle={this.state.created}
+                    subtitle={'by ' + this.state.userName}
                     actionIcon={this.statusIcon()}
                 >
 

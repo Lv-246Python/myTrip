@@ -12,20 +12,24 @@ export class TitleItem extends React.Component {
 
     render() {
         return (
-            <Card>
+            <div>
                 <CardMedia>
-                <img src={this.props.src} />
+                    <img src={this.props.src} style={{maxHeight: '750px', minWidth: 'auto', width:'auto'}}/>
                 </CardMedia>
-                <CardTitle title={this.props.title} subtitle={'by ' + this.props.subtitle} />
+                <div style={styles.row}>
+                    <CardTitle
+                        title={this.props.title}
+                        subtitle={'by ' + this.props.subtitle}
+                    />
+                    <Like
+                        tripId={this.props.tripId}
+                        photoId={this.props.photoId}
+                    />
+                </div>
                 <CardText>
-                {this.props.description}
+                    {this.props.description}
                 </CardText>
-
-                <Like
-                    tripId={this.props.tripId}
-                    photoId={this.props.photoId}
-                />
-            </Card>
+            </div>
     );
   }
 }

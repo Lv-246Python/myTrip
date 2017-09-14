@@ -6,6 +6,8 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Snackbar from 'material-ui/Snackbar';
+import AvatarIcon from 'material-ui/svg-icons/image/portrait';
+import SaveIcon from 'material-ui/svg-icons/navigation/check';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { blue500 } from 'material-ui/styles/colors';
@@ -63,10 +65,10 @@ export class ProfileEdit extends React.Component {
     }
 
     handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
-  };
+        this.setState({
+            open: false,
+        });
+    };
 
     profileEdit = () => {
         const first_name = this.state.first_name;
@@ -132,13 +134,15 @@ export class ProfileEdit extends React.Component {
           value={this.state.hobbies}
           name='hobbies'
           multiLine={true}
+          rowsMax={10}
           onChange={this.onChange}
           floatingLabelStyle={styles.LabelStyle}
         />
 
         <FlatButton
-          label="Choose an Image"
+          label="Upload new avatar"
           labelPosition="before"
+          icon={<AvatarIcon />}
           style={styles.buttonStyle}
           primary={true}
           fullWidth={true}
@@ -153,8 +157,8 @@ export class ProfileEdit extends React.Component {
           </FlatButton>
 
         <FlatButton onTouchTap={this.profileEdit} 
-        label="Edit profile" primary={true} fullWidth={true} 
-        rippleColor={blue500} />
+        label="Save changes " labelPosition="before"icon={<SaveIcon /> }
+        primary={true} fullWidth={true} rippleColor={blue500} />
 
         <Snackbar
           open={this.state.open}

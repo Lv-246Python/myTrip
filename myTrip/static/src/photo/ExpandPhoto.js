@@ -13,8 +13,10 @@ export class ExpandPhoto extends React.Component {
         return (
             <Dialog
               open={this.props.open}
-              onRequestClose={this.props.close}>
-
+              onRequestClose={this.props.close}
+              autoDetectWindowHeight={true}
+              autoScrollBodyContent={true}
+          >
                 <ExpandedPhotoItems
                   removeImage={this.props.removeImage}
                   updatePhotoInfo={this.props.updatePhotoInfo}

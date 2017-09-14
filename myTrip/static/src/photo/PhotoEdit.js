@@ -43,6 +43,7 @@ export class PhotoEdit extends React.Component {
                       title="Edit photo"
                       actAsExpander={true}
                       showExpandableButton={true}
+                      closeIcon={<EditIcon />}
                     />
                     <CardText expandable={true}>
                         <TextField

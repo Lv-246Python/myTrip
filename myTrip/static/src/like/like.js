@@ -41,7 +41,7 @@ export default class Like extends React.Component {
     function that generates the request url depending on the props
     examples of props: tripId, checkpointId, photoId, commentId
     */
-    likeUrl = () => {
+    getLikeUrl = () => {
         let url = '/api/v1/trip/'+ this.props.tripId + '/';
         if (this.props.checkpointId) {
             url += 'checkpoint/' + this.props.checkpointId + '/';
@@ -71,7 +71,7 @@ export default class Like extends React.Component {
     }
 
     getLikes = () => {
-        return axios.get(this.likeUrl()).then(response => {
+        return axios.get(this.getLikeUrl()).then(response => {
             const last5 = response.data.last_5_users;
             const likeCount = response.data.count;
             const liked = response.data.liked;
@@ -84,7 +84,7 @@ export default class Like extends React.Component {
     }
 
     postLike = () => {
-        return axios.post((this.likeUrl()), {}).then(() => {
+        return axios.post((this.getLikeUrl()), {}).then(() => {
             this.getLikes()
         })
     }

@@ -141,6 +141,7 @@ export default class MyTrips extends React.Component {
                                                     key={trip.id}
                                                     tripId={trip.id}
                                                     user={trip.user}
+                                                    userName={trip.user_name}
                                                     title={trip.title}
                                                     description={trip.description}
                                                     status={trip.status}

@@ -11,10 +11,8 @@ const styles = {
 };
 
 const buttonLabels = {
-    "My Subscribers":'/subscribes',
-    "My Friends":'/myfriends',
+    "My Subscribes":'/subscribes',
     "My Trips": '/my_trips',
-    "Settings": '/settings'  
 }
 
 export class Buttons extends React.Component {
