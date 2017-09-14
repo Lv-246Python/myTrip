@@ -19,6 +19,7 @@ const styles = {
     display: 'flex',
     flexWrap: 'nowrap',
     overflow: 'auto',
+    width: '100%',
   }
 };
 

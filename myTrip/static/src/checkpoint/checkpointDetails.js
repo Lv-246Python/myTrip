@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {closeDetails, updateCheckpointUpdateList, deleteUpadateList} from './actions/index.js'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {GridList, GridTile} from 'material-ui/GridList';
+import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import FlatButton from 'material-ui/FlatButton';
@@ -79,76 +80,105 @@ class CheckpointDetails extends React.Component {
                     <button onClick={this.updatePoint}>Update</button>
                     <span onClick={() => this.props.closeDetails()} className="glyphicon glyphicon-remove">Close</span>
                 </div>*/}
-                <div className='checkpointCard'>
+                    <div className='checkpointCard'>
+                    <Card>
+
                         <div className='checkpointDetails'>
                             <div className='checkpointTextDetails'>
-                                <TextField
-                                    floatingLabelText="Title:"
-                                    value={this.state.title}
-                                    hintText="Edit title"
-                                    name='title'
-                                    underlineShow={false}
-                                    fullWidth={true}
-                                    onChange={this.updateState}/>
+                                <div className='checkpointTitleAndButtons'>
+                                    <TextField
+                                        floatingLabelText="Title:"
+                                        value={this.state.title}
+                                        hintText="Edit title"
+                                        name='title'
+                                        underlineShow={false}
+                                        fullWidth={true}
+                                        onChange={this.updateState}/>
 
-                                <TextField
-                                    floatingLabelText="Description:"
-                                    hintText="Edit description"
-                                    value={this.state.description}
-                                    name='description'
-                                    underlineShow={false}
-                                    fullWidth={true}
-                                    multiLine={true}
-                                    rowsMax={4}
-                                    onChange={this.updateState}/>
-                            </div>
+                                    <CardActions>
+                                        <div className='checkpointButtons'>
 
-                            <CardActions>
-                                <div className='checkpointButtons'>
+                                            <div>
+                                                <IconButton
+                                                    key="Save"
+                                                    tooltip='SAVE CHANGES'
+                                                    tooltipPosition='top-center'
+                                                    onTouchTap={this.updatePoint}
+                                                >
+                                                    <SubmitIcon />
+                                                </IconButton>
+                                            </div>
 
-                                    <div className='button'>
-                                        <FlatButton
-                                            onTouchTap={this.updatePoint}
-                                            label="Save"
-                                            primary={true}
-                                        />
+                                            <div>
+                                                <IconButton
+                                                    key="Photo"
+                                                    tooltip='ADD A PHOTO'
+                                                    tooltipPosition='top-center'
+                                                >
+                                                    <AddPhotoIcon />
+                                                </IconButton>
+                                            </div>
+
+                                            <div>
+                                                <IconButton
+                                                    key='Delete'
+                                                    tooltip='DELETE CHECKPOINT'
+                                                    tooltipPosition='top-center'
+                                                    onTouchTap={() => this.props.deleteUpadateList(
+                                                        this.props.active.id, this.props.trip.id
+                                                    )}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </div>
+
+                                            <div>
+                                                <IconButton
+                                                    key='Close'
+                                                    tooltip='CLOSE DETAILS'
+                                                    tooltipPosition='top-center'
+                                                    onTouchTap={() => this.props.closeDetails()}
+                                                >
+                                                    <CancelIcon />
+                                                </IconButton>
+                                            </div>
+
+                                        </div>
+                                    </CardActions>
+                                </div>
+
+                                <div className='checkpointDescriptionAndPhotos'>
+                                    <div className='checkpointDescription'>
+                                        <TextField
+                                            floatingLabelText="Description:"
+                                            hintText="Edit description"
+                                            value={this.state.description}
+                                            name='description'
+                                            underlineShow={false}
+                                            fullWidth={true}
+                                            multiLine={true}
+                                            rowsMax={6}
+                                            onChange={this.updateState}/>
                                     </div>
 
-                                    <div className='button'>
-                                        <FlatButton
-                                            label='Close'
-                                            labelPosition='before'
-                                            icon={<CancelIcon />}
-                                            primary={true}
-                                            onTouchTap={() => this.props.closeDetails()}
-                                        />
-                                    </div>
-                                    <div className='button'>
-                                        <FlatButton
-                                            label='Delete'
-                                            labelPosition='before'
-                                            icon={<DeleteIcon />}
-                                            disabled={this.state.disabled}
-                                            onTouchTap={() => this.props.deleteUpadateList(this.props.active.id, this.props.trip.id)}
-                                        />
+                                    <div className='gridList'>
+                                        <GridList
+                                            cellHeight={180}
+                                            cols={1}
+                                            style={styles.gridList}
+                                        >
+                                            {images.map((tile) => (
+                                                <GridTile key={tile.img} >
+                                                    <img src={tile.img} />
+                                                </GridTile>
+                                            ))}
+                                        </GridList>
                                     </div>
                                 </div>
-                            </CardActions>
-                        </div>
 
-                        <div className='gridList'>
-                            <GridList
-                                cellHeight={180}
-                                cols={1}
-                                style={styles.gridList}
-                            >
-                                {images.map((tile) => (
-                                    <GridTile key={tile.img} >
-                                        <img src={tile.img} />
-                                    </GridTile>
-                                ))}
-                            </GridList>
+                            </div>
                         </div>
+                    </Card>
                     </div>
                 </div>
                 );
