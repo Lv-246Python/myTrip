@@ -95,7 +95,8 @@ class Map extends React.Component{
     }
 
     handleMapClick=(map)=>{
-        if(this.state.active || userId() != this.props.trip.user){
+        // if(this.state.active || userId() != this.props.trip.user)
+        if(this.state.active){
             return
         }else{
             const longitude=map.latLng.lng();
@@ -133,7 +134,7 @@ class Map extends React.Component{
     }
 
     handleRightClick=(point)=>{
-        if(this.state.active || userId() != this.props.trip.user){
+        if(this.state.active){
             return
         }else{
             this.props.deleteUpadateList(point.id, this.props.trip.id);

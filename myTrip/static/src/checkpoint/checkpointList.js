@@ -4,10 +4,26 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'material-ui/List';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 import CheckpointItem from './checkpointItem.js';
 import {getAllCheckpoints} from './actions/index.js'
 
 class CheckpointList extends React.Component{
+
+    // constructor(props) {
+    //     super(props);
+    //     this.state =
+    //     {value: 'Choose checkpoint'};
+    // }
+
+    // componentWillReceiveProps(nextProps){
+    //     if(nextProps){
+    //         this.setState({value:nextProps.active.title})
+    //     }
+    // }
+
+    // handleChange = (event, index, value) => this.setState({value:this.props.active.title});
 
     componentDidMount() {
         this.props.getAllCheckpoints(this.props.trip.id);
@@ -22,9 +38,11 @@ class CheckpointList extends React.Component{
                     );
                 })
                 return(
-                    <List>
+                    <DropDownMenu
+                        
+                        maxHeight={250}>
                         {list}
-                    </List>
+                    </DropDownMenu>
                 );
         }
         else{
