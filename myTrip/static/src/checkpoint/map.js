@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {getAllCheckpoints , createCheckpointUpdateList, checkpointDetails, deleteUpadateList} from './actions/index.js'
 
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer, Polyline, InfoWindow} from 'react-google-maps'
+import userId from '../utils'
 
 let directionsDisplay=new google.maps.DirectionsRenderer();
 let directionsService=new google.maps.DirectionsService();
@@ -94,7 +95,7 @@ class Map extends React.Component{
     }
 
     handleMapClick=(map)=>{
-        if(this.state.active){
+        if(this.state.active || userId() != this.props.trip.user){
             return
         }else{
             const longitude=map.latLng.lng();
@@ -132,7 +133,7 @@ class Map extends React.Component{
     }
 
     handleRightClick=(point)=>{
-        if(this.state.active){
+        if(this.state.active || userId() != this.props.trip.user){
             return
         }else{
             this.props.deleteUpadateList(point.id, this.props.trip.id);
@@ -155,7 +156,7 @@ class Map extends React.Component{
                 let infoWindow
                 if((this.state.showInfo && this.state.showInfo.id==point.id) || (this.state.active && this.state.active.id == point.id)){
                      infoWindow = <InfoWindow onCloseclick={()=>this.handleLeftClick(point)}>
-                                    <div> №{point.position_number} {point.description} </div>
+                                    <div> №{point.position_number} {point.title} {point.description} </div>
                                 </InfoWindow>
                 }
 

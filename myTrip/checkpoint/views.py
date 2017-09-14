@@ -35,12 +35,13 @@ class CheckpointView(View):
         Create new object and returns status  200 if all was successful
         Returns status 404 if such trip wasn't found
         """
-
         data = json.loads(request.body.decode('utf-8'))
         try:
             trip = Trip.objects.get(id=trip_id)
         except ObjectDoesNotExist:
             return HttpResponse(status=404)
+        if not trip.user.id == request.user.id:
+            return HttpResponse(status=403)
         result = Checkpoint.create(longitude=data.get('longitude'),
                                    latitude=data.get('latitude'),
                                    title=data.get('title'),
