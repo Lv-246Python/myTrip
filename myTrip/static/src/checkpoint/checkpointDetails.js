@@ -97,26 +97,42 @@ class CheckpointDetails extends React.Component {
                     label='Delete'
                     labelPosition='before'
                     secondary={true}
-                    onTouchTap={() => this.props.deleteUpadateList(
+                    onTouchTap={() => {this.props.deleteUpadateList(
                                                     this.props.active.id, this.props.trip.id
-                                                )}
+                                                );this.handleCloseDeleteCheckpoint()}}
                 />
             </div>
         ];
+
+       const buildTextField = () => {
+          if (userId() == this.props.trip.user) {
+              return (<TextField
+                      floatingLabelText="Title:"
+                      value={this.state.title}
+                      hintText="Edit title"
+                      name='title'
+                      underlineShow={false}
+                      fullWidth={true}
+                      onChange={this.updateState}/>);
+          } else {
+              return (<TextField
+                      floatingLabelText="Title:"
+                      value={this.state.title}
+                      hintText="Edit title"
+                      name='title'
+                      underlineShow={false}
+                      fullWidth={true}
+                      readOnly/>);
+          }
+       }
 
             return(
                 <div className='checkpointCard'>
                     <Card>
                         <div className='checkpointDetails'>
                             <div className='checkpointTitleAndButtons'>
-                                <TextField
-                                    floatingLabelText="Title:"
-                                    value={this.state.title}
-                                    hintText="Edit title"
-                                    name='title'
-                                    underlineShow={false}
-                                    fullWidth={true}
-                                    onChange={this.updateState}/>
+
+                                {buildTextField()}
 
                                 <CardActions>
                                     <div className='checkpointButtons'>
@@ -196,7 +212,7 @@ class CheckpointDetails extends React.Component {
                                 <div className='gridList'>
                                     <GridList
                                         cellHeight={180}
-                                        cols={1}
+                                        cols={2}
                                         style={styles.gridList}
                                     >
                                         {images.map((tile) => (

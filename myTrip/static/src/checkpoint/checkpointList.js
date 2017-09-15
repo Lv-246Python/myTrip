@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'material-ui/List';
+import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import Popover from 'material-ui/Popover';
@@ -65,7 +66,9 @@ class CheckpointList extends React.Component{
                     <div>
                         <RaisedButton
                             onClick={this.handleTouchTap}
-                            label="Show checkpoints"
+                            label="Show checkpoints list"
+                            fullWidth={true}
+                            icon={<CheckpointIcon />}
                         />
                         <Popover
                             open={this.state.open}
