@@ -27,8 +27,10 @@ const gridStyles = {
 export default class Photos extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {photos: null}
-        this.state.open = false;
+        this.state = {
+            photos: null,
+            open: false
+        };
     }
 
 // load photos

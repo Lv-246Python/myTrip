@@ -28,6 +28,7 @@ import TripEditorTitle from './trip_editor_title';
 import TripMap from '../checkpoint/trip-map.js';
 import TripNavigation from './trip_navigation';
 import TripStatus from './trip_status';
+import TripShare from './trip_share';
 import './trip.less';
 
 /*
@@ -189,9 +190,7 @@ export default class TripPage extends React.Component {
                                         />
                                     </div>
                                     <div>
-                                        <IconButton>
-                                            <ShareIcon />
-                                        </IconButton>
+                                        <TripShare tripId={this.tripId} />
                                     </div>
                                     <div>
                                         <Like tripId={this.state.trip.id} />

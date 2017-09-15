@@ -30,7 +30,7 @@ export class PhotoItem extends React.Component {
               style={styles.gridTile}
             >
 
-                <img src={this.props.src} style={styles.image} />
+                <img property="og:image" src={this.props.src} style={styles.image} />
 
                 <ExpandPhoto
                   removeImage={this.props.removeImage}
