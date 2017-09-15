@@ -83,6 +83,7 @@ export default class Header extends React.Component {
                         className='header_btn'
                         onTouchTap = {this.logout}
                         labelStyle = { style.LabelSize }
+                        containerElement={<Link to="/login"/>}
                     />
                 </div>
             )

@@ -23,7 +23,7 @@ FACEBOOK_TOKEN_URL = ("https://graph.facebook.com/v2.10/oauth/access_token?"
                       "client_id={client_id}&redirect_uri={redirect_uri}&"
                       "client_secret={client_secret}&code={code}")
 FACEBOOK_USER_URL = 'https://graph.facebook.com/me?access_token={token}'
-FACEBOOK_REDIRECT_URL = 'http://triptrck.com:8000/api/v1/auth/facebook_login/'
+FACEBOOK_REDIRECT_URL = HOST +'api/v1/auth/facebook_login/'
 FACEBOOK_AUTH_URL = ('https://www.facebook.com/v2.10/dialog/oauth?'
                      'client_id={client_id}&redirect_uri={redirect_uri}')
 
@@ -36,7 +36,7 @@ MESSAGE = """
         {url}
 """
 
-RESTORE_PASS_URL = ("http://triptrck.com:8000/restore-password/{token}/")
+RESTORE_PASS_URL = HOST + "restore-password/{token}/"
 
 
 def register(request):
@@ -121,7 +121,6 @@ def logout(request):
             response = response_200_logout_successful
             response.delete_cookie('user_id')
             response.delete_cookie('facebook-token')
-            response.delete_cookie('userid')
             return response
         return response_400_not_logged_in
 

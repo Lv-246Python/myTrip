@@ -51,7 +51,6 @@ export default class ProfileByID extends React.Component {
                             <CardText>Age: {data.age}</CardText>
                             <CardText>Hobbies: {data.hobbies}</CardText>
                         <CardActions className='cardActions'>
-                            <FlatButton label="Add friend" primary={true} />
                             <FlatButton label="Subscribe" primary={true} />
                         </CardActions>
                 </Card>}
