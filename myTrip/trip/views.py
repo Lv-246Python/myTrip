@@ -20,18 +20,30 @@ class TripView(View):
                 return JsonResponse(trip, status=200, safe=False)
             return HttpResponse(status=404)
         trips = Trip.get_trips(user_id=user_id, page=page)
-        trips = [trip.to_dict() for trip in trips]
-        return JsonResponse(trips[::-1], status=200, safe=False)
+        data = dict()
+        data["trips"] = [trip.to_dict() for trip in trips[0]]
+        data["quantity"] = trips[1]
+        data["all_pages"] = trips[2]
+        return JsonResponse(data, status=200, safe=False)
 
     def post(self, request):
         """Handles POST request."""
-        data = json.loads(request.body.decode('utf-8'))
+        post_data = json.loads(request.body.decode('utf-8'))
         user = CustomUser.get_by_id(request.user.id)
         if not user:
-            return HttpResponse(status=401)
-        data["user"] = user
-        Trip.create(data)
-        return HttpResponse(status=201)
+            return HttpResponse(status=403)
+        data = {
+            'user': user,
+            'title': post_data.get("title"),
+            'description': post_data.get("description"),
+            'status': post_data.get("status"),
+            'start': post_data.get("start"),
+            'finish': post_data.get("finish")
+        }
+
+        trip = Trip.create(**data)
+        data = trip.to_dict()
+        return JsonResponse(data, status=201)
 
     def put(self, request, trip_id):
         """Handles PUT request."""
@@ -40,7 +52,12 @@ class TripView(View):
             return HttpResponse(status=404)
         if request.user.id == trip.user.id:
             data = json.loads(request.body.decode('utf-8'))
-            trip.edit(data)
+            trip.edit(title=data.get('title'),
+                      description=data.get('description'),
+                      status=data.get('status'),
+                      start=data.get('start'),
+                      finish=data.get('finish'),
+                      src=data.get('src'))
             return HttpResponse(status=200)
         return HttpResponse(status=403)
 

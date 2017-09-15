@@ -22,6 +22,7 @@ ALLOWED_HOSTS = [
     'triptrck.com',
     'localhost',
     '0.0.0.0',
+    '*'
 ]
 
 
@@ -46,8 +47,10 @@ INSTALLED_APPS = [
     'registration',
     'photo',
     'home',
+    'subscribe',
     'utils',
     'help',
+    'profile',
 ]
 
 TEMPLATES = [
@@ -59,6 +62,7 @@ TEMPLATES = [
 ]
 
 SECRET_KEY = 'not_so_secret'
+JWT_ALGORITHM = 'HS256'
 
 DATABASES = {
     'default': {

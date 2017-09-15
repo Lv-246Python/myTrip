@@ -17,6 +17,7 @@ INVALID_URL_CHECKPOINT_ID = '/api/v1/trip/2/checkpoint/4/'
 VALID_URL_TRIP_ID = '/api/v1/trip/2/checkpoint/'
 INVALID_URL_TRIP_ID = '/api/v1/trip/3/checkpoint/'
 
+
 class ViewTest(TestCase):
     """ Test for CRUD operation in checkpoint's view """
 
@@ -40,7 +41,7 @@ class ViewTest(TestCase):
             user.is_active = True
             user.save()
             trip = Trip.objects.create(id=2, user=user, title="my_title",
-                                           description="some_cool_trip", status=0)
+                                       description="some_cool_trip", status=0)
             checkpoint = Checkpoint.objects.create(
                 id=2,
                 longitude=12,
@@ -106,7 +107,7 @@ class ViewTest(TestCase):
             "title": "new",
             "description": "cool_checkpoint",
             "source_url": "my_url",
-            "position_number":3}),
+            "position_number": 3}),
             content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
@@ -119,7 +120,7 @@ class ViewTest(TestCase):
             "title": "new",
             "description": "cool_checkpoint",
             "source_url": "my_url",
-            "position_number":3}),
+            "position_number": 3}),
             content_type="application/json")
         self.assertEqual(response.status_code, 404)
 
@@ -134,7 +135,8 @@ class ViewTest(TestCase):
             "position_number": 5,
         }
         self.client.login(username='test.test@gmail.com', password='userpass')
-        response = self.client.put(VALID_URL_CHECKPOINT_ID, json.dumps(data), content_type="application/json")
+        response = self.client.put(VALID_URL_CHECKPOINT_ID, json.dumps(data),
+                                   content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_put_status_404(self):
@@ -151,7 +153,8 @@ class ViewTest(TestCase):
             "position_number": 5,
         }
         self.client.login(username='test.test@gmail.com', password='userpass')
-        response = self.client.put(INVALID_URL_CHECKPOINT_ID, json.dumps(data), content_type="application/json")
+        response = self.client.put(INVALID_URL_CHECKPOINT_ID, json.dumps(data),
+                                   content_type="application/json")
         self.assertEqual(response.status_code, 404)
 
     def test_put_status_403(self):
@@ -167,7 +170,8 @@ class ViewTest(TestCase):
             "description": "test_checkpoint",
             "position_number": 5,
         }
-        response = self.client.put(INVALID_URL_CHECKPOINT_ID, json.dumps(data), content_type="application/json")
+        response = self.client.put(INVALID_URL_CHECKPOINT_ID, json.dumps(data),
+                                   content_type="application/json")
         self.assertEqual(response.status_code, 403)
 
     def test_put_object_modified(self):

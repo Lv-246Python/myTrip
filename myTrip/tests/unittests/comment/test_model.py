@@ -143,6 +143,7 @@ class TestPlugin(TestCase):
             'trip': 10,
             'checkpoint': 20,
             'photo': 30,
+            'userAvatar': '/static/src/img/avatar.png',
             'create_at': TEST_TIME,
             'update_at': TEST_TIME,
             'user_name': CustomUser.get_full_name(CustomUser.get_by_id(comment.user.id))
@@ -169,8 +170,8 @@ class TestPlugin(TestCase):
         comment = Comment.objects.get(id=66)
         result = repr(comment)
         expected = """id:{}, message:{}, user:{}, trip:{},
-                  checkpoint:{}, photo:{}, create_at:{}, 
-                  update_at:{}, 
+                  checkpoint:{}, photo:{}, create_at:{},
+                  update_at:{},
                   user_name:{}""".format(
             comment.id,
             comment.message,

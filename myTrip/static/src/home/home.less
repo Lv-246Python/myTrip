@@ -1,10 +1,32 @@
-.paperPageOne{
-    width:90%;
-    height:auto;
-    margin:auto;
 
+.HolyGrail,
+.homePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-.imgPaperOne{
-    width:100%;
-    height:auto;
+
+.homeNavigation {
+    order: -1;
+}
+
+@media (min-width: 100px) {
+    .homePage {
+        flex-direction: row;
+        flex: 1;
+    }
+    .homeContent {
+        flex: 1;
+        justify-content: center;
+        max-width: 60%;
+    }
+    .homeNavigation, .HolyGrail-right {
+        /* 15em is the width of the columns */
+        flex: 0 0 15em;
+    }
+}
+
+.paperPage {
+    display: flex;
+    justify-content: center;
 }

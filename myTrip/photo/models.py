@@ -25,6 +25,7 @@ class Photo(models.Model):
     user = models.ForeignKey(CustomUser, null=True)
     trip = models.ForeignKey(Trip, null=True)
     checkpoint = models.ForeignKey(Checkpoint, null=True)
+    title = models.TextField(null=True)
     description = models.TextField(null=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, editable=True)
@@ -58,19 +59,22 @@ class Photo(models.Model):
         return Photo.objects.filter(trip_id=trip_id, checkpoint_id=checkpoint_id)
 
     @staticmethod
-    def create(src, user, description, trip=None, checkpoint=None):
+    def create(src, user, title=None, description=None, trip=None, checkpoint=None):
         """ Creating photo model, and returns created object"""
         photo = Photo()
         photo.src = src
         photo.trip = trip
         photo.checkpoint = checkpoint
         photo.user = user
+        photo.title = title
         photo.description = description
         photo.save()
         return photo
 
-    def update(self, description):
-        """Updating photo description."""
+    def update(self, title=None, description=None):
+        """Updating photo title and description."""
+        if title:
+            self.title = title
         if description:
             self.description = description
         self.save()
@@ -85,9 +89,11 @@ class Photo(models.Model):
                     'user': user id,
                     'trip_id': trip id,
                     'checkpoint_id': checkpoint id,
+                    'title': title text,
                     'description': description text,
                     'create_at': time when created,
-                    'update_at': time when last updated
+                    'update_at': time when last updated,
+                    'user_name': author's name
                 }
         """
         return {
@@ -96,7 +102,9 @@ class Photo(models.Model):
             "user": self.user.id if self.user else None,
             "trip_id": self.trip.id if self.trip else None,
             "checkpoint_id": self.checkpoint.id if self.checkpoint else None,
+            "title": self.title,
             "description": self.description,
             "create_at": self.create_at,
-            "update_at": self.update_at
+            "update_at": self.update_at,
+            "user_name": self.user.get_full_name() if self.user.get_full_name() else self.user.email
         }

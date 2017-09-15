@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 
 import { postHelp } from './help.service';
-import { emailIsNotValid, fieldIsEmpty } from './../../utils';
+import { emailIsNotValid, fieldIsEmpty } from '../utils';
 
 const style = {
     button:{

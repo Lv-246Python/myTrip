@@ -1,6 +1,6 @@
 """Contains view tests for registration app."""
 
-from mock import patch
+from unittest.mock import patch
 from json import dumps
 
 from django.urls import reverse
@@ -17,8 +17,8 @@ ACTIVATION_URL = "http://triptrck.com/api/v1/auth/activation?hash="
 ACTIVATION_URL_SUCCESS = ACTIVATION_URL + ACTIVATION_HASH
 ACTIVATION_URL_FAIL = ACTIVATION_URL + ACTIVATION_HASH_WRONG
 
-def auth_urlopen(url):
 
+def auth_urlopen(url):
     class Response:
         def __init__(self, data):
             self.data = dumps(data).encode()
@@ -50,7 +50,7 @@ class RegistrationViewsTests(TestCase):
         self.user.set_password('password')
         self.user.save()
         self.not_active_user = CustomUser.objects.create(id=6,
-                                              email='test2@gmail.com')
+                                                         email='test2@gmail.com')
         self.not_active_user.set_password('password')
         self.not_active_user.save()
         hash_user = HashUser.create(self.not_active_user, ACTIVATION_HASH)
@@ -175,4 +175,4 @@ class RegistrationViewsTests(TestCase):
         Test activation via email
         """
         request = self.client.get(ACTIVATION_URL_FAIL)
-        self.assertEqual(request.status_code, 404)
+        self.assertEqual(request.status_code, 400)

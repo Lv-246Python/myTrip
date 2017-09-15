@@ -69,6 +69,7 @@ class Comment(models.Model):
                     'id': id,
                     'message': message,
                     'user_id': user_id,
+                    'userAvatar': user avatar,
                     'trip': self.trip.id,
                     'checkpoint': checkpoint.id,
                     'photo': photo.id,
@@ -80,12 +81,13 @@ class Comment(models.Model):
             'id': self.id,
             'message': self.message,
             'user': self.user.id,
+            'userAvatar': self.user.profile.avatar,
             'trip': self.trip.id,
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
             'create_at': self.create_at,
             'update_at': self.update_at,
-            'user_name': CustomUser.get_full_name(CustomUser.get_by_id(self.user.id))
+            'user_name': self.user.get_full_name() if self.user.get_full_name() else self.user.email
         }
 
     @staticmethod
@@ -127,8 +129,8 @@ class Comment(models.Model):
 
     def __repr__(self):
         return """id:{}, message:{}, user:{}, trip:{},
-                  checkpoint:{}, photo:{}, create_at:{}, 
-                  update_at:{}, 
+                  checkpoint:{}, photo:{}, create_at:{},
+                  update_at:{},
                   user_name:{}""".format(
                       self.id,
                       self.message,
@@ -138,4 +140,4 @@ class Comment(models.Model):
                       self.photo.id,
                       self.create_at,
                       self.update_at,
-                      CustomUser.get_full_name(CustomUser.get_by_id(self.user.id)))
+                      self.user.get_full_name() if self.user.get_full_name() else self.user.email)

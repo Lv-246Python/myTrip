@@ -8,6 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { loginService, activationService } from './registration.service'
 import { emailIsNotValid, EMAIL_REGEXP, fieldIsEmpty } from './../utils'
 
+import ForgotPassBtn from '../restore-password/forgot-pass-btn'
+
 const style = {
     paperStyle : {
         margin:"5% auto",
@@ -105,6 +107,7 @@ export default class Login extends React.Component {
                         style={ style.RaisedButtonStyle }
                         labelStyle = { style.LabelSize }
                      />
+                     <ForgotPassBtn/>
                      <RaisedButton
                         label = "Login with Facebook"
                         primary = {true}

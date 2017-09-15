@@ -1,7 +1,5 @@
 """Contains everything we need for Registration and Authentication."""
 
-import datetime
-
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.core.validators import validate_email
@@ -75,6 +73,15 @@ class CustomUser(AbstractBaseUser):
         user.save()
         return user
 
+    def change_password(self, password):
+        """
+        Change and save new password.
+        Args:
+            password (str): new user's password.
+        """
+        self.set_password(password)
+        self.save()
+
     @staticmethod
     def get_by_id(user_id):
         """
@@ -109,27 +116,31 @@ class CustomUser(AbstractBaseUser):
 
     def get_short_name(self):
         """
-        Returns the first name.
+        Returns the first name or the last name if exists, else returns user's email.
         Args:
             self: current object.
         Returns:
             str object.
         """
 
-        short_name = self.first_name
-        return short_name
+        if self.first_name:
+            return self.first_name
+        if self.last_name:
+            return self.last_name
+        return self.email
 
     def get_full_name(self):
         """
-        Returns the first name + last name with a space in between.
+        Returns the first name + last name with a space in between if exists,
+        else returns user's email.
         Args:
             self: current object.
         Returns:
             str object.
         """
-
-        full_name = '{} {}'.format(self.first_name, self.last_name)
-        return full_name
+        if self.first_name and self.last_name:
+            full_name = '{} {}'.format(self.first_name, self.last_name)
+            return full_name
 
     def update(self, first_name=None, last_name=None):
         """
@@ -142,19 +153,10 @@ class CustomUser(AbstractBaseUser):
             str object.
         """
 
-        if first_name and not last_name:
+        if first_name:
             self.first_name = first_name
-            return first_name
-
-        elif not first_name and last_name:
+        if last_name:
             self.last_name = last_name
-            return last_name
-
-        elif first_name and last_name:
-            self.first_name = first_name
-            self.last_name = last_name
-            return self.get_full_name()
-
         self.save()
 
     def activate(self):
@@ -231,7 +233,7 @@ class HashUser(models.Model):
 
     hash = models.CharField(max_length=500, blank=False)
     user = models.OneToOneField(CustomUser, blank=False)
-    create_at = models.DateTimeField()
+    create_at = models.DateTimeField(auto_now_add=True)
 
     @staticmethod
     def create(user, hash):
@@ -241,13 +243,12 @@ class HashUser(models.Model):
             user (Object<CustomUser>): new user.
             hash (str): for appropriate user.
         Returns:
-           hash_user (Object<HashUser>): new hash-user .
+            hash_user (Object<HashUser>): new hash-user .
         """
 
         hash_user = HashUser()
         hash_user.user = user
         hash_user.hash = hash
-        hash_user.create_at = datetime.datetime.now()
         hash_user.save()
         return hash_user
 
@@ -264,4 +265,4 @@ class HashUser(models.Model):
             hash_user = HashUser.objects.get(hash=hash)
             return hash_user.user
         except ObjectDoesNotExist:
-            return False
+            return None

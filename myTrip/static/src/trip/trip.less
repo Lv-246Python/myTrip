@@ -1,17 +1,49 @@
 
-.allTrips {
-    margin: auto;
-    max-width: 1450px;
+
+
+/* Trip-list */
+
+.tripList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.footer {
-    min-height: 100 px;
+.side {
+    flex: 12%;
+}
+
+.allTrips {
+    margin: auto;
+    width: 76%;
+}
+
+.tripListHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 16px;
 }
 
 .directionButtons {
     display: flex;
     justify-content: center;
 }
+
+.footer {
+    height: 60px;
+    padding-top: 60px;
+}
+
+.loadProgress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+/* Trip-page */
 
 .HolyGrail,
 .HolyGrail-body {
@@ -25,23 +57,108 @@
 }
 
 @media (min-width: 100px) {
-  .HolyGrail-body {
-    flex-direction: row;
-    flex: 1;
-  }
-  .HolyGrail-content {
-    flex: 1;
-    justify-content: center;
-    max-width: 900px;
-  }
-  .HolyGrail-left, .HolyGrail-right {
-    /* 15em is the width of the columns */
-    flex: 0 0 15em;
-  }
+    .HolyGrail-body {
+        flex-direction: row;
+        flex: 1;
+    }
+    .HolyGrail-content {
+        flex: 1;
+        justify-content: center;
+        max-width: 900px;
+    }
+    .HolyGrail-left, .HolyGrail-right {
+        /* 15em is the width of the columns */
+        flex: 0 0 15em;
+    }
 }
 
-.tripLikeIcon {
+.tripStatusLine {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tripStatus {
+    display: flex;
+    align-items: center;
+}
+
+.statusType {
+    padding-left: 16px;
+    padding-right: 8px;
+    font-size: 18px;
+}
+
+.statusButton {
     display: flex;
     justify-content: flex-end;
-    padding-bottom: 16px;
+}
+
+.tripEdit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tripEditIcon {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tripPhotoGallery {
+    padding-top: 8px;
+}
+
+.iconLine {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-bottom: 8px;
+}
+
+.buttonTripDialog {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tripDescription {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 16px;
+}
+
+
+/* Create trip */
+
+.createTrip {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+}
+
+.createTripNavigation {
+    min-width: 15em;
+}
+
+.newTrip {
+    display: flex;
+    flex-direction: row;
+}
+
+.required {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+}
+
+.newTripContent {
+    order: 1;
+    min-width: 600px;
+}
+
+.newTripMap {
+    order: 1;
+    justify-content: center;
 }

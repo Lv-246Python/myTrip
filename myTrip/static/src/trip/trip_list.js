@@ -1,22 +1,35 @@
 import React from 'react';
 import axios from "axios";
-import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 import { Card, CardHeader, CardMedia, CardActions } from 'material-ui/Card';
 import { GridList } from 'material-ui/GridList';
-import Subheader from 'material-ui/Subheader';
+import { getTrip, formatDate } from './trip_service';
+import { logged } from '../utils';
+import AddIcon from 'material-ui/svg-icons/content/add';
 import FlatButton from 'material-ui/FlatButton';
-import TripTile from './trip_tile'
-import './trip.less'
+import LeftIcon from 'material-ui/svg-icons/navigation/chevron-left';
+import LoadProgress from '../load_progress';
+import RightIcon from 'material-ui/svg-icons/navigation/chevron-right';
+import RaisedButton from 'material-ui/RaisedButton';
+import TripListNavigation from './trip_list_navigation';
+import TripTile from './trip_tile';
+import './trip.less';
+import moment from 'moment';
+
+const tripListColumns = 3;
+const tripListPadding = 20;
 
 
 export default class TripList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        //put all trips in array
-            allTrips: [],
-            page: 0
+            allTrips: null,
+            page: 0,
+            lastPage: 0,
+            disabledFirst: false,
+            disabledLast: false,
         };
     };
 
@@ -25,12 +38,30 @@ export default class TripList extends React.Component {
         let url = '/api/v1/trip/';
         if (this.state.page){
             url += '?page=' + this.state.page;
-        }
+        };
         axios.get(url).then(response => {
-            const allTrips = response.data;
-            this.setState({allTrips});
+            const allTrips = response.data.trips;
+            const allPages = response.data.all_pages;
+            this.setState({
+                allTrips: allTrips,
+                lastPage: allPages,
+            });
+            this.firstPageFunc();
+            this.lastPageFunc();
         });
     };
+
+    //function for disable previous button on a first page
+    firstPageFunc = () => {
+        (this.state.page === 0)
+        ? this.setState({disabledFirst: true}) : this.setState({disabledFirst: false})
+    }
+
+    //function for disable next button on a last page
+    lastPageFunc = () => {
+        (this.state.page === this.state.lastPage)
+        ? this.setState({disabledLast: true}) : this.setState({disabledLast: false})
+    }
 
     //function for next page button
     nextPage = () => {
@@ -42,7 +73,8 @@ export default class TripList extends React.Component {
         this.setState({page: this.state.page && this.state.page - 1});
     };
 
-/* callback function, that returns JSON of a first photo of chosen trip from backend
+    /*
+    callback function, that returns JSON of a first photo of chosen trip from backend
 
     getTripPhoto = () => {
         axios.get(`/api/v1/trip/${trip.id}/photo/1/` ).then(response => {
@@ -50,66 +82,110 @@ export default class TripList extends React.Component {
             this.setState({tripPhoto});
         });
     };
-*/
+    */
 
     //renders only after data gotten
     componentDidMount() {
         this.getData();
     };
 
-    //if page of trip-list was changed by next/previous buttons,
-    //render trip list with new list data
+    /*
+    if page of trip-list was changed by next/previous buttons,
+    render trip-list with new list data
+    */
     componentDidUpdate(prevProps, prevState) {
         this.state.page !== prevState.page && this.getData();
     };
 
     render() {
-        return (
-            <main className='allTrips'>
 
-                <Card>
-                    <CardHeader
-                    title={<h2>All trips</h2>}
-                    subtitle={'Share your adventure'}
-                    />
+        const allTrips = this.state.allTrips;
 
-                    <CardMedia>
-                      <div className='gridList'>
-                        <GridList
-                            cellHeight={'auto'}
-                            cols={3}
-                            padding={20} >
+        if (allTrips === null){
+            return <LoadProgress />
+        }
+        else {
+            return (
+                <div>
+                    <div className='tripList'>
+                        <div className='side'>
+                            <TripListNavigation />
+                        </div>
+                        <div className='allTrips'>
+                            <Card>
+                                <div className='tripListHeader'>
+                                    <CardHeader
+                                        title={<h2>All trips</h2>}
+                                        subtitle={'Share your adventure'}
+                                    />
 
-                            {/*
-                            wrap every JSON with trip data into own trip tile
-                            */}
+                                    {/*
+                                    create trip button for logged user
+                                    */}
+                                    {(logged())?
+                                    <RaisedButton
+                                        primary={true}
+                                        label='Create trip'
+                                        labelPosition='before'
+                                        icon={<AddIcon />}
+                                        containerElement={<Link to='/create_trip' />}
 
-                            {this.state.allTrips.map(trip => (
-                                <TripTile
-                                key={trip.id}
-                                tripId={trip.id}
-                                title={trip.title}
-                                description={trip.description}
-                                user={trip.user}
-                                created={moment(trip.create_at).format('MMMM Do, h:mm a')} />
-                            ))}
-                        </GridList>
-                      </div>
-                    </CardMedia>
+                                    /> : false}
 
-                    <div className='directionButtons'>
-                    <CardActions>
+                                </div>
+                                <CardMedia>
+                                    <div className='gridList'>
+                                        <GridList
+                                            cellHeight={'auto'}
+                                            cols={tripListColumns}
+                                            padding={tripListPadding}
+                                        >
+                                            {/*
+                                            wrap every JSON with trip data into own trip tile
+                                            */}
 
-                        <FlatButton label="Previous" onTouchTap={this.prevPage} />
-                        <FlatButton label="Next" onTouchTap={this.nextPage} />
-
-                    </CardActions>
+                                            {this.state.allTrips.map(trip => (
+                                                <TripTile
+                                                    key={trip.id}
+                                                    tripId={trip.id}
+                                                    user={trip.user}
+                                                    title={trip.title}
+                                                    description={trip.description}
+                                                    status={trip.status}
+                                                    cover={trip.src}
+                                                    created={moment(trip.create_at)
+                                                             .format('h:mm a, Do MMMM YYYY')}
+                                                    updated={formatDate(trip.update_at)}
+                                                />
+                                            ))}
+                                        </GridList>
+                                    </div>
+                                </CardMedia>
+                                <div className='directionButtons'>
+                                    <CardActions>
+                                        <FlatButton
+                                            label='Previous'
+                                            icon={<LeftIcon />}
+                                            disabled={this.state.disabledFirst}
+                                            onTouchTap={this.prevPage}
+                                        />
+                                        <FlatButton
+                                            label='Next'
+                                            labelPosition='before'
+                                            icon={<RightIcon />}
+                                            disabled={this.state.disabledLast}
+                                            onTouchTap={this.nextPage}
+                                        />
+                                    </CardActions>
+                                </div>
+                            </Card>
+                        </div>
+                        <div className='side'>
+                        </div>
                     </div>
-
-                </Card>
-              <footer className='footer'>
-              </footer>
-            </main>
-        );
+                    <footer className='footer'></footer>
+                </div>
+            );
+        }
     };
 };
