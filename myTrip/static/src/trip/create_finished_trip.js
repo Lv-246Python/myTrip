@@ -167,7 +167,9 @@ export default class CreateFinishedTrip extends React.Component {
                     backgroundColor='#FFC107'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
+                    disabled={this.state.titleIsEmpty||
+                              this.state.startDateIsEmpty||
+                              this.state.finishDateIsEmpty}
                 />
             </Card>
         );

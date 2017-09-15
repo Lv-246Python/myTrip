@@ -27,6 +27,7 @@ export class PhotoItem extends React.Component {
             <GridTile
               title={this.props.title}
               onClick={this.toggleFullscreen}
+              style={styles.gridTile}
             >
 
                 <img src={this.props.src} style={styles.image} />

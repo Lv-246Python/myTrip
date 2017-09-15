@@ -9,6 +9,9 @@ export const styles = {
         backgroundColor: 'black'
     },
 
+    gridTile: {
+        overflow: 'visible',
+    },
 
     image: {
         height: '100%',

@@ -156,7 +156,9 @@ export default class CreateAnnouncedTrip extends React.Component {
                     primary={true}
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
+                    disabled={this.state.titleIsEmpty||
+                              this.state.startDateIsEmpty||
+                              this.state.finishDateIsEmpty}
                 />
             </Card>
         );
