@@ -8,7 +8,10 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton'
+import { userId } from '../utils';
 import './main.less';
 
 
@@ -37,8 +40,10 @@ class CheckpointDetails extends React.Component {
     constructor(props) {
       super(props);
         this.state = {
+            open: false,
             title:'',
-            description:''
+            description:'',
+            userId: this.props.trip.user
         }
       // this.updateState = this.updateState.bind(this);
 
@@ -64,124 +69,148 @@ class CheckpointDetails extends React.Component {
         this.props.active.source_url,
         this.props.trip.id,
         this.props.active.id
-            )
+        )
     }
+
+    handleOpenDeleteCheckpoint = () => {
+        this.setState({open: true});
+    };
+
+
+    handleCloseDeleteCheckpoint = () => {
+        this.setState({open: false});
+    };
 
     render(){
         if(this.props.active != null){
             var  self = this;
-            return(
-                
-                <div>{/*
-                    <span className='info'><strong>Title: </strong></span>
-                    <input type="text" name="title" value={this.state.title} onChange={this.updateState}/>
-                    <span className='info'><strong>Description: </strong></span>
-                    <input type="text" name="description" value={this.state.description} onChange={this.updateState}/>
-                    <button onClick={this.updatePoint}>Update</button>
-                    <span onClick={() => this.props.closeDetails()} className="glyphicon glyphicon-remove">Close</span>
-                </div>*/}
-                    <div className='checkpointCard'>
-                    <Card>
 
+        const actionsDelete = [
+            <div className='buttonTripDialog'>
+                <RaisedButton
+                    label='Cancel'
+                    labelPosition='before'
+                    primary={true}
+                    onTouchTap={this.handleCloseDeleteCheckpoint}
+                />
+                <RaisedButton
+                    label='Delete'
+                    labelPosition='before'
+                    secondary={true}
+                    onTouchTap={() => this.props.deleteUpadateList(
+                                                    this.props.active.id, this.props.trip.id
+                                                )}
+                />
+            </div>
+        ];
+
+            return(
+                <div className='checkpointCard'>
+                    <Card>
                         <div className='checkpointDetails'>
-                            <div className='checkpointTextDetails'>
-                                <div className='checkpointTitleAndButtons'>
+                            <div className='checkpointTitleAndButtons'>
+                                <TextField
+                                    floatingLabelText="Title:"
+                                    value={this.state.title}
+                                    hintText="Edit title"
+                                    name='title'
+                                    underlineShow={false}
+                                    fullWidth={true}
+                                    onChange={this.updateState}/>
+
+                                <CardActions>
+                                    <div className='checkpointButtons'>
+
+                                        {(userId() === this.state.userId) ?
+                                        <div>
+                                            <IconButton
+                                                key="Save"
+                                                tooltip='SAVE CHANGES'
+                                                tooltipPosition='top-center'
+                                                onTouchTap={this.updatePoint}
+                                            >
+                                                <SubmitIcon />
+                                            </IconButton>
+                                        </div> : false}
+
+                                        {(userId() === this.state.userId) ?
+                                        <div>
+                                            <IconButton
+                                                key="Photo"
+                                                tooltip='ADD A PHOTO'
+                                                tooltipPosition='top-center'
+                                            >
+                                                <AddPhotoIcon />
+                                            </IconButton>
+                                        </div> : false}
+
+                                        {(userId() === this.state.userId) ?
+                                        <div>
+                                            <IconButton
+                                                key='Delete'
+                                                tooltip='DELETE CHECKPOINT'
+                                                tooltipPosition='top-center'
+                                                onTouchTap={this.handleOpenDeleteCheckpoint}
+
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </div> : false}
+
+                                        <div>
+                                            <IconButton
+                                                key='Close'
+                                                tooltip='CLOSE DETAILS'
+                                                tooltipPosition='top-center'
+                                                onTouchTap={() => this.props.closeDetails()}
+                                            >
+                                                <CancelIcon />
+                                            </IconButton>
+                                        </div>
+
+                                        <Dialog
+                                        title='Do you really want to delete checkpoint?'
+                                        actions={actionsDelete}
+                                        open={this.state.open}
+                                        onRequestClose={this.handleCloseDeleteCheckpoint}
+                                        />
+
+                                    </div>
+                                </CardActions>
+                            </div>
+
+                            <div className='checkpointDescriptionAndPhotos'>
+                                <div className='checkpointDescription'>
                                     <TextField
-                                        floatingLabelText="Title:"
-                                        value={this.state.title}
-                                        hintText="Edit title"
-                                        name='title'
+                                        floatingLabelText="Description:"
+                                        hintText="Edit description"
+                                        value={this.state.description}
+                                        name='description'
                                         underlineShow={false}
                                         fullWidth={true}
+                                        multiLine={true}
+                                        rowsMax={6}
                                         onChange={this.updateState}/>
-
-                                    <CardActions>
-                                        <div className='checkpointButtons'>
-
-                                            <div>
-                                                <IconButton
-                                                    key="Save"
-                                                    tooltip='SAVE CHANGES'
-                                                    tooltipPosition='top-center'
-                                                    onTouchTap={this.updatePoint}
-                                                >
-                                                    <SubmitIcon />
-                                                </IconButton>
-                                            </div>
-
-                                            <div>
-                                                <IconButton
-                                                    key="Photo"
-                                                    tooltip='ADD A PHOTO'
-                                                    tooltipPosition='top-center'
-                                                >
-                                                    <AddPhotoIcon />
-                                                </IconButton>
-                                            </div>
-
-                                            <div>
-                                                <IconButton
-                                                    key='Delete'
-                                                    tooltip='DELETE CHECKPOINT'
-                                                    tooltipPosition='top-center'
-                                                    onTouchTap={() => this.props.deleteUpadateList(
-                                                        this.props.active.id, this.props.trip.id
-                                                    )}
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </div>
-
-                                            <div>
-                                                <IconButton
-                                                    key='Close'
-                                                    tooltip='CLOSE DETAILS'
-                                                    tooltipPosition='top-center'
-                                                    onTouchTap={() => this.props.closeDetails()}
-                                                >
-                                                    <CancelIcon />
-                                                </IconButton>
-                                            </div>
-
-                                        </div>
-                                    </CardActions>
                                 </div>
 
-                                <div className='checkpointDescriptionAndPhotos'>
-                                    <div className='checkpointDescription'>
-                                        <TextField
-                                            floatingLabelText="Description:"
-                                            hintText="Edit description"
-                                            value={this.state.description}
-                                            name='description'
-                                            underlineShow={false}
-                                            fullWidth={true}
-                                            multiLine={true}
-                                            rowsMax={6}
-                                            onChange={this.updateState}/>
-                                    </div>
-
-                                    <div className='gridList'>
-                                        <GridList
-                                            cellHeight={180}
-                                            cols={1}
-                                            style={styles.gridList}
-                                        >
-                                            {images.map((tile) => (
-                                                <GridTile key={tile.img} >
-                                                    <img src={tile.img} />
-                                                </GridTile>
-                                            ))}
-                                        </GridList>
-                                    </div>
+                                <div className='gridList'>
+                                    <GridList
+                                        cellHeight={180}
+                                        cols={1}
+                                        style={styles.gridList}
+                                    >
+                                        {images.map((tile) => (
+                                            <GridTile key={tile.img} >
+                                                <img src={tile.img} />
+                                            </GridTile>
+                                        ))}
+                                    </GridList>
                                 </div>
-
                             </div>
                         </div>
                     </Card>
-                    </div>
                 </div>
-                );
+            );
         }
         else{
             return(

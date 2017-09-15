@@ -94,7 +94,7 @@ export class ExpandedPhotoItems extends React.Component {
                     actions={actionsDelete}
                     open={this.state.open}
                     onRequestClose={this.handleCloseDeleteTrip}
-                 />
+                    />
 
                 <CommentItem
                     tripId={this.props.tripId}

@@ -5,11 +5,35 @@ import {connect} from 'react-redux';
 
 import {List, ListItem} from 'material-ui/List';
 import DropDownMenu from 'material-ui/DropDownMenu';
+import RaisedButton from 'material-ui/RaisedButton';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import CheckpointItem from './checkpointItem.js';
 import {getAllCheckpoints} from './actions/index.js'
 
 class CheckpointList extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+        };
+    }
+
+    handleTouchTap = (event) => {
+        // This prevents ghost click.
+        event.preventDefault();
+        this.setState({
+            open: true,
+            anchorEl: event.currentTarget,
+        });
+    };
+
+    handleRequestClose = () => {
+        this.setState({
+            open: false,
+        });
+    };
 
     // constructor(props) {
     //     super(props);
@@ -38,11 +62,23 @@ class CheckpointList extends React.Component{
                     );
                 })
                 return(
-                    <DropDownMenu
-                        
-                        maxHeight={250}>
-                        {list}
-                    </DropDownMenu>
+                    <div>
+                        <RaisedButton
+                            onClick={this.handleTouchTap}
+                            label="Show checkpoints"
+                        />
+                        <Popover
+                            open={this.state.open}
+                            anchorEl={this.state.anchorEl}
+                            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                            onRequestClose={this.handleRequestClose}
+                        >
+                            <Menu maxHeight={250}>
+                                {list}
+                            </Menu>
+                        </Popover>
+                    </div>
                 );
         }
         else{

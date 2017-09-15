@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import MenuItem from 'material-ui/MenuItem';
 import {checkpointDetails, deleteUpadateList} from './actions/index.js'
 
 class CheckpointItem extends React.Component {
@@ -20,7 +21,7 @@ class CheckpointItem extends React.Component {
     render() {
         return (
             <div>
-                <ListItem
+                <MenuItem
                     className='checkpoint'
                     primaryText={this.props.checkpoint.position_number + '. ' + this.props.checkpoint.title }
                     onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
