@@ -2,7 +2,7 @@ import React from 'react';
 
 import Dropzone from 'react-dropzone';
 import Snackbar from 'material-ui/Snackbar';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import { GridList } from 'material-ui/GridList';
 
 import { getTripPhotos, uploadPhoto } from './PhotoServices';
@@ -81,8 +81,8 @@ export default class Photos extends React.Component {
             return (
                 <div> 
                     {(userId() === this.props.tripAuthor) ?
-                    <FlatButton
-                        label="Choose an Image"
+                    <RaisedButton
+                        label="Add photos"
                         labelPosition="before"
                         style={styles.buttonStyle}
                         primary={true}
@@ -95,7 +95,7 @@ export default class Photos extends React.Component {
                                 multiple={false}
                                  >
                             </Dropzone>
-                    </FlatButton> : '' } 
+                    </RaisedButton> : '' }
 
                 <div style={styles.container}>
                     <GridList style={styles.element} cols={2.2}>
@@ -127,8 +127,8 @@ export default class Photos extends React.Component {
             return (
                 <div>
                     {(userId() === this.props.tripAuthor) ?
-                    <FlatButton
-                        label="Choose an Image"
+                    <RaisedButton
+                        label="Add photos"
                         labelPosition="before"
                         style={styles.buttonStyle}
                         primary={true}
@@ -141,7 +141,7 @@ export default class Photos extends React.Component {
                                 multiple={false}
                                  >
                             </Dropzone>
-                    </FlatButton> : '' }
+                    </RaisedButton> : '' }
                 <div style={styles.container}>
                     <GridList style={styles.element} cols={2.2}>
 

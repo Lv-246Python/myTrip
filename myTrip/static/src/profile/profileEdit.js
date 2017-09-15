@@ -1,7 +1,8 @@
 import React from "react";
 import { onlyAlpha, onlyDigit } from './../utils';
 
-import FlatButton from 'material-ui/FlatButton'
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -137,24 +138,24 @@ export class ProfileEdit extends React.Component {
         />
 
         <FlatButton
-          label="Choose an Image"
+          label="Upload new avatar"
           labelPosition="before"
           style={styles.buttonStyle}
           primary={true}
           fullWidth={true}
-          containerElement="label"> 
-              <Dropzone 
+          containerElement="label">
+              <Dropzone
                 onDrop={this.handleDrop}
-                onDropRejected={this.onDropRejected} 
+                onDropRejected={this.onDropRejected}
                 maxSize={2097152}
                 multiple={false}
                 accept="image/*" >
               </Dropzone>
           </FlatButton>
 
-        <FlatButton onTouchTap={this.profileEdit} 
-        label="Edit profile" primary={true} fullWidth={true} 
-        rippleColor={blue500} />
+        <RaisedButton onTouchTap={this.profileEdit}
+        label="Submit changes" secondary={true} fullWidth={true}
+        rippleColor={blue500} style={styles.buttonStyle} />
 
         <Snackbar
           open={this.state.open}
