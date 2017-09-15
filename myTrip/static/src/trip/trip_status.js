@@ -186,7 +186,7 @@ export default class TripStatus extends React.Component {
 
                         <FlatButton
                             label='Finish trip'
-                            primary={true}
+                            secondary={true}
                             onTouchTap={this.handleOpenEditStatus}
                         />
 
