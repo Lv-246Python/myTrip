@@ -9,16 +9,15 @@ import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Dialog from 'material-ui/Dialog';
+import EditIcon from 'material-ui/svg-icons/image/edit';
 import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton'
+import SubmitIcon from 'material-ui/svg-icons/action/done';
+import TextField from 'material-ui/TextField';
 import { userId } from '../utils';
 import './main.less';
 
-
-import EditIcon from 'material-ui/svg-icons/image/edit';
-import IconButton from 'material-ui/IconButton';
-import SubmitIcon from 'material-ui/svg-icons/action/done';
-import TextField from 'material-ui/TextField';
 
 let images = [
     {img: '/static/src/img/1_page.jpg'},
@@ -30,7 +29,7 @@ let images = [
 const styles = {
     gridList: {
         width: 200,
-        height: 200,
+        height: 185,
         overflowY: 'auto',
     },
 };
@@ -43,7 +42,8 @@ class CheckpointDetails extends React.Component {
             open: false,
             title:'',
             description:'',
-            userId: this.props.trip.user
+            author: this.props.trip.user,
+            userId: userId
         }
       // this.updateState = this.updateState.bind(this);
 
@@ -104,40 +104,34 @@ class CheckpointDetails extends React.Component {
             </div>
         ];
 
-       const buildTextField = () => {
-          if (userId() == this.props.trip.user) {
-              return (<TextField
-                      floatingLabelText="Title:"
-                      value={this.state.title}
-                      hintText="Edit title"
-                      name='title'
-                      underlineShow={false}
-                      fullWidth={true}
-                      onChange={this.updateState}/>);
-          } else {
-              return (<TextField
-                      floatingLabelText="Title:"
-                      value={this.state.title}
-                      hintText="Edit title"
-                      name='title'
-                      underlineShow={false}
-                      fullWidth={true}
-                      readOnly/>);
-          }
-       }
-
-            return(
-                <div className='checkpointCard'>
-                    <Card>
-                        <div className='checkpointDetails'>
+        return(
+            <div className='checkpointCard'>
+                <Card>
+                    <div className='checkpointDetails'>
+                        <div className='checkpointWidth100'>
                             <div className='checkpointTitleAndButtons'>
 
-                                {buildTextField()}
+                                {(this.state.userId() == this.state.author) ?
+                                <TextField
+                                    value={this.state.title}
+                                    hintText="Edit title"
+                                    name='title'
+                                    underlineShow={false}
+                                    fullWidth={true}
+                                    onChange={this.updateState}/>
+                                :
+                                <TextField
+                                    value={this.state.title}
+                                    name='title'
+                                    underlineShow={false}
+                                    fullWidth={true}
+                                    readOnly/>
+                                }
 
-                                <CardActions>
+                                <CardActions style={{padding: 0}}>
                                     <div className='checkpointButtons'>
 
-                                        {(userId() === this.state.userId) ?
+                                        {(this.state.userId() === this.state.author) ?
                                         <div>
                                             <IconButton
                                                 key="Save"
@@ -149,7 +143,7 @@ class CheckpointDetails extends React.Component {
                                             </IconButton>
                                         </div> : false}
 
-                                        {(userId() === this.state.userId) ?
+                                        {(this.state.userId() === this.state.author) ?
                                         <div>
                                             <IconButton
                                                 key="Photo"
@@ -160,7 +154,7 @@ class CheckpointDetails extends React.Component {
                                             </IconButton>
                                         </div> : false}
 
-                                        {(userId() === this.state.userId) ?
+                                        {(this.state.userId() === this.state.author) ?
                                         <div>
                                             <IconButton
                                                 key='Delete'
@@ -195,40 +189,49 @@ class CheckpointDetails extends React.Component {
                                 </CardActions>
                             </div>
 
-                            <div className='checkpointDescriptionAndPhotos'>
-                                <div className='checkpointDescription'>
-                                    <TextField
-                                        floatingLabelText="Description:"
-                                        hintText="Edit description"
-                                        value={this.state.description}
-                                        name='description'
-                                        underlineShow={false}
-                                        fullWidth={true}
-                                        multiLine={true}
-                                        rowsMax={6}
-                                        onChange={this.updateState}/>
-                                </div>
+                            <div className='checkpointDescription'>
 
-                                <div className='gridList'>
-                                    <GridList
-                                        cellHeight={180}
-                                        cols={2}
-                                        style={styles.gridList}
-                                    >
-                                        {images.map((tile) => (
-                                            <GridTile key={tile.img} >
-                                                <img src={tile.img} />
-                                            </GridTile>
-                                        ))}
-                                    </GridList>
-                                </div>
+                                {(this.state.userId() == this.state.author) ?
+                                <TextField
+                                    hintText="Edit description"
+                                    value={this.state.description}
+                                    name='description'
+                                    underlineShow={false}
+                                    fullWidth={true}
+                                    multiLine={true}
+                                    rowsMax={4}
+                                    onChange={this.updateState}/>
+                                :
+                                <TextField
+                                    value={this.state.description}
+                                    name='description'
+                                    underlineShow={false}
+                                    fullWidth={true}
+                                    multiLine={true}
+                                    rowsMax={4}
+                                    readOnly/>
+                                }
+
                             </div>
                         </div>
-                    </Card>
-                </div>
-            );
-        }
-        else{
+                        <div className='gridList'>
+                            <GridList
+                                cellHeight={180}
+                                cols={1}
+                                style={styles.gridList}
+                            >
+                                {images.map((tile) => (
+                                    <GridTile key={tile.img} >
+                                        <img src={tile.img} />
+                                    </GridTile>
+                                ))}
+                            </GridList>
+                        </div>
+                    </div>
+                </Card>
+            </div>
+        );
+        }else{
             return(
                 <div>
                 </div>
