@@ -43,7 +43,8 @@ export class PhotoItem extends React.Component {
                   description={this.props.description}
                   tripId={this.props.tripId}
                   user={this.props.user}
-                  photoId={this.props.photoId} />
+                  photoId={this.props.photoId}
+                  mainPhoto={this.props.mainPhoto}/>
             </GridTile>
         )
     }
