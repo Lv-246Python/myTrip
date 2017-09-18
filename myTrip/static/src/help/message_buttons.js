@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Card, CardHeader, CardMedia, CardText, CardTitle, CardActions } from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -58,41 +59,49 @@ export default class MessageButtons extends React.Component{
     render(){
         return(
             <div className="helpMessageContainer">
-            <Paper className="helpTitlePaper">
-               <span className="helpText">Send your feedback</span>
-            </Paper>
-            <TextField
-                hintText="Email"
-                floatingLabelText="Enter your email"
-                className="helpTextInput"
-                name="to"
-                onChange={this.onChange}
-                errorText={this.state.emailError}
-            /><br/>
-            <TextField
-                hintText="Subject"
-                floatingLabelText="Enter your subject"
-                className="helpTextInput"
-                name="subject"
-                onChange={this.onChange}
-                errorText={this.state.subjectError}
-            /><br/>
-            <TextField
-                hintText="Message Field"
-                floatingLabelText="Enter your message"
-                multiLine={true}
-                rows={1}
-                className="helpTextInput"
-                name="message"
-                onChange={this.onChange}
-                errorText={this.state.messageError}
-            /><br/>
-            <RaisedButton
-               label="Send" primary={true}
-               onTouchTap={this.helpPostEvent}
-               style={style.button}
-            />
-        </div>
+                <CardTitle
+                    title='Send your feedback'
+                    className='helpTitleMailSender'
+                    style={{paddingBottom: 0}}
+                />
+                <TextField
+                    hintText="Email"
+                    floatingLabelText="Enter your email"
+                    className="helpTextInput"
+                    name="to"
+                    onChange={this.onChange}
+                    errorText={this.state.emailError}
+                    style={{marginTop: 0}}
+                /><br/>
+                <TextField
+                    hintText="Subject"
+                    floatingLabelText="Enter your subject"
+                    className="helpTextInput"
+                    name="subject"
+                    fullWidth={true}
+                    onChange={this.onChange}
+                    errorText={this.state.subjectError}
+                    style={{marginTop: 0}}
+                /><br/>
+                <TextField
+                    hintText="Message Field"
+                    floatingLabelText="Enter your message"
+                    multiLine={true}
+                    fullWidth={true}
+                    rows={1}
+                    rowsMax={6}
+                    className="helpTextInput"
+                    name="message"
+                    onChange={this.onChange}
+                    errorText={this.state.messageError}
+                    style={{marginTop: 0}}
+                /><br/>
+                <RaisedButton
+                   label="Send" primary={true}
+                   onTouchTap={this.helpPostEvent}
+                   style={style.button}
+                />
+            </div>
         )
     }
 }
