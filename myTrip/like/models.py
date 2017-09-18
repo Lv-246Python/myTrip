@@ -2,7 +2,6 @@
 This module contains Like model class and basic methods for Trip, Checkpoint, Photo and Comment.
 """
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 from checkpoint.models import Checkpoint
@@ -30,21 +29,25 @@ class Like(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
 
     @staticmethod
-    def create(user, trip, checkpoint, photo, comment):
+    def create(user, trip=None, checkpoint=None, photo=None, comment=None):
         """A method creates like by user."""
         like = Like()
         like.user = user
-        like.trip = trip
-        like.checkpoint = checkpoint
-        like.photo = photo
-        like.comment = comment
+        if trip:
+            like.trip = trip
+        if checkpoint:
+            like.checkpoint = checkpoint
+        if photo:
+            like.photo = photo
+        if comment:
+            like.comment = comment
         like.save()
         return like
 
     @staticmethod
     def filter(trip=None, checkpoint=None, photo=None, comment=None):
         """
-        Get like with given trip id, checkpoint id, photo id and comment id.
+        Get all likes by trip id, checkpoint id, photo id and comment id.
         Args:
             trip (int): trip id
             checkpoint (int): checkpoint id
@@ -53,59 +56,53 @@ class Like(models.Model):
         Returns:
             QuerySet<Like>: QuerySet of Like.
         """
-        return Like.objects.filter(trip=trip, checkpoint=checkpoint, photo=photo, comment=comment)
+        return Like.objects.filter(trip=trip, checkpoint=checkpoint,
+                                   photo=photo, comment=comment)
 
     @staticmethod
-    def get_by_id(like_id):
+    def filter_by_user(user, trip=None, checkpoint=None, photo=None, comment=None):
         """
-        Get Like with given like id.
+        Get like by user from trip id, checkpoint id, photo id and comment id.
         Args:
-            like_id (int): like id.
-        Returns:
-            Object<Like>: Like Object,
-            or None when exception works.
-        """
-        try:
-            return Like.objects.get(id=like_id)
-        except ObjectDoesNotExist:
-            return None
-
-    @staticmethod
-    def get_by_user_id(user):
-        """
-        Get Like with given user id.
-        Args:
-            user (int): user id.
+            user (int): user id
+            trip (int): trip id
+            checkpoint (int): checkpoint id
+            photo (int): photo id
+            comment (int): comment id.
         Returns:
             QuerySet<Like>: QuerySet of Like.
         """
-        like = Like.objects.filter(user=user)
-        return like
+        return Like.objects.filter(user=user, trip=trip, checkpoint=checkpoint,
+                                   photo=photo, comment=comment)
 
     def to_dict(self):
         """
         Convert model object to dictionary.
         Return:
-            dict:
-                {
-                    'id': id,
-                    'user_id': user id,
-                    'trip_id': trip id,
-                    'checkpoint_id': checkpoint id,
-                    'photo_id': photo id,
-                    'comment_id': comment id
-                }
+            dict:{
+                'id': id,
+                'user': user id,
+                'trip': trip id,
+                'checkpoint': checkpoint id,
+                'photo': photo id,
+                'comment': comment id,
+                'user_name': user name or email,
+                'avatar': user avatar,
+            }
         """
         return {
             'id': self.id,
-            'user_id': self.user.id,
-            'trip_id': self.trip.id,
-            'checkpoint_id': self.checkpoint.id if self.checkpoint else None,
-            'photo_id': self.photo.id if self.photo else None,
-            'comment_id': self.comment.id if self.comment else None
+            'user': self.user.id,
+            'trip': self.trip.id if self.trip else None,
+            'checkpoint': self.checkpoint.id if self.checkpoint else None,
+            'photo': self.photo.id if self.photo else None,
+            'comment': self.comment.id if self.comment else None,
+            'user_name': self.user.get_full_name() if self.user.get_full_name()
+            else self.user.email,
+            'avatar': self.user.profile.avatar,
         }
 
-    def __str__(self):
+    def __repr__(self):
         return "id:{}, user:{}, trip:{}, checkpoint:{}, photo:{}, comment:{}".\
-            format(self.id, self.user, self.trip.id, self.checkpoint.id,
+            format(self.id, self.user.id, self.trip.id, self.checkpoint.id,
                    self.photo.id, self.comment.id)

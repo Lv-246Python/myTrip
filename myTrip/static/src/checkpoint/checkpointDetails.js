@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {closeDetails, updateCheckpointUpdateList, deleteUpadateList} from './actions/index.js'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {GridList, GridTile} from 'material-ui/GridList';
+
 import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
@@ -12,6 +13,7 @@ import Dialog from 'material-ui/Dialog';
 import EditIcon from 'material-ui/svg-icons/image/edit';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
+import Like from '../like/like';
 import RaisedButton from 'material-ui/RaisedButton'
 import SubmitIcon from 'material-ui/svg-icons/action/done';
 import TextField from 'material-ui/TextField';
@@ -146,17 +148,6 @@ class CheckpointDetails extends React.Component {
                                         {(this.state.userId() === this.state.author) ?
                                         <div>
                                             <IconButton
-                                                key="Photo"
-                                                tooltip='ADD A PHOTO'
-                                                tooltipPosition='top-center'
-                                            >
-                                                <AddPhotoIcon />
-                                            </IconButton>
-                                        </div> : false}
-
-                                        {(this.state.userId() === this.state.author) ?
-                                        <div>
-                                            <IconButton
                                                 key='Delete'
                                                 tooltip='DELETE CHECKPOINT'
                                                 tooltipPosition='top-center'
@@ -179,41 +170,64 @@ class CheckpointDetails extends React.Component {
                                         </div>
 
                                         <Dialog
-                                        title='Do you really want to delete checkpoint?'
-                                        actions={actionsDelete}
-                                        open={this.state.open}
-                                        onRequestClose={this.handleCloseDeleteCheckpoint}
+                                            title='Do you really want to delete checkpoint?'
+                                            actions={actionsDelete}
+                                            open={this.state.open}
+                                            onRequestClose={this.handleCloseDeleteCheckpoint}
                                         />
 
                                     </div>
                                 </CardActions>
                             </div>
 
-                            <div className='checkpointDescription'>
+                            <div className='checkpointDescriptionAndButtons'>
+                                <div className='checkpointDescription'>
 
-                                {(this.state.userId() == this.state.author) ?
-                                <TextField
-                                    hintText="Edit description"
-                                    value={this.state.description}
-                                    name='description'
-                                    underlineShow={false}
-                                    fullWidth={true}
-                                    multiLine={true}
-                                    rowsMax={4}
-                                    onChange={this.updateState}/>
-                                :
-                                <TextField
-                                    value={this.state.description}
-                                    name='description'
-                                    underlineShow={false}
-                                    fullWidth={true}
-                                    multiLine={true}
-                                    rowsMax={4}
-                                    readOnly/>
-                                }
+                                    {(this.state.userId() == this.state.author) ?
+                                    <TextField
+                                        hintText="Edit description"
+                                        value={this.state.description}
+                                        name='description'
+                                        underlineShow={false}
+                                        fullWidth={true}
+                                        multiLine={true}
+                                        rowsMax={4}
+                                        onChange={this.updateState}/>
+                                    :
+                                    <TextField
+                                        value={this.state.description}
+                                        name='description'
+                                        underlineShow={false}
+                                        fullWidth={true}
+                                        multiLine={true}
+                                        rowsMax={4}
+                                        readOnly/>
+                                    }
 
+                                </div>
+
+                                {(this.state.userId() === this.state.author) ?
+                                <CardActions style={{padding: 0}}>
+                                    <div className='photoIcon'>
+                                        <IconButton
+                                            key="Photo"
+                                            tooltip='ADD A PHOTO'
+                                            tooltipPosition='top-center'
+                                        >
+                                            <AddPhotoIcon />
+                                        </IconButton>
+                                    </div>
+                                 </CardActions> : false}
+                            </div>
+
+                            <div className='likePadding'>
+                                <Like
+                                    tripId={this.props.trip.id}
+                                    checkpointId={this.props.active.id}
+                                />
                             </div>
                         </div>
+
                         <div className='gridList'>
                             <GridList
                                 cellHeight={180}
@@ -227,6 +241,7 @@ class CheckpointDetails extends React.Component {
                                 ))}
                             </GridList>
                         </div>
+
                     </div>
                 </Card>
             </div>
