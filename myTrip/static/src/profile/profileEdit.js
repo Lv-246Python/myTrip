@@ -1,5 +1,9 @@
 import React from "react";
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
+import moment from 'moment';
 import { onlyAlpha, onlyDigit } from './../utils';
+import { putProfile, profileURL } from './profile.service';
 
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField';
@@ -8,10 +12,8 @@ import MenuItem from 'material-ui/MenuItem';
 import Snackbar from 'material-ui/Snackbar';
 import AvatarIcon from 'material-ui/svg-icons/image/portrait';
 import SaveIcon from 'material-ui/svg-icons/navigation/check';
-import Dropzone from 'react-dropzone';
-import axios from 'axios';
+import DatePicker from 'material-ui/DatePicker';
 import { blue500 } from 'material-ui/styles/colors';
-import { putProfile, profileURL } from './profile.service';
 
 import './profile.less';
 
@@ -44,56 +46,40 @@ export class ProfileEdit extends React.Component {
 
     handleChangeGender = (event, index, value) => this.setState({gender: value});
     
-    handleChangeAge = (event, value) => {
-      if (onlyDigit(value)) {
-        this.setState({age: value});
-      }
+    handleChangeBirthday = (event, date) => {
+        this.setState({birthday: date});
     }
 
-    handleDrop = files => {
-      var file = new FormData();
-      file.append('name', files[0])
-      axios.post(profileURL, file)
-      .then(response => {
-          const data = response.data;
-          this.props.updateProfile(data);
-      })
+    openDatePicker = () => {
+    this.refs.dp.openDialog()
     }
-
-    onDropRejected = () => {
-        this.setState({open: true});
-    }
-
-    handleRequestClose = () => {
-        this.setState({
-            open: false,
-        });
-    };
 
     profileEdit = () => {
         const first_name = this.state.first_name;
         const last_name = this.state.last_name;
-        const age = this.state.age;
+        const birthday = this.state.birthday;
         const gender = this.state.gender;
         const hobbies = this.state.hobbies;
-        putProfile(first_name, last_name, age, gender, hobbies)
+        putProfile(first_name, last_name, birthday, gender, hobbies)
         .then(this.props.getProfile());
     }
 
     render() {
         return(
       <div className='textBlock'>
-        <TextField className='floatingLabelText'
-          value={this.state.email}
+        <TextField 
           floatingLabelText="Email:"
+          name="Email"
+          value={this.state.email}
           fullWidth={true}
+          underlineShow={false}
           floatingLabelStyle={styles.LabelStyle}
         />
 
         <TextField
           floatingLabelText="Name:"
-          value={this.state.first_name}
           name="first_name"
+          value={this.state.first_name}
           onChange={this.onChange}
           fullWidth={true}
           floatingLabelStyle={styles.LabelStyle}
@@ -101,71 +87,57 @@ export class ProfileEdit extends React.Component {
 
         <TextField
           floatingLabelText="Surname:"
+          name="last_name"
           value={this.state.last_name}
           fullWidth={true}
-          name="last_name"
           onChange={this.onChange}
           floatingLabelStyle={styles.LabelStyle}
         />
 
         <SelectField
           floatingLabelText="Gender:"
+          name='gender'
           value={this.state.gender}
           onChange={this.handleChangeGender}
           autoWidth={true}
-          name='gender'
           floatingLabelStyle={styles.LabelStyle}>
           <MenuItem key={1} value={'Male'} primaryText="Male" />
           <MenuItem key={2} value={'Female'} primaryText="Female" />
         </SelectField>
 
-          <TextField
-          floatingLabelText="Age:"
-          value={this.state.age}
+        <div className="datePicker">
+        <TextField
+          floatingLabelText="Birthday:"
           fullWidth={true}
-          name="age"
-          onChange={this.handleChangeAge}
+          name="b-day"
+          onClick={this.openDatePicker}
+          value={moment(this.state.birthday).format('YYYY-MM-DD')}
           floatingLabelStyle={styles.LabelStyle}
         />
+        <DatePicker
+          ref='dp'
+          onChange={this.handleChangeBirthday}
+          openToYearSelection={true}
+          underlineShow={false}
+        />
+        </div>
 
         <TextField
           floatingLabelText="Hobbies:"
-          fullWidth={true}
-          value={this.state.hobbies}
           name='hobbies'
+          value={this.state.hobbies}
+          fullWidth={true}
           multiLine={true}
           rowsMax={10}
           onChange={this.onChange}
           floatingLabelStyle={styles.LabelStyle}
         />
 
-        <FlatButton
-          label="Upload new avatar"
-          labelPosition="before"
-          icon={<AvatarIcon />}
-          style={styles.buttonStyle}
-          primary={true}
-          fullWidth={true}
-          containerElement="label"> 
-              <Dropzone 
-                onDrop={this.handleDrop}
-                onDropRejected={this.onDropRejected} 
-                maxSize={2097152}
-                multiple={false}
-                accept="image/*" >
-              </Dropzone>
-          </FlatButton>
 
         <FlatButton onTouchTap={this.profileEdit} 
-        label="Save changes " labelPosition="before"icon={<SaveIcon /> }
+        label="Save changes " labelPosition="before" icon={<SaveIcon /> }
         primary={true} fullWidth={true} rippleColor={blue500} />
 
-        <Snackbar
-          open={this.state.open}
-          message='Accept only images with maximum size 2MB'
-          autoHideDuration={4000}
-          onRequestClose={this.handleRequestClose}
-        />
       </div>
     );
 };

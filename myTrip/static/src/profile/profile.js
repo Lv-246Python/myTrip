@@ -2,14 +2,19 @@ import React from "react";
 import axios from "axios";
 
 import Paper from 'material-ui/Paper';
+import ProfileAvatar from './profileAvatar';
 import Avatar from 'material-ui/Avatar';
+import Subscribes from "../subscribe/Subscribes";
 import { Buttons } from './profileButtons';
 import { ProfileNavigation } from './profileNavigation';
 import { ProfileEdit } from './profileEdit';
 
+import { logged } from '../utils';
+
 import './profile.less';
 
 const profileURL = '/api/v1/profile/';
+
 
 export default class Profile extends React.Component {
     constructor(props) {
@@ -35,17 +40,22 @@ export default class Profile extends React.Component {
         this.setState({profile: data});
     }
     
-
-
-
-  render(){
+    render(){
     const data = this.state.profile
-    return (
-          <Paper className='MainPaper'  zDepth={2} >
-            {data && <Avatar src={this.state.profile.avatar} className='avatar' size={200} />}
+    let profileElement;
+    if (logged()) {
+        profileElement = (
+          <Paper className='MainPaper'  zDepth={2} > 
+            {data && <ProfileAvatar src={this.state.profile.avatar} updateProfile={this.updateProfile} />}
             {data && <ProfileEdit profile={data} getProfile={this.getProfile} updateProfile={this.updateProfile} />}
-            <Buttons />
+            {data && <Buttons profileId={data.user} />}
           </Paper>
-      );
+          )
+    } else {
+        profileElement = this.props.history.push('/login')
+    }
+        return (
+            <div>{profileElement}</div>
+        );
   };
 }
