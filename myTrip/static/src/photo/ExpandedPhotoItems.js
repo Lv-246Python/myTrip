@@ -23,18 +23,10 @@ export class ExpandedPhotoItems extends React.Component {
         this.state = {
             open: false,
             mainPhoto: this.props.mainPhoto,
+
         }
     }
 
-
-    //this function update children state, if father props was changed
-    componentWillReceiveProps = (nextProps) => {
-        if (this.props.mainPhoto !== nextProps.mainPhoto){
-            this.setState({mainPhoto: nextProps.mainPhoto})
-        };
-        console.log(nextProps.mainPhoto);
-        console.log(this.props.mainPhoto);
-    }
 
     deletePhoto = () => {
         if (this.state.mainPhoto){
@@ -49,6 +41,10 @@ export class ExpandedPhotoItems extends React.Component {
 
     setImage = () => {
         setForTripPage(this.props.tripId, this.props.src)
+        .then(response => {
+            this.props.getData(this.props.tripId);
+            this.setState({mainPhoto: true})});
+
     }
 
 

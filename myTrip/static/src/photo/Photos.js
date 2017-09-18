@@ -114,7 +114,8 @@ export default class Photos extends React.Component {
                                 tripId={this.props.tripId}
                                 user={photo.user}
                                 photoId={photo.id}
-                                mainPhoto={photo.main_photo}/>
+                                mainPhoto={photo.main_photo}
+                                getData={this.getData}/>
                         ))}
                         </GridList>
                         <Snackbar
