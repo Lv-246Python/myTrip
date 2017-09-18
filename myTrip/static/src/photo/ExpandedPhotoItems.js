@@ -86,7 +86,7 @@ export class ExpandedPhotoItems extends React.Component {
                 />
 
                 {(userId() === this.props.user) ?
-                <CardActions>
+                <CardActions style={{paddingLeft: 0}}>
                     {(this.state.mainPhoto) ?
                     <FlatButton
                     label="MAIN TRIP IMAGE"

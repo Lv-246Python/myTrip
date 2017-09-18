@@ -165,6 +165,7 @@ export default class TripPage extends React.Component {
                                     }
                                 </div>
 
+                                {(trip.description) ?
                                 <div className='tripDescription'>
                                     <TextField
                                         name='tripDescription'
@@ -174,7 +175,7 @@ export default class TripPage extends React.Component {
                                         value={trip.description}
                                         style={{fontSize: 18}}
                                     />
-                                </div>
+                                </div> : false}
 
                                 {/*
                                 there will be <Like /> component

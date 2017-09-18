@@ -26,9 +26,10 @@ export class TitleItem extends React.Component {
                         photoId={this.props.photoId}
                     />
                 </div>
+                {(this.props.description) ?
                 <CardText>
                     {this.props.description}
-                </CardText>
+                </CardText> : false}
             </div>
     );
   }
