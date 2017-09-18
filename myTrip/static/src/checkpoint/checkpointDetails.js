@@ -191,7 +191,7 @@ class CheckpointDetails extends React.Component {
                                         underlineShow={false}
                                         fullWidth={true}
                                         multiLine={true}
-                                        rowsMax={4}
+                                        rowsMax={3}
                                         onChange={this.updateState}/>
                                     :
                                     <TextField
@@ -200,7 +200,7 @@ class CheckpointDetails extends React.Component {
                                         underlineShow={false}
                                         fullWidth={true}
                                         multiLine={true}
-                                        rowsMax={4}
+                                        rowsMax={3}
                                         readOnly/>
                                     }
 
