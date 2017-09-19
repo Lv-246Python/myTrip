@@ -80,7 +80,7 @@ class Checkpoint(models.Model):
             trip = Trip.objects.get(id=trip_id)
         except ObjectDoesNotExist:
             return None
-        checkpoints = trip.checkpoint_set.all()
+        checkpoints = trip.checkpoint_set.all().order_by('create_at')
         return checkpoints
 
     @staticmethod
