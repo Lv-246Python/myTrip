@@ -4,39 +4,72 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'material-ui/List';
+import RaisedButton from 'material-ui/RaisedButton';
+import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
 import DropDownMenu from 'material-ui/DropDownMenu';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import CheckpointItem from './checkpointItem.js';
 import {getAllCheckpoints} from './actions/index.js'
 
 class CheckpointList extends React.Component{
+
     constructor(props) {
         super(props);
-        this.state = {value: 'Choose checkpoint'};
+        this.state = {
+            open: false,
+        };
     }
+
+    handleTouchTap = (event) => {
+        // This prevents ghost click.
+        event.preventDefault();
+        this.setState({
+            open: true,
+            anchorEl: event.currentTarget,
+        });
+    };
+
+    handleRequestClose = () => {
+        this.setState({
+            open: false,
+        });
+    };
 
     componentDidMount() {
         this.props.getAllCheckpoints(this.props.trip.id);
     }
 
-    handleChange = (event, index, value) => this.setState({value});
-
     render(){
-        if(this.props.checkpoints != null && this.props.checkpoints.length > 0){
+        if(this.props.checkpoints != null && this.props.checkpoints.length){
             var list = this.props.checkpoints;
                 list = list.map(item =>{
                      return (
-                        <CheckpointItem key={item.id} checkpoint={item} tripId={this.props.trip.id}/>
+                        <CheckpointItem key={item.id} checkpoint={item} trip={this.props.trip} />
                     );
                 })
+                list = list.reverse();
                 return(
-                    <DropDownMenu
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        maxHeight={250}
-                    >
-                        {list}
-                    </DropDownMenu>
+                    <div>
+                        <RaisedButton
+                            onClick={this.handleTouchTap}
+                            label="Show checkpoints list"
+                            fullWidth={true}
+                            icon={<CheckpointIcon />}
+                        />
+                        <Popover
+                            open={this.state.open}
+                            anchorEl={this.state.anchorEl}
+                            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                            onRequestClose={this.handleRequestClose}
+                        >
+                            <Menu maxHeight={250}>
+                                {list}
+                            </Menu>
+                        </Popover>
+                    </div>
                 );
         }
         else{

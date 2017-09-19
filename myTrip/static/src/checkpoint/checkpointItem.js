@@ -6,7 +6,9 @@ import {List, ListItem} from 'material-ui/List';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import MenuItem from 'material-ui/MenuItem';
 import {checkpointDetails, deleteUpadateList} from './actions/index.js'
+import {userId} from '../utils'
 
 class CheckpointItem extends React.Component {
     constructor(props) {
@@ -15,18 +17,18 @@ class CheckpointItem extends React.Component {
     }
 
     delete (event) {
-        this.props.deleteCheckpoint(this.props.list.id,this.props.tripId)
+        this.props.deleteCheckpoint(this.props.list.id,this.props.trip.id)
     }
 
     render() {
+        let ListItm = <MenuItem
+                    className='checkpoint'
+                    primaryText={this.props.checkpoint.position_number + '. ' + this.props.checkpoint.title }
+                    onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
+                    style={{maxWidth: 300}}/>
         return (
             <div>
-                <ListItem
-                    className='checkpoint'
-                    primaryText={this.props.checkpoint.title}
-                    onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
-                    rightIconButton={<DeleteIcon onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.tripId)}/>}
-                    style={{maxWidth: 300}}/>
+                {ListItm}
             </div>
         );
     }
