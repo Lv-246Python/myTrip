@@ -107,7 +107,7 @@ class Photo(models.Model):
             "description": self.description,
             "create_at": self.create_at,
             "update_at": self.update_at,
-            "user_name": self.user.get_full_name() if self.user.get_full_name()
-            else self.user.email,
+            "user_name": (self.user.get_full_name() if self.user.get_full_name()
+                          else self.user.email),
             'main_photo': True if self.trip.src == self.src else False,
         }
