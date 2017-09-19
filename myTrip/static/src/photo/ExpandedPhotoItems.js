@@ -15,16 +15,24 @@ import { TitleItem } from './TitleItem';
 import { CommentItem } from './CommentItem';
 import { styles } from './PhotoStyles';
 
+let defaultImage = "/static/src/img/default_trip_image.jpg"
+
 export class ExpandedPhotoItems extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
-            disabled: false,
+            mainPhoto: this.props.mainPhoto,
+
         }
     }
 
+
     deletePhoto = () => {
+        if (this.state.mainPhoto){
+            setForTripPage(this.props.tripId, defaultImage)
+        };
+
         deletePhoto(this.props.tripId, this.props.photoId)
         .then(this.setState({open: false}));
         this.props.close();
@@ -33,7 +41,10 @@ export class ExpandedPhotoItems extends React.Component {
 
     setImage = () => {
         setForTripPage(this.props.tripId, this.props.src)
-        .then(this.setState({disabled: true}));
+        .then(response => {
+            this.props.getData(this.props.tripId);
+            this.setState({mainPhoto: true})});
+
     }
 
 
@@ -47,7 +58,7 @@ export class ExpandedPhotoItems extends React.Component {
     };
 
     render(){
-            const actionsDelete = [
+        const actionsDelete = [
             <div className='buttonTripDialog'>
                 <RaisedButton
                 label='Cancel'
@@ -63,7 +74,6 @@ export class ExpandedPhotoItems extends React.Component {
                 />
             </div>
         ];
-
         return (
             <Card>
                 <TitleItem
@@ -76,18 +86,18 @@ export class ExpandedPhotoItems extends React.Component {
                 />
 
                 {(userId() === this.props.user) ?
-                <CardActions>
-                    {(!this.state.disabled) ?
-                    <FlatButton
-                    label="SET AS TRIP IMAGE"
-                    onTouchTap={this.setImage}
-                    /> :
+                <CardActions style={{paddingLeft: 0}}>
+                    {(this.state.mainPhoto) ?
                     <FlatButton
                     label="MAIN TRIP IMAGE"
                     onTouchTap={this.setImage}
                     labelPosition='before'
                     icon={<DoneIcon />}
-                    disabled={this.state.disabled}
+                    disabled={this.state.mainPhoto}
+                    /> :
+                    <FlatButton
+                    label="SET AS TRIP IMAGE"
+                    onTouchTap={this.setImage}
                     />}
 
                     <FlatButton
@@ -118,6 +128,6 @@ export class ExpandedPhotoItems extends React.Component {
                 photoId={this.props.photoId}
                 />
             </Card>
-    );
-  }
+        );
+    }
 }

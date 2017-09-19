@@ -93,7 +93,8 @@ class Photo(models.Model):
                     'description': description text,
                     'create_at': time when created,
                     'update_at': time when last updated,
-                    'user_name': author's name
+                    'user_name': author's name,
+                    'main_photo': True if this photo main trip image, else False
                 }
         """
         return {
@@ -106,5 +107,7 @@ class Photo(models.Model):
             "description": self.description,
             "create_at": self.create_at,
             "update_at": self.update_at,
-            "user_name": self.user.get_full_name() if self.user.get_full_name() else self.user.email
+            "user_name": (self.user.get_full_name() if self.user.get_full_name()
+                          else self.user.email),
+            'main_photo': True if self.trip.src == self.src else False,
         }

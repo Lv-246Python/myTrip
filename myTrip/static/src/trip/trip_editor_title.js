@@ -47,7 +47,7 @@ export default class TripEditorTitle extends React.Component {
     close edit dialog
     */
     editTrip = () => {
-        const title = this.state.newText;
+        const title = this.state.newText.trim();
 
         const putTrip = (title) => {
             return axios.put(`/api/v1/trip/${this.state.tripId}/`, {title})

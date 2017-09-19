@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 
 import Home from "./home/home";
 import Help from './help/Help'
-import Comments from "./comment/Comments";
 import Login from "./registration/login";
 import Registration from "./registration/registration";
 import Profile from "./profile/profile";
@@ -12,9 +11,6 @@ import CreateTrip from "./trip/create_trip";
 import TripList from "./trip/trip_list";
 import MyTrips from "./trip/my_trips";
 import TripPage from "./trip/trip_page";
-import Subscribes from "./subscribe/Subscribes";
-import Photos from "./photo/Photos";
-import TripMap from "./checkpoint/trip-map.js";
 import RestorePass from "./restore-password/restore-password.js"
 import NotFound from './notFound';
 
@@ -48,12 +44,6 @@ export default class MainRoute extends React.Component {
                     <Route exact path='/trips' component={TripList} />
                     <Route exact path='/my_trips' component={MyTrips} />
                     <Route exact path='/trip/:id' component={TripPage} />
-                    <Route exact path='/subscribes' component={Subscribes} />
-                    <Route exact path='/comments'
-                        component={() => (<Comments
-                                                tripId={1}
-                                                tripPhotoId="/photo/1" />)}/>
-                    <Route exact path='/trip-map' component={TripMap} />
                     <Route exact path="/profile/" component={Profile} />
                     <Route exact path="/profile/:id" component={ProfileByID} />
                     <Route exact path="/restore-password/" component={RestorePass} />
