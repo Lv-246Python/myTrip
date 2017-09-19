@@ -64,7 +64,8 @@ export class ProfileEdit extends React.Component {
         .then(this.props.getProfile());
     }
 
-    render() {
+    render()
+       {
         return(
       <div className='textBlock'>
         <TextField 
@@ -111,14 +112,14 @@ export class ProfileEdit extends React.Component {
           fullWidth={true}
           name="b-day"
           onClick={this.openDatePicker}
-          value={moment(this.state.birthday).format('YYYY-MM-DD')}
+          value={(this.state.birthday) ? moment(this.state.birthday).format('YYYY-MM-DD'): ''}
           floatingLabelStyle={styles.LabelStyle}
         />
         <DatePicker
+          style={{display:'none'}}
           ref='dp'
           onChange={this.handleChangeBirthday}
           openToYearSelection={true}
-          underlineShow={false}
         />
         </div>
 
