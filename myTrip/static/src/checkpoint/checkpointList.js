@@ -59,10 +59,13 @@ class CheckpointList extends React.Component{
             var list = this.props.checkpoints;
                 list = list.map(item =>{
                      return (
-                        <CheckpointItem key={item.id} checkpoint={item} tripId={this.props.trip.id}/>
+                        <CheckpointItem key={item.id} checkpoint={item} trip={this.props.trip} />
                     );
                 })
+                list = list.reverse();
                 return(
+<<<<<<< .merge_file_SBMlM6
+<<<<<<< .merge_file_dTNTog
                     <div>
                         <RaisedButton
                             onClick={this.handleTouchTap}
@@ -82,6 +85,13 @@ class CheckpointList extends React.Component{
                             </Menu>
                         </Popover>
                     </div>
+=======
+=======
+>>>>>>> .merge_file_7WCbF6
+                    <DropDownMenu maxHeight={250}>
+                        {list}
+                    </DropDownMenu>
+>>>>>>> .merge_file_ZdDvgg
                 );
         }
         else{

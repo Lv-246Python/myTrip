@@ -7,6 +7,7 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import {checkpointDetails, deleteUpadateList} from './actions/index.js'
+import {userId} from '../utils'
 
 class CheckpointItem extends React.Component {
     constructor(props) {
@@ -15,17 +16,40 @@ class CheckpointItem extends React.Component {
     }
 
     delete (event) {
-        this.props.deleteCheckpoint(this.props.list.id,this.props.tripId)
+        this.props.deleteCheckpoint(this.props.list.id,this.props.trip.id)
     }
 
     render() {
+        let ListItm = <ListItem
+                        className='checkpoint'
+                        primaryText={this.props.checkpoint.position_number+':'+this.props.checkpoint.title}
+                        onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
+                        style={{maxWidth: 300}}>
+                    </ListItem>
+        if(userId() === this.props.trip.user){
+            ListItm = <ListItem
+                        className='checkpoint'
+                        primaryText={this.props.checkpoint.position_number+':'+this.props.checkpoint.title}
+                        onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
+                        rightIconButton={<DeleteIcon onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.trip.id)}/>}
+                        style={{maxWidth: 300}}>
+                    </ListItem>
+        }
         return (
             <div>
+<<<<<<< .merge_file_emMVpX
+<<<<<<< .merge_file_HtTkZg
                 <MenuItem
                     className='checkpoint'
                     primaryText={this.props.checkpoint.position_number + '. ' + this.props.checkpoint.title }
                     onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
                     style={{maxWidth: 300}}/>
+=======
+                {ListItm}
+>>>>>>> .merge_file_WZQ9Qg
+=======
+                {ListItm}
+>>>>>>> .merge_file_RtiKR0
             </div>
         );
     }

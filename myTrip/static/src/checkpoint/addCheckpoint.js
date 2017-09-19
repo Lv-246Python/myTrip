@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import {createCheckpointUpdateList, getAllCheckpoints} from './actions/index.js'
+import {userId} from '../utils'
 
 class AddCheckpoint extends React.Component{
     constructor(props) {
@@ -59,22 +60,27 @@ class AddCheckpoint extends React.Component{
     }
 
     render(){
-        if(this.props.checkpoints && this.props.checkpoints.length){
+        if(userId() === this.props.trip.user){
+            if(this.props.checkpoints && this.props.checkpoints.length){
+                return(
+                    <div>
+                        <RaisedButton label="Add Checkpoint" onClick={() => this.addPoint()}/>
+                    </div>
+                );
+            }
+            else{
+                return(
+                    <div>
+                        <RaisedButton label="Start Trip" onClick={() => this.addPoint()}/>
+                    </div>
+                );
+            }
+        }else{
             return(
-            <div>
-                <RaisedButton label="Add Checkpoint" onClick={() => this.addPoint()}/>
-            </div>
-        );
+                <div>
+                </div>
+            );
         }
-        else{
-            return(
-            <div>
-                <RaisedButton label="Start Trip" onClick={() => this.addPoint()}/>
-            </div>
-        );
-        }
-
-            
     }
 }
 

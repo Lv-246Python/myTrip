@@ -26,29 +26,10 @@ export const closeDetails = () => {
 };
 
 //first
-export const createCheckpointUpdateList = (longitude,latitude,title,description,position_number,source_url, trip_id) =>{
-    return {
-        type: 'CREATE-CHECKPOINT-UPDATE_LIST',
-        payload: service.createCheckpoint(longitude,
-            latitude,
-            title,
-            description,
-            position_number,
-            source_url,
-            trip_id)
-        .then(function(response){
-            return service.getAllCheckpoints(trip_id)
-                .then(function(response){
-                    return response.data
-                });
-        })
-    }
-};
-
-//second
-// export const createCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url,trip_id)=>{
-//     return function(dispatch){
-//         service.createCheckpoint(longitude,
+// export const createCheckpointUpdateList = (longitude,latitude,title,description,position_number,source_url, trip_id) =>{
+//     return {
+//         type: 'CREATE-CHECKPOINT-UPDATE_LIST',
+//         payload: service.createCheckpoint(longitude,
 //             latitude,
 //             title,
 //             description,
@@ -57,13 +38,32 @@ export const createCheckpointUpdateList = (longitude,latitude,title,description,
 //             trip_id)
 //         .then(function(response){
 //             return service.getAllCheckpoints(trip_id)
-//             .then(function(response){
-//                 dispatch({type:'CREATE-CHECKPOINT-UPDATE_LIST',
-//                     payload:response.data})
-//             })
+//                 .then(function(response){
+//                     return response.data
+//                 });
 //         })
 //     }
 // };
+
+//second
+export const createCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url,trip_id)=>{
+    return function(dispatch){
+        service.createCheckpoint(longitude,
+            latitude,
+            title,
+            description,
+            position_number,
+            source_url,
+            trip_id)
+        .then(function(response){
+            return service.getAllCheckpoints(trip_id)
+            .then(function(response){
+                dispatch({type:'CREATE-CHECKPOINT-UPDATE_LIST',
+                    payload:response.data})
+            })
+        })
+    }
+};
 
 //first
 // export const updateCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url,trip_id,checkpoint_id) =>{
