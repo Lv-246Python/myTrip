@@ -6,7 +6,7 @@ from django.utils import timezone
 from registration.models import CustomUser
 
 TILES = 6
-DEFAULT_IMAGE = "http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg"
+DEFAULT_IMAGE = "/static/src/img/default_trip_image.jpg"
 
 
 class Trip(models.Model):
@@ -41,6 +41,7 @@ class Trip(models.Model):
                 {
                 'id': id,
                 'user': user,
+                'user_name': user name or email,
                 'title': title,
                 'scr': src,
                 'create_at': date,
@@ -54,6 +55,8 @@ class Trip(models.Model):
         return {
             "id": self.id,
             "user": self.user.id,
+            "user_name": self.user.get_full_name() if self.user.get_full_name() \
+             else self.user.email,
             "title": self.title,
             "src": self.src,
             "create_at": self.create_at,
@@ -120,10 +123,10 @@ class Trip(models.Model):
         return trip
 
     def edit(self,
-             src=None,
              title=None,
              description=None,
              status=None,
+             src=None,
              start=None,
              finish=None):
         """
@@ -132,6 +135,7 @@ class Trip(models.Model):
             title (str): title of trip.
             description (str): description.
             status (int): trip status.
+            src (str): link to trip image.
             start (obj): date of trip start.
             finish (obj): date of trip finish.
         Returns:
@@ -143,6 +147,8 @@ class Trip(models.Model):
             self.description = description
         if status is not None:
             self.status = status
+        if src:
+            self.src = src
         if start:
             self.start = start
         if finish:

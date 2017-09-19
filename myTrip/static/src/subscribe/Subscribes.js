@@ -18,58 +18,28 @@ export default class Subscribes extends React.Component {
     // onClick={this.handleOpen} tripId={this.state.tripId} or profileId={this.state.profileId}
     // open={this.state.open}/>
     //
-
     constructor(props) {
     super(props);
     this.state = {
         subscribes: [],
-        open: false,
     };
     }
 
-  renderData = () => {
-    getUserOwnerData()
-        .then(response => {
-            this.setState({subscribes:response.data});
-        });
-};
-
-  handleOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
-
-  componentDidMount() {
+    renderData = () => {
+      getUserOwnerData()
+          .then(response => {
+              this.setState({subscribes:response.data});
+          });
+    };
+    componentDidMount() {
       this.renderData();
+    }
 
-  }
-
-  render() {
-    const actions = [
-      <FlatButton
-        label="Close"
-        primary={true}
-        onClick={this.handleClose}
-      />,
-    ];
-
-
-    return (
-      <div>
-          <RaisedButton onClick={this.handleOpen} label="subscribes"/>
-        <Dialog
-          title="You subscribed on"
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-          autoScrollBodyContent={true}
-        >
-          <List>
-           {this.state.subscribes.map(subscribe => (
+    render() {
+      return (
+        <div>
+            <List>
+            {this.state.subscribes.map(subscribe => (
                    subscribe.trip ?
                    (<ListItem key={subscribe.id}
                         primaryText="Trip"
@@ -90,10 +60,9 @@ export default class Subscribes extends React.Component {
                     </ListItem>)
                     )
                 )
-           }
-          </List>
-        </Dialog>
-      </div>
+            }
+            </List>
+        </div>
     );
   }
 }

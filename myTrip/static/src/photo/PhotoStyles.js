@@ -9,16 +9,27 @@ export const styles = {
         backgroundColor: 'black'
     },
 
-    comments: {
-        marginTop: 20,
-    },
-
-    overflow: {
-        maxHeight: 800,
-        overflow: 'auto'
+    gridTile: {
+        overflow: 'visible',
     },
 
     image: {
-        height: '100%'
-    }
+        height: '100%',
+    },
+
+    footer: {
+        height: 30,
+    },
+
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+
+    buttonStyle: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
 };

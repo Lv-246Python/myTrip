@@ -61,7 +61,7 @@ export default class CreateNewTrip extends React.Component {
                             <CardText>
                                 <div className='required'>
                                     <div>Add name of your trip</div>
-                                    <p>*</p>
+                                    <div className='redStar'>*</div>
                                 </div>
                             </CardText>
                             <TextField

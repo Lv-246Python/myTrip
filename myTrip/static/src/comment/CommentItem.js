@@ -3,6 +3,7 @@ import React from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Like from '../like/like';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -123,17 +124,23 @@ export class CommentItem extends React.Component {
         return (
               <div>
                   <Card>
-                      <CardHeader
-                          avatar={<CommentAvatar />}
-                          title={this.props.userName}
-                          subtitle={this.props.updated}
-                          expandable={true} />
+                      <div style={styles.row}>
+                          <CardHeader
+                              avatar={<CommentAvatar userAvatar={this.props.userAvatar}/>}
+                              title={this.props.userName}
+                              subtitle={this.props.updated}
+                          />
+
+                          <Like
+                              tripId={this.props.tripId}
+                              checkpointId={this.props.checkpointId}
+                              photoId={this.props.photoId}
+                              commentId={this.props.commentId}
+                          />
+                      </div>
 
                       <CardText
                           actAsExpander={true}
-                          style={styles.commentText}>
-                          <CommentAvatar userAvatar={this.props.userAvatar}/>
-                            {this.props.message}
                           style={styles.commentText}
                       >
                           <TextField
@@ -187,5 +194,5 @@ export class CommentItem extends React.Component {
                   </Card>
               </div>
             );
-      }
+        }
     }

@@ -46,11 +46,9 @@ class ProfileView(View):
         user.update(first_name=update_data.get('first_name'),
                     last_name=update_data.get('last_name'))
         profile.update(
-            age=update_data.get('age'),
+            birthday=update_data.get('birthday'),
             gender=update_data.get('gender'),
             hobbies=update_data.get('hobbies'),
-            facebook=update_data.get('facebook'),
-            instagram=update_data.get('instagram'),
-            google=update_data.get('google'))
+            facebook=update_data.get('facebook'))
         data = profile.to_dict()
         return JsonResponse(data, status=200)

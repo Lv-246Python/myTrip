@@ -24,7 +24,9 @@ export class CommentItem extends React.Component {
                 <CardText expandable={true}>
                     <Comments
                       tripId={this.props.tripId}
-                      tripPhotoId={'/photo/' + this.props.photoId} />
+                      tripPhotoId={'/photo/' + this.props.photoId}
+                      photoId={this.props.photoId}
+                    />
                 </CardText>
             </Card>
     );

@@ -34,8 +34,12 @@ class TripMap extends React.Component {
                         <div style={{width:900, height:500}}>
                             <Map trip={this.props.trip}/>
                         </div>
-                        <AddCheckpoint trip={this.props.trip}/>
+                        <div className='row'>
+                            <AddCheckpoint trip={this.props.trip}/>
+                            <CheckpointList trip={this.props.trip}/>
+                        </div>
                         <Card className='checkpointDescription'>
+                            {/*
                             <CardHeader
                                 title={<h3>Checkpoints</h3>}
                                 actAsExpander={true}
@@ -43,10 +47,8 @@ class TripMap extends React.Component {
                                 closeIcon={<CheckpointIcon/>}
                                 style={{width:900}}
                             />
-                                <CardMedia expandable={true}>
-                                    <CheckpointList trip={this.props.trip}/>
-                                    <CheckpointDetails trip={this.props.trip}/>
-                                </CardMedia>
+                            */}
+                            <CheckpointDetails trip={this.props.trip}/>
                         </Card>
                     </div>
                 </Provider>

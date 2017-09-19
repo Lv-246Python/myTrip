@@ -23,6 +23,13 @@ export const styles = {
     snackbarBody: {
         textAlign: 'center',
         marginBottom: 5
-    }
+    },
+
+    row: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
 
 };
