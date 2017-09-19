@@ -49,9 +49,7 @@ export default class ProfileAvatar extends React.Component {
         <FlatButton
           label="Upload new avatar"
           labelPosition="before"
-          icon={<AvatarIcon />}
           style={styles.buttonStyle}
-          labelStyle={{paddingLeft: '5px'}}
           primary={true}
           containerElement="label"> 
               <Dropzone 
