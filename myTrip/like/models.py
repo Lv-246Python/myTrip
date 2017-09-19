@@ -56,8 +56,11 @@ class Like(models.Model):
         Returns:
             QuerySet<Like>: QuerySet of Like.
         """
-        return Like.objects.filter(trip=trip, checkpoint=checkpoint,
-                                   photo=photo, comment=comment)
+        return Like.objects.filter(
+            trip=trip,
+            checkpoint=checkpoint,
+            photo=photo,
+            comment=comment)
 
     @staticmethod
     def filter_by_user(user, trip=None, checkpoint=None, photo=None, comment=None):
@@ -98,7 +101,7 @@ class Like(models.Model):
             'photo': self.photo.id if self.photo else None,
             'comment': self.comment.id if self.comment else None,
             'user_name': self.user.get_full_name() if self.user.get_full_name()
-            else self.user.email,
+                         else self.user.email,
             'avatar': self.user.profile.avatar,
         }
 

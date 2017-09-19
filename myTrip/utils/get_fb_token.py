@@ -1,9 +1,6 @@
 """Module handle post's on facebook."""
 import ast
 import requests
-from django.http import HttpResponse
-
-from trip.models import Trip
 
 def get_fb_token(app_id, app_secret):
     """Getting facebook app_token."""

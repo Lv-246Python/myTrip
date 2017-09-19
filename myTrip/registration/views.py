@@ -14,7 +14,7 @@ from mytrip.settings import FACEBOOK_APP_ID as CLIENT_ID, \
     FACEBOOK_API_SECRET as CLIENT_SECRET, HOST, SECRET_KEY, JWT_ALGORITHM
 
 from utils.mailer import email_sender
-from utils.facebookPost import get_fb_token
+from utils.get_fb_token import get_fb_token
 from .models import CustomUser, HashUser
 from .helper import *
 
