@@ -100,15 +100,16 @@ class ViewTest(TestCase):
 
     def test_post_status_success(self):
         """Test for post operation which will create new instance of checkpoint."""
-
-        response = self.client.post(VALID_URL_TRIP_ID, json.dumps({
+        data = {
             "longitude": 20,
             "latitude": 10,
             "title": "new",
             "description": "cool_checkpoint",
             "source_url": "my_url",
-            "position_number": 3}),
-            content_type="application/json")
+            "position_number": 3}
+        self.client.login(username='test.test@gmail.com', password='userpass')
+        response = self.client.put(VALID_URL_CHECKPOINT_ID, json.dumps(data),
+                                   content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_post_status_404(self):
