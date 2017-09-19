@@ -20,21 +20,6 @@ class CheckpointItem extends React.Component {
     }
 
     render() {
-        let ListItm = <ListItem
-                        className='checkpoint'
-                        primaryText={this.props.checkpoint.position_number+':'+this.props.checkpoint.title}
-                        onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
-                        style={{maxWidth: 300}}>
-                    </ListItem>
-        if(userId() === this.props.trip.user){
-            ListItm = <ListItem
-                        className='checkpoint'
-                        primaryText={this.props.checkpoint.position_number+':'+this.props.checkpoint.title}
-                        onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
-                        rightIconButton={<DeleteIcon onClick={() => this.props.deleteUpadateList(this.props.checkpoint.id,this.props.trip.id)}/>}
-                        style={{maxWidth: 300}}>
-                    </ListItem>
-        }
         return (
             <div>
                 <MenuItem
@@ -42,7 +27,6 @@ class CheckpointItem extends React.Component {
                     primaryText={this.props.checkpoint.position_number + '. ' + this.props.checkpoint.title }
                     onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
                     style={{maxWidth: 300}}/>
-                {ListItm}
             </div>
         );
     }

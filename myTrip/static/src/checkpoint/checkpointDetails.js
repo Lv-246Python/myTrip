@@ -247,19 +247,6 @@ class CheckpointDetails extends React.Component {
                                     }
 
                                 </div>
-
-                                {(this.state.userId() === this.state.author) ?
-                                <CardActions style={{padding: 0}}>
-                                    <div className='photoIcon'>
-                                        <IconButton
-                                            key="Photo"
-                                            tooltip='ADD A PHOTO'
-                                            tooltipPosition='top-center'
-                                        >
-                                            <AddPhotoIcon />
-                                        </IconButton>
-                                    </div>
-                                 </CardActions> : false}
                             </div>
 
                             <div className='likePadding'>
@@ -269,12 +256,6 @@ class CheckpointDetails extends React.Component {
                                 />
                             </div>
                         </div>
-
-                        <Photos
-                            tripId={this.props.trip.id}
-                            checkpointId={this.props.active.id}
-                        />
-
                     </div>
                 </Card>
             </div>
