@@ -7,9 +7,10 @@ import ListItem from 'material-ui/List/ListItem';
 import { CommentItem } from './CommentItem';
 import { CommentForm } from './CommentForm';
 import { CommentNotification } from './CommentNotification';
-import { getData, formatDate } from './CommentServices';
+import { getData } from './CommentServices';
 import { styles } from './CommentStyles';
 import { logged } from '../utils';
+import moment from 'moment';
 
 export default class Comments extends React.Component {
     constructor(props) {
@@ -75,7 +76,8 @@ export default class Comments extends React.Component {
                                     userName={comment.user_name}
                                     userId={comment.user}
                                     userAvatar={comment.userAvatar}
-                                    updated={formatDate(comment.update_at)}
+                                    updated={moment(comment.update_at)
+                                             .format('HH:mm, Do MMMM YYYY')}
                                     message={comment.message}
                                     commentId={comment.id}
                                     tripId={this.props.tripId}
