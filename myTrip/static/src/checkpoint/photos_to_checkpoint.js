@@ -3,23 +3,24 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import Snackbar from 'material-ui/Snackbar';
 import FlatButton from 'material-ui/FlatButton';
+import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import { GridList } from 'material-ui/GridList';
 
 import { getTripPhotos, uploadPhoto } from './PhotoServices';
 import { PhotoItem } from './PhotoItem';
 import { userId } from '../utils';
+import { styles } from './PhotoStyles';
 
-const styles = {
+const gridStyles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   element: {
     display: 'flex',
     flexWrap: 'nowrap',
-    overflow: 'auto',
-    width: '100%',
+    overflowX: 'auto',
   }
 };
 
@@ -31,22 +32,22 @@ export default class Photos extends React.Component {
     }
 
 // load photos
-    getData = (tripId, checkpointId) => {
-        getTripPhotos(tripId, checkpointId)
+    getData = (tripId) => {
+        getTripPhotos(tripId)
             .then(response => {
                 this.setState({photos: response.data});
             });
     }
 
     componentDidMount() {
-        this.getData(this.props.tripId, this.props.checkpointId);
+        this.getData(this.props.tripId);
     }
 
 // upload photos
     handleDrop = files => {
       const file = new FormData();
       file.append('name', files[0]);
-      uploadPhoto(this.props.tripId, this.props.checkpointId, file)
+      uploadPhoto(this.props.tripId, file)
       .then(response => {
         const data = (this.state.photos) ? this.state.photos : [];
         data.unshift(response.data);
@@ -80,35 +81,33 @@ export default class Photos extends React.Component {
     render() {
         if (this.state.photos) {
             return (
-                <div> 
+                <div>
                     {(userId() === this.props.tripAuthor) ?
-                    <FlatButton
-                        label="Choose an Image"
-                        labelPosition="before"
-                        style={styles.buttonStyle}
-                        primary={true}
-                        fullWidth={true}
-                        containerElement="label"> 
-                            <Dropzone 
-                                onDrop={this.handleDrop}
-                                onDropRejected={this.onDropRejected} 
-                                maxSize={2097152}
-                                multiple={false}
-                                 >
-                            </Dropzone>
-                    </FlatButton> : '' } 
+                    <div style={styles.buttonStyle}>
+                        <FlatButton
+                            label='Add a photo'
+                            labelPosition='before'
+                            icon={<AddPhotoIcon />}
+                            primary={true}
+                            containerElement='label'>
+                                <Dropzone
+                                    onDrop={this.handleDrop}
+                                    onDropRejected={this.onDropRejected}
+                                    maxSize={2097152}
+                                    multiple={false}
+                                     >
+                                </Dropzone>
+                        </FlatButton>
+                    </div>: '' }
 
-                <div style={styles.container}>
-                    <GridList style={styles.element} cols={2.2}>
-                        <Snackbar
-                            open={this.state.open}
-                            message='Accept only images with maximum size 2MB'
-                            autoHideDuration={4000}
-                            onRequestClose={this.handleRequestClose}
-                        />
-
-                        {(this.state.photos) ?
-                        this.state.photos.map((photo) => (
+                    <div style={gridStyles.container}>
+                        <GridList
+                            style={gridStyles.element}
+                            cellHeight={180}
+                            cols={1}
+                            style={styles.gridList}
+                        >
+                        {this.state.photos.map((photo) => (
                             <PhotoItem
                                 updatePhotoInfo={this.updatePhotoInfo}
                                 removeImage={this.removeImage}
@@ -118,46 +117,40 @@ export default class Photos extends React.Component {
                                 author={photo.user_name}
                                 description={photo.description}
                                 tripId={this.props.tripId}
-                                checkpointId={this.props.checkpointId}
                                 user={photo.user}
                                 photoId={photo.id}
-                            />
-                        )) : false}
-                    </GridList>
-                  </div>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    {(userId() === this.props.tripAuthor) ?
-                    <FlatButton
-                        label="Choose an Image"
-                        labelPosition="before"
-                        style={styles.buttonStyle}
-                        primary={true}
-                        fullWidth={true}
-                        containerElement="label"> 
-                            <Dropzone 
-                                onDrop={this.handleDrop}
-                                onDropRejected={this.onDropRejected} 
-                                maxSize={2097152}
-                                multiple={false}
-                                 >
-                            </Dropzone>
-                    </FlatButton> : '' }
-                <div style={styles.container}>
-                    <GridList style={styles.element} cols={2.2}>
-
+                                mainPhoto={photo.main_photo}
+                                getData={this.getData}/>
+                        ))}
+                        </GridList>
                         <Snackbar
                             open={this.state.open}
                             message='Accept only images with maximum size 2MB'
                             autoHideDuration={4000}
                             onRequestClose={this.handleRequestClose}
                         />
-
-                    </GridList>
-                  </div> 
+                    </div>
+                </div>
+            );
+        } else  {
+            return (
+                <div style={styles.buttonStyle}>
+                    {(userId() === this.props.tripAuthor) ?
+                    <FlatButton
+                        label='Add a photo'
+                        labelPosition='before'
+                        icon={<AddPhotoIcon />}
+                        style={styles.buttonStyle}
+                        primary={true}
+                        containerElement='label'>
+                            <Dropzone
+                                onDrop={this.handleDrop}
+                                onDropRejected={this.onDropRejected}
+                                maxSize={2097152}
+                                multiple={false}
+                                 >
+                            </Dropzone>
+                    </FlatButton> : '' }
                 </div>
             );
         }

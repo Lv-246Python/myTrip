@@ -22,7 +22,8 @@ export class PhotoEdit extends React.Component {
     };
 
     editPhoto = () => {
-        updatePhoto(this.props.tripId, 
+        updatePhoto(this.props.tripId,
+                    this.props.checkpointId,
                     this.props.photoId,
                     this.state.title, 
                     this.state.description)

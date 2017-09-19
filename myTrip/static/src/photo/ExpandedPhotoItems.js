@@ -23,14 +23,14 @@ export class ExpandedPhotoItems extends React.Component {
     }
 
     deletePhoto = () => {
-        deletePhoto(this.props.tripId, this.props.photoId)
+        deletePhoto(this.props.tripId, this.props.checkpointId, this.props.photoId)
         .then(this.setState({open: false}));
         this.props.close();
         this.props.removeImage(this.props.photoId);
     }
 
     setImage = () => {
-        setForTripPage(this.props.tripId, this.props.src)
+        setForTripPage(this.props.tripId, this.props.checkpointId, this.props.src)
     }
 
 
@@ -87,6 +87,7 @@ export class ExpandedPhotoItems extends React.Component {
                     title={this.props.title}
                     description={this.props.description}
                     tripId={this.props.tripId}
+                    checkpointId={this.props.checkpointId}
                     photoId={this.props.photoId} /> : false }
 
                     <Dialog
@@ -98,6 +99,7 @@ export class ExpandedPhotoItems extends React.Component {
 
                 <CommentItem
                     tripId={this.props.tripId}
+                    checkpointId={this.props.checkpointId}
                     photoId={this.props.photoId} />
             </Paper>
     );

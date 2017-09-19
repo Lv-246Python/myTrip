@@ -14,6 +14,7 @@ import EditIcon from 'material-ui/svg-icons/image/edit';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Like from '../like/like';
+import Photos from '../photo/Photos';
 import RaisedButton from 'material-ui/RaisedButton'
 import SubmitIcon from 'material-ui/svg-icons/action/done';
 import TextField from 'material-ui/TextField';
@@ -228,19 +229,10 @@ class CheckpointDetails extends React.Component {
                             </div>
                         </div>
 
-                        <div className='gridList'>
-                            <GridList
-                                cellHeight={180}
-                                cols={1}
-                                style={styles.gridList}
-                            >
-                                {images.map((tile) => (
-                                    <GridTile key={tile.img} >
-                                        <img src={tile.img} />
-                                    </GridTile>
-                                ))}
-                            </GridList>
-                        </div>
+                        <Photos
+                            tripId={this.props.trip.id}
+                            checkpointId={this.props.active.id}
+                        />
 
                     </div>
                 </Card>

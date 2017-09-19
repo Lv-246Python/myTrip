@@ -24,6 +24,7 @@ export class ExpandPhoto extends React.Component {
                   subtitle={this.props.subtitle}
                   description={this.props.description}
                   tripId={this.props.tripId}
+                  checkpointId={this.props.checkpointId}
                   user={this.props.user}
                   photoId={this.props.photoId} />
 

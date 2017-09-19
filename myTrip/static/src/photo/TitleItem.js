@@ -13,11 +13,16 @@ export class TitleItem extends React.Component {
         return (
             <Card>
                 <CardMedia>
-                <img src={this.props.src} />
+                    <img src={this.props.src} />
                 </CardMedia>
-                <CardTitle title={this.props.title} subtitle={'by ' + this.props.subtitle} />
+
+                <CardTitle
+                    title={this.props.title}
+                    subtitle={'by ' + this.props.subtitle}
+                />
+
                 <CardText>
-                {this.props.description}
+                    {this.props.description}
                 </CardText>
             </Card>
     );
