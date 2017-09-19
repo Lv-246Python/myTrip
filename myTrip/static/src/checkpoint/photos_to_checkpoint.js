@@ -7,24 +7,27 @@ import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import { GridList } from 'material-ui/GridList';
 
 import { getTripPhotos, uploadPhoto } from './PhotoServices';
-import { PhotoItem } from './PhotoItem';
+import { PhotoItem } from '../photo/PhotoItem';
 import { userId } from '../utils';
-import { styles } from './PhotoStyles';
 
 const gridStyles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    overflow: 'hidden',
+    height: '100%',
   },
   element: {
+    flex: 1,
     display: 'flex',
-    flexWrap: 'nowrap',
-    overflowX: 'auto',
-  }
+    width: 200,
+    height: 100,
+    overflowY: 'auto',
+  },
 };
 
-export default class Photos extends React.Component {
+export default class PhotosToCheckpoint extends React.Component {
     constructor(props) {
         super(props);
         this.state = {photos: null}
@@ -32,22 +35,22 @@ export default class Photos extends React.Component {
     }
 
 // load photos
-    getData = (tripId) => {
-        getTripPhotos(tripId)
+    getData = (tripId, checkpointId) => {
+        getTripPhotos(tripId, checkpointId)
             .then(response => {
                 this.setState({photos: response.data});
             });
     }
 
     componentDidMount() {
-        this.getData(this.props.tripId);
+        this.getData(this.props.tripId, this.props.checkpointId);
     }
 
 // upload photos
     handleDrop = files => {
       const file = new FormData();
       file.append('name', files[0]);
-      uploadPhoto(this.props.tripId, file)
+      uploadPhoto(this.props.tripId, this.props.checkpointId, file)
       .then(response => {
         const data = (this.state.photos) ? this.state.photos : [];
         data.unshift(response.data);
@@ -66,16 +69,16 @@ export default class Photos extends React.Component {
         const index = this.state.photos.findIndex(photo => photoId === photo.id);
         this.state.photos[index] = newData
         this.setState({'photos': this.state.photos})
-        };
+    };
 
     onDropRejected = () => {
         this.setState({open: true});
     }
 
     handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
+        this.setState({
+          open: false,
+        });
     };
 
     render() {
@@ -83,7 +86,7 @@ export default class Photos extends React.Component {
             return (
                 <div>
                     {(userId() === this.props.tripAuthor) ?
-                    <div style={styles.buttonStyle}>
+                    <div >
                         <FlatButton
                             label='Add a photo'
                             labelPosition='before'
@@ -102,12 +105,12 @@ export default class Photos extends React.Component {
 
                     <div style={gridStyles.container}>
                         <GridList
-                            style={gridStyles.element}
                             cellHeight={180}
                             cols={1}
-                            style={styles.gridList}
+                            rows={1}
+                            style={gridStyles.element}
                         >
-                        {this.state.photos.map((photo) => (
+                            {this.state.photos.map((photo) => (
                             <PhotoItem
                                 updatePhotoInfo={this.updatePhotoInfo}
                                 removeImage={this.removeImage}
@@ -117,11 +120,12 @@ export default class Photos extends React.Component {
                                 author={photo.user_name}
                                 description={photo.description}
                                 tripId={this.props.tripId}
+                                checkpointId={this.props.checkpointId}
                                 user={photo.user}
                                 photoId={photo.id}
                                 mainPhoto={photo.main_photo}
                                 getData={this.getData}/>
-                        ))}
+                            ))}
                         </GridList>
                         <Snackbar
                             open={this.state.open}
@@ -134,13 +138,12 @@ export default class Photos extends React.Component {
             );
         } else  {
             return (
-                <div style={styles.buttonStyle}>
+                <div >
                     {(userId() === this.props.tripAuthor) ?
                     <FlatButton
                         label='Add a photo'
                         labelPosition='before'
                         icon={<AddPhotoIcon />}
-                        style={styles.buttonStyle}
                         primary={true}
                         containerElement='label'>
                             <Dropzone

@@ -9,6 +9,10 @@ export const styles = {
         backgroundColor: 'black'
     },
 
+    gridTile: {
+        overflow: 'visible',
+    },
+
     comments: {
         marginTop: 20,
     },

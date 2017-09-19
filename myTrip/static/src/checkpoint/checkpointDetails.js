@@ -14,7 +14,7 @@ import EditIcon from 'material-ui/svg-icons/image/edit';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import Like from '../like/like';
-import Photos from '../photo/Photos';
+import PhotosToCheckpoint from './photos_to_checkpoint';
 import RaisedButton from 'material-ui/RaisedButton'
 import SubmitIcon from 'material-ui/svg-icons/action/done';
 import TextField from 'material-ui/TextField';
@@ -233,7 +233,6 @@ class CheckpointDetails extends React.Component {
                                         underlineShow={false}
                                         fullWidth={true}
                                         multiLine={true}
-                                        rowsMax={3}
                                         onChange={this.updateState}/>
                                     :
                                     <TextField
@@ -242,7 +241,6 @@ class CheckpointDetails extends React.Component {
                                         underlineShow={false}
                                         fullWidth={true}
                                         multiLine={true}
-                                        rowsMax={3}
                                         readOnly/>
                                     }
 
@@ -256,6 +254,14 @@ class CheckpointDetails extends React.Component {
                                 />
                             </div>
                         </div>
+
+                        <CardMedia>
+                            <PhotosToCheckpoint
+                                tripAuthor={this.props.trip.user}
+                                tripId={this.props.trip.id}
+                                checkpointId={this.props.active.id}
+                            />
+                        </CardMedia>
                     </div>
                 </Card>
             </div>

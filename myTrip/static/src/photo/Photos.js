@@ -3,23 +3,24 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import Snackbar from 'material-ui/Snackbar';
 import FlatButton from 'material-ui/FlatButton';
+import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import { GridList } from 'material-ui/GridList';
 
 import { getTripPhotos, uploadPhoto } from './PhotoServices';
 import { PhotoItem } from './PhotoItem';
 import { userId } from '../utils';
+import { styles } from './PhotoStyles';
 
-const styles = {
+const gridStyles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   element: {
     display: 'flex',
     flexWrap: 'nowrap',
-    overflow: 'auto',
-    width: '100%',
+    overflowX: 'auto',
   }
 };
 
@@ -65,50 +66,43 @@ export default class Photos extends React.Component {
         const index = this.state.photos.findIndex(photo => photoId === photo.id);
         this.state.photos[index] = newData
         this.setState({'photos': this.state.photos})
-        };
+    };
 
     onDropRejected = () => {
         this.setState({open: true});
     }
 
     handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
+        this.setState({
+          open: false,
+        });
     };
 
     render() {
         if (this.state.photos) {
             return (
-                <div> 
+                <div>
                     {(userId() === this.props.tripAuthor) ?
-                    <FlatButton
-                        label="Choose an Image"
-                        labelPosition="before"
-                        style={styles.buttonStyle}
-                        primary={true}
-                        fullWidth={true}
-                        containerElement="label"> 
-                            <Dropzone 
-                                onDrop={this.handleDrop}
-                                onDropRejected={this.onDropRejected} 
-                                maxSize={2097152}
-                                multiple={false}
-                                 >
-                            </Dropzone>
-                    </FlatButton> : '' } 
+                    <div style={styles.buttonStyle}>
+                        <FlatButton
+                            label='Add a photo'
+                            labelPosition='before'
+                            icon={<AddPhotoIcon />}
+                            primary={true}
+                            containerElement='label'>
+                                <Dropzone
+                                    onDrop={this.handleDrop}
+                                    onDropRejected={this.onDropRejected}
+                                    maxSize={2097152}
+                                    multiple={false}
+                                     >
+                                </Dropzone>
+                        </FlatButton>
+                    </div>: '' }
 
-                <div style={styles.container}>
-                    <GridList style={styles.element} cols={2.2}>
-                        <Snackbar
-                            open={this.state.open}
-                            message='Accept only images with maximum size 2MB'
-                            autoHideDuration={4000}
-                            onRequestClose={this.handleRequestClose}
-                        />
-
-                        {(this.state.photos) ?
-                        this.state.photos.map((photo) => (
+                    <div style={gridStyles.container}>
+                        <GridList style={gridStyles.element}>
+                        {this.state.photos.map((photo) => (
                             <PhotoItem
                                 updatePhotoInfo={this.updatePhotoInfo}
                                 removeImage={this.removeImage}
@@ -121,43 +115,38 @@ export default class Photos extends React.Component {
                                 checkpointId={this.props.checkpointId}
                                 user={photo.user}
                                 photoId={photo.id}
-                            />
-                        )) : false}
-                    </GridList>
-                  </div>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    {(userId() === this.props.tripAuthor) ?
-                    <FlatButton
-                        label="Choose an Image"
-                        labelPosition="before"
-                        style={styles.buttonStyle}
-                        primary={true}
-                        fullWidth={true}
-                        containerElement="label"> 
-                            <Dropzone 
-                                onDrop={this.handleDrop}
-                                onDropRejected={this.onDropRejected} 
-                                maxSize={2097152}
-                                multiple={false}
-                                 >
-                            </Dropzone>
-                    </FlatButton> : '' }
-                <div style={styles.container}>
-                    <GridList style={styles.element} cols={2.2}>
-
+                                mainPhoto={photo.main_photo}
+                                getData={this.getData}/>
+                        ))}
+                        </GridList>
                         <Snackbar
                             open={this.state.open}
                             message='Accept only images with maximum size 2MB'
                             autoHideDuration={4000}
                             onRequestClose={this.handleRequestClose}
                         />
-
-                    </GridList>
-                  </div> 
+                    </div>
+                </div>
+            );
+        } else  {
+            return (
+                <div style={styles.buttonStyle}>
+                    {(userId() === this.props.tripAuthor) ?
+                    <FlatButton
+                        label='Add a photo'
+                        labelPosition='before'
+                        icon={<AddPhotoIcon />}
+                        style={styles.buttonStyle}
+                        primary={true}
+                        containerElement='label'>
+                            <Dropzone
+                                onDrop={this.handleDrop}
+                                onDropRejected={this.onDropRejected}
+                                maxSize={2097152}
+                                multiple={false}
+                                 >
+                            </Dropzone>
+                    </FlatButton> : '' }
                 </div>
             );
         }
