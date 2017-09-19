@@ -37,19 +37,12 @@ class CheckpointItem extends React.Component {
         }
         return (
             <div>
-<<<<<<< .merge_file_emMVpX
-<<<<<<< .merge_file_HtTkZg
                 <MenuItem
                     className='checkpoint'
                     primaryText={this.props.checkpoint.position_number + '. ' + this.props.checkpoint.title }
                     onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
                     style={{maxWidth: 300}}/>
-=======
                 {ListItm}
->>>>>>> .merge_file_WZQ9Qg
-=======
-                {ListItm}
->>>>>>> .merge_file_RtiKR0
             </div>
         );
     }

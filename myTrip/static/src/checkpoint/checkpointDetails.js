@@ -18,17 +18,9 @@ import Photos from '../photo/Photos';
 import RaisedButton from 'material-ui/RaisedButton'
 import SubmitIcon from 'material-ui/svg-icons/action/done';
 import TextField from 'material-ui/TextField';
-<<<<<<< .merge_file_ztv3PP
-<<<<<<< .merge_file_uGguTb
 import { userId } from '../utils';
 import './main.less';
 
-=======
-import {userId} from '../utils'
->>>>>>> .merge_file_QYcFYc
-=======
-import {userId} from '../utils'
->>>>>>> .merge_file_bztfHP
 
 let images = [
     {img: '/static/src/img/1_page.jpg'},
@@ -135,8 +127,6 @@ class CheckpointDetails extends React.Component {
         }
         
         if(this.props.active != null){
-<<<<<<< .merge_file_ztv3PP
-<<<<<<< .merge_file_uGguTb
             var  self = this;
 
         const actionsDelete = [
@@ -152,8 +142,8 @@ class CheckpointDetails extends React.Component {
                     labelPosition='before'
                     secondary={true}
                     onTouchTap={() => {this.props.deleteUpadateList(
-                                                    this.props.active.id, this.props.trip.id
-                                                );this.handleCloseDeleteCheckpoint()}}
+                                           this.props.active.id, this.props.trip.id
+                                       ); this.handleCloseDeleteCheckpoint()}}
                 />
             </div>
         ];
@@ -228,67 +218,6 @@ class CheckpointDetails extends React.Component {
                                             onRequestClose={this.handleCloseDeleteCheckpoint}
                                         />
 
-=======
-=======
->>>>>>> .merge_file_bztfHP
-            return(
-                
-                <div>{/*
-                    <span className='info'><strong>Title: </strong></span>
-                    <input type="text" name="title" value={this.state.title} onChange={this.updateState}/>
-                    <span className='info'><strong>Description: </strong></span>
-                    <input type="text" name="description" value={this.state.description} onChange={this.updateState}/>
-                    <button onClick={this.updatePoint}>Update</button>
-                    <span onClick={() => this.props.closeDetails()} className="glyphicon glyphicon-remove">Close</span>
-                </div>*/}
-                <div className='checkpointDetails'>
-                        <div className='checkpointTextDetails'>
-                            {/*<TextField
-                                floatingLabelText="Title:"
-                                value={this.state.title}
-                                hintText="Edit title"
-                                name='title'
-                                fullWidth={true}
-                                onChange={this.updateState}/>
-
-                            <TextField
-                                floatingLabelText="Description:"
-                                hintText="Edit description"
-                                value={this.state.description}
-                                name='description'
-                                fullWidth={true}
-                                onChange={this.updateState}/>*/}
-                                {textFields}
-
-                        {/*<FlatButton  onTouchTap={this.updatePoint}
-                        label="Save" primary={true} fullWidth={true} />*/}
-                        {saveBtn}
-
-                            <CardActions>
-                                <div className='checkpointButtons'>
-
-                                    <div className='button'>
-                                        <FlatButton
-                                            label='Close'
-                                            labelPosition='before'
-                                            icon={<CancelIcon />}
-                                            primary={true}
-                                            onTouchTap={() => this.props.closeDetails()}
-                                        />
-                                    </div>
-                                    <div className='button'>
-                                        {/*<FlatButton
-                                            label='Delete'
-                                            labelPosition='before'
-                                            icon={<DeleteIcon />}
-                                            disabled={this.state.disabled}
-                                            onTouchTap={() => this.props.deleteUpadateList(this.props.active.id, this.props.trip.id)}
-                                        /> */}
-                                        {delBtn}
-<<<<<<< .merge_file_ztv3PP
->>>>>>> .merge_file_QYcFYc
-=======
->>>>>>> .merge_file_bztfHP
                                     </div>
                                 </CardActions>
                             </div>
@@ -347,17 +276,10 @@ class CheckpointDetails extends React.Component {
                         />
 
                     </div>
-<<<<<<< .merge_file_uGguTb
                 </Card>
             </div>
         );
         }else{
-=======
-                </div>
-            );
-        }
-        else{
->>>>>>> .merge_file_QYcFYc
             return(
                 <div>
                 </div>
