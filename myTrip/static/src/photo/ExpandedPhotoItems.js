@@ -57,9 +57,6 @@ export class ExpandedPhotoItems extends React.Component {
     };
 
     render(){
-
-    console.log('Expanded photo item checkpointId: ' + this.props.checkpointId)
-
         const actionsDelete = [
             <div className='buttonTripDialog'>
                 <RaisedButton

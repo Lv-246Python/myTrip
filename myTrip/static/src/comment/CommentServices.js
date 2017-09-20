@@ -10,10 +10,12 @@ export function getCommentUrl(tripId, checkpointId='', photoId='', commentId='')
             url += 'photo/' + photoId + '/';
             if (commentId) {
                 url += 'comment/' + commentId + '/';
+                return url;
             }
         } else {
             if (commentId) {
                 url += 'comment/' + commentId + '/';
+                return url;
             }
         }
     } else {
@@ -21,10 +23,12 @@ export function getCommentUrl(tripId, checkpointId='', photoId='', commentId='')
             url += 'photo/' + photoId + '/';
             if (commentId) {
                 url += 'comment/' + commentId + '/';
+                return url;
             }
         } else {
             if (commentId) {
                 url += 'comment/' + commentId + '/';
+                return url;
             }
         }
     }
