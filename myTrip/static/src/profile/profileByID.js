@@ -55,7 +55,7 @@ export default class ProfileByID extends React.Component {
                     </CardMedia>
                         <CardTitle title={data.first_name + '   ' + data.last_name} subtitle={data.email} />
                             <CardText>Gender: {data.gender}</CardText>
-                            <CardText>Birthday: {moment(this.state.birthday).format('YYYY-MM-DD')}</CardText>
+                            <CardText>Birthday: {moment(this.state.profile.birthday).format('YYYY-MM-DD')}</CardText>
                             <CardText>Hobbies: {data.hobbies}</CardText>
                         <CardActions className='cardActions'>
                                 <Subscribe
