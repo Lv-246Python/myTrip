@@ -115,6 +115,7 @@ export default class Like extends React.Component {
                     anchorEl={this.state.anchorEl}
                     anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
                     targetOrigin={{horizontal: 'middle', vertical: 'center'}}
+                    onRequestClose={this.handleClose}
                 >
                     <div onMouseLeave={this.handleClose}>
                         <div className='last5Title'>
