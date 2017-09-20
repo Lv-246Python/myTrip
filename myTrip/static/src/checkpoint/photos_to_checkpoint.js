@@ -119,6 +119,7 @@ export default class PhotosToCheckpoint extends React.Component {
 
                     <div style={gridStyles.container}>
                         <GridList
+                            cellHeight='auto'
                             cols={1}
                             rows={1}
                             style={gridStyles.element}

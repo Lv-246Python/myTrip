@@ -131,6 +131,7 @@ export default class MyTrips extends React.Component {
                                             cellHeight={255}
                                             cols={tripListColumns}
                                             padding={tripListPadding}
+                                            style={{width: '100%', padding: 0}}
                                         >
                                             {/*
                                             wrap every JSON with trip data into own trip tile
