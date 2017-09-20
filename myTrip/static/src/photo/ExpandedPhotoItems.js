@@ -57,6 +57,9 @@ export class ExpandedPhotoItems extends React.Component {
     };
 
     render(){
+
+    console.log('Expanded photo item checkpointId: ' + this.props.checkpointId)
+
         const actionsDelete = [
             <div className='buttonTripDialog'>
                 <RaisedButton
@@ -82,6 +85,7 @@ export class ExpandedPhotoItems extends React.Component {
                 subtitle={this.props.subtitle}
                 description={this.props.description}
                 tripId={this.props.tripId}
+                checkpointId={this.props.checkpointId}
                 photoId={this.props.photoId}
                 />
 
@@ -122,13 +126,6 @@ export class ExpandedPhotoItems extends React.Component {
                     tripId={this.props.tripId}
                     checkpointId={this.props.checkpointId}
                     photoId={this.props.photoId} /> : false }
-
-                    <Dialog
-                    title='Do you really want to delete photo?'
-                    actions={actionsDelete}
-                    open={this.state.open}
-                    onRequestClose={this.handleCloseDeleteTrip}
-                    />
 
                 <CommentItem
                     tripId={this.props.tripId}

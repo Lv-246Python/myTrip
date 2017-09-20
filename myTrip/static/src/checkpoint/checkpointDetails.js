@@ -96,9 +96,7 @@ class CheckpointDetails extends React.Component {
                         labelPosition='before'
                         icon={<DeleteIcon />}
                         disabled={this.state.disabled}
-                        onTouchTap={()=>this.props.deleteUpadateList(
-                            this.props.active.id, this.props.trip.id
-                        )}/>
+                        onTouchTap={()=>this.props.deleteUpadateList(this.props.active.id, this.props.trip.id)}/>
 
             textFields = <div><TextField
                                 floatingLabelText="Title:"
@@ -118,7 +116,8 @@ class CheckpointDetails extends React.Component {
 
         if(this.props.active != null){
             var  self = this;
-    const actionsDelete = [
+
+        const actionsDelete = [
             <div className='buttonTripDialog'>
                 <RaisedButton
                     label='Cancel'
@@ -135,21 +134,27 @@ class CheckpointDetails extends React.Component {
                                        ); this.handleCloseDeleteCheckpoint()}}
                 />
             </div>
-        ];        return(
-                <div className='checkpointCard'>
-                    <Card>
-                        <div className='checkpointDetails'>
+        ];
+
+        return(
+            <div className='checkpointCard'>
+                <Card>
+                    <div className='checkpointDetails'>
                         <div className='checkpointWidth100'>
                             <div className='checkpointTitleAndButtons'>
 
                                 {(this.state.userId() == this.state.author) ?
-                                <TextField value={this.state.title}hintText="Edit title"
+                                <TextField
+                                    value={this.state.title}
+                                    hintText="Edit title"
                                     name='title'
                                     underlineShow={false}
-                                    fullWidth={true} onChange={this.updateState}/>
+                                    fullWidth={true}
+                                    onChange={this.updateState}/>
                                 :
                                 <TextField
-                                    value={this.state.title} name='title'
+                                    value={this.state.title}
+                                    name='title'
                                     underlineShow={false}
                                     fullWidth={true}
                                     readOnly/>
@@ -217,7 +222,7 @@ class CheckpointDetails extends React.Component {
 
                                     {(this.state.userId() == this.state.author) ?
                                     <TextField
-                                        hintText="Editdescription"
+                                        hintText="Edit description"
                                         value={this.state.description}
                                         name='description'
                                         underlineShow={false}
@@ -240,60 +245,12 @@ class CheckpointDetails extends React.Component {
 
                         <CardMedia>
                             <PhotosToCheckpoint
-                                tripAuthor={ this.props.trip.user}
+                                tripAuthor={this.props.trip.user}
                                 tripId={this.props.trip.id}
-                                checkpointId={this.state.checkpointId}
+                                checkpointId={this.props.active.id}
                             />
-                        </CardMedia>*/}
-
-                    <div className='checkpointDetails'>
-                        <div className='checkpointTextDetails'>
-                            <CardTitle
-                                title={this.state.title}
-                            />
-
-                            <CardText>
-                                {this.state.description}
-                            </CardText>
-
-                            <CardActions>
-                                <div className='checkpointButtons'>
-                                    <div className='button'>
-                                        <FlatButton
-                                            label='Close'
-                                            labelPosition='before'
-                                            icon={<CancelIcon />}
-                                            primary={true}
-                                            onTouchTap={() => this.props.closeDetails()}
-                                        />
-                                    </div>
-                                    <div className='button'>
-                                        <FlatButton
-                                            label='Delete'
-                                            labelPosition='before'
-                                            icon={<DeleteIcon />}
-                                            disabled={this.state.disabled}
-                                        />
-                                    </div>
-                                </div>
-                            </CardActions>
-                        </div>
-
-                        <div className='root'>
-                            <GridList
-                                cellHeight={180}
-                                cols={1}
-                                style={styles.gridList}
-                            >
-                                {images.map((tile) => (
-                                    <GridTile key={tile.img} >
-                                        <img src={tile.img} />
-                                    </GridTile>
-                                ))}
-                            </GridList>
-                        </div>
+                        </CardMedia>
                     </div>
-                </div>
                 </Card>
             </div>
         );
@@ -302,7 +259,7 @@ class CheckpointDetails extends React.Component {
                 <div>
                 </div>
             );
-        }   
+        }
     }
 }
 

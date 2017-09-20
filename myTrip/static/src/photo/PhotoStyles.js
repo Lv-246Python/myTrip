@@ -13,10 +13,6 @@ export const styles = {
         overflow: 'visible',
     },
 
-    comments: {
-        marginTop: 20,
-    },
-
     overflow: {
         maxHeight: 800,
         overflow: 'auto'

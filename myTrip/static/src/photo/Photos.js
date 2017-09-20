@@ -115,7 +115,8 @@ export default class Photos extends React.Component {
                             author={photo.user_name}
                             description={photo.description}
                             tripId={this.props.tripId}
-                            checkpointId={this.props.checkpointId}user={photo.user}
+                            checkpointId={this.props.checkpointId}
+                            user={photo.user}
                             photoId={photo.id}
                             mainPhoto={photo.main_photo}
                             getData={this.getData}/>))}

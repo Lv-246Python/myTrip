@@ -11,6 +11,7 @@ export class TitleItem extends React.Component {
     }
 
     render() {
+    console.log('Title checkpointId: ' + this.props.checkpointId)
         return (
             <div>
                 <CardMedia>
