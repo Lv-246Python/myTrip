@@ -97,8 +97,8 @@ class Like(models.Model):
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
             'comment': self.comment.id if self.comment else None,
-            'user_name': self.user.get_full_name() if self.user.get_full_name()
-            else self.user.email,
+            'user_name': (self.user.get_full_name() if self.user.get_full_name()
+                          else self.user.email),
             'avatar': self.user.profile.avatar,
         }
 

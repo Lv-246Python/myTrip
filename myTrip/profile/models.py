@@ -17,7 +17,7 @@ class Profile(models.Model):
     :argument first_name: str - first name of the user
     :argument last_name: str - last name of the user
     :argument avatar: url - avatar source link
-    :argument age: int - user age
+    :argument birthday: date - user birthday
     :argument gender: str - user gender
     :argument hobbies: str - user hobbies
     :argument facebook: url - facebook profile link
@@ -29,7 +29,7 @@ class Profile(models.Model):
         primary_key=True,
     )
     avatar = models.URLField(default=defaultAvatar, null=True)
-    age = models.PositiveIntegerField(null=True)
+    birthday = models.DateTimeField(editable=True, null=True, blank=True)
     gender = models.TextField(null=True)
     hobbies = models.TextField(null=True)
     facebook = models.URLField(null=True)
@@ -43,7 +43,6 @@ class Profile(models.Model):
         """
         if created:
             Profile.objects.create(user=instance)
-
 
     @staticmethod
     def get_by_id(user_id):
@@ -59,12 +58,11 @@ class Profile(models.Model):
         except ObjectDoesNotExist:
             return None
 
-
     def update(self,
                first_name=None,
                last_name=None,
                avatar=None,
-               age=None,
+               birthday=None,
                gender=None,
                hobbies=None,
                facebook=None,
@@ -78,7 +76,7 @@ class Profile(models.Model):
             first_name (str): first name,
             last_name (str): last name,
             avatar (str): link to avatar.
-            age (int): user age,
+            birthday (date): user birthday,
             gender (str): user gender
             hobbies (str): user hobbies
             facebook (str): facebook link
@@ -93,8 +91,8 @@ class Profile(models.Model):
             self.user.last_name = last_name
         if avatar:
             self.avatar = avatar
-        if age:
-            self.age = age
+        if birthday:
+            self.birthday = birthday
         if gender:
             self.gender = gender
         if hobbies:
@@ -108,7 +106,6 @@ class Profile(models.Model):
         self.save()
         return self
 
-
     def to_dict(self):
         """Convert model object to dictionary.
         Return:
@@ -118,7 +115,7 @@ class Profile(models.Model):
                     'first_name': first name,
                     'last_name': last name,
                     'avatar': avatar link,
-                    'age': user age,
+                    'birthday': user birthday,
                     'gender': user gender,
                     'hobbies': user hobbies,
                     'facebook': facebook profile link,
@@ -132,7 +129,7 @@ class Profile(models.Model):
             "first_name": self.user.first_name,
             "last_name": self.user.last_name,
             "avatar": self.avatar,
-            "age": self.age,
+            "birthday": self.birthday,
             "gender": self.gender,
             "hobbies": self.hobbies,
             "facebook": self.facebook,

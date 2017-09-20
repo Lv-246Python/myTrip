@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
+import moment from 'moment';
 
+import Subscribe from '../subscribe/Subscribe';
 import Paper from 'material-ui/Paper';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton'
@@ -20,7 +22,8 @@ export default class ProfileByID extends React.Component {
         super(props);
         this.profileID = this.props.match.params.id;
         this.state = {
-            profile: null
+            profile: null,
+            open: false,
         };
     }
 
@@ -32,6 +35,10 @@ export default class ProfileByID extends React.Component {
         this.setState({profile: profile});
     });
     }
+
+    handleOpen = () => {
+        this.setState({open: true});
+    };
     
     componentDidMount(){
         this.getProfile();
@@ -44,15 +51,22 @@ export default class ProfileByID extends React.Component {
            <Paper  className="MainPaperOtherUser" zDepth={2} >
             {data && <Card profile={data} className="MainPaperOtherUser" >
                     <CardMedia>
-                      <img src={data.avatar} alt="" style={style} />
+                            <img src={data.avatar} alt="" style={style} />
                     </CardMedia>
                         <CardTitle title={data.first_name + '   ' + data.last_name} subtitle={data.email} />
                             <CardText>Gender: {data.gender}</CardText>
-                            <CardText>Age: {data.age}</CardText>
+                            <CardText>Birthday: {moment(this.state.birthday).format('YYYY-MM-DD')}</CardText>
                             <CardText>Hobbies: {data.hobbies}</CardText>
                         <CardActions className='cardActions'>
-                            <FlatButton label="Add friend" primary={true} />
-                            <FlatButton label="Subscribe" primary={true} />
+                                <Subscribe
+                                    open={this.state.open}
+                                    profileId={this.profileID}
+                                />
+                            <FlatButton 
+                            label="Subscribe" 
+                            primary={true}
+                            onClick={this.handleOpen}
+                             />
                         </CardActions>
                 </Card>}
           </Paper>

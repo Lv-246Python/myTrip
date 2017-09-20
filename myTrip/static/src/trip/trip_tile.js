@@ -8,12 +8,6 @@ import DoneIcon from 'material-ui/svg-icons/toggle/check-box';
 import ProgressIcon from 'material-ui/svg-icons/action/trending-up';
 import IconButton from 'material-ui/IconButton';
 
-/*
-import Photo from 'photo'
-*/
-
-let img = 'http://www.highviewart.com/uploads/cache/645x0x0/articles/2537/1_1417030880.jpg';
-
 
 export default class TripTile extends React.Component {
     constructor(props){
@@ -35,31 +29,22 @@ export default class TripTile extends React.Component {
 
     componentDidMount() {
         this.statusIcon();
-        img = this.state.cover;
     };
 
     render() {
         return (
             <div className='tile'>
-
                 <GridTile
                     // link to own trip page
                     containerElement={<Link to={`/trip/${this.state.tripId}`} />}
                     title={this.state.title}
-                    subtitle={this.state.created}
+                    subtitle={'by ' + this.state.userName}
                     actionIcon={this.statusIcon()}
-                    //actionPosition={'left'}
-
                 >
 
-                <CardMedia>
-                    {/*
-                    should be source of the first photo of a trip
-                    <img src={this.state.tripPhoto.src} />
-                    */}
-
-                    <img src={this.state.cover} />
-                </CardMedia>
+                    <CardMedia>
+                        <img src={this.state.cover} />
+                    </CardMedia>
 
                 </GridTile>
             </div>

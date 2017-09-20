@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton'
+import DoneIcon from 'material-ui/svg-icons/action/done';
 
 import { userId } from '../utils';
 import { deletePhoto, setForTripPage } from './PhotoServices'
@@ -14,15 +15,23 @@ import { TitleItem } from './TitleItem';
 import { CommentItem } from './CommentItem';
 import { styles } from './PhotoStyles';
 
+let defaultImage = "/static/src/img/default_trip_image.jpg"
+
 export class ExpandedPhotoItems extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false,
+            mainPhoto: this.props.mainPhoto,
+
         }
     }
 
     deletePhoto = () => {
+        if (this.state.mainPhoto){
+            setForTripPage(this.props.tripId, defaultImage)
+        };
+
         deletePhoto(this.props.tripId, this.props.checkpointId, this.props.photoId)
         .then(this.setState({open: false}));
         this.props.close();
@@ -31,6 +40,10 @@ export class ExpandedPhotoItems extends React.Component {
 
     setImage = () => {
         setForTripPage(this.props.tripId, this.props.checkpointId, this.props.src)
+        .then(response => {
+            this.props.getData(this.props.tripId);
+            this.setState({mainPhoto: true})});
+
     }
 
 
@@ -44,42 +57,62 @@ export class ExpandedPhotoItems extends React.Component {
     };
 
     render(){
-            const actionsDelete = [
+        const actionsDelete = [
             <div className='buttonTripDialog'>
                 <RaisedButton
-                    label='Cancel'
-                    labelPosition='before'
-                    primary={true}
-                    onTouchTap={this.handleCloseDeletePhoto}
+                label='Cancel'
+                labelPosition='before'
+                primary={true}
+                onTouchTap={this.handleCloseDeletePhoto}
                 />
                 <RaisedButton
-                    label='Delete'
-                    labelPosition='before'
-                    secondary={true}
-                    onTouchTap={this.deletePhoto}
+                label='Delete'
+                labelPosition='before'
+                secondary={true}
+                onTouchTap={this.deletePhoto}
                 />
             </div>
         ];
 
         return (
-            <Paper style={styles.overflow}>
+            <Card>
                 <TitleItem
-                    src={this.props.src}
-                    title={this.props.title}
-                    subtitle={this.props.subtitle}
-                    description={this.props.description} />
+                src={this.props.src}
+                title={this.props.title}
+                subtitle={this.props.subtitle}
+                description={this.props.description}
+                tripId={this.props.tripId}
+                photoId={this.props.photoId}
+                />
 
-                    {(userId() === this.props.user) ?
-                    <FlatButton 
+                {(userId() === this.props.user) ?
+                <CardActions style={{paddingLeft: 0}}>
+                    {(this.state.mainPhoto) ?
+                    <FlatButton
+                    label="MAIN TRIP IMAGE"
+                    onTouchTap={this.setImage}
+                    labelPosition='before'
+                    icon={<DoneIcon />}
+                    disabled={this.state.mainPhoto}
+                    /> :
+                    <FlatButton
                     label="SET AS TRIP IMAGE"
                     onTouchTap={this.setImage}
-                    fullWidth={true}  /> : false }
+                    />}
 
-                    {(userId() === this.props.user) ?
-                    <FlatButton 
+                    <FlatButton
                     label="DELETE"
                     onTouchTap={this.handleOpenDeletePhoto}
-                    fullWidth={true}  /> : false }
+                    />
+                </CardActions>
+                : false }
+
+                    <Dialog
+                    title='Do you really want to delete photo?'
+                    actions={actionsDelete}
+                    open={this.state.open}
+                    onRequestClose={this.handleCloseDeleteTrip}
+                    />
 
                     {(userId() === this.props.user) ?                     
                     <PhotoEdit
@@ -101,7 +134,7 @@ export class ExpandedPhotoItems extends React.Component {
                     tripId={this.props.tripId}
                     checkpointId={this.props.checkpointId}
                     photoId={this.props.photoId} />
-            </Paper>
-    );
-  }
+            </Card>
+        );
+    }
 }

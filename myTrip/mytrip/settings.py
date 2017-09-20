@@ -114,7 +114,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/'),]
 
-HOST = 'triptrck.com/'
+HOST = 'http://triptrck.com:8000/'
 
 try:
     from .local_settings import *  # pylint: disable=wildcard-import,unused-wildcard-import

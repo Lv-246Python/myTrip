@@ -31,14 +31,14 @@ export default class CreateNewTrip extends React.Component {
 
     // function for edit description text, that cannot be empty
     handleDescriptionField = (event) => {
-        this.setState({description: event.target.value.trim()});
+        this.setState({description: event.target.value});
     };
 
 
     // function for create trip with title, description and status
     handleCreateTrip = () => {
-        const title = this.state.title;
-        const description = this.state.description;
+        const title = this.state.title.trim();
+        const description = this.state.description.trim();
         const status = this.state.status;
         const start = new Date();
         const createTrip = (title, description, status, start) => {
@@ -61,7 +61,7 @@ export default class CreateNewTrip extends React.Component {
                             <CardText>
                                 <div className='required'>
                                     <div>Add name of your trip</div>
-                                    <p>*</p>
+                                    <div className='redStar'>*</div>
                                 </div>
                             </CardText>
                             <TextField

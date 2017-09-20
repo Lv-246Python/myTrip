@@ -27,8 +27,10 @@ const gridStyles = {
 export default class Photos extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {photos: null}
-        this.state.open = false;
+        this.state = {
+            photos: null,
+            open: false
+        };
     }
 
 // load photos
@@ -100,32 +102,31 @@ export default class Photos extends React.Component {
                         </FlatButton>
                     </div>: '' }
 
-                    <div style={gridStyles.container}>
-                        <GridList style={gridStyles.element}>
-                        {this.state.photos.map((photo) => (
-                            <PhotoItem
-                                updatePhotoInfo={this.updatePhotoInfo}
-                                removeImage={this.removeImage}
-                                key={photo.id}
-                                src={photo.src}
-                                title={photo.title}
-                                author={photo.user_name}
-                                description={photo.description}
-                                tripId={this.props.tripId}
-                                checkpointId={this.props.checkpointId}
-                                user={photo.user}
-                                photoId={photo.id}
-                                mainPhoto={photo.main_photo}
-                                getData={this.getData}/>
-                        ))}
-                        </GridList>
-                        <Snackbar
-                            open={this.state.open}
-                            message='Accept only images with maximum size 2MB'
-                            autoHideDuration={4000}
-                            onRequestClose={this.handleRequestClose}
-                        />
-                    </div>
+                <div style={gridStyles.container}>
+                    <GridList style={gridStyles.element} >
+
+                      {this.state.photos.map((photo) => (
+                        <PhotoItem
+                            updatePhotoInfo={this.updatePhotoInfo}
+                            removeImage={this.removeImage}
+                            key={photo.id}
+                            src={photo.src}
+                            title={photo.title}
+                            author={photo.user_name}
+                            description={photo.description}
+                            tripId={this.props.tripId}
+                            checkpointId={this.props.checkpointId}user={photo.user}
+                            photoId={photo.id}
+                            mainPhoto={photo.main_photo}
+                            getData={this.getData}/>))}
+                    </GridList>
+                    <Snackbar
+                        open={this.state.open}
+                        message='Accept only images with maximum size 2MB'
+                        autoHideDuration={4000}
+                        onRequestClose={this.handleRequestClose}
+                    />
+                  </div>
                 </div>
             );
         } else  {

@@ -10,6 +10,7 @@ except ImportError:
 MAX_IMAGE_SIZE = 2*1024*1024
 ACCEPTED_IMAGE_TYPE = ['image/png', 'image/jpeg', 'image/svg+xml']
 
+
 def upload(key, imageToUpload):
     """Upload
         :argument key: <str> - filename
@@ -24,6 +25,7 @@ def upload(key, imageToUpload):
     s3.Bucket(AWS_BUCKET_NAME).put_object(Key=key, Body=imageToUpload, ACL='public-read') #pylint: disable=undefined-variable
     url = 'https://{}.s3.amazonaws.com/{}'.format(AWS_BUCKET_NAME, key) #pylint: disable=undefined-variable
     return url
+
 
 def imageValidator(image):
     """Check image size and type

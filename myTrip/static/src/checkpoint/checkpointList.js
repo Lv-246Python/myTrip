@@ -54,6 +54,8 @@ class CheckpointList extends React.Component{
         this.props.getAllCheckpoints(this.props.trip.id);
     }
 
+    handleChange = (event, index, value) => this.setState({value});
+
     render(){
         if(this.props.checkpoints != null && this.props.checkpoints.length > 0){
             var list = this.props.checkpoints;

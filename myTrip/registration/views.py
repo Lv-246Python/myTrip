@@ -1,17 +1,20 @@
 """Contains views for registration app."""
 
 import uuid
-from urllib.request import urlopen
 from json import loads
-
 import time
+from urllib.request import urlopen
+import jwt
+
 from django.shortcuts import redirect
 from django.contrib import auth
+from django.http import HttpResponseRedirect
+
 from mytrip.settings import FACEBOOK_APP_ID as CLIENT_ID, \
     FACEBOOK_API_SECRET as CLIENT_SECRET, HOST, SECRET_KEY, JWT_ALGORITHM
 
 from utils.mailer import email_sender
-import jwt
+from utils.get_fb_token import get_fb_token
 from .models import CustomUser, HashUser
 from .helper import *
 
@@ -20,7 +23,7 @@ FACEBOOK_TOKEN_URL = ("https://graph.facebook.com/v2.10/oauth/access_token?"
                       "client_id={client_id}&redirect_uri={redirect_uri}&"
                       "client_secret={client_secret}&code={code}")
 FACEBOOK_USER_URL = 'https://graph.facebook.com/me?access_token={token}'
-FACEBOOK_REDIRECT_URL = 'http://triptrck.com/api/v1/auth/facebook_login/'
+FACEBOOK_REDIRECT_URL = HOST +'api/v1/auth/facebook_login/'
 FACEBOOK_AUTH_URL = ('https://www.facebook.com/v2.10/dialog/oauth?'
                      'client_id={client_id}&redirect_uri={redirect_uri}')
 
@@ -33,7 +36,7 @@ MESSAGE = """
         {url}
 """
 
-RESTORE_PASS_URL = ("http://localhost:8000/restore-password/{token}/")
+RESTORE_PASS_URL = HOST + "restore-password/{token}/"
 
 
 def register(request):
@@ -94,6 +97,11 @@ def login(request):
             auth.login(request, user)
             response = response_200_login_successful
             response.set_cookie('user_id', user.id)
+
+            if user.facebook_id:
+                token = get_fb_token(CLIENT_ID, CLIENT_SECRET)
+                response.set_cookie('facebook-token', token)
+
             return response
         return response_403_invalid_credentials
 
@@ -112,6 +120,7 @@ def logout(request):
             auth.logout(request)
             response = response_200_logout_successful
             response.delete_cookie('user_id')
+            response.delete_cookie('facebook-token')
             return response
         return response_400_not_logged_in
 
@@ -154,7 +163,11 @@ def facebook_login(request):
         user = CustomUser.fb_create(facebook_id=facebook_id, password=token,
                                     first_name=first_name, last_name=last_name)
     auth.login(request, user)
-    return redirect(HOST)
+    response = HttpResponseRedirect(HOST)
+    response.set_cookie('user_id', user.id)
+    response.set_cookie('facebook-token', token)
+    return response
+
 
 
 def activation(request):

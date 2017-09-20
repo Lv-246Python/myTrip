@@ -35,7 +35,7 @@ export default class CreateFinishedTrip extends React.Component {
 
     // function for edit description text, that can be empty
     handleDescriptionField = (event) => {
-        this.setState({description: event.target.value.trim()});
+        this.setState({description: event.target.value});
     };
 
     // function for edit title text, that cannot be empty
@@ -47,22 +47,27 @@ export default class CreateFinishedTrip extends React.Component {
         };
     };
 
-    handleStartDate = (event, date) => {
-        this.setState({startDate: date});
-        this.setState({finishDate: date})
-        this.setState({startDateIsEmpty: false});
+    handleStartDate = (event, startDate) => {
+        this.setState({
+            startDate: startDate,
+            finishDate: null,
+            startDateIsEmpty: false,
+            finishDateIsEmpty: true,
+        });
     };
 
-    handleFinishDate = (event, date) => {
-        this.setState({finishDate: date})
-        this.setState({finishDateIsEmpty: false});
+    handleFinishDate = (event, finishDate) => {
+        this.setState({
+            finishDate: finishDate,
+            finishDateIsEmpty: false,
+        })
     };
 
 
     // function for create trip with title, description and status
     handleCreateTrip = () => {
-        const title = this.state.title;
-        const description = this.state.description;
+        const title = this.state.title.trim();
+        const description = this.state.description.trim();
         const status = this.state.status;
         const start = this.state.startDate;
         const finish = this.state.finishDate;
@@ -87,7 +92,7 @@ export default class CreateFinishedTrip extends React.Component {
                             <CardText>
                                 <div className='required'>
                                     <div>Add name of your trip</div>
-                                    <p>*</p>
+                                    <div className='redStar'>*</div>
                                 </div>
                             </CardText>
                             <TextField
@@ -109,7 +114,7 @@ export default class CreateFinishedTrip extends React.Component {
                                 hintText='You can add it later'
                                 fullWidth={true}
                                 multiLine={true}
-                                rowsMax={10}
+                                rowsMax={7}
                                 style={{paddingLeft: 16, width:'90%'}}
                                 value={this.state.description}
                                 onChange={this.handleDescriptionField}
@@ -118,7 +123,7 @@ export default class CreateFinishedTrip extends React.Component {
                             <CardText>
                                 <div className='required'>
                                     <div>Indicate the start date of your trip</div>
-                                    <p>*</p>
+                                    <div className='redStar'>*</div>
                                 </div>
                             </CardText>
                             <DatePicker
@@ -134,7 +139,7 @@ export default class CreateFinishedTrip extends React.Component {
                             <CardText>
                                 <div className='required'>
                                     <div>Indicate the finish date of your trip</div>
-                                    <p>*</p>
+                                    <div className='redStar'>*</div>
                                 </div>
                             </CardText>
                             <DatePicker
@@ -167,7 +172,9 @@ export default class CreateFinishedTrip extends React.Component {
                     backgroundColor='#FFC107'
                     onClick={this.handleCreateTrip}
                     style={{marginBottom: 16}}
-                    disabled={this.state.titleIsEmpty||this.state.startDateIsEmpty||this.state.finishDateIsEmpty}
+                    disabled={this.state.titleIsEmpty||
+                              this.state.startDateIsEmpty||
+                              this.state.finishDateIsEmpty}
                 />
             </Card>
         );
