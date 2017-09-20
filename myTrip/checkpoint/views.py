@@ -85,4 +85,3 @@ class CheckpointView(View):
         if not result:
             return HttpResponse(status=404)
         return HttpResponse(status=200)
-
