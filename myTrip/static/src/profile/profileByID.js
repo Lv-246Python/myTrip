@@ -31,9 +31,9 @@ export default class ProfileByID extends React.Component {
         const profileID = this.profileID
         return axios.get(profileURL+profileID)
         .then(response => {
-        const profile = response.data;
-        this.setState({profile: profile});
-    });
+            const profile = response.data;
+            this.setState({profile: profile});
+        });
     }
 
     handleOpen = () => {
@@ -44,33 +44,38 @@ export default class ProfileByID extends React.Component {
         this.getProfile();
     }
 
-  render(){
-    const data = this.state.profile
-    return (
-        <div className="Profile">
-           <Paper  className="MainPaperOtherUser" zDepth={2} >
-            {data && <Card profile={data} className="MainPaperOtherUser" >
-                    <CardMedia>
-                            <img src={data.avatar} alt="" style={style} />
-                    </CardMedia>
-                        <CardTitle title={data.first_name + '   ' + data.last_name} subtitle={data.email} />
-                            <CardText>Gender: {data.gender}</CardText>
-                            <CardText>Birthday: {moment(this.state.profile.birthday).format('YYYY-MM-DD')}</CardText>
-                            <CardText>Hobbies: {data.hobbies}</CardText>
+    render(){
+        const data = this.state.profile
+        return (
+            <div className="Profile">
+                <Paper  className="MainPaperOtherUser" zDepth={2} >
+                    {data && <Card profile={data} className="MainPaperOtherUser" >
+                        <CardMedia>
+                                <img src={data.avatar} alt="" style={style} />
+                        </CardMedia>
+                        <CardTitle
+                            title={data.first_name + '   ' + data.last_name}
+                            subtitle={data.email}
+                        />
+                        <CardText>Gender: {data.gender}</CardText>
+                        <CardText>
+                            Birthday: {moment(this.state.profile.birthday).format('YYYY-MM-DD')}
+                        </CardText>
+                        <CardText>Hobbies: {data.hobbies}</CardText>
                         <CardActions className='cardActions'>
                                 <Subscribe
                                     open={this.state.open}
                                     profileId={this.profileID}
                                 />
-                            <FlatButton 
-                            label="Subscribe" 
-                            primary={true}
-                            onClick={this.handleOpen}
-                             />
+                            <FlatButton
+                                label="Subscribe"
+                                primary={true}
+                                onClick={this.handleOpen}
+                            />
                         </CardActions>
-                </Card>}
-          </Paper>
-        </div>
-      );
-  };
+                    </Card>}
+                </Paper>
+            </div>
+        );
+    };
 }
