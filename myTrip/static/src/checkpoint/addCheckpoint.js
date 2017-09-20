@@ -3,65 +3,92 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import RaisedButton from 'material-ui/RaisedButton';
+import service from './checkpoint.service.js'
 
-import {createCheckpointUpdateList} from './actions/index.js'
+import {createCheckpointUpdateList, getAllCheckpoints} from './actions/index.js'
+import {userId} from '../utils'
 
 class AddCheckpoint extends React.Component{
     constructor(props) {
         super(props);
-        
+
     }
 
-    addPoint(){
-        const longitude = 23.999003;
-        const latitude = 49.832721;
-        const title = 'test4';
-        const description = 'test';
-        const position_number = 1;
+    addPoint() {
+        const description = '';
+        let position_number = 1
+        if(this.props.checkpoints.length == 0){
+            position_number = 1;
+        }
+        else{
+            let length = this.props.checkpoints.length
+            position_number = this.props.checkpoints[length - 1].position_number + 1;
+        }
+        const title = this.props.trip.title;
         const source_url = '';
         const tripId = this.props.trip.id
 
-        navigator.geolocation.getCurrentPosition( 
-            data => {
-                this.props.createCheckpointUpdateList(
-                    data.coords.longitude,
-                    data.coords.latitude,
+        service.CurrentPosition.then( response => {
+            this.props.createCheckpointUpdateList(
+                    response.lng,
+                    response.lat,
                     title,
                     description,
                     position_number,
                     source_url,
                     tripId
-                )
-            },
+                )},
             err => {
-                console.log(err.message);
                 this.props.createCheckpointUpdateList(
-                    longitude,
-                    latitude,
+                    err.lng,
+                    err.lat,
                     title,
                     description,
                     position_number,
                     source_url,
                     tripId
                 )
-            }, 
-            { enableHighAccuracy:true }
-        )
+            }
+        );
     }
 
-    render(){
-        return(
-            <div>
-                <RaisedButton label="Add Checkpoint" onClick={() => this.addPoint()}/>
-            </div>
-        );
+    render() {
+        if(userId() === this.props.trip.user) {
+            if(this.props.checkpoints && this.props.checkpoints.length) {
+                return(
+                    <div>
+                        <RaisedButton label="Add Checkpoint" onClick={() => this.addPoint()}/>
+                    </div>
+                );
+            }
+            else{
+                return(
+                    <div>
+                        <RaisedButton label="Start Trip" onClick={() => this.addPoint()}/>
+                    </div>
+                );
+            }
+        }else{
+            return(
+                <div>
+                </div>
+            );
+        }
     }
 }
 
-function matchDispatchToProps(dispatch){
+function mapStateToProps(state) {
+    return {
+        checkpoints: state.checkpoints
+    };
+}
+
+
+function matchDispatchToProps(dispatch) {
     return bindActionCreators(
-        {createCheckpointUpdateList: createCheckpointUpdateList},
+        {createCheckpointUpdateList : createCheckpointUpdateList,
+        getAllCheckpoints : getAllCheckpoints},
         dispatch);
 }
 
-export default connect(null, matchDispatchToProps)(AddCheckpoint);
+export default connect(mapStateToProps, matchDispatchToProps)(AddCheckpoint);

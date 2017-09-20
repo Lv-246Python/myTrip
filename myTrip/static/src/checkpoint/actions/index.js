@@ -1,17 +1,19 @@
 import service from '../checkpoint.service.js'
 import {store} from '../trip-map.js'
 
-export function getAllCheckpoints(trip_id) {
+export const getAllCheckpoints = trip_id => {
     return {
         type: 'GET-CHECKPOINTS',
         payload: service.getAllCheckpoints(trip_id)
-            .then(function(response){
-                return response.data
+            .then(function(response) {
+                return response.data;
+            }, function(error) {
+                dispatch({type:'ERROR', payload:error.response});
             })
     }
 };
 
-export const checkpointDetails = (checkpoint) => {
+export const checkpointDetails = checkpoint => {
     return {
         type: 'CHECKPOINT-DETAILS',
         payload: checkpoint
@@ -25,29 +27,31 @@ export const closeDetails = () => {
     }
 };
 
-export const createCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url, trip_id) =>{
-    return {
-        type: 'CREATE-CHECKPOINT-UPDATE_LIST',
-        payload: service.createCheckpoint(longitude,
+export const createCheckpointUpdateList = (longitude,latitude,title,description,position_number,source_url,trip_id)=>{
+    return function(dispatch) {
+        service.createCheckpoint(longitude,
             latitude,
             title,
             description,
             position_number,
             source_url,
             trip_id)
-        .then(function(response){
+        .then(function(response) {
             return service.getAllCheckpoints(trip_id)
-                .then(function(response){
-                    return response.data
-                });
-        })
-    }
+            .then(function(response) {
+                dispatch({type:'CREATE-CHECKPOINT-UPDATE_LIST',
+                    payload:response.data})
+            });
+        },function(error) {
+            dispatch({type:'ERROR',
+                    payload:error.response});
+        });
+    };
 };
 
-export const updateCheckpointUpdateList =  (longitude,latitude,title,description,position_number,source_url,trip_id,checkpoint_id) =>{
-    return {
-        type: 'UPDATE-CHECKPOINT-UPDATE_LIST',
-        payload: service.updateCheckpoint(longitude,
+export const updateCheckpointUpdateList = (longitude,latitude,title,description,position_number,source_url,trip_id,checkpoint_id) =>{
+    return function(dispatch) {
+        service.updateCheckpoint(longitude,
             latitude,
             title,
             description,
@@ -55,30 +59,37 @@ export const updateCheckpointUpdateList =  (longitude,latitude,title,description
             source_url,
             trip_id,
             checkpoint_id)
-        .then(function(response){
+        .then(function(response) {
             return service.getAllCheckpoints(trip_id)
-                .then(function(response){
-                    return response.data
-                });
-        })
+            .then(function(response) {
+                dispatch({type:'UPDATE-CHECKPOINT-UPDATE_LIST',
+                    payload:response.data})
+            });
+        },function(error) {
+            dispatch({type:'ERROR',
+                    payload:error.response});
+        });
     }
 };
 
 export const deleteUpadateList = (id, trip_id) =>{
     var active =  store.getState().activeCheckpoint;
     var status = active;
-    if(active != null && active.id == id){
+    if(active != null && active.id == id) {
         status = null
     }
-    return function(dispatch){
+    return function(dispatch) {
         service.deleteCheckpoint(id, trip_id)
-        .then(function(response){
+        .then(function(response) {
             return service.getAllCheckpoints(trip_id)
-            .then(function(response){
+            .then(function(response) {
                 dispatch({type:'DELETE-CHECKPOINT-UPDATE_LIST',
                     payload:response.data,
                     details:status})
             })
+        },function(error) {
+            dispatch({type:'ERROR',
+                    payload:error.response})
         })
     }
 };

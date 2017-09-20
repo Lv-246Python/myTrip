@@ -15,6 +15,7 @@ import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
 import AddCheckpoint from './addCheckpoint.js'
 import CheckpointList from './checkpointList.js'
 import CheckpointDetails from './checkpointDetails.js'
+import Error from './error-notification.js'
 import Map from './map.js'
 
 import allReducers from './reducers/combine-reducer.js';
@@ -50,6 +51,7 @@ class TripMap extends React.Component {
                             */}
                             <CheckpointDetails trip={this.props.trip}/>
                         </Card>
+                        <Error/>
                     </div>
                 </Provider>
             </div>
