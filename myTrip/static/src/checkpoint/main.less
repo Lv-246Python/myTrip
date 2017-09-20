@@ -7,24 +7,19 @@
 }
 
 .glyphicon:hover{
-	color: red;
-	cursor: pointer;
-	cursor: hand;
+    color: red;
+    cursor: pointer;
+    cursor: hand;
 }
 
 .checkpoint{
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 .checkpoint:hover{
-	background: #888585;
+    background: #888585;
 }
 
-.checkpointDescription {
-    display: flex;
-    justify-content: flex-start;
-    max-width: 900px;
-}
 
 .checkpointItem {
     display: flex;
@@ -36,15 +31,26 @@
     color: blue;
 }
 
-.checkpointDetails {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.checkpointDetailsCard{
+}
+
+.checkpointCard {
     min-width: 900px;
 }
 
-.checkpointTextDetails {
-    width: 75%;
+.checkpointDetails {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.checkpointTitleAndButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
 }
 
 .checkpointButtons {
@@ -52,11 +58,34 @@
     align-items: center;
 }
 
-.button {
-    margin: 8px;
+.checkpointDescriptionAndButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    align-items: center;
 }
 
-.root {
+.checkpointDescription {
+    width: 100%;
+}
+
+.photoIcon {
+    display: flex;
+    justify-content: center;
+}
+
+.likePadding {
+    padding-right: 7px;
+}
+
+
+.checkpointWidth100 {
+    width: 100%;
+}
+
+.gridList {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -65,6 +94,6 @@
 .row {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }

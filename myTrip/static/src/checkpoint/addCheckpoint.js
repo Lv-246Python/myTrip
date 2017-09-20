@@ -14,8 +14,7 @@ class AddCheckpoint extends React.Component{
 
     }
 
-    addPoint(){
-        console.log('addpoint',this.props.checkpoints)
+    addPoint() {
         const description = '';
         let position_number = 1
         if(this.props.checkpoints.length == 0){
@@ -29,8 +28,7 @@ class AddCheckpoint extends React.Component{
         const source_url = '';
         const tripId = this.props.trip.id
 
-        service.CurrentPosition.then(response =>{
-            console.log('addpoint gromise',response.lng)
+        service.CurrentPosition.then( response => {
             this.props.createCheckpointUpdateList(
                     response.lng,
                     response.lat,
@@ -41,7 +39,6 @@ class AddCheckpoint extends React.Component{
                     tripId
                 )},
             err => {
-                console.log('addpoint gromise',err.lng)
                 this.props.createCheckpointUpdateList(
                     err.lng,
                     err.lat,
@@ -55,9 +52,9 @@ class AddCheckpoint extends React.Component{
         );
     }
 
-    render(){
-        if(userId() === this.props.trip.user){
-            if(this.props.checkpoints && this.props.checkpoints.length){
+    render() {
+        if(userId() === this.props.trip.user) {
+            if(this.props.checkpoints && this.props.checkpoints.length) {
                 return(
                     <div>
                         <RaisedButton label="Add Checkpoint" onClick={() => this.addPoint()}/>
@@ -87,7 +84,7 @@ function mapStateToProps(state) {
 }
 
 
-function matchDispatchToProps(dispatch){
+function matchDispatchToProps(dispatch) {
     return bindActionCreators(
         {createCheckpointUpdateList : createCheckpointUpdateList,
         getAllCheckpoints : getAllCheckpoints},

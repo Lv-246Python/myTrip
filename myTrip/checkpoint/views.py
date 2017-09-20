@@ -29,8 +29,6 @@ class CheckpointView(View):
         checkpoints_list = [check.to_dict() for check in checkpoints]
         return JsonResponse(checkpoints_list, status=200, safe=False)
 
-        # return JsonResponse(checkpoints_list, status=401, safe=False)
-
     def post(self, request, trip_id):
         """
         Handles post request
@@ -53,8 +51,6 @@ class CheckpointView(View):
                                    trip=trip)
         return JsonResponse(result.to_dict(), status=200)
 
-        # return HttpResponse(status=403)
-
     def put(self, request, checkpoint_id, trip_id):
         """
         Handles put request
@@ -75,8 +71,6 @@ class CheckpointView(View):
                           position_number=data.get('position_number'))
         return JsonResponse(checkpoint.to_dict(), status=200)
 
-        # return HttpResponse(status=405)
-
     def delete(self, request, checkpoint_id, trip_id):
         """
         Handles delete request
@@ -92,4 +86,3 @@ class CheckpointView(View):
             return HttpResponse(status=404)
         return HttpResponse(status=200)
 
-        # return HttpResponse(status=406)

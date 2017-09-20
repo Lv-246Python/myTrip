@@ -24,33 +24,27 @@ class Map extends React.Component{
         this.props.getAllCheckpoints(this.props.trip.id);
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         if (nextProps) {
-            console.log('recieved props',nextProps)
             let len=nextProps.checkpoints.length;
             let lat;
             let lng;
-            if(nextProps.active!=null){
+            if(nextProps.active != null){
                 // center if there is active
                 lat=nextProps.active.latitude
                 lng=nextProps.active.longitude
-                console.log(1)
                 this.setState({ checkpoints:nextProps.checkpoints,
                                 active:nextProps.active,
                                 center:{lat:lat,lng:lng}});
             }else{
-                if(nextProps.checkpoints.length==0){
+                if(nextProps.checkpoints.length == 0) {
                     var self = this
-                    // center if no checkpoints at all getting position of user if unable hardcode it 
-                    console.log(2)
-                    
+                    // center if no checkpoints at all getting position of user if unable hardcode it                   
                     service.CurrentPosition.then(response => {
-                        console.log('position from service',response);
                         this.setState({ checkpoints:nextProps.checkpoints,
                                 active:nextProps.active,
                                 center:response});
                     },error => {
-                        console.log('error from promise',error);
                         this.setState({ checkpoints:nextProps.checkpoints,
                                 active:nextProps.active,
                                 center:error});
@@ -58,9 +52,8 @@ class Map extends React.Component{
                     
 
                 }else{
-                    if(this.state.map){
+                    if(this.state.map) {
                         // center from loaded map (adding and deleteng without centring)
-                        console.log(4,this.state.map.props.center.lat)
                         lat=this.state.map.props.center.lat
                         lng=this.state.map.props.center.lng
                         this.setState({ checkpoints:nextProps.checkpoints,
@@ -70,7 +63,6 @@ class Map extends React.Component{
                         // /center if there are checkpoints gets latest position
                         lat=nextProps.checkpoints[len-1].latitude
                         lng=nextProps.checkpoints[len-1].longitude
-                        console.log(3)
                         this.setState({ checkpoints:nextProps.checkpoints,
                                 active:nextProps.active,
                                 center:{lat:lat,lng:lng}});
@@ -80,25 +72,21 @@ class Map extends React.Component{
         }
     }
 
-    mapLoaded=(map)=>{
+    mapLoaded = map => {
         if(this.state.ma!=null)
             return
         this.setState({map:map})
-        console.log('map loaded');
     }
 
-    handleMapClick=(map)=>{
-        // if(this.state.active || userId() != this.props.trip.user)
-        if(this.state.active || userId() != this.props.trip.user){
-            return
-        }else{
+    handleMapClick = map => {
+        if (!this.state.active && userId() === this.props.trip.user) {
             const longitude=map.latLng.lng();
             const latitude=map.latLng.lat();
             const description='';
             let position_number;
-            if(this.state.checkpoints == undefined || this.state.checkpoints.length == 0){
+            if(this.state.checkpoints == undefined || this.state.checkpoints.length == 0) {
                 position_number=1;
-            }else{
+            } else {
                 let len=this.state.checkpoints.length;
                 position_number=this.state.checkpoints[len - 1].position_number + 1;
             }
@@ -116,30 +104,28 @@ class Map extends React.Component{
         
     }
 
-    handleLeftClick=(point)=>{
-        if(this.state.active && this.state.active.id==point.id){
+    handleLeftClick= point => {
+        if(this.state.active && this.state.active.id==point.id) {
             this.setState({active:null,showInfo:null})
-        }else{
+        } else {
             this.setState({showInfo:point,active:point});
         }
         this.props.checkpointDetails(point);
         
     }
 
-    handleRightClick=(point)=>{
-        if(this.state.active || userId() != this.props.trip.user){
-            return
-        }else{
+    handleRightClick= point => {
+        if(!this.state.active && userId() === this.props.trip.user) {
             this.props.deleteUpadateList(point.id, this.props.trip.id);
         } 
     }
 
-    handleOnMouseover=(point)=>{
+    handleOnMouseover= point => {
         this.setState({showInfo:point})
     }
 
-    mapMarkers=(arr)=>{
-        let markers=arr.map((point,id) => {
+    mapMarkers = arr => {
+        let markers = arr.map((point,id) => {
                 const marker={
                     position:{
                         lat:point.latitude,
@@ -153,7 +139,7 @@ class Map extends React.Component{
                                 </InfoWindow>
                 }
                 var flag = false;
-                if(userId() == this.props.trip.user){
+                if(userId() == this.props.trip.user) {
                     flag = true;
                 }
                 return <Marker 
@@ -171,18 +157,11 @@ class Map extends React.Component{
         return markers;
     }
 
-    handleZoom = ()=> {
-        console.log(this.state.map.getZoom());
-    }
-
     handleDragMap = () => {
-        console.log('map moved', this.state.map.getCenter().lat(),this.state.map.getCenter().lng())
         this.setState({center:{lat:this.state.map.getCenter().lat(),lng:this.state.map.getCenter().lng()}})
     }
 
     handleMarkerDrag = marker => {
-        console.log('moved',marker.latLng.lat(),marker.latLng.lng())
-        console.log(marker)
             let title = this.state.showInfo.title;
             let description = this.state.showInfo.description;
             let position_number = this.state.showInfo.position_number;
@@ -199,16 +178,15 @@ class Map extends React.Component{
             checkpoint_id)
     }
 
-    render(){
+    render() {
         const mapContainer=<div style={{height:'100%', width:'100%'}}></div>
-        console.log('state changed',this.state)
         if(this.state.checkpoints && this.state.checkpoints.length){
             let list=this.state.checkpoints;    
             const markers=this.mapMarkers(list);
-            const polymarkers=list.map((point)=>{
+            const polymarkers=list.map( point => {
                 return {lat:point.latitude, lng:point.longitude};
             })     
-            const polypath=<Polyline path={polymarkers} options={{strokeColor:'#07a651', strokeWeight:3}}/> 
+            const polypath = <Polyline path={polymarkers} options={{strokeColor:'#07a651', strokeWeight:3}}/> 
             // def zoom 16
             const map=<GoogleMap
                             ref={this.mapLoaded}
@@ -216,8 +194,7 @@ class Map extends React.Component{
                             center={this.state.center}
                             options={{streetViewControl:false, mapControl:false}}
                             onClick={this.handleMapClick}
-                            onDragend={this.handleDragMap}
-                            onZoomChanged={this.handleZoom}>
+                            onDragend={this.handleDragMap}>
                             markers={markers}
                             path={polypath}
                         </GoogleMap>

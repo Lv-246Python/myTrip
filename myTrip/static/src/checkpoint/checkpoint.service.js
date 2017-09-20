@@ -35,15 +35,11 @@ var CurrentPosition = new Promise(function(resolve, reject) {
         const center ={lat:49.832721,lng:23.999003}
         navigator.geolocation.getCurrentPosition( 
                         data => {
-                            console.log({lat:data.coords.latitude,lng:data.coords.longitude})
                             center.lat = data.coords.latitude;
                             center.lng = data.coords.longitude
                             resolve(center)
                         },
                         err => {
-                            console.log(err.message);
-                            center.lat=49.832721
-                            center.lng=23.999003
                             reject(center)
                         }, 
                         { enableHighAccuracy:true }

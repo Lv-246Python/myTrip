@@ -7,8 +7,6 @@ export default function (state = null, action) {
             return action.payload;
 
         case 'CREATE-CHECKPOINT-UPDATE_LIST':
-            console.log('reducer createcheckpoint',action.payload)
-            console.log('reducer createcheckpoint',state)
             return action.payload;
 
         case 'DELETE-CHECKPOINT-UPDATE_LIST':

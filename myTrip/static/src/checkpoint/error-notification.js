@@ -15,7 +15,6 @@ class ErrorComponentTest extends React.Component{
 
     componentWillReceiveProps(nextProps) {
         if(nextProps){
-            console.log('notificator recieved props',nextProps)
             if(nextProps.errors != null){
                 this.setState({errors:nextProps.errors,open:true})
             }
@@ -27,8 +26,6 @@ class ErrorComponentTest extends React.Component{
     };
 
     render(){
-        console.log('changes in notificator',this.state)
-        console.log('errors-notificator component',this.state.errors)
             return(
                 <div>
                     <Snackbar

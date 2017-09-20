@@ -11,6 +11,8 @@ import Dialog from 'material-ui/Dialog';
 import EditIcon from 'material-ui/svg-icons/image/edit';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
+import Like from '../like/like';
+import Photos from '../photo/Photos';
 import './main.less';
 
 
@@ -33,7 +35,7 @@ const styles = {
         overflowY: 'auto',
     },
 };
-// import {store} from './testing-page-for-checkpoints.js'
+
 class CheckpointDetails extends React.Component {
 
     constructor(props) {
@@ -45,8 +47,6 @@ class CheckpointDetails extends React.Component {
             author: this.props.trip.user,
             userId: userId
         }
-      // this.updateState = this.updateState.bind(this);
-
    };
 
     componentWillReceiveProps(nextProps) {
@@ -110,75 +110,58 @@ class CheckpointDetails extends React.Component {
                             <div className='checkpointTitleAndButtons'>
 
                                 {(this.state.userId() == this.state.author) ?
-                                (<TextField
+                                <TextField
                                     value={this.state.title}
                                     hintText="Edit title"
                                     name='title'
                                     underlineShow={false}
                                     fullWidth={true}
-                                    onChange={this.updateState}/>)
+                                    onChange={this.updateState}/>
                                 :
-                                (<TextField
+                                <TextField
                                     value={this.state.title}
                                     name='title'
                                     underlineShow={false}
                                     fullWidth={true}
-                                    readOnly/>)
-                                }
-
-                                {(this.state.userId() == this.state.author) ?
-                                    (<TextField
-                                        hintText="Edit description"
-                                        value={this.state.description}
-                                        name='description'
-                                        underlineShow={false}
-                                        fullWidth={true}
-                                        multiLine={true}
-                                        rowsMax={3}
-                                        onChange={this.updateState}/>)
-                                    :
-                                    (<TextField
-                                        value={this.state.description}
-                                        name='description'
-                                        underlineShow={false}
-                                        fullWidth={true}
-                                        multiLine={true}
-                                        rowsMax={3}
-                                        readOnly/>)
+                                    readOnly/>
                                 }
 
                                 <CardActions style={{padding: 0}}>
                                     <div className='checkpointButtons'>
 
                                         {(this.state.userId() === this.state.author) ?
-                                        (<div>
+                                        <div>
                                             <IconButton
                                                 key="Save"
                                                 tooltip='SAVE CHANGES'
                                                 tooltipPosition='top-center'
-                                                onTouchTap={this.updatePoint}>
-                                                <SubmitIcon/>
+                                                onTouchTap={this.updatePoint}
+                                            >
+                                                <SubmitIcon />
                                             </IconButton>
-                                        </div>) : false}
+                                        </div> : false}
 
                                         {(this.state.userId() === this.state.author) ?
-                                        (<div>
+                                        <div>
                                             <IconButton
                                                 key='Delete'
                                                 tooltip='DELETE CHECKPOINT'
                                                 tooltipPosition='top-center'
-                                                onTouchTap={this.handleOpenDeleteCheckpoint}>
-                                                <DeleteIcon/>
+                                                onTouchTap={this.handleOpenDeleteCheckpoint}
+
+                                            >
+                                                <DeleteIcon />
                                             </IconButton>
-                                        </div>) : false}
+                                        </div> : false}
 
                                         <div>
                                             <IconButton
                                                 key='Close'
                                                 tooltip='CLOSE DETAILS'
                                                 tooltipPosition='top-center'
-                                                onTouchTap={() => this.props.closeDetails()}>
-                                                <CancelIcon/>
+                                                onTouchTap={() => this.props.closeDetails()}
+                                            >
+                                                <CancelIcon />
                                             </IconButton>
                                         </div>
 
@@ -186,11 +169,46 @@ class CheckpointDetails extends React.Component {
                                             title='Do you really want to delete checkpoint?'
                                             actions={actionsDelete}
                                             open={this.state.open}
-                                            onRequestClose={this.handleCloseDeleteCheckpoint}/>
+                                            onRequestClose={this.handleCloseDeleteCheckpoint}
+                                        />
+
                                     </div>
                                 </CardActions>
                             </div>
-                            <div className='likePadding'></div>
+
+                            <div className='checkpointDescriptionAndButtons'>
+                                <div className='checkpointDescription'>
+
+                                    {(this.state.userId() == this.state.author) ?
+                                    <TextField
+                                        hintText="Edit description"
+                                        value={this.state.description}
+                                        name='description'
+                                        underlineShow={false}
+                                        fullWidth={true}
+                                        multiLine={true}
+                                        rowsMax={3}
+                                        onChange={this.updateState}/>
+                                    :
+                                    <TextField
+                                        value={this.state.description}
+                                        name='description'
+                                        underlineShow={false}
+                                        fullWidth={true}
+                                        multiLine={true}
+                                        rowsMax={3}
+                                        readOnly/>
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div className='likePadding'>
+                                <Like
+                                    tripId={this.props.trip.id}
+                                    checkpointId={this.props.active.id}
+                                />
+                            </div>
                         </div>
                     </div>
                 </Card>
