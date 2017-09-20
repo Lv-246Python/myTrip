@@ -31,11 +31,11 @@ export default class Comments extends React.Component {
 
 // refresh page content
     renderData = () => {
-        getData(this.props.tripId, this.props.tripPhotoId,
-                this.props.checkpointId, this.props.checkpointPhotoId)
+        getData(this.props.tripId, this.props.checkpointId, this.props.photoId)
             .then(response => {
                 this.setState({comments: response.data});
             });
+            console.log(getData(this.props.tripId, this.props.checkpointId, this.props.photoId));
     }
 // reply comment
     handleReply = (name) => {
@@ -43,7 +43,7 @@ export default class Comments extends React.Component {
     };
 
     componentDidMount() {
-        this.renderData();
+        this.renderData(this.props.tripId, this.props.checkpointId, this.props.photoId);
     }
 
     render() {
@@ -56,9 +56,8 @@ export default class Comments extends React.Component {
 
                     <CommentForm
                         tripId={this.props.tripId}
-                        tripPhotoId={this.props.tripPhotoId}
+                        photoId={this.props.photoId}
                         checkpointId={this.props.checkpointId}
-                        checkpointPhotoId={this.props.checkpointPhotoId}
                         renderData={this.renderData}
                         replyName={this.state.replyName} />
                 </div>
@@ -77,9 +76,8 @@ export default class Comments extends React.Component {
                                     message={comment.message}
                                     commentId={comment.id}
                                     tripId={this.props.tripId}
-                                    tripPhotoId={this.props.tripPhotoId}
                                     checkpointId={this.props.checkpointId}
-                                    checkpointPhotoId={this.props.checkpointPhotoId}
+                                    photoId={this.props.photoId}
                                     renderData={this.renderData}
                                     notification={this.notification}
                                     handleReply={this.handleReply}/>

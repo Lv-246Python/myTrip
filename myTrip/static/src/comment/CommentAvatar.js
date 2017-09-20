@@ -12,6 +12,6 @@ export class CommentAvatar extends React.Component {
     render() {
         return (
             <Avatar src={this.props.userAvatar} size={30} style={styles.avatar} />
-    );
-  }
+        );
+    }
 }

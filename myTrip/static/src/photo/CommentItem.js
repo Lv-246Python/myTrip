@@ -26,8 +26,6 @@ export class CommentItem extends React.Component {
                       tripId={this.props.tripId}
                       checkpointId={this.props.checkpointId}
                       photoId={this.props.photoId}
-                      tripPhotoId={'/photo/' + this.props.photoId}
-                      checkpointPhotoId={'/photo/' + this.props.photoId}
                     />
                 </CardText>
             </Card>
