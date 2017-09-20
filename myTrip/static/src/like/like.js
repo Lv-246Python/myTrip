@@ -34,6 +34,7 @@ export default class Like extends React.Component {
             likeCount: null,
             liked: false,
             open: false,
+            checkpointId: this.props.checkpointId,
         }
     }
 

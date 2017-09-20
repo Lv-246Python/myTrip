@@ -96,7 +96,9 @@ class CheckpointDetails extends React.Component {
                         labelPosition='before'
                         icon={<DeleteIcon />}
                         disabled={this.state.disabled}
-                        onTouchTap={()=>this.props.deleteUpadateList(this.props.active.id, this.props.trip.id)}/>
+                        onTouchTap={()=>this.props.deleteUpadateList(
+                            this.props.active.id, this.props.trip.id
+                        )}/>
 
             textFields = <div><TextField
                                 floatingLabelText="Title:"
