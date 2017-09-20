@@ -12,10 +12,11 @@ export function getTripPhotos(tripId, checkpointId='') {
 
 export function updatePhoto(tripId, checkpointId='', photoId, title='', description='') {
     if (checkpointId){
-        return axios.put(tripUrl + tripId +'/checkpoint/' + checkpointId + '/photo/', {
-            title,
-            description
-        });
+        return axios.put(
+            tripUrl + tripId +'/checkpoint/' + checkpointId + '/photo/' + photoId + '/', {
+                title,
+                description
+            });
     } else {
         return axios.put(tripUrl + tripId + '/photo/' + photoId + '/', {
             title,
