@@ -23,13 +23,12 @@ export class ExpandedPhotoItems extends React.Component {
         this.state = {
             open: false,
             mainPhoto: this.props.mainPhoto,
-
         }
     }
 
     deletePhoto = () => {
         if (this.state.mainPhoto){
-            setForTripPage(this.props.tripId, defaultImage)
+            setForTripPage(this.props.tripId, this.props.checkpointId, defaultImage)
         };
 
         deletePhoto(this.props.tripId, this.props.checkpointId, this.props.photoId)
@@ -39,9 +38,9 @@ export class ExpandedPhotoItems extends React.Component {
     }
 
     setImage = () => {
-        setForTripPage(this.props.tripId, this.props.checkpointId, this.props.src)
+        setForTripPage(this.props.tripId, this.props.src)
         .then(response => {
-            this.props.getData(this.props.tripId);
+            this.props.getData(this.props.tripId, this.props.checkpointId);
             this.setState({mainPhoto: true})});
 
     }

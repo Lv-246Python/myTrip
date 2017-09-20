@@ -42,12 +42,8 @@ export function deletePhoto(tripId, checkpointId='', photoId) {
     }
 }
 
-export function setForTripPage(tripId, checkpointId='', src) {
-    if (checkpointId){
-        return axios.get(tripUrl + tripId +'/checkpoint/' + checkpointId + '/');
-    } else {
-        return axios.put(tripUrl + tripId + '/', {
-            src
-        });
-    }
+export function setForTripPage(tripId, src) {
+    return axios.put(tripUrl + tripId + '/', {
+        src
+    });
 }
