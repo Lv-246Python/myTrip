@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 
 import {closeDetails, updateCheckpointUpdateList, deleteUpadateList} from './actions/index.js'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import {GridList, GridTile} from 'material-ui/GridList';
 
 import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import CancelIcon from 'material-ui/svg-icons/content/clear';
@@ -22,20 +21,6 @@ import { userId } from '../utils';
 import './main.less';
 
 
-let images = [
-    {img: '/static/src/img/1_page.jpg'},
-    {img: '/static/src/img/nice_pic.jpg'},
-    {img: '/static/src/img/nice_pic_finished.jpg'},
-    {img: '/static/src/img/nice_pic_progr.jpg'},
-]
-
-const styles = {
-    gridList: {
-        width: 200,
-        height: 185,
-        overflowY: 'auto',
-    },
-};
 // import {store} from './testing-page-for-checkpoints.js'
 class CheckpointDetails extends React.Component {
 
@@ -46,15 +31,18 @@ class CheckpointDetails extends React.Component {
             title:'',
             description:'',
             author: this.props.trip.user,
-            userId: userId
+            checkpointId: null,
+            userId: userId,
         }
-      // this.updateState = this.updateState.bind(this);
-
    };
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.active != null) {
-            this.setState({ title: nextProps.active.title,
-                            description:nextProps.active.description});
+            this.setState({
+                title: nextProps.active.title,
+                description: nextProps.active.description,
+                checkpointId: nextProps.active.id,
+            });
         }
     }      
 
@@ -200,6 +188,13 @@ class CheckpointDetails extends React.Component {
                                             </IconButton>
                                         </div> : false}
 
+                                        <div className='likePadding'>
+                                            <Like
+                                                tripId={this.props.trip.id}
+                                                checkpointId={this.props.active.id}
+                                            />
+                                        </div>
+
                                         <div>
                                             <IconButton
                                                 key='Close'
@@ -246,20 +241,13 @@ class CheckpointDetails extends React.Component {
 
                                 </div>
                             </div>
-
-                            <div className='likePadding'>
-                                <Like
-                                    tripId={this.props.trip.id}
-                                    checkpointId={this.props.active.id}
-                                />
-                            </div>
                         </div>
 
                         <CardMedia>
                             <PhotosToCheckpoint
                                 tripAuthor={this.props.trip.user}
                                 tripId={this.props.trip.id}
-                                checkpointId={this.props.active.id}
+                                checkpointId={this.state.checkpointId}
                             />
                         </CardMedia>
                     </div>

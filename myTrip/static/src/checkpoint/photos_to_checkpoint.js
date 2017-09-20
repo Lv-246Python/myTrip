@@ -21,8 +21,10 @@ const gridStyles = {
   element: {
     flex: 1,
     display: 'flex',
-    width: 200,
-    height: 100,
+    width: 150,
+    minHeight: '100px',
+    maxHeight: 200,
+    height: 'auto',
     overflowY: 'auto',
   },
 };
@@ -30,9 +32,13 @@ const gridStyles = {
 export default class PhotosToCheckpoint extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {photos: null}
-        this.state.open = false;
+        this.state = {
+            photos: null,
+            open: false,
+            checkpointId: this.props.checkpointId,
+        }
     }
+
 
 // load photos
     getData = (tripId, checkpointId) => {
@@ -43,14 +49,22 @@ export default class PhotosToCheckpoint extends React.Component {
     }
 
     componentDidMount() {
-        this.getData(this.props.tripId, this.props.checkpointId);
+        this.getData(this.props.tripId, this.state.checkpointId);
+    }
+
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            checkpointId: nextProps.checkpointId,
+        });
+        this.getData(this.props.tripId, nextProps.checkpointId);
     }
 
 // upload photos
     handleDrop = files => {
       const file = new FormData();
       file.append('name', files[0]);
-      uploadPhoto(this.props.tripId, this.props.checkpointId, file)
+      uploadPhoto(this.props.tripId, this.state.checkpointId, file)
       .then(response => {
         const data = (this.state.photos) ? this.state.photos : [];
         data.unshift(response.data);
@@ -105,7 +119,6 @@ export default class PhotosToCheckpoint extends React.Component {
 
                     <div style={gridStyles.container}>
                         <GridList
-                            cellHeight={180}
                             cols={1}
                             rows={1}
                             style={gridStyles.element}
@@ -120,7 +133,7 @@ export default class PhotosToCheckpoint extends React.Component {
                                 author={photo.user_name}
                                 description={photo.description}
                                 tripId={this.props.tripId}
-                                checkpointId={this.props.checkpointId}
+                                checkpointId={this.state.checkpointId}
                                 user={photo.user}
                                 photoId={photo.id}
                                 mainPhoto={photo.main_photo}

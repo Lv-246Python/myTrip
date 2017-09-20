@@ -30,7 +30,16 @@ export class PhotoItem extends React.Component {
               style={styles.gridTile}
             >
 
-                <img src={this.props.src} style={styles.image} />
+                {(!this.props.checkpointId) ?
+                <img
+                    src={this.props.src}
+                    style={styles.image}
+                /> :
+                <img
+                    src={this.props.src}
+                    style={{width: '100%', }}
+                />}
+
 
                 <ExpandPhoto
                   removeImage={this.props.removeImage}
