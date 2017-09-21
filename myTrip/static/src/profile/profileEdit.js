@@ -117,6 +117,7 @@ export class ProfileEdit extends React.Component {
         />
         <DatePicker
           style={{display:'none'}}
+          id='datePicker'
           ref='dp'
           onChange={this.handleChangeBirthday}
           openToYearSelection={true}

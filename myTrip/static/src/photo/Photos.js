@@ -72,6 +72,7 @@ export default class Photos extends React.Component {
 
     onDropRejected = () => {
         this.setState({open: true});
+        console.log(this.state.open)
     }
 
     handleRequestClose = () => {
@@ -96,6 +97,7 @@ export default class Photos extends React.Component {
                                     onDrop={this.handleDrop}
                                     onDropRejected={this.onDropRejected}
                                     maxSize={2097152}
+                                    accept="image/*"
                                     multiple={false}
                                      >
                                 </Dropzone>
