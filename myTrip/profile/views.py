@@ -5,7 +5,7 @@ import json
 from django.views.generic.base import View
 from django.http import JsonResponse, HttpResponse
 
-from mytrip.uploadFile import upload
+from mytrip.uploadFile import upload, imageValidator
 from registration.models import CustomUser
 from .models import Profile
 
@@ -29,6 +29,8 @@ class ProfileView(View):
         profile = Profile.get_by_id(request.user.id)
         if not profile:
             return HttpResponse(status=403)
+        if not imageValidator(request.FILES.get('name')):
+            return HttpResponse(status=400)
         imageToUpload = request.FILES.get('name')
         key = 'avatar=' + imageToUpload.name
         url = upload(key, imageToUpload)
