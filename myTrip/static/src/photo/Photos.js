@@ -72,7 +72,6 @@ export default class Photos extends React.Component {
 
     onDropRejected = () => {
         this.setState({open: true});
-        console.log(this.state.open)
     }
 
     handleRequestClose = () => {
