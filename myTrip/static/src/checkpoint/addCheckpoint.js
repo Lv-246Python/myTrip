@@ -57,14 +57,22 @@ class AddCheckpoint extends React.Component{
             if(this.props.checkpoints && this.props.checkpoints.length) {
                 return(
                     <div>
-                        <RaisedButton label="Add Checkpoint" onClick={() => this.addPoint()}/>
+                        <RaisedButton
+                            label="Add Checkpoint"
+                            onClick={() => this.addPoint()}
+                            fullWidth={true}
+                        />
                     </div>
                 );
             }
             else{
                 return(
                     <div>
-                        <RaisedButton label="Start Trip" onClick={() => this.addPoint()}/>
+                        <RaisedButton
+                            label="Start Trip"
+                            onClick={() => this.addPoint()}
+                            fullWidth={true}
+                        />
                     </div>
                 );
             }

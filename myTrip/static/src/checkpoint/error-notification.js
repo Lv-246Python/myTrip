@@ -8,7 +8,7 @@ class ErrorComponentTest extends React.Component{
     constructor(){
         super()
         this.state={
-            errors:{},
+            errors:{statusText:''},
             open:false
         }
     }

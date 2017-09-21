@@ -36,6 +36,7 @@ class TripMap extends React.Component {
                             <Map trip={this.props.trip}/>
                         </div>
                         <div>
+                            <AddCheckpoint trip={this.props.trip}/>
                             <CheckpointList trip={this.props.trip}/>
                         </div>
                         <div className='checkpointDetailsCard'>
