@@ -55,8 +55,8 @@ class Trip(models.Model):
         return {
             "id": self.id,
             "user": self.user.id,
-            "user_name": self.user.get_full_name() if self.user.get_full_name() \
-             else self.user.email,
+            "user_name": (self.user.get_full_name() if self.user.get_full_name()
+                          else self.user.email),
             "title": self.title,
             "src": self.src,
             "create_at": self.create_at,
@@ -195,10 +195,10 @@ class Trip(models.Model):
             trips = Trip.objects.filter(user=user_id)
         quantity = trips.count()
         trips = trips.order_by('-create_at')[start:end]
-        all_pages = quantity // TILES
+        all_pages = quantity // step
         if quantity == 0:
             all_pages = 0
-        elif quantity % TILES == 0:
+        elif quantity % step == 0:
             all_pages = all_pages - 1
         else:
             all_pages = all_pages

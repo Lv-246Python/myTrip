@@ -23,6 +23,7 @@ export class TitleItem extends React.Component {
                     />
                     <Like
                         tripId={this.props.tripId}
+                        checkpointId={this.props.checkpointId}
                         photoId={this.props.photoId}
                     />
                 </div>

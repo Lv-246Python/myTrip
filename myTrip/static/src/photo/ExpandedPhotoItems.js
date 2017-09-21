@@ -23,17 +23,15 @@ export class ExpandedPhotoItems extends React.Component {
         this.state = {
             open: false,
             mainPhoto: this.props.mainPhoto,
-
         }
     }
-
 
     deletePhoto = () => {
         if (this.state.mainPhoto){
             setForTripPage(this.props.tripId, defaultImage)
         };
 
-        deletePhoto(this.props.tripId, this.props.photoId)
+        deletePhoto(this.props.tripId, this.props.checkpointId, this.props.photoId)
         .then(this.setState({open: false}));
         this.props.close();
         this.props.removeImage(this.props.photoId);
@@ -42,9 +40,8 @@ export class ExpandedPhotoItems extends React.Component {
     setImage = () => {
         setForTripPage(this.props.tripId, this.props.src)
         .then(response => {
-            this.props.getData(this.props.tripId);
+            this.props.getData(this.props.tripId, this.props.checkpointId);
             this.setState({mainPhoto: true})});
-
     }
 
 
@@ -74,6 +71,7 @@ export class ExpandedPhotoItems extends React.Component {
                 />
             </div>
         ];
+
         return (
             <Card>
                 <TitleItem
@@ -82,6 +80,7 @@ export class ExpandedPhotoItems extends React.Component {
                 subtitle={this.props.subtitle}
                 description={this.props.description}
                 tripId={this.props.tripId}
+                checkpointId={this.props.checkpointId}
                 photoId={this.props.photoId}
                 />
 
@@ -107,26 +106,26 @@ export class ExpandedPhotoItems extends React.Component {
                 </CardActions>
                 : false }
 
-                <Dialog
-                title='Do you really want to delete photo?'
-                actions={actionsDelete}
-                open={this.state.open}
-                onRequestClose={this.handleCloseDeleteTrip}
-                />
+                    <Dialog
+                    title='Do you really want to delete photo?'
+                    actions={actionsDelete}
+                    open={this.state.open}
+                    onRequestClose={this.handleCloseDeleteTrip}
+                    />
 
-                {(userId() === this.props.user) ?
-                <PhotoEdit
-                updatePhotoInfo={this.props.updatePhotoInfo}
-                title={this.props.title}
-                description={this.props.description}
-                tripId={this.props.tripId}
-                photoId={this.props.photoId}
-                /> : false }
+                    {(userId() === this.props.user) ?                     
+                    <PhotoEdit
+                    updatePhotoInfo={this.props.updatePhotoInfo} 
+                    title={this.props.title}
+                    description={this.props.description}
+                    tripId={this.props.tripId}
+                    checkpointId={this.props.checkpointId}
+                    photoId={this.props.photoId} /> : false }
 
                 <CommentItem
-                tripId={this.props.tripId}
-                photoId={this.props.photoId}
-                />
+                    tripId={this.props.tripId}
+                    checkpointId={this.props.checkpointId}
+                    photoId={this.props.photoId} />
             </Card>
         );
     }

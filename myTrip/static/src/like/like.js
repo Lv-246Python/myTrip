@@ -34,6 +34,7 @@ export default class Like extends React.Component {
             likeCount: null,
             liked: false,
             open: false,
+            checkpointId: this.props.checkpointId,
         }
     }
 
@@ -114,11 +115,16 @@ export default class Like extends React.Component {
                     anchorEl={this.state.anchorEl}
                     anchorOrigin={{horizontal: 'middle', vertical: 'bottom'}}
                     targetOrigin={{horizontal: 'middle', vertical: 'center'}}
+                    onRequestClose={this.handleClose}
                 >
                     <div onMouseLeave={this.handleClose}>
+                        {(this.props.likeCount >= 5) ?
                         <div className='last5Title'>
                             The last 5 users liked
-                        </div>
+                        </div> :
+                        <div className='last5Title'>
+                            Last likes
+                        </div>}
                         <CardActions style={style.likeAvatars}>
 
                             {(this.state.last5) ?

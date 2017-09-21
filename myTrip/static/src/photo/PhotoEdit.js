@@ -22,7 +22,8 @@ export class PhotoEdit extends React.Component {
     };
 
     editPhoto = () => {
-        updatePhoto(this.props.tripId, 
+        updatePhoto(this.props.tripId,
+                    this.props.checkpointId,
                     this.props.photoId,
                     this.state.title, 
                     this.state.description)
@@ -38,35 +39,35 @@ export class PhotoEdit extends React.Component {
 
     render() {
         return (
-                <Card>
-                    <CardHeader
-                      title="Edit photo"
-                      actAsExpander={true}
-                      showExpandableButton={true}
-                      closeIcon={<EditIcon />}
+            <Card>
+                <CardHeader
+                  title="Edit photo"
+                  actAsExpander={true}
+                  showExpandableButton={true}
+                  closeIcon={<EditIcon />}
+                />
+                <CardText expandable={true}>
+                    <TextField
+                    floatingLabelText="Title:"
+                    hintText="Edit title"
+                    name='title'
+                    fullWidth={true}
+                    onChange={this.onChange}
                     />
-                    <CardText expandable={true}>
-                        <TextField
-                        floatingLabelText="Title:"
-                        hintText="Edit title"
-                        name='title'
-                        fullWidth={true}
-                        onChange={this.onChange}
-                        />
 
-                        <TextField
-                        floatingLabelText="Description:"
-                        hintText="Edit description"
-                        name='description'
-                        fullWidth={true}
-                        onChange={this.onChange}
-                        />
+                    <TextField
+                    floatingLabelText="Description:"
+                    hintText="Edit description"
+                    name='description'
+                    fullWidth={true}
+                    onChange={this.onChange}
+                    />
 
-                        <FlatButton  onTouchTap={this.editPhoto}
-                        label="Save" primary={true} fullWidth={true} />
+                    <FlatButton  onTouchTap={this.editPhoto}
+                    label="Save" primary={true} fullWidth={true} />
 
-                    </CardText>
-                </Card>
+                </CardText>
+            </Card>
         );
     }
 }

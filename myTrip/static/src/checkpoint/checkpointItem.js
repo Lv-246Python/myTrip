@@ -3,7 +3,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'material-ui/List';
-import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
@@ -21,14 +20,13 @@ class CheckpointItem extends React.Component {
     }
 
     render() {
-        let ListItm = <MenuItem
+        return (
+            <div>
+                <MenuItem
                     className='checkpoint'
                     primaryText={this.props.checkpoint.position_number + '. ' + this.props.checkpoint.title }
                     onTouchTap={() => this.props.checkpointDetails(this.props.checkpoint)}
                     style={{maxWidth: 300}}/>
-        return (
-            <div>
-                {ListItm}
             </div>
         );
     }

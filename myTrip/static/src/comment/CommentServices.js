@@ -2,41 +2,6 @@ import axios from 'axios';
 
 const tripUrl = '/api/v1/trip/';
 
-export function deleteComment(tripId, tripPhotoId='',
-                              checkpointId='', checkpointPhotoId='', commentId) {
-    return axios.delete(tripUrl + tripId + tripPhotoId + checkpointId +
-                        checkpointPhotoId + '/comment/' + commentId + '/');
-};
-
-export function putData(tripId, tripPhotoId='',
-                        checkpointId='', checkpointPhotoId='', commentId, message) {
-    return axios.put(tripUrl + tripId + tripPhotoId + checkpointId +
-                     checkpointPhotoId + '/comment/' + commentId + '/', {
-        message
-    })
-};
-
-export function postData(tripId, tripPhotoId='', checkpointId='',
-                         checkpointPhotoId='', message) {
-    return axios.post(tripUrl + tripId + tripPhotoId + checkpointId +
-                      checkpointPhotoId + '/comment/', {
-        message
-    })
-};
-
-export function getData(tripId, tripPhotoId='',
-                        checkpointId='', checkpointPhotoId='') {
-    return axios.get(tripUrl + tripId + tripPhotoId + checkpointId +
-                     checkpointPhotoId + '/comment/');
-};
-
-export function formatDate(date) {
-    return new Date(date).toDateString();
-};
-
-
-
-/*
 export function getCommentUrl(tripId, checkpointId='', photoId='', commentId=''){
     let url = tripUrl + tripId + '/';
     if (checkpointId) {
@@ -45,10 +10,12 @@ export function getCommentUrl(tripId, checkpointId='', photoId='', commentId='')
             url += 'photo/' + photoId + '/';
             if (commentId) {
                 url += 'comment/' + commentId + '/';
+                return url;
             }
         } else {
             if (commentId) {
                 url += 'comment/' + commentId + '/';
+                return url;
             }
         }
     } else {
@@ -56,34 +23,34 @@ export function getCommentUrl(tripId, checkpointId='', photoId='', commentId='')
             url += 'photo/' + photoId + '/';
             if (commentId) {
                 url += 'comment/' + commentId + '/';
+                return url;
             }
         } else {
             if (commentId) {
                 url += 'comment/' + commentId + '/';
+                return url;
             }
         }
     }
-    return url;
+    return url + 'comment/';
 }
 
-export function deleteComment(tripId, checkpointId='', photoId='', commentId) {
-    return axios.delete(getCommentUrl(tripId, checkpointId, photoId, commentId));
-};
-
-export function putData(tripId, checkpointId='', photoId='', commentId, message) {
-    return axios.put(getCommentUrl(tripId, checkpointId, photoId, commentId), { message })
+export function getData(tripId, checkpointId='', photoId='') {
+    return axios.get(getCommentUrl(tripId, checkpointId, photoId));
 };
 
 export function postData(tripId, checkpointId='', photoId='', message) {
     return axios.post(getCommentUrl(tripId, checkpointId, photoId), { message })
 };
 
-export function getData(tripId, checkpointId='', photoId='') {
-    return axios.get(getCommentUrl(tripId, checkpointId, photoId));
+export function putData(tripId, checkpointId='', photoId='', commentId, message) {
+    return axios.put(getCommentUrl(tripId, checkpointId, photoId, commentId), { message })
+};
+
+export function deleteComment(tripId, checkpointId='', photoId='', commentId) {
+    return axios.delete(getCommentUrl(tripId, checkpointId, photoId, commentId));
 };
 
 export function formatDate(date) {
     return new Date(date).toDateString();
 };
-
-*/

@@ -14,7 +14,7 @@ from .models import Like
 class LikeView(View):
     """LikeView view handles GET and POST requests for LikeView model."""
 
-    def get(self, request, trip_id, checkpoint_id=None, photo_id=None, comment_id=None):
+    def get(self, request, trip_id=None, checkpoint_id=None, photo_id=None, comment_id=None):
         """
         Handles GET request, that return JSON response with HTTP status 200,
         if exception: HTTP status 204.

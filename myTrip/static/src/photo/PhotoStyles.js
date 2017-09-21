@@ -13,6 +13,11 @@ export const styles = {
         overflow: 'visible',
     },
 
+    overflow: {
+        maxHeight: 800,
+        overflow: 'auto'
+    },
+
     image: {
         height: '100%',
     },

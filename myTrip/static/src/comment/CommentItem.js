@@ -48,9 +48,9 @@ export class CommentItem extends React.Component {
     };
 
     handleSubmit = () => {
-        putData(this.props.tripId, this.props.tripPhotoId,
-                this.props.checkpointId, this.props.checkpointPhotoId,
-                this.props.commentId, this.state.editCommentText)
+        putData(this.props.tripId, this.props.checkpointId,
+                this.props.photoId, this.props.commentId,
+                this.state.editCommentText)
             .then(() => {
                  this.props.renderData();
                  this.setState({editCommentText: ''});
@@ -72,9 +72,8 @@ export class CommentItem extends React.Component {
     };
 
     handleDelete = () => {
-        deleteComment(this.props.tripId, this.props.tripPhotoId,
-                      this.props.checkpointId, this.props.checkpointPhotoId,
-                      this.props.commentId)
+        deleteComment(this.props.tripId, this.props.checkpointId,
+                      this.props.photoId, this.props.commentId)
             .then(() => {
                 this.props.renderData();
                 this.props.notification();

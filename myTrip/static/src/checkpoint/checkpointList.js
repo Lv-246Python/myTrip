@@ -14,7 +14,6 @@ import CheckpointItem from './checkpointItem.js';
 import {getAllCheckpoints} from './actions/index.js'
 
 class CheckpointList extends React.Component{
-
     constructor(props) {
         super(props);
         this.state = {
