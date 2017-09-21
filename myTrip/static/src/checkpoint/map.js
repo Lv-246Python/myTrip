@@ -29,7 +29,6 @@ class Map extends React.Component{
 
     componentWillReceiveProps(nextProps){
         if (nextProps) {
-            console.log('recieved props',nextProps)
             let len=nextProps.checkpoints.length;
             let lat;
             let lng;
@@ -37,17 +36,14 @@ class Map extends React.Component{
                 // center if there is active
                 lat=nextProps.active.latitude
                 lng=nextProps.active.longitude
-                console.log(1)
                 this.setState({ checkpoints:nextProps.checkpoints,
                                 active:nextProps.active,
                                 center:{lat:lat,lng:lng}});
             }else{
                 if(nextProps.checkpoints.length==0){
-                    // center if no checkpoints at all getting position of user if unable hardcode it 
-                    console.log(2)
+                // center if no checkpoints at all getting position of user if unable hardcode it
                     navigator.geolocation.getCurrentPosition( 
                         data => {
-                            console.log({lat:data.coords.latitude,lng:data.coords.longitude})
                             lat = data.coords.latitude;
                             lng = data.coords.longitude
                             this.setState({ checkpoints:nextProps.checkpoints,
@@ -55,7 +51,6 @@ class Map extends React.Component{
                                             center:{lat:lat,lng:lng}});
                         },
                         err => {
-                            console.log(err.message);
                             lat=49.832721
                             lng=23.999003
                             this.setState({ checkpoints:nextProps.checkpoints,
@@ -68,7 +63,6 @@ class Map extends React.Component{
                 }else{
                     if(this.state.map){
                         // center from loaded map (adding and deleteng without centring)
-                        console.log(4,this.state.map.props.center.lat)
                         lat=this.state.map.props.center.lat
                         lng=this.state.map.props.center.lng
                         this.setState({ checkpoints:nextProps.checkpoints,
@@ -78,7 +72,6 @@ class Map extends React.Component{
                         // /center if there are checkpoints gets latest position
                         lat=nextProps.checkpoints[len-1].latitude
                         lng=nextProps.checkpoints[len-1].longitude
-                        console.log(3)
                         this.setState({ checkpoints:nextProps.checkpoints,
                                         active:nextProps.active,
                                         center:{lat:lat,lng:lng}});
@@ -92,7 +85,6 @@ class Map extends React.Component{
         if(this.state.ma!=null)
             return
         this.setState({map:map})
-        console.log('map loaded');
     }
 
     handleMapClick=(map)=>{
@@ -180,18 +172,13 @@ class Map extends React.Component{
         return markers;
     }
 
-    handleZoom = ()=> {
-        console.log(this.state.map.getZoom());
-    }
+    handleZoom = ()=> {}
 
     handleDragMap = () => {
-        console.log('map moved', this.state.map.getCenter().lat(),this.state.map.getCenter().lng())
         this.setState({center:{lat:this.state.map.getCenter().lat(),lng:this.state.map.getCenter().lng()}})
     }
 
     handleMarkerDrag = marker => {
-        console.log('moved',marker.latLng.lat(),marker.latLng.lng())
-        console.log(marker)
         // if(this.state.showInfo){
             let title = this.state.showInfo.title;
             let description = this.state.showInfo.description;
@@ -219,7 +206,6 @@ class Map extends React.Component{
 
     render(){
         const mapContainer=<div style={{height:'100%', width:'100%'}}></div>
-        console.log('state changed',this.state)
         if(this.state.checkpoints && this.state.checkpoints.length){
             
             let list=this.state.checkpoints;    

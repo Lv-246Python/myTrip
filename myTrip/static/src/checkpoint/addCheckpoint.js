@@ -14,7 +14,6 @@ class AddCheckpoint extends React.Component{
     }
 
     addPoint(){
-        console.log(this.props.checkpoints)
         const longitude = 23.999003;
         const latitude = 49.832721;
         
@@ -44,7 +43,6 @@ class AddCheckpoint extends React.Component{
                 )
             },
             err => {
-                console.log(err.message);
                 this.props.createCheckpointUpdateList(
                     longitude,
                     latitude,

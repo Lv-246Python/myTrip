@@ -120,6 +120,7 @@ export class ProfileEdit extends React.Component {
           ref='dp'
           onChange={this.handleChangeBirthday}
           openToYearSelection={true}
+          maxDate={new Date()}
         />
         </div>
 

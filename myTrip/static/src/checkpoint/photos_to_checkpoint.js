@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 import { GridList } from 'material-ui/GridList';
 
-import { getTripPhotos, uploadPhoto } from './PhotoServices';
+import { getTripPhotos, uploadPhoto } from '../photo/PhotoServices';
 import { PhotoItem } from '../photo/PhotoItem';
 import { userId } from '../utils';
 
@@ -21,7 +21,7 @@ const gridStyles = {
   element: {
     flex: 1,
     display: 'flex',
-    width: 150,
+    width: 200,
     minHeight: '100px',
     maxHeight: 200,
     height: 'auto',
@@ -119,6 +119,7 @@ export default class PhotosToCheckpoint extends React.Component {
 
                     <div style={gridStyles.container}>
                         <GridList
+                            cellHeight='auto'
                             cols={1}
                             rows={1}
                             style={gridStyles.element}

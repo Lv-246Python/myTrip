@@ -82,24 +82,25 @@ class Like(models.Model):
             dict:{
                 'id': id,
                 'user': user id,
+                'user_name': user name or email,
+                'avatar': user avatar,
                 'trip': trip id,
                 'checkpoint': checkpoint id,
                 'photo': photo id,
                 'comment': comment id,
-                'user_name': user name or email,
-                'avatar': user avatar,
+
             }
         """
         return {
             'id': self.id,
             'user': self.user.id,
+            'user_name': (self.user.get_full_name() if self.user.get_full_name()
+                          else self.user.email),
+            'avatar': self.user.profile.avatar,
             'trip': self.trip.id if self.trip else None,
             'checkpoint': self.checkpoint.id if self.checkpoint else None,
             'photo': self.photo.id if self.photo else None,
             'comment': self.comment.id if self.comment else None,
-            'user_name': (self.user.get_full_name() if self.user.get_full_name()
-                          else self.user.email),
-            'avatar': self.user.profile.avatar,
         }
 
     def __repr__(self):
