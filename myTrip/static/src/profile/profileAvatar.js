@@ -22,6 +22,14 @@ const styles = {
 
 
 export default class ProfileAvatar extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+            open: false
+        };
+    }
+
+
     handleDrop = files => {
         const file = new FormData();
         file.append('name', files[0])
@@ -60,6 +68,12 @@ export default class ProfileAvatar extends React.Component {
                 accept="image/*" >
               </Dropzone>
           </FlatButton>
+            <Snackbar
+              open={this.state.open}
+              message='Accept only images with maximum size 2MB'
+              autoHideDuration={4000}
+              onRequestClose={this.handleRequestClose}
+            />
 
         </div>
         );
