@@ -35,7 +35,6 @@ export class Buttons extends React.Component {
       />,
     ];
     return (
-
         <div className='divbutton'>
           <Dialog
           title="You subscribed on"
@@ -68,25 +67,8 @@ export class Buttons extends React.Component {
               containerElement={<Link to="/my_trips"/>} 
               />
 
-
         </div>
-
         )
   }
-
 }
 
-
-  //  {
-  //   const buttons = Object.entries(buttonLabels).map(([key, value]) => {
-  //       return (
-  //           <RaisedButton key={key} containerElement={<Link to={value}/>} 
-  //         className='button' label={key} 
-  //         primary={true} fullWidth={true} style={styles.button} 
-  //         />
-  //           );
-  //   })
-  //   return(
-  //     <div className='divbutton'>{buttons}</div>
-  //     );
-  // };

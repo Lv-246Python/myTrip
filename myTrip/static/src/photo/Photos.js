@@ -96,6 +96,7 @@ export default class Photos extends React.Component {
                                     onDrop={this.handleDrop}
                                     onDropRejected={this.onDropRejected}
                                     maxSize={2097152}
+                                    accept="image/*"
                                     multiple={false}
                                      >
                                 </Dropzone>

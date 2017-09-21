@@ -47,7 +47,7 @@ export default class Profile extends React.Component {
         profileElement = (
           <Paper className='MainPaper'  zDepth={2} > 
             {data && <ProfileAvatar src={this.state.profile.avatar} updateProfile={this.updateProfile} />}
-            {data && <ProfileEdit profile={data} getProfile={this.getProfile} updateProfile={this.updateProfile} />}
+            {data && <ProfileEdit profile={data} getProfile={this.getProfile} />}
             {data && <Buttons profileId={data.user} />}
           </Paper>
           )
