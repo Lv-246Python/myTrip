@@ -4,9 +4,9 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {List, ListItem} from 'material-ui/List';
+import RaisedButton from 'material-ui/RaisedButton';
 import CheckpointIcon from 'material-ui/svg-icons/maps/pin-drop';
 import DropDownMenu from 'material-ui/DropDownMenu';
-import RaisedButton from 'material-ui/RaisedButton';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -36,28 +36,12 @@ class CheckpointList extends React.Component{
         });
     };
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state =
-    //     {value: 'Choose checkpoint'};
-    // }
-
-    // componentWillReceiveProps(nextProps){
-    //     if(nextProps){
-    //         this.setState({value:nextProps.active.title})
-    //     }
-    // }
-
-    // handleChange = (event, index, value) => this.setState({value:this.props.active.title});
-
     componentDidMount() {
         this.props.getAllCheckpoints(this.props.trip.id);
     }
 
-    handleChange = (event, index, value) => this.setState({value});
-
     render(){
-        if(this.props.checkpoints != null && this.props.checkpoints.length > 0){
+        if(this.props.checkpoints != null && this.props.checkpoints.length){
             var list = this.props.checkpoints;
                 list = list.map(item =>{
                      return (

@@ -69,7 +69,6 @@ class CheckpointView(View):
                           title=data.get('title'),
                           description=data.get('description'),
                           position_number=data.get('position_number'))
-
         return JsonResponse(checkpoint.to_dict(), status=200)
 
     def delete(self, request, checkpoint_id, trip_id):

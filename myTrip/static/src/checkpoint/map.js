@@ -5,9 +5,7 @@ import {getAllCheckpoints , createCheckpointUpdateList, checkpointDetails, delet
 
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer, Polyline, InfoWindow} from 'react-google-maps'
 import {userId} from '../utils'
-
-let directionsDisplay=new google.maps.DirectionsRenderer();
-let directionsService=new google.maps.DirectionsService();
+import service from './checkpoint.service.js'
 
 class Map extends React.Component{
 
@@ -18,8 +16,7 @@ class Map extends React.Component{
             checkpoints:null,
             active:null,
             showInfo:null,
-            map:null,
-            mouseOut:null
+            map:null
         }
     }
 
@@ -27,12 +24,12 @@ class Map extends React.Component{
         this.props.getAllCheckpoints(this.props.trip.id);
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         if (nextProps) {
             let len=nextProps.checkpoints.length;
             let lat;
             let lng;
-            if(nextProps.active!=null){
+            if(nextProps.active != null){
                 // center if there is active
                 lat=nextProps.active.latitude
                 lng=nextProps.active.longitude
@@ -40,65 +37,56 @@ class Map extends React.Component{
                                 active:nextProps.active,
                                 center:{lat:lat,lng:lng}});
             }else{
-                if(nextProps.checkpoints.length==0){
-                // center if no checkpoints at all getting position of user if unable hardcode it
-                    navigator.geolocation.getCurrentPosition( 
-                        data => {
-                            lat = data.coords.latitude;
-                            lng = data.coords.longitude
-                            this.setState({ checkpoints:nextProps.checkpoints,
-                                            active:nextProps.active,
-                                            center:{lat:lat,lng:lng}});
-                        },
-                        err => {
-                            lat=49.832721
-                            lng=23.999003
-                            this.setState({ checkpoints:nextProps.checkpoints,
-                                            active:nextProps.active,
-                                            center:{lat:lat,lng:lng}});
-                        }, 
-                        { enableHighAccuracy:true }
-                    )
+                if(nextProps.checkpoints.length == 0) {
+                    var self = this
+                    // center if no checkpoints at all getting position of user if unable hardcode it                   
+                    service.CurrentPosition.then(response => {
+                        this.setState({ checkpoints:nextProps.checkpoints,
+                                active:nextProps.active,
+                                center:response});
+                    },error => {
+                        this.setState({ checkpoints:nextProps.checkpoints,
+                                active:nextProps.active,
+                                center:error});
+                    })
+                    
 
                 }else{
-                    if(this.state.map){
+                    if(this.state.map) {
                         // center from loaded map (adding and deleteng without centring)
                         lat=this.state.map.props.center.lat
                         lng=this.state.map.props.center.lng
                         this.setState({ checkpoints:nextProps.checkpoints,
-                                        active:nextProps.active,
-                                        center:{lat:lat,lng:lng}});
+                                active:nextProps.active,
+                                center:{lat:lat,lng:lng}});
                     }else{
                         // /center if there are checkpoints gets latest position
                         lat=nextProps.checkpoints[len-1].latitude
                         lng=nextProps.checkpoints[len-1].longitude
                         this.setState({ checkpoints:nextProps.checkpoints,
-                                        active:nextProps.active,
-                                        center:{lat:lat,lng:lng}});
+                                active:nextProps.active,
+                                center:{lat:lat,lng:lng}});
                     }
                 }
             } 
         }
     }
 
-    mapLoaded=(map)=>{
+    mapLoaded = map => {
         if(this.state.ma!=null)
             return
         this.setState({map:map})
     }
 
-    handleMapClick=(map)=>{
-        // if(this.state.active || userId() != this.props.trip.user)
-        if(this.state.active || userId() != this.props.trip.user){
-            return
-        }else{
+    handleMapClick = map => {
+        if (!this.state.active && userId() === this.props.trip.user) {
             const longitude=map.latLng.lng();
             const latitude=map.latLng.lat();
             const description='';
             let position_number;
-            if(this.state.checkpoints == undefined || this.state.checkpoints.length == 0){
+            if(this.state.checkpoints == undefined || this.state.checkpoints.length == 0) {
                 position_number=1;
-            }else{
+            } else {
                 let len=this.state.checkpoints.length;
                 position_number=this.state.checkpoints[len - 1].position_number + 1;
             }
@@ -116,30 +104,28 @@ class Map extends React.Component{
         
     }
 
-    handleLeftClick=(point)=>{
-        if(this.state.active && this.state.active.id==point.id){
+    handleLeftClick= point => {
+        if(this.state.active && this.state.active.id==point.id) {
             this.setState({active:null,showInfo:null})
-        }else{
+        } else {
             this.setState({showInfo:point,active:point});
         }
         this.props.checkpointDetails(point);
         
     }
 
-    handleRightClick=(point)=>{
-        if(this.state.active || userId() != this.props.trip.user){
-            return
-        }else{
+    handleRightClick= point => {
+        if(!this.state.active && userId() === this.props.trip.user) {
             this.props.deleteUpadateList(point.id, this.props.trip.id);
         } 
     }
 
-    handleOnMouseover=(point)=>{
+    handleOnMouseover= point => {
         this.setState({showInfo:point})
     }
 
-    mapMarkers=(arr)=>{
-        let markers=arr.map((point,id) => {
+    mapMarkers = arr => {
+        let markers = arr.map((point,id) => {
                 const marker={
                     position:{
                         lat:point.latitude,
@@ -152,16 +138,15 @@ class Map extends React.Component{
                                     <div> №{point.position_number} {point.title}</div>
                                 </InfoWindow>
                 }
-                // var flag = false;
-                // if(userId() == this.props.trip.user){
-                //     flag = true;
-                // }
-                // { if(userId() == this.props.trip.user) ? (draggable=true) : (draggable=false)}
+                var flag = false;
+                if(userId() == this.props.trip.user) {
+                    flag = true;
+                }
                 return <Marker 
                             key={id} {...marker}
-                            draggable={true}
+                            draggable={flag}
                             onDragend={this.handleMarkerDrag}
-                            onMouseout={()=>this.setState({showInfo:null, mouseOut:point})}
+                            onMouseout={()=>this.setState({showInfo:null})}
                             onMouseover={()=>this.handleOnMouseover(point)}
                             onClick={()=>this.handleLeftClick(point)} 
                             onRightclick={()=>this.handleRightClick(point)}
@@ -172,28 +157,17 @@ class Map extends React.Component{
         return markers;
     }
 
-    handleZoom = ()=> {}
-
     handleDragMap = () => {
         this.setState({center:{lat:this.state.map.getCenter().lat(),lng:this.state.map.getCenter().lng()}})
     }
 
     handleMarkerDrag = marker => {
-        // if(this.state.showInfo){
             let title = this.state.showInfo.title;
             let description = this.state.showInfo.description;
             let position_number = this.state.showInfo.position_number;
             let source_url = this.state.showInfo.source_url;
             let trip_id = this.props.trip.id;
             let checkpoint_id = this.state.showInfo.id;
-        // }else{
-        //     title = this.state.mouseOut.title;
-        //     description = this.state.mouseOut.description;
-        //     position_number = this.state.mouseOut.position_number;
-        //     source_url = this.state.mouseOut.source_url;
-        //     trip_id = this.props.trip.id;
-        //     checkpoint_id = this.state.mouseOut.id;
-        // }
         this.props.updateCheckpointUpdateList(marker.latLng.lng(),
             marker.latLng.lat(),
             title,
@@ -204,16 +178,15 @@ class Map extends React.Component{
             checkpoint_id)
     }
 
-    render(){
+    render() {
         const mapContainer=<div style={{height:'100%', width:'100%'}}></div>
         if(this.state.checkpoints && this.state.checkpoints.length){
-            
             let list=this.state.checkpoints;    
             const markers=this.mapMarkers(list);
-            const polymarkers=list.map((point)=>{
+            const polymarkers=list.map( point => {
                 return {lat:point.latitude, lng:point.longitude};
             })     
-            const polypath=<Polyline path={polymarkers} options={{strokeColor:'#07a651', strokeWeight:3}}/> 
+            const polypath = <Polyline path={polymarkers} options={{strokeColor:'#07a651', strokeWeight:3}}/> 
             // def zoom 16
             const map=<GoogleMap
                             ref={this.mapLoaded}
@@ -221,8 +194,7 @@ class Map extends React.Component{
                             center={this.state.center}
                             options={{streetViewControl:false, mapControl:false}}
                             onClick={this.handleMapClick}
-                            onDragend={this.handleDragMap}
-                            onZoomChanged={this.handleZoom}>
+                            onDragend={this.handleDragMap}>
                             markers={markers}
                             path={polypath}
                         </GoogleMap>
@@ -259,7 +231,8 @@ class Map extends React.Component{
 function mapStateToProps(state){
     return {
         checkpoints:state.checkpoints,
-        active:state.activeCheckpoint
+        active:state.activeCheckpoint,
+        errors:state.errors
     };
 }
 

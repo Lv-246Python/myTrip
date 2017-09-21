@@ -18,7 +18,6 @@ import { userId } from '../utils';
 import './main.less';
 
 
-// import {store} from './testing-page-for-checkpoints.js'
 class CheckpointDetails extends React.Component {
 
     constructor(props) {
@@ -70,7 +69,6 @@ class CheckpointDetails extends React.Component {
     };
 
     render(){
-
         if(this.props.active != null){
             var  self = this;
 
