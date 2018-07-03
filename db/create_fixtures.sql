@@ -1,0 +1,4 @@
+CREATE USER mytrip;
+ALTER USER mytrip WITH PASSWORD 'pirtrym';
+CREATE DATABASE mytrip;
+GRANT ALL PRIVILEGES ON DATABASE mytrip TO mytrip;
